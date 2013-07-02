@@ -1,0 +1,36 @@
+{
+  "name": "nanogallery",
+	"title": "jQuery nanoGALLERY",
+	"description": "Really easy to implement and powerful jQuery plugin to display image galleries. Mobile-friendly and responsive. Support custom themes. Display also album and images stored in Flickr or Google+/Picasa.",
+	"keywords": [
+		"image",
+		"gallery",
+		"portfolio",
+		"photo",
+		"slideshow",
+		"responsive"
+	],
+	"version": "3.2.0",
+	"author": {
+		"name": "Kris_B",
+		"url": "http://www.brisbois.fr"
+	},
+	"maintainers": [
+		{
+			"name": "Kris_B",
+			"email": "chr@brisbois.fr",
+			"url": "http://www.brisbois.fr"
+		}
+	],
+	"licenses": [
+		{
+			"type": "GPL-3.0",
+			"url": "http://opensource.org/licenses/GPL-3.0"
+		}
+	],
+	"bugs": "https://github.com/Kris-B/nanoGALLERY/issues",
+	"homepage": "https://github.com/Kris-B/nanoGALLERY",
+	"dependencies": {
+		"jquery": ">=1.5"
+	}
+}
