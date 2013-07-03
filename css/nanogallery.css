@@ -1,0 +1,124 @@
+/* NAVIGATION BREADCRUMB */
+body {
+	background: #888;
+}
+
+.nanogallery_theme_default .nanoGalleryBreadcrumb {
+	border: 1px dotted #555;
+	margin: 1px;
+	background-color: #000;
+	font-size: 12px;
+}
+.nanogallery_theme_default .nanoGalleryBreadcrumb .folder {
+	display: inline-block;
+	margin: 2px 5px;
+	background-color: #000;
+	color:#ddd;
+	cursor:pointer;
+}
+.nanogallery_theme_default .nanoGalleryBreadcrumb .folder:hover{
+	color: #00b200;
+}
+
+.nanogallery_theme_default .nanoGalleryBreadcrumb .separator {
+	display: inline-block;
+	margin: 0 2px;
+	background-color: #000;
+	color:#bbb;
+}
+
+/* IMAGES */
+
+.nanogallery_theme_default .nanoGalleryContainer {
+	text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+	}
+
+.nanogallery_theme_default .nanoGalleryContainer .container{
+	cursor:  pointer;
+	border: 1px solid #000;
+	margin: 1px;
+	padding: 5px;
+	background-color: #000;
+    display: inline-block;
+	transition: border-color 0.2s linear;
+	-webkit-transition : border-color 0.2s linear; 
+	-moz-transition : border-color 0.2s ease-out;
+	-o-transition : border-color 0.2s ease-out;
+}
+.nanogallery_theme_default .nanoGalleryContainer .container:hover{
+   border-color: #888;
+   transition: border-color 0.2s;
+}
+
+.nanogallery_theme_default .nanoGalleryContainer .container .imgcont{
+	border: 4px solid #000;
+	position:relative;
+}
+.nanogallery_theme_default .nanoGalleryContainer .container img{
+    vertical-align: bottom;
+	display: block;
+	margin: auto;
+	/*background:url('loading.gif') no-repeat center;*/
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
+}
+
+.nanogallery_theme_default .nanoGalleryContainer .container .labelImage{
+	font-size: 12px;
+	margin-top: 5px;
+	color: #ddd;
+	text-align:center;
+	border-width: 0 2px;
+	border-style:solid;
+	border-color:#1a1a1a;
+	background:#1a1a1a;
+	/*background:#1a1a1a url('camera_icon.png') no-repeat right;*/
+}
+.nanogallery_theme_default .nanoGalleryContainer .container .labelImage:hover {
+	color: #00b200;
+}
+.nanogallery_theme_default .nanoGalleryContainer .container .labelFolder{
+	margin-top: 5px;
+	font-size: 12px;
+	color: #ddd;
+	text-align:center;
+	border-width: 0 2px;
+	border-style:solid;
+	border-color:#1a1a1a;
+	background:#1a1a1a url('folder_icon.png') no-repeat right;
+}
+.nanogallery_theme_default .nanoGalleryContainer .container .labelFolder:hover{
+	color: #00b200;
+}
+
+/* LOADING ANIMATION */
+.nanogallery_theme_default .nanoGalleryLoading {
+	position: absolute; /*top: 0; bottom: 0; left: 0; right: 0; margin: auto;*/
+	/*top:50px;*/
+	background-color: rgba(0,0,0,0);
+    border: 1px solid rgba(128,128,140,0.9);
+    opacity: .9;
+    border-top: 1px solid rgba(0,0,0,0);
+    border-left: 1px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 2px #889;
+    width: 8px;
+    height: 8px;
+    margin: 0 auto;
+    animation: nanogallery_theme_default_spin 1s infinite linear;
+    -moz-animation: nanogallery_theme_default_spin 1s infinite linear;
+    -webkit-animation: nanogallery_theme_default_spin 1s infinite linear;
+}
+@keyframes nanogallery_theme_default_spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); };
+}
+@-moz-keyframes nanogallery_theme_default_spin {
+    0% { -moz-transform: rotate(0deg); }
+    100% { -moz-transform: rotate(360deg); };
+}
+@-webkit-keyframes nanogallery_theme_default_spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); };
+}
