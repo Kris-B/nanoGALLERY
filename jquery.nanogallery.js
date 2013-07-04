@@ -1,5 +1,5 @@
 /*
- * nanoGallery v3.2.0
+ * nanoGallery v3.2.1
  * Plugin for jQuery by Christophe Brisbois
  * http://www.brisbois.fr
  * 
@@ -110,8 +110,7 @@ function nanoGALLERY() {
 						break;
 					}
 				}
-				//PicasaGetItems(g_options.album,g_options.topLabel);
-				PicasaGetItems('',g_options.topLabel);
+				PicasaGetItems(g_options.album,g_options.topLabel);
 				break;
 		}
 
