@@ -27,6 +27,9 @@ Usage
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
 ```
 
+note: If you already use jQuery on your site, do not include it a second time.
+
+
 ### Step 2: create a container
 Put a DIV element in you page at the place where you want the gallery to be displayed.
 ```html
@@ -40,9 +43,7 @@ Method 1: use a Flickr account
 $(document).ready(function () {
 	jQuery("#nanoGallery").nanoGallery({
 		userID:'34858669@N00',
-		kind:'flickr',
-		thumbnailWidth:100,
-		thumbnailHeight:100
+		kind:'flickr'
 	});
 });
 ```
@@ -57,5 +58,5 @@ $(document).ready(function () {
 });
 ```
 
-### Options
+### Syntax and options
 
