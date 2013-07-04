@@ -1,7 +1,7 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-Really easy to implement and powerful jQuery plugin to display image galleries. Mobile-friendly and responsive. Support custom themes. Display also album and images stored in Flickr or Google+/Picasa.
+Really easy to implement and powerful jQuery plugin to display image galleries. Mobile-friendly and responsive. Support custom themes. Display albums and images stored in Flickr or Google+/Picasa.
 
 Demonstration
 -------------
@@ -29,14 +29,14 @@ Usage
 
 ### Step 2: create a container
 Put a DIV element in you page at the place where you want the gallery to be displayed.
-```
+```html
 <div id="nanoGallery"></div>
 ```
 
 ### Step 3: create a gallery
 Method 1: use a Flickr account
 
-``` HTML
+```js
 $(document).ready(function () {
 	jQuery("#nanoGallery").nanoGallery({
 		userID:'34858669@N00',
@@ -48,7 +48,7 @@ $(document).ready(function () {
 ```
 
 Method 2: use a Picasa/Google+ account
-``` HTML
+```js
 $(document).ready(function () {
   jQuery("#nanoGallery").nanoGallery({
   	userID:'cbrisbois@gmail.com',
