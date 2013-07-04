@@ -27,22 +27,26 @@ Usage
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
 ```
 
+### Step 2: create a container
+Put a DIV element in you page at the place where you want the gallery to be displayed.
+```
+<div id="nanoGallery"></div>
+```
 
-
-### Step 2: create a gallery
+### Step 3: create a gallery
 Method 1: use a Flickr account
 
 ``` HTML
 $(document).ready(function () {
-  	jQuery("#nanoGallery1").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:100,thumbnailHeight:100});
-	});
+	jQuery("#nanoGallery").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:100,thumbnailHeight:100});
+});
 ```
 
 Method 2: use a Picasa/Google+ account
 ``` HTML
 $(document).ready(function () {
-  	jQuery("#nanoGallery2").nanoGallery({userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'Albums'});
-  });
+  jQuery("#nanoGallery").nanoGallery({userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'Albums'});
+});
 ```
 
 ### Options
