@@ -38,14 +38,22 @@ Method 1: use a Flickr account
 
 ``` HTML
 $(document).ready(function () {
-	jQuery("#nanoGallery").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:100,thumbnailHeight:100});
+	jQuery("#nanoGallery").nanoGallery({
+		userID:'34858669@N00',
+		kind:'flickr',
+		thumbnailWidth:100,
+		thumbnailHeight:100
+	});
 });
 ```
 
 Method 2: use a Picasa/Google+ account
 ``` HTML
 $(document).ready(function () {
-  jQuery("#nanoGallery").nanoGallery({userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'Albums'});
+  jQuery("#nanoGallery").nanoGallery({
+  	userID:'cbrisbois@gmail.com',
+  	kind:'picasa'
+  });
 });
 ```
 
