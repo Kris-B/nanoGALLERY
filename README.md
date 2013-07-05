@@ -9,16 +9,16 @@ Key features
 - Display image galleries from multiple data sources
 - Easy to setup
 - Responsive layout - mobile friendly
-- Breadcrumb vor easy navigation in Flickr photosets or Picasa/Google+ albums
+- Breadcrumb for easy navigation in Flickr photosets or Picasa/Google+ albums
 - Display image captions
 - Ignore desired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
 - Support custom themes
 - Customizable 
 - Possible image sources :
-* list of images
-* Flickr accounr
-* Picasa/Google+ account
+  * list of images
+  * Flickr account
+  * Picasa/Google+ account
 
 
 Demonstration
@@ -49,13 +49,16 @@ Note: If you already use jQuery on your site, do not include it a second time.
 
 ### Method 1: use a Flickr account
 
--Create a container
-Put a <DIV> element in the <BODY> of the place where you want the gallery to be displayed.
+* Create a container
+
+Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the gallery to be displayed.
+
 ```html
 <div id="nanoGallery1"></div>
 ```
 
--Call the plugin
+* Call the plugin
+
 ```js
 $(document).ready(function () {
 	jQuery("#nanoGallery1").nanoGallery({
@@ -67,13 +70,16 @@ $(document).ready(function () {
 
 ### Method 2: use a Picasa/Google+ account
 
--Create a container
-Put a <DIV> element in the <BODY> of the place where you want the gallery to be displayed.
+* Create a container
+
+Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the gallery to be displayed.
+
 ```html
 <div id="nanoGallery2"></div>
 ```
 
--Call the plugin
+* Call the plugin
+
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery2").nanoGallery({
@@ -86,8 +92,9 @@ $(document).ready(function () {
 
 ### Method 3: use a list of images using HREF attribute
 
--Create a container
-Put a <DIV> element in the <BODY> of the page at the place where you want the gallery to be displayed.
+* Create a container
+
+Put a ```<DIV>``` element in the ```<BODY>``` on the page at the place where you want the gallery to be displayed.
 Add <A> elements to this container. Each element points to one image.
 
 ```html
@@ -96,7 +103,9 @@ Add <A> elements to this container. Each element points to one image.
 	<a href="demonstration/img_02.jpg" data-ngthumb="demonstration/img_02t.jpg"></a>
 </div>
 ```
--Call the plugin
+
+* Call the plugin
+
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery3").nanoGallery();
@@ -105,14 +114,18 @@ $(document).ready(function () {
 
 ### Method 4: use a list of images passed to the script
 
--Create a container
-Put a <DIV> element in the <BODY> of the place where you want the gallery to be displayed.
+* Create a container
+
+Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the gallery to be displayed.
+
 ```html
 <div id="nanoGallery4"></div>
 ```
 
--Call the plugin
+* Call the plugin
+
 Use the 'items' parameter to pass the list of images to the plugin.
+
 ```js
 $(document).ready(function () {
 	jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
@@ -166,7 +179,7 @@ $(document).ready(function () {
 
 Requirements
 ------------
-* Javascript must be enables.
+* Javascript must be enabled
 * jQuery
 
 
