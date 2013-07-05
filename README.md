@@ -95,7 +95,7 @@ $(document).ready(function () {
 * Create a container
 
 Put a ```<DIV>``` element in the ```<BODY>``` on the page at the place where you want the gallery to be displayed.
-Add <A> elements to this container. Each element points to one image.
+Add ```<A>``` elements to this container. Each element points to one image.
 
 ```html
 <div id="nanoGallery3">
