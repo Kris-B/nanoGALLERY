@@ -1,7 +1,25 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-Really easy to implement and powerful jQuery plugin to display image galleries. Mobile-friendly and responsive. Support custom themes. Display albums and images stored in Flickr or Google+/Picasa.
+A powerful and easy to use jQuery plugin for displaying image galleries, with support for pulling in Flickr and Picasa/Google+ photo albums as well. Mobile-friendly and responsive.
+Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
+
+Key features
+--------
+- Display image galleries from multiple data sources
+- Easy to setup
+- Responsive layout - mobile friendly
+- Breadcrumb vor easy navigation in Flickr photosets or Picasa/Google+ albums
+- Display image captions
+- Ignore desired albums or photosets (by keyword blacklisting)
+- Multiple galleries on one page
+- Support custom themes
+- Customizable 
+- Possible image sources :
+* list of images
+* Flickr accounr
+* Picasa/Google+ account
+
 
 Demonstration
 -------------
@@ -11,10 +29,9 @@ Demonstration
 Usage
 -----
 
-### Step 1: include JS and CSS files
+### Include JS and CSS files
 
 ``` HTML
-
 <script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
 
 <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
@@ -27,42 +44,102 @@ Usage
 <script type="text/javascript" src="jquery.nanogallery.js"></script> 
 ```
 
-note: If you already use jQuery on your site, do not include it a second time.
+Note: If you already use jQuery on your site, do not include it a second time.
 
 
-### Step 2: create a container
-Put a DIV element in you page at the place where you want the gallery to be displayed.
+### Method 1: use a Flickr account
+
+-Create a container
+Put a <DIV> element in the <BODY> of the place where you want the gallery to be displayed.
 ```html
-<div id="nanoGallery"></div>
+<div id="nanoGallery1"></div>
 ```
 
-### Step 3: create a gallery
-Method 1: use a Flickr account
-
+-Call the plugin
 ```js
 $(document).ready(function () {
-	jQuery("#nanoGallery").nanoGallery({
+	jQuery("#nanoGallery1").nanoGallery({
 		userID:'34858669@N00',
 		kind:'flickr'
 	});
 });
 ```
 
-Method 2: use a Picasa/Google+ account
+### Method 2: use a Picasa/Google+ account
+
+-Create a container
+Put a <DIV> element in the <BODY> of the place where you want the gallery to be displayed.
+```html
+<div id="nanoGallery2"></div>
+```
+
+-Call the plugin
 ```js
 $(document).ready(function () {
-  jQuery("#nanoGallery").nanoGallery({
+  jQuery("#nanoGallery2").nanoGallery({
   	userID:'cbrisbois@gmail.com',
-  	kind:'picasa'
+  	kind:'picasa',
+	blackList:'Scrapbook|forhomepage|profil'
   });
 });
 ```
+
+### Method 3: use a list of images using HREF attribute
+
+-Create a container
+Put a <DIV> element in the <BODY> of the page at the place where you want the gallery to be displayed.
+Add <A> elements to this container. Each element points to one image.
+
+```html
+<div id="nanoGallery3">
+	<a href="demonstration/img_01.jpg" data-ngthumb="demonstration/img_01t.jpg" data-ngdesc="Description1">Image1</a>
+	<a href="demonstration/img_02.jpg" data-ngthumb="demonstration/img_02t.jpg"></a>
+</div>
+```
+-Call the plugin
+```js
+$(document).ready(function () {
+  jQuery("#nanoGallery3").nanoGallery();
+});
+```
+
+### Method 4: use a list of images passed to the script
+
+-Create a container
+Put a <DIV> element in the <BODY> of the place where you want the gallery to be displayed.
+```html
+<div id="nanoGallery4"></div>
+```
+
+-Call the plugin
+Use the 'items' parameter to pass the list of images to the plugin.
+```js
+$(document).ready(function () {
+	jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
+		items: [
+			{
+				src: 'demonstration/img_01.jpg',		// image url
+				srct: 'demonstration/img_01t.jpg',		// thumbnail url
+				title: 'image 1' 						// thumbnail title
+			},
+			{
+				src: 'demonstration/img_02.jpg',
+				srct: 'demonstration/img_02t.jpg',
+				title: 'image 2' 
+			}
+		],
+		displayCaption:false
+	});
+});
+```
+
+
 
 Syntax and options
 ------------------
 
 * userID : user ID of the Picasa/Google+ or Flickr account (mandatory)
-* kind : picasa / flickr - set the storage type (optional, default is picasa)
+* kind : picasa / flickr - set the storage type (optional, only when using Flickr or Picasa/Google+)
 * displayCaption : true / false - display or not the title of the images (optional)
 * album : Picasa/Google+ album ID - display only the content of the specific album
 * photoset : Flickr album ID - display only the content of the specific album
@@ -70,6 +147,7 @@ Syntax and options
 * thumbnailWidth : integer - Width in pixels of the thumbnails (optional)
 * blackList : list of keywords to ignore - album containing one the keyword in the title will be ignored. Keywords separator is '|'. (optional)
 * displayBreadcrumb : true / false - display or not the navigation breadcrumb
+* itemsBaseURL : URL prefix for the images defined with method#1 or method#2
 
 Example:
 
@@ -80,7 +158,15 @@ $(document).ready(function () {
   	kind:'picasa',
   	thumbnailWidth:150,
   	thumbnailHeight:150,
-  	blackList:'scrapbook|profil'
+  	blackList:'scrapbook|forhomepage|profil'
   });
 });
 ```
+
+
+Requirements
+------------
+* Javascript must be enables.
+* jQuery
+
+
