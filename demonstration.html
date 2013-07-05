@@ -2,12 +2,6 @@
 <html>
 
 <head>
-	<style>
-		h1,h2,h3,h4,h5,a {color:#eee;}
-		body {background:#333;}
-	</style>
-
-
 	<script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
 
 	<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
@@ -17,64 +11,38 @@
 	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
 
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
+	<script type="text/javascript" src="jquery.nanogallery-3.2.0.js"></script> 
 
 	<script>
-		$(document).ready(function () {
-			// Sample1
-			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
-			items: [
-				{
-					src: 'demonstration/img_01.jpg',		// image url
-					srct: 'demonstration/img_01t.jpg',		// thumbnail url
-					title: 'image 1' 						// thumbnail title
-				},
-				{
-					src: 'demonstration/img_02.jpg',
-					srct: 'demonstration/img_02t.jpg',
-					title: 'image 2' 
-				}
-				],
-				displayCaption:false
-			});
-
-			//Sample2
-			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
-				itemsBaseURL:'demonstration',
-				displayCaption:true
-			});
-
-			//Sample3
-			jQuery("#nanoGallery3").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:100,thumbnailHeight:100});
-
-			//Sample4
-			jQuery("#nanoGallery4").nanoGallery({userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'List of Albums',blackList:'Scrapbook|forhomepage|profil'});
-
-		});
-	</script>	
-
+	$(document).ready(function () {
+		jQuery("#nanoGallery1").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:100,thumbnailHeight:100});
+		jQuery("#nanoGallery2").nanoGallery({userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'Albums'});
+	});
+	
+  </script>	
 </head>
 
-<body style="background:#333;">
+<body>
 
-	<H1>nanoGALLERY jQuery plugin - Demonstration</H1>
-	<a href="http://www.brisbois.fr/cms/nanogallery">Click here for more informations about nanoGALLERY for jQuery</a><br><br>
-
-	<h2>#Sample 1: item list in options</h2>
-	<div id="nanoGallery1"></div>
-
-	<h2>#Sample 2: HREF attributes</h2>
-	<div id="nanoGallery2">
-		<a href="img_01.jpg" data-ngthumb="img_01t.jpg" data-ngdesc="Description1">Image1</a>
-		<a href="img_02.jpg" data-ngthumb="img_02t.jpg"></a>
-	</div>
-
-	<h2>#Sample 3: Flickr</h2>
-	<div id="nanoGallery3"></div>
-
-	<h2>#Sample 4: Picasa/Google+</h2>
-	<div id="nanoGallery4"></div>
-
-	<br><br><h5>by Kris_B - <a href="http://www.brisbois.fr">www.brisbois.fr</a></h5>
+<div >
+	<H1>nanoGALLERY</H1>
+</div>
+<br><br>
+-
+<div class="nanogallery_theme_default">
+<div class="nanoGalleryLoading"></div>
+</div>
+<div class="ball1"></div>
+-
+----<br>
+<h2>Flickr</h2>
+<div id="nanoGallery1"></div>
+<h2>Picasa/Google+</h2>
+<div id="nanoGallery2"></div>
+----<br>
+<br><br><br>
+<h5>nanoGALLERY test page</h5>
 </body>
+
+
 </html>

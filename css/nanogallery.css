@@ -1,4 +1,7 @@
 /* NAVIGATION BREADCRUMB */
+body {
+	background: #888;
+}
 
 .nanogallery_theme_default .nanoGalleryBreadcrumb {
 	border: 1px dotted #555;
@@ -57,7 +60,7 @@
     vertical-align: bottom;
 	display: block;
 	margin: auto;
-	background:url('loading.gif') no-repeat center;
+	/*background:url('loading.gif') no-repeat center;*/
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
 }
 
@@ -87,4 +90,35 @@
 }
 .nanogallery_theme_default .nanoGalleryContainer .container .labelFolder:hover{
 	color: #00b200;
+}
+
+/* LOADING ANIMATION */
+.nanogallery_theme_default .nanoGalleryLoading {
+	position: absolute; /*top: 0; bottom: 0; left: 0; right: 0; margin: auto;*/
+	/*top:50px;*/
+	background-color: rgba(0,0,0,0);
+    border: 1px solid rgba(128,128,140,0.9);
+    opacity: .9;
+    border-top: 1px solid rgba(0,0,0,0);
+    border-left: 1px solid rgba(0,0,0,0);
+    border-radius: 50px;
+    box-shadow: 0 0 2px #889;
+    width: 8px;
+    height: 8px;
+    margin: 0 auto;
+    animation: nanogallery_theme_default_spin 1s infinite linear;
+    -moz-animation: nanogallery_theme_default_spin 1s infinite linear;
+    -webkit-animation: nanogallery_theme_default_spin 1s infinite linear;
+}
+@keyframes nanogallery_theme_default_spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); };
+}
+@-moz-keyframes nanogallery_theme_default_spin {
+    0% { -moz-transform: rotate(0deg); }
+    100% { -moz-transform: rotate(360deg); };
+}
+@-webkit-keyframes nanogallery_theme_default_spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); };
 }

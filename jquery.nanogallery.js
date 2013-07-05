@@ -23,9 +23,7 @@
 			displayCaption:true,
 			thumbnailWidth:230,
 			thumbnailHeight:154,
-			theme:'default',
-			items:null,
-			itemsBaseURL:''
+			theme:'default'
 		}, options );
 		
 		return this.each(function() {
@@ -46,7 +44,7 @@ function nanoGALLERY() {
 	var g_flickrThumbSize='s';
 	var g_flickrThumbAvailableSizes=new Array(75,100,150,240,320,500,640,800,1024);		//see http://www.flickr.com/services/api/misc.urls.html
 	var g_flickrThumbAvailableSizesStr=new Array('s','t','q','m','n','-','z','c','b');
-	var g_itemInfo=[];
+	var g_itemInfo=null;	//new Array();
 	var g_flickrApiKey="2f0e634b471fdb47446abcb9c5afebdc";
 	var g_blackList=null;
 	
@@ -66,7 +64,7 @@ function nanoGALLERY() {
 		}
 		else { g_options.album=''; }
 	
-		if( g_options.displayBreadcrumb == true && ( g_options.kind=='picasa' || g_options.kind=='flickr')) { g_containerBreadcrumb =jQuery('<div class="nanoGalleryBreadcrumb"></div>').appendTo(element); }
+		if( g_options.displayBreadcrumb == true ) { g_containerBreadcrumb =jQuery('<div class="nanoGalleryBreadcrumb"></div>').appendTo(element); }
 		g_containerFolder =jQuery('<div class="nanoGalleryContainer"></div>').appendTo(element);
 		g_path2timthumb = ""; //timthumbFolder;
 
@@ -76,21 +74,7 @@ function nanoGALLERY() {
 		else { si=g_options.thumbnailHeight; }
 
 		switch(g_options.kind) {
-			case '':
-				if( g_options.itemsBaseURL.length >0 ) {g_options.itemsBaseURL+='/';}
-				if( g_options.items !== undefined && g_options.items !== null ) {
-					ProcessItemOption();
-				}
-				else {
-					var elements=jQuery(element).children('a');
-					if( elements.length > 0 )
-						ProcessHREF(elements);
-					else
-						alert('nanoGallery - error: no image to process.');
-				}
-				break;
-			
-			case 'getsimple':
+			case "getsimple":
 				return;
 				var url=params.pluginURL+'/nanogallery_getitems.php';
 				alert(url);
@@ -110,7 +94,7 @@ function nanoGALLERY() {
 				alert("done");
 				break;
 				
-			case 'flickr':
+			case "flickr":
 				for( i=0; i<g_flickrThumbAvailableSizes.length; i++) {
 					g_flickrThumbSize=g_flickrThumbAvailableSizesStr[i];
 					if( si < g_flickrThumbAvailableSizes[i] ) {
@@ -119,7 +103,6 @@ function nanoGALLERY() {
 				}
 				FlickrGetItems(g_options.photoset,g_options.topLabel);
 				break;
-			case 'picasa':
 			default:
 				for(var i=0; i<g_picasaThumbAvailableSizes.length; i++) {
 					g_picasaThumbSize=g_picasaThumbAvailableSizes[i];
@@ -132,91 +115,6 @@ function nanoGALLERY() {
 		}
 
 	};
-	
-	// ##### LIST OF ITEMS IN OPTIONS #####
-	function ProcessItemOption() {
-		g_itemInfo.length=0;
-
-		jQuery.each(g_options.items, function(i,item){
-			var newObj=new Array(5);
-			newObj['title']=item.title;
-			if( item.srct !== undefined && item.srct.length>0 ) {
-				newObj['thumbsrc']=g_options.itemsBaseURL+item.srct;
-			}
-			else {
-				newObj['thumbsrc']=g_options.itemsBaseURL+item.src;
-			}
-			newObj['src']=g_options.itemsBaseURL+item.src;
-			newObj['description']=item.description;
-			newObj['kind']='image';
-
-			g_itemInfo.push(newObj);
-		});
-		
-		renderGallery();
-	};
-
-	// ##### LIST OF HREF ATTRIBUTES #####
-	function ProcessHREF(elements) {
-		g_itemInfo.length=0;
-
-		jQuery.each(elements, function(i,item){
-			var newObj=new Array(5);
-			newObj['title']=jQuery(item).text();
-			if( jQuery(item).attr('data-ngthumb') !== undefined && jQuery(item).attr('data-ngthumb').length>0 ) {
-				newObj['thumbsrc']=g_options.itemsBaseURL+jQuery(item).attr('data-ngthumb');
-			}
-			else {
-				newObj['thumbsrc']=g_options.itemsBaseURL+jQuery(item).attr('href');
-			}
-			newObj['src']=g_options.itemsBaseURL+jQuery(item).attr('href');
-			newObj['description']=jQuery(item).attr('data-ngdesc');
-			newObj['kind']='image';
-			g_itemInfo.push(newObj);
-		});
-		
-		jQuery.each(elements, function(i,item){
-			jQuery(item).remove();
-		});
-		
-		renderGallery();
-	};
-
-	// ##### DISPLAY THE GALLERY #####
-	function renderGallery() {
-		jQuery(g_containerFolder).children().remove();
-		
-		jQuery.each(g_itemInfo, function(i,item){
-			var newDiv =jQuery('<div class="container"></div>').appendTo(g_containerFolder);
-			jQuery(newDiv).append('<div class="imgcont"><img class="image" src="'+item['thumbsrc']+'"></div>');
-			if( g_options.kind == 'album' ) {
-				if( g_options.displayCaption == true ) { jQuery(newDiv).append('<div class="labelFolder">'+item['title']+'</div>'); }
-			}
-			else {
-				var s=item['title'];
-				if( g_options.displayCaption == true ) {
-					if( s ===undefined || s.length == 0 ) { s=i+1; }
-					jQuery(newDiv).append('<div class="labelImage">'+s+'</div>');
-				}
-			}
-
-			jQuery(newDiv).data("index",i);
-			newDiv.click(function() {
-				if( item['kind'] == 'album' ) {
-					if( g_options.kind == 'picasa' )
-						PicasaGetItems(item['src'],item['title']);
-					else
-						FlickrGetItems(item['src'],item['title']);
-				}
-				else {
-					OpenFancyBox(this);
-				}
-			});
-		});
-		SetContainerSize();
-	};
-	
-
 	
 	// ##### FLICKR STORAGE #####
 	function FlickrGetItems( itemID, albumLabel ) {
@@ -249,8 +147,10 @@ function nanoGALLERY() {
 			jQuery.ajaxSetup({ cache: false });
 			jQuery.support.cors = true;
 			jQuery.getJSON(url, function(data) {
-				g_itemInfo.length=0;
-				
+				settingsObj = data;
+				//g_itemInfo=new Array();
+				g_itemInfo=new Array(data.photosets.photoset.length);
+
 				jQuery.each(data.photosets.photoset, function(i,item){
 					//Get the title 
 					itemTitle = item.title._content;
@@ -263,27 +163,35 @@ function nanoGALLERY() {
 					imgUrl=''
 					itemKind=kind;
 
-					var found=false;
 					if( g_blackList !== null ) {
 						//blackList : ignore album cointaining one of the specified keyword in the title
+						var found=false;
 						var s=itemTitle.toUpperCase();
 						for( var j=0; j<g_blackList.length; j++) {
 							if( s.indexOf(g_blackList[j]) !== -1 ) { return true; }
 						}
 					}
+
+					var newDiv =jQuery('<div class="container"></div>').appendTo(g_containerFolder);
+					jQuery(newDiv).append('<div class="imgcont"><div class="nanoGalleryLoading"></div><img class="image" src="'+itemThumbURL+'"></div>');
+
+					if( g_options.displayCaption == true ) {jQuery(newDiv).append('<div class="labelFolder">'+itemTitle+'</div>'); }
+					//g_itemInfo[i]=new Array(itemTitle, itemThumbURL, itemID, itemDescription,itemKind);
+					g_itemInfo[i]=new Array(5);
+					g_itemInfo[i]['title']=itemTitle;
+					g_itemInfo[i]['thumbsrc']=itemThumbURL;
+					g_itemInfo[i]['src']=itemID;
+					g_itemInfo[i]['description']=itemDescription;
+					g_itemInfo[i]['kind']=itemKind;
 					
-					if( !found ) {
-						newObj=new Array(5);
-						newObj['title']=itemTitle;
-						newObj['thumbsrc']=itemThumbURL;
-						newObj['src']=itemID;
-						newObj['description']=itemDescription;
-						newObj['kind']=itemKind;
-						g_itemInfo.push(newObj);
-					}
+					jQuery(newDiv).data("index",i);
+					newDiv.click(function() {
+						var n=jQuery(this).data("index");
+						FlickrGetItems(g_itemInfo[i]['src'],g_itemInfo[i]['title']);
+					});
 				});
-				
-				renderGallery();
+				SetContainerSize();
+
 			});		
 			
 		}
@@ -296,7 +204,9 @@ function nanoGALLERY() {
 			jQuery.ajaxSetup({ cache: false });
 			jQuery.support.cors = true;
 			jQuery.getJSON(url, function(data) {
-				g_itemInfo.length=0;
+				settingsObj = data;
+				//g_itemInfo=new Array();
+				g_itemInfo=new Array(data.photoset.photo.length);
 
 				jQuery.each(data.photoset.photo, function(i,item){
 					//Get the title 
@@ -306,18 +216,30 @@ function nanoGALLERY() {
 					itemDescription='';
 					itemThumbURL = "http://farm" + item.farm + ".staticflickr.com/" + item.server + "/" + item.id +"_" + item.secret + "_"+g_flickrThumbSize+".jpg";
 					imgUrl = "http://farm" + item.farm + ".staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_o.jpg";
+
 					itemKind=kind;
+
+					var newDiv =jQuery('<div class="container"></div>').appendTo(g_containerFolder);
+					jQuery(newDiv).append('<div class="imgcont"><div class="nanoGalleryLoading"></div><img class="image" src="'+itemThumbURL+'"></div>');
+
+					var s=itemTitle;
+					if( g_options.displayCaption == true ) {
+						if( s ===undefined || s.length == 0 ) { s=i+1; }
+						jQuery(newDiv).append('<div class="labelImage">'+s+'</div>');
+					}
+					//g_itemInfo[i]=new Array(itemTitle, itemThumbURL, imgUrl, itemDescription, itemKind);
+					g_itemInfo[i]=new Array(5);
+					g_itemInfo[i]['title']=itemTitle;
+					g_itemInfo[i]['thumbsrc']=itemThumbURL;
+					g_itemInfo[i]['src']=imgUrl;
+					g_itemInfo[i]['description']=itemDescription;
+					g_itemInfo[i]['kind']=itemKind;
+
 					
-					var newObj=new Array(5);
-					newObj['title']=itemTitle;
-					newObj['thumbsrc']=itemThumbURL;
-					newObj['src']=imgUrl;
-					newObj['description']=itemDescription;
-					newObj['kind']=itemKind;
-					g_itemInfo.push(newObj);
-					
+					jQuery(newDiv).data("index",i);
+					newDiv.click(function() { OpenFancyBox(this); });
 				});
-				renderGallery();
+				SetContainerSize();
 			});		
 		}
 	};
@@ -357,7 +279,8 @@ function nanoGALLERY() {
 		jQuery.support.cors = true;
 		url = url + "&callback=?";
 		jQuery.getJSON(url, function(data) {
-			g_itemInfo.length=0;
+			g_settingsObj = data;
+			g_itemInfo=new Array(data.feed.entry.length);
 			
 			jQuery.each(data.feed.entry, function(i,data){
 				//Get the title 
@@ -372,31 +295,54 @@ function nanoGALLERY() {
 				imgUrl=data.media$group.media$content[0].url
 				itemKind=kind;
 
-				var found=false;
 				if( g_blackList != null && kind == 'album' ) {
 					//blackList : ignore album cointaining one of the specified keyword in the title
+					var found=false;
 					var s=itemTitle.toUpperCase();
 					for( var j=0; j<g_blackList.length; j++) {
 						if( s.indexOf(g_blackList[j]) !== -1 ) { return true; }
 					}
 				}
-				
-				if( !found ) {
-					newObj=new Array(5);
-					newObj['title']=itemTitle;
-					newObj['thumbsrc']=itemThumbURL;
-					if( kind == 'album' ) 
-						newObj['src']=itemID;
-					else
-						newObj['src']=imgUrl;
-					newObj['description']=itemDescription;
-					newObj['kind']=itemKind;
-					g_itemInfo.push(newObj);
+
+				var newDiv =jQuery('<div class="container"></div>').appendTo(g_containerFolder);
+				jQuery(newDiv).append('<div class="imgcont"><div class="nanoGalleryLoading"></div><img class="image" src="'+itemThumbURL+'"></div>');
+				if( kind == 'album' ) {
+					if( g_options.displayCaption == true ) { jQuery(newDiv).append('<div class="labelFolder">'+itemTitle+'</div>'); }
+					//g_itemInfo[i]=new Array(itemTitle, itemThumbURL, itemID, itemDescription,itemKind);
+					g_itemInfo[i]=new Array(5);
+					g_itemInfo[i]['title']=itemTitle;
+					g_itemInfo[i]['thumbsrc']=itemThumbURL;
+					g_itemInfo[i]['src']=itemID;
+					g_itemInfo[i]['description']=itemDescription;
+					g_itemInfo[i]['kind']=itemKind;
 				}
-				
+				else {
+					var s=itemDescription;
+					if( g_options.displayCaption == true ) {
+						if( s.length == 0 ) { s=i+1; }
+						jQuery(newDiv).append('<div class="labelImage">'+s+'</div>');
+					}
+					//g_itemInfo[i]=new Array(itemTitle, itemThumbURL, imgUrl, itemDescription, itemKind);
+					g_itemInfo[i]=new Array(5);
+					g_itemInfo[i]['title']=itemTitle;
+					g_itemInfo[i]['thumbsrc']=itemThumbURL;
+					g_itemInfo[i]['src']=imgUrl;
+					g_itemInfo[i]['description']=itemDescription;
+					g_itemInfo[i]['kind']=itemKind;
+				}
+
+				jQuery(newDiv).data("index",i);
+				newDiv.click(function() {
+					var n=jQuery(this).data("index");
+					if( g_itemInfo[n]['kind'] == 'album' ) {
+						PicasaGetItems(g_itemInfo[i]['src'],g_itemInfo[i]['title']);
+					}
+					else {
+						OpenFancyBox(this);
+					}
+				});
 			});
-				
-			renderGallery();	
+			SetContainerSize();
 
 		})
 		.error( function(XMLHttpRequest, textStatus, errorThrown) {
@@ -426,6 +372,8 @@ function nanoGALLERY() {
 		jQuery(g_containerFolder).find('.imgcont').css('height',g_options.thumbnailHeight);
 		jQuery(g_containerFolder).find('img').css('maxWidth',g_options.thumbnailWidth);
 		jQuery(g_containerFolder).find('img').css('maxHeight',g_options.thumbnailHeight);
+		jQuery(g_containerFolder).find('.nanoGalleryLoading').css('top',(g_options.thumbnailHeight-10)/2);
+		jQuery(g_containerFolder).find('.nanoGalleryLoading').css('left',(g_options.thumbnailWidth-10)/2);
 	};
 	
 }
