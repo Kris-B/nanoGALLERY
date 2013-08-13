@@ -4,7 +4,7 @@
 /* MAIN CONTAINER                     */
 /**************************************/
 
-.nanogallery_theme_light {
+.nanogallery_theme_classicdark {
 	font-size:1.0em;
 	line-height: normal;
 	margin:0px;
@@ -15,38 +15,38 @@
 /* NAVIGATION BREADCRUMB              */
 /**************************************/
 
-.nanogallery_theme_light .nanoGalleryBreadcrumb {
-	border: 1px dotted #999;
+.nanogallery_theme_classicdark .nanoGalleryBreadcrumb {
+	border: 1px dotted #555;
 	margin: 1px;
-	background-color: #ddd;
+	background-color: #000;
 }
-.nanogallery_theme_light .nanoGalleryBreadcrumb .folder {
+.nanogallery_theme_classicdark .nanoGalleryBreadcrumb .folder {
 	display: inline-block;
 	margin: 2px 5px;
-	background-color: #ddd;
-	color:#444;
+	background-color: #000;
+	color:#ccc;
 	cursor:pointer;
 }
-.nanogallery_theme_light .nanoGalleryBreadcrumb .folder:hover{
-	color: #000;
+.nanogallery_theme_classicdark .nanoGalleryBreadcrumb .folder:hover{
+	color: #fff;
 }
 
-.nanogallery_theme_light .nanoGalleryBreadcrumb .separator {
+.nanogallery_theme_classicdark .nanoGalleryBreadcrumb .separator {
 	display: inline-block;
 	margin: 0 2px;
-	background-color: #ddd;
-	color:#444;
+	background-color: #000;
+	color:#bbb;
 }
 
 /**************************************/
 /* THUMBNAILS                         */
 /**************************************/
 
-.nanogallery_theme_light .nanoGalleryContainerParent {
+.nanogallery_theme_classicdark .nanoGalleryContainerParent {
 	text-align: center;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer {
+.nanogallery_theme_classicdark .nanoGalleryContainer {
 	/*text-align: justify;
     -ms-text-justify: distribute-all-lines;
     text-justify: distribute-all-lines;*/
@@ -55,9 +55,9 @@
 	display: inline-block;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .iconInfo{
+.nanogallery_theme_classicdark .nanoGalleryContainer .iconInfo{
 }
-.nanogallery_theme_light .nanoGalleryContainer .iconInfo:after{
+.nanogallery_theme_classicdark .nanoGalleryContainer .iconInfo:after{
 	visibility: hidden;
 	content:".";
 	left:8px;
@@ -78,16 +78,16 @@
 	-moz-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 }
-.nanogallery_theme_light .nanoGalleryContainer .container:hover .iconInfo:after{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container:hover .iconInfo:after{
 	opacity: 0;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container{
 	cursor:  pointer;
-	border: 1px solid #fff;
+	border: 1px solid #000;
 	margin: 1px;
 	padding: 5px;
-	background-color: #fff;
+	background-color: #000;
 	transition: border-color 0.2s ease-out;
 	-webkit-transition : border-color 0.2s ease-out; 
 	-moz-transition : border-color 0.2s ease-out;
@@ -96,12 +96,12 @@
 	position: relative; 
 	overflow: hidden;	
 }
-.nanogallery_theme_light .nanoGalleryContainer .container:hover{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container:hover{
 	border-color: #888;
 	transition: border-color 0.2s;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container:after {
+.nanogallery_theme_classicdark .nanoGalleryContainer .container:after {
 	content: ".";
 	display: block;
 	clear: both;
@@ -110,11 +110,11 @@
 	height: 0;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container .imgContainer{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container .imgContainer{
 	position:relative;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container img{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container img{
 	background:url('loading.gif') no-repeat center;
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
 	display: block;
@@ -124,65 +124,56 @@
 	-moz-transition : all 0.2s ease-out;
 	-o-transition : all 0.2s ease-out;
 }
-/*.nanogallery_theme_light .nanoGalleryContainer .container:hover img{
-   -moz-transform: scale(1.5);  
-   -o-transform: scale(1.5);  
-   -webkit-transform: scale(1.5);
-   transform: scale(1.5);
-}*/
 
-
-.nanogallery_theme_light .nanoGalleryContainer .container .labelImage{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container .labelImage{
+	color: #ddd; 
 	opacity: 1;
 	transition: all 0.4s ease;
 	-webkit-transition: all 0.4s ease;
 	-moz-transition: all 0.4s ease;
 	-o-transition: all 0.4s ease;
 	text-align:left;
-	padding: 5px 0 0 0;
-	/*position: relative;*/
-	position:absolute;
-	bottom: 7px;
+	padding: 2px 0 0 0;
+	position: relative;
 }
-.nanogallery_theme_light .nanoGalleryContainer .container:hover .labelImage{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container:hover .labelImage{
 	opacity: 0.5;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container  .labelImageTitle{
-	color:#444;
+.nanogallery_theme_classicdark .nanoGalleryContainer .container  .labelImageTitle{
+	color:#eee;
 	overflow:hidden;
 	white-space: nowrap;
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 	vertical-align: middle;
 	display: inline;
 }
-.nanogallery_theme_light .nanoGalleryContainer .container  .labelImageTitle:before{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container  .labelImageTitle:before{
 	content: url(camera_icon.png);
 	display: block;
 	float: left;
 	margin-right: 5px;
-	margin-left: 2px;
 	height:20px;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container  .labelFolderTitle{
-	color:#444;
+.nanogallery_theme_classicdark .nanoGalleryContainer .container  .labelFolderTitle{
+	color:#eee;
 	overflow:hidden;
 	white-space: nowrap;
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 	vertical-align: middle;
 	display: inline;
 }
-.nanogallery_theme_light .nanoGalleryContainer .container  .labelFolderTitle:before{
+.nanogallery_theme_classicdark .nanoGalleryContainer .container  .labelFolderTitle:before{
 	content: url(folder_icon.png);
 	display: block;
 	float: left;
 	margin-right: 5px;
-	margin-left: 2px;
 	height:20px;
 }
 
-.nanogallery_theme_light .nanoGalleryContainer .container  .labelDescription{
+
+.nanogallery_theme_classicdark .nanoGalleryContainer .container  .labelDescription{
 	clear:both;
 	color:#aab;
 	margin:0px 0px;

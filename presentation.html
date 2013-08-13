@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html>
+
+<head>
+
+	<style>
+		* {font-family: sans-serif; color:#eee; }
+		body {background:#222;}
+	</style>
+
+
+	<script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
+	<script type="text/javascript" src="third.party/jquery-ui-1.10.3.custom.min.js"></script> 
+	<script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> 
+
+	<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
+	<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
+	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
+
+	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
+
+	<script>
+		$(document).ready(function () {
+			//Sample4
+			jQuery("#nanoGallery4").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'List of Albums',blackList:'Scrapbook|forhomepage|profil',maxItemsPerLine:3});
+		});
+	</script>	
+
+</head>
+
+<body >
+	<br><br>
+	<div style="text-align:center;font-size:3.0em;">nanoGALLERY - jQuery plugin</div>
+	<br><br><br>
+	
+	<div id="nanoGallery4" style="max-width:942px;margin:0 auto;"></div>
+
+	<br><br>
+	<div style="text-align:center;font-size:0.8em;">
+	more information about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a>
+	<br>
+	by Kris_B - <a href="http://www.brisbois.fr">www.brisbois.fr</a>
+	</div>
+</body>
+</html>

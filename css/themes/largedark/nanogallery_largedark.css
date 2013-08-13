@@ -1,0 +1,170 @@
+/* Theme for nanoGallery - www.nanogallery.brisbois.fr */
+
+/**************************************/
+/* MAIN CONTAINER                     */
+/**************************************/
+
+.nanogallery_theme_largedark {
+	font-size:1.0em;
+	line-height: normal;
+	margin:0px;
+	padding:0px;
+}
+
+/**************************************/
+/* NAVIGATION BREADCRUMB              */
+/**************************************/
+
+.nanogallery_theme_largedark .nanoGalleryBreadcrumb {
+	border: 1px dotted #555;
+	margin: 1px;
+	background-color: #000;
+}
+.nanogallery_theme_largedark .nanoGalleryBreadcrumb .folder {
+	display: inline-block;
+	margin: 2px 5px;
+	background-color: #000;
+	color:#ccc;
+	cursor:pointer;
+}
+.nanogallery_theme_largedark .nanoGalleryBreadcrumb .folder:hover{
+	color: #fff;
+}
+
+.nanogallery_theme_largedark .nanoGalleryBreadcrumb .separator {
+	display: inline-block;
+	margin: 0 2px;
+	background-color: #000;
+	color:#bbb;
+}
+
+/**************************************/
+/* THUMBNAILS                         */
+/**************************************/
+
+.nanogallery_theme_largedark .nanoGalleryContainerParent {
+	text-align: center;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer {
+	/*text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;*/
+	text-align: left;
+	width:auto;
+	display: inline-block;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .iconInfo{
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .iconInfo:after{
+	content:"i";
+	left:8px;
+	top:8px;
+	position:absolute;
+	background: rgba(0,0,0,0.75); 
+	color: #fff; 
+	border: 2px solid #aaa;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .container:hover .iconInfo:after{
+	opacity: 0;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container{
+	cursor:  pointer;
+	border: 1px solid #000;
+	margin: 1px;
+	padding: 5px;
+	background-color: #000;
+	transition: border-color 0.2s ease-out;
+	-webkit-transition : border-color 0.2s ease-out; 
+	-moz-transition : border-color 0.2s ease-out;
+	-o-transition : border-color 0.2s ease-out;
+	display: inline-block; 
+	position: relative; 
+	overflow: hidden;	
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .container:hover{
+	border-color: #888;
+	transition: border-color 0.2s;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0px;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container .imgContainer{
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container img{
+	background:url('loading.gif') no-repeat center;
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container .labelImage{
+	position:absolute;
+	background: rgba(0,0,0,0.75); 
+	color: #ddd; 
+	padding: 6px 5px; 
+	opacity: 0;
+	bottom: -99%; 
+	left: 0;
+	transition: all 0.4s ease;
+	-webkit-transition: all 0.4s ease;
+	-moz-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	text-align:left;
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .container:hover .labelImage{
+	opacity: 1;
+	bottom: 0;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container  .labelImageTitle{
+	color:#eee;
+	vertical-align: middle;
+	display: inline;
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .container  .labelImageTitle:before{
+	content: url(camera_icon.png);
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .container  .labelFolderTitle{
+	color:#eee;
+	vertical-align: middle;
+	display: inline;
+}
+.nanogallery_theme_largedark .nanoGalleryContainer .container  .labelFolderTitle:before{
+	content: url(folder_icon.png);
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+
+.nanogallery_theme_largedark .nanoGalleryContainer .container  .labelDescription{
+	clear:both;
+	color:#aab;
+	margin:1px 2px;
+	/*text-align: justify;*/
+}
+
+
+
