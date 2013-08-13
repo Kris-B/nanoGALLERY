@@ -59,7 +59,7 @@ Usage
 
 Note 1: If you already use jQuery on your site, do not include it a second time.
 
-Note 2: If you specify a theme, the corresponding css must also be included.
+Note 2: If you specify a theme, the corresponding css file must also be included.
 
 
 ### Method 1: use a Flickr account
@@ -173,7 +173,7 @@ Syntax and options
 * ```itemsBaseURL``` : URL prefix for the images defined with method#1 or method#2
 * ```theme``` : name of the theme - the corresponding css-file must also be included in the html file (optional)
     Possible values : ```classicdark``` ```classiclight``` ```largedark``` ```largelight``` ```light```
-* ```maxItemsPerLine``` : integer - max number of thumbnail per line
+* ```maxItemsPerLine``` : integer - max number of thumbnails per line
 
 ### Picasa/Google+ specific arguments
 * ```userID``` : user ID of the Picasa/Google+ account (mandatory)
