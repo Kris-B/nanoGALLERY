@@ -171,8 +171,8 @@ Syntax and options
 * ```thumbnailHeight``` : integer - Height in pixels of the thumbnails (optional)
 * ```thumbnailWidth``` : integer - Width in pixels of the thumbnails (optional)
 * ```itemsBaseURL``` : URL prefix for the images defined with method#1 or method#2
-* ```theme``` : name of the theme - the corresponding css-file must also be included in the html file (optional)
-    Possible values : ```classicdark``` ```classiclight``` ```largedark``` ```largelight``` ```light```
+* ```theme``` : name of the theme (optional) - the corresponding css-file must also be included in the html file
+    Possible values : ```animdark``` ```animlight``` ```classicdark``` ```classiclight``` ```largedark``` ```largelight``` ```light```
 * ```maxItemsPerLine``` : integer - max number of thumbnails per line
 
 ### Picasa/Google+ specific arguments
@@ -225,8 +225,6 @@ Requirements
 * jQuery
 * jsonp - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg
 * fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/de295d45496c01bb871078aac2bcfcac "githalytics.com")](http://githalytics.com/Kris-B/nanoGALLERY)
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/de295d45496c01bb871078aac2bcfcac "githalytics.com")](http://githalytics.com/Kris-B/nanoGALLERY)
 
