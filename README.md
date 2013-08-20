@@ -23,6 +23,7 @@ Key features
 
 
 ![Screenshot](/doc/nanoGALLERY_screenshot.png?raw=true "Screenshot")
+![Screenshot](/doc/nanoGALLERY_screenshot.png2?raw=true "Screenshot2")
 
   
 
