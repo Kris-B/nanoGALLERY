@@ -197,6 +197,10 @@ Syntax and options
 * ```topLabel``` : label to display in the breadcrumb for the top level
 * ```blackList``` : list of keywords to ignore - photoset containing one the keyword in the title will be ignored. Keywords separator is '|'. (optional)
 
+To retrieve your Flickr user ID, use this page:
+```
+http://www.flickr.com/services/api/explore/flickr.people.findByUsername
+```
 
 ### Example:
 
