@@ -1,9 +1,5 @@
-// Optimized image re-position after windows resize event
-// display item title in viewer
-// bugfix: issue with some incorrect url to original images (Flickr) 
-
 /*
- * nanoGallery v3.2.3
+ * nanoGALLERY for jQuery v3.2.3
  * Plugin for jQuery by Christophe Brisbois
  * http://www.brisbois.fr
  * 
