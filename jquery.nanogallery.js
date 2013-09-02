@@ -1,5 +1,9 @@
+// Optimized image re-position after windows resize event
+// display item title in viewer
+// bugfix: issue with some incorrect url to original images (Flickr) 
+
 /*
- * nanoGallery v3.2.2
+ * nanoGallery v3.2.3
  * Plugin for jQuery by Christophe Brisbois
  * http://www.brisbois.fr
  * 
@@ -41,10 +45,12 @@
 
 function nanoGALLERY() {
  	var g_options=null;
+	var g_containerParent=null;
 	var g_containerFolder=null;
 	var g_containerBreadcrumb=null;
 	var g_path2timthumb="";
 	var g_itemInfo=[];
+	var g_oneItemWidth=100;
 	var g_blackList=null;
 	// ### Picasa/Google+
 	// square format : 32, 48, 64, 72, 104, 144, 150, 160 (cropped)
@@ -75,8 +81,8 @@ function nanoGALLERY() {
 		else { g_options.album=''; }
 	
 		if( g_options.displayBreadcrumb == true && ( g_options.kind=='picasa' || g_options.kind=='flickr')) { g_containerBreadcrumb =jQuery('<div class="nanoGalleryBreadcrumb"></div>').appendTo(element); }
-		var tmp=jQuery('<div class="nanoGalleryContainerParent"></div>').appendTo(element);
-		g_containerFolder =jQuery('<div class="nanoGalleryContainer"></div>').appendTo(tmp);
+		g_containerParent=jQuery('<div class="nanoGalleryContainerParent"></div>').appendTo(element);
+		g_containerFolder =jQuery('<div class="nanoGalleryContainer"></div>').appendTo(g_containerParent);
 		g_path2timthumb = ""; //timthumbFolder;
 
 
@@ -139,6 +145,8 @@ function nanoGALLERY() {
 				PicasaGetItems(g_options.album,g_options.topLabel);
 				break;
 		}
+		
+		$(window).resize(function() { SetContainerWidth(); });
 
 	};
 	
@@ -313,7 +321,7 @@ function nanoGALLERY() {
 						var newObj=new Array(5);
 						newObj['title']=itemTitle;
 						newObj['thumbsrc']=itemThumbURL;
-						newObj['src']=imgUrl;
+						newObj['src']=item.url_o;			//imgUrl;
 						newObj['description']=itemDescription;
 						newObj['kind']=itemKind;
 						g_itemInfo.push(newObj);
@@ -487,10 +495,8 @@ function nanoGALLERY() {
 			});
 		});
 		
-		// set the max number of items per line
-		if( g_options.maxItemsPerLine > 0 && w > 0 ) {
-			jQuery(g_containerFolder).css('max-width',g_options.maxItemsPerLine*w);
-		}
+		g_oneItemWidth=w;
+		SetContainerWidth();
 		
 		// animation to display the thumbnails
 		jQuery(g_containerFolder).find('.container').each(function(i) {
@@ -498,18 +504,53 @@ function nanoGALLERY() {
 		});
 
 	};
+	
+	function SetContainerWidth() {
+		// set the max number of items per line
+		if( g_oneItemWidth > 0 ) {
+			var wcont=jQuery(g_containerParent).width();
+			if( g_options.maxItemsPerLine > 0 ) {
+				if( g_options.maxItemsPerLine*g_oneItemWidth <= wcont ) {
+					jQuery(g_containerFolder).css('max-width',g_options.maxItemsPerLine*g_oneItemWidth);
+				}
+				else {
+					var w=parseInt(wcont/g_oneItemWidth)
+					jQuery(g_containerFolder).css('max-width',w*g_oneItemWidth);
+				}
+			}
+			else {
+				var w=parseInt(wcont/g_oneItemWidth)
+				jQuery(g_containerFolder).css('max-width',w*g_oneItemWidth);
+			}
+		}
+	
+	};
 
 
 	// ##### DISPLAY IMAGE #####
 	function OpenFancyBox(element) {
 		var n=jQuery(element).data("index");
-		var lstImages=new Array();
-		lstImages[0]=g_itemInfo[n]['src'];
+		var lstImages=new Array(g_itemInfo.length);
+		var current=0;
+
+		//lstImages[0]=g_itemInfo[n]['src'];
+		lstImages[current]=new Object;	//{href:'"+g_itemInfo[n]['src']+"',title:'"+g_itemInfo[n]['title']+"'};
+		lstImages[current].href=g_itemInfo[n]['src'];
+		lstImages[current].title=g_itemInfo[n]['title'];
+		
 		for( var j=n+1; j<g_itemInfo.length; j++) {
-			lstImages[lstImages.length]=g_itemInfo[j]['src'];
+			//lstImages[lstImages.length]=g_itemInfo[j]['src'];
+			current++;
+			lstImages[current]=new Object;	//{href:'"+g_itemInfo[n]['src']+"',title:'"+g_itemInfo[n]['title']+"'};
+			lstImages[current].href=g_itemInfo[j]['src'];
+			lstImages[current].title=g_itemInfo[j]['title'];
 		}
 		for( var j=0; j<n; j++) {
-			lstImages[lstImages.length]=g_itemInfo[j]['src'];
+			//lstImages[lstImages.length]=g_itemInfo[j]['src'];
+			current++;
+			lstImages[current]=new Object;	//{href:'"+g_itemInfo[n]['src']+"',title:'"+g_itemInfo[n]['title']+"'};
+			lstImages[current].href=g_itemInfo[j]['src'];
+			lstImages[current].title=g_itemInfo[j]['title'];
 		}
 		jQuery.fancybox.open(lstImages,{'autoPlay':false, 'nextEffect':'fade', 'prevEffect':'fade','scrolling':'no',
 			helpers		: {	buttons	: { 'position' : 'bottom'} }

@@ -19,24 +19,40 @@
 	border: 1px dotted #999;
 	margin: 1px;
 	background-color: #ddd;
+	padding: 4px;
+	text-align: left;
 }
 .nanogallery_theme_animlight .nanoGalleryBreadcrumb .folder {
 	display: inline-block;
-	margin: 2px 5px;
 	background-color: #ddd;
 	color:#444;
 	cursor:pointer;
+	margin: 0px 5px;
+	vertical-align: middle;
+	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 }
 .nanogallery_theme_animlight .nanoGalleryBreadcrumb .folder:hover{
 	color: #000;
 }
-
-.nanogallery_theme_animlight .nanoGalleryBreadcrumb .separator {
-	display: inline-block;
-	margin: 0 2px;
+.nanogallery_theme_default .nanoGalleryBreadcrumb  .folder:before{
+	content: url(folder_icon.png);
+	float: left;
+	margin-right: 5px;
+	height:20px;
+	display:inline;
+}
+.nanogallery_theme_default .nanoGalleryBreadcrumb .separator {
+	display: inline;
+}
+.nanogallery_theme_default .nanoGalleryBreadcrumb .separator:after {
 	background-color: #ddd;
 	color:#444;
+	content:'>';
+	margin: 0 2px;
+	vertical-align: middle;
+	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 }
+
 
 /**************************************/
 /* THUMBNAILS                         */

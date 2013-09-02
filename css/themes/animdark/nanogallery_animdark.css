@@ -34,7 +34,7 @@
 	color: #fff;
 }
 .nanogallery_theme_animdark .nanoGalleryBreadcrumb  .folder:before{
-	/*content: url(folder_icon.png);*/
+	content: url(folder_icon.png);
 	float: left;
 	margin-right: 5px;
 	height:20px;
