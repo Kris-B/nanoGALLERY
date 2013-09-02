@@ -1,5 +1,5 @@
 /*
- * nanoGALLERY for jQuery v3.2.3
+ * nanoGALLERY for jQuery v3.2.6
  * Plugin for jQuery by Christophe Brisbois
  * http://www.brisbois.fr
  * 
