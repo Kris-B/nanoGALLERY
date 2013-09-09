@@ -144,12 +144,13 @@ Use the 'items' parameter to pass the list of images to the plugin.
 
 ```js
 $(document).ready(function () {
-	jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
+	jQuery("#nanoGallery4").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
 		items: [
 			{
 				src: 'demonstration/img_01.jpg',		// image url
 				srct: 'demonstration/img_01t.jpg',		// thumbnail url
-				title: 'image 1' 						// thumbnail title
+				title: 'image 1', 						// thumbnail title
+				description : 'image 1 description'		// thumbnail description
 			},
 			{
 				src: 'demonstration/img_02.jpg',
