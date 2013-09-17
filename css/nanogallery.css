@@ -7,8 +7,8 @@
 .nanogallery_theme_default {
 	font-size:1.0em;
 	line-height: normal;
-	margin:0px;
 	padding:0px;
+	margin:0 auto;
 }
 
 /**************************************/
@@ -57,6 +57,7 @@
 
 .nanogallery_theme_default .nanoGalleryContainerParent {
 	text-align: center;
+	overflow:hidden;
 }
 
 .nanogallery_theme_default .nanoGalleryContainer {
@@ -205,5 +206,105 @@
 	height:0px;
 }
 
+
+
+/**************************************/
+/* INTERNAL VIEWER                    */
+/**************************************/
+.nanogallery_theme_default .nanoGalleryViewer {
+	display:block;
+/*	display:table;
+	//position:relative;*/
+	font-size:1em;
+	background:#225;
+}
+.nanogallery_theme_default .nanoGalleryViewer .closeButton {
+/*	//display:block;
+//	display:table-row;
+	//position:absolute;*/
+	cursor:pointer;
+}
+.nanogallery_theme_default .nanoGalleryViewer .closeButton:after {
+	visibility:visible;
+	content:'X';
+	left:10px;
+	top:10px;
+	position:absolute;
+	//position:relative;
+	background: rgba(0,0,0,0.75); 
+	color: #fff; 
+	border: 5px solid #aaa;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	transition: all 0.5s ease;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	cursor:pointer;
+}
+
+.nanogallery_theme_default .nanoGalleryViewer .content {
+	display:block;
+	position:relative;
+	height:100%;
+	/*//height:auto;*/
+	padding:10px;
+	border:5px solid #0f0;
+}
+.nanogallery_theme_default .nanoGalleryViewer .content img{
+	/* never define a margin here */
+	border:5px solid #000;
+	display:block;
+	padding:5px;
+}
+
+.nanogallery_theme_default .nanoGalleryViewer .toolbar {
+/*	//display:block;
+//	display:table-row;
+	//position:relative; */
+	width:100%;
+	display: table-cell;
+}
+
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .previousButton{
+	display: table-cell;
+	cursor:pointer;
+}
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .previousButton:after{
+	content:'<';
+	margin: 10px;
+}
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .nextButton{
+	display: table-cell;
+	cursor:pointer;
+	padding:50px 20px;
+}
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .nextButton:before{
+	content:'>';
+}
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .label{
+	border:5px solid #f0f;
+	width:100%;
+	min-width: 100px;
+	overflow: hidden;
+	display: table-cell;
+	text-align: left;
+}
+
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .label .title{
+/*	//display:table-row;
+	//text-align: center;*/
+	margin:auto;
+	width:100%
+}
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .label .description{
+	display:table-row;
+	text-align: center;
+}
 
 

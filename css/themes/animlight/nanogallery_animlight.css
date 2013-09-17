@@ -7,8 +7,8 @@
 .nanogallery_theme_animlight {
 	font-size:1.0em;
 	line-height: normal;
-	margin:0px;
 	padding:0px;
+	margin:0 auto;
 }
 
 /**************************************/
@@ -34,17 +34,17 @@
 .nanogallery_theme_animlight .nanoGalleryBreadcrumb .folder:hover{
 	color: #000;
 }
-.nanogallery_theme_default .nanoGalleryBreadcrumb  .folder:before{
+.nanogallery_theme_animlight .nanoGalleryBreadcrumb  .folder:before{
 	content: url(folder_icon.png);
 	float: left;
 	margin-right: 5px;
 	height:20px;
 	display:inline;
 }
-.nanogallery_theme_default .nanoGalleryBreadcrumb .separator {
+.nanogallery_theme_animlight .nanoGalleryBreadcrumb .separator {
 	display: inline;
 }
-.nanogallery_theme_default .nanoGalleryBreadcrumb .separator:after {
+.nanogallery_theme_animlight .nanoGalleryBreadcrumb .separator:after {
 	background-color: #ddd;
 	color:#444;
 	content:'>';

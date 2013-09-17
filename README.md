@@ -185,7 +185,7 @@ Syntax and options
 * ```displayCaptionFolder``` : ```true``` / ```false``` - display or not the title of the folders (optional)
 * ```displayCaptionImage``` : ```true``` / ```false``` - display or not the title of the images (optional)
 * ```topLabel``` : label to display in the breadcrumb for the top level
-* ```blackList``` : list of keywords to ignore - album containing one the keyword in the title will be ignored. Keywords separator is '|'. (optional)
+* ```blackList``` : list of keywords to ignore - albums containing one of the keyword in the title will be ignored. Keyword separator is '|'. (optional)
 
 
 ### Flickr specific arguments
@@ -196,7 +196,7 @@ Syntax and options
 * ```displayCaptionFolder``` : ```true``` / ```false``` - display or not the title of the folders (optional)
 * ```displayCaptionImage``` : ```true``` / ```false``` - display or not the title of the images (optional)
 * ```topLabel``` : label to display in the breadcrumb for the top level
-* ```blackList``` : list of keywords to ignore - photoset containing one the keyword in the title will be ignored. Keywords separator is '|'. (optional)
+* ```blackList``` : list of keywords to ignore - photosets containing one of the keyword in the title will be ignored. Keyword separator is '|'. (optional)
 
 To retrieve your Flickr user ID, use this page:
 ```
