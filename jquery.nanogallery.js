@@ -18,6 +18,8 @@
 			album:'',
 			photoset:'',
 			blackList:'',
+			whiteList:'',
+			albumList:'',
 			topLabel:'home',
 			displayBreadcrumb:true,
 			displayCaption:true,
@@ -30,7 +32,7 @@
 			itemsBaseURL:'',
 			maxItemsPerLine:0,
 			maxWidth:0,
-			viewer:'fancybox1'
+			viewer:'fancybox'
 		}, options );
 		
 		return this.each(function() {
@@ -58,6 +60,8 @@ function nanoGALLERY() {
 	var g_oneThumbnailWidth=100;
 	var g_oneThumbnailHeight=100;
 	var g_blackList=null;
+	var g_whiteList=null;
+	var g_albumList=null;
 	// ### Picasa/Google+
 	// square format : 32, 48, 64, 72, 104, 144, 150, 160 (cropped)
 	// details: https://developers.google.com/picasa-web/docs/2.0/reference
@@ -77,6 +81,8 @@ function nanoGALLERY() {
 		g_baseControl=element;
 		
 		if( g_options.blackList !='' ) { g_blackList=g_options.blackList.toUpperCase().split('|'); }
+		if( g_options.whiteList !='' ) { g_whiteList=g_options.whiteList.toUpperCase().split('|'); }
+		if( g_options.albumList !='' ) { g_albumList=g_options.albumList.toUpperCase().split('|'); }
 		jQuery(element).addClass('nanogallery_theme_'+g_options.theme);
 	
 		if( g_options.photoset !== undefined ) {
@@ -288,16 +294,17 @@ function nanoGALLERY() {
 							imgUrl=''
 							itemKind=kind;
 
-							var found=false;
-							if( g_blackList !== null ) {
-								//blackList : ignore album cointaining one of the specified keyword in the title
-								var s=itemTitle.toUpperCase();
-								for( var j=0; j<g_blackList.length; j++) {
-									if( s.indexOf(g_blackList[j]) !== -1 ) { return true; }
-								}
-							}
+							//var found=false;
+							//if( g_blackList !== null ) {
+							//	//blackList : ignore album cointaining one of the specified keyword in the title
+							//	var s=itemTitle.toUpperCase();
+							//	for( var j=0; j<g_blackList.length; j++) {
+							//		if( s.indexOf(g_blackList[j]) !== -1 ) { return true; }
+							//	}
+							//}
 							
-							if( !found ) {
+							//if( !found ) {
+							if( CheckAlbumName(itemTitle) ) {
 								newObj=new Array(5);
 								newObj['title']=itemTitle;
 								newObj['thumbsrc']=itemThumbURL;
@@ -432,16 +439,23 @@ function nanoGALLERY() {
 					imgUrl=data.media$group.media$content[0].url
 					itemKind=kind;
 
-					var found=false;
-					if( g_blackList != null && kind == 'album' ) {
-						//blackList : ignore album cointaining one of the specified keyword in the title
-						var s=itemTitle.toUpperCase();
-						for( var j=0; j<g_blackList.length; j++) {
-							if( s.indexOf(g_blackList[j]) !== -1 ) { return true; }
-						}
+					//var found=false;
+					//if( g_blackList != null && kind == 'album' ) {
+					//	//blackList : ignore album cointaining one of the specified keyword in the title
+					//	var s=itemTitle.toUpperCase();
+					//	for( var j=0; j<g_blackList.length; j++) {
+					//		if( s.indexOf(g_blackList[j]) !== -1 ) { return true; }
+					//	}
+					//}
+					
+					//if( !found ) {
+					
+					var ok=true;
+					if( kind == 'album' ) {
+						if( !CheckAlbumName(itemTitle) ) { ok=false; }
 					}
 					
-					if( !found ) {
+					if( ok ) {
 						newObj=new Array(5);
 						newObj['title']=itemTitle;
 						newObj['thumbsrc']=itemThumbURL;
@@ -476,6 +490,42 @@ function nanoGALLERY() {
 		}
 		if( g_containerViewerDisplayed ) {
 			ResizeInternalViewer();
+		}
+	};
+	
+	function CheckAlbumName(title) {
+		var s=title.toUpperCase();
+
+		if( g_albumList !== null ) {
+			for( var j=0; j<g_albumList.length; j++) {
+				if( s == g_albumList[j].toUpperCase() ) {
+					return true;
+				}
+			}
+		}
+		else {
+			var found=false;
+			if( g_whiteList !== null ) {
+				//whiteList : authorize only album cointaining one of the specified keyword in the title
+				for( var j=0; j<g_whiteList.length; j++) {
+					if( s.indexOf(g_whiteList[j]) !== -1 ) {
+						found=true;
+					}
+				}
+				if( !found ) { return false; }
+			}
+
+
+			if( g_blackList !== null ) {
+				//blackList : ignore album cointaining one of the specified keyword in the title
+				for( var j=0; j<g_blackList.length; j++) {
+					if( s.indexOf(g_blackList[j]) !== -1 ) { 
+						return false;
+					}
+				}
+			}
+			
+			return true;
 		}
 	};
 	
