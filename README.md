@@ -33,7 +33,7 @@ Demonstration
 
 [Go to the demonstration site](http://www.nanogallery.brisbois.fr/)
 
-Usage
+Usage (v3.3.0)
 -----
 
 ### Include JS and CSS files
@@ -176,6 +176,7 @@ Syntax and options
 * ```theme``` : name of the theme (optional) - the corresponding css-file must also be included in the html file
     Possible values : ```animdark``` ```animlight``` ```classicdark``` ```classiclight``` ```largedark``` ```largelight``` ```light```
 * ```maxItemsPerLine``` : integer - max number of thumbnails per line
+* ```viewer``` : ```internal``` / ```fancybox``` - display images with the default viewer or with FancyBox (optional)
 
 ### Picasa/Google+ specific arguments
 * ```userID``` : user ID of the Picasa/Google+ account (mandatory)
@@ -217,6 +218,37 @@ $(document).ready(function () {
   	thumbnailWidth:150,
   	thumbnailHeight:150,
   	blackList:'scrapbook|forhomepage|profil'
+  });
+});
+```
+
+
+Display images with FancyBox
+------
+
+You can use FancyBox to display images instead of the default internal viewer.
+
+For this, include following JS and CSS files
+
+
+``` HTML
+<!-- Add fancyBox plugin -->
+<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
+<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
+<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
+```
+
+And call the plugin with the parameter ```viewer```, like in :
+
+```js
+$(document).ready(function () {
+  jQuery("#nanoGallery2").nanoGallery({
+  	userID:'cbrisbois@gmail.com',
+  	kind:'picasa',
+	blackList:'Scrapbook|forhomepage|profil',
+	viewer:'fancybox'
   });
 });
 ```

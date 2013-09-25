@@ -1,5 +1,5 @@
 /*
- * nanoGALLERY for jQuery v3.2.7
+ * nanoGALLERY for jQuery v3.3.0
  * Plugin for jQuery by Christophe Brisbois
  * http://www.brisbois.fr
  * 
@@ -32,7 +32,7 @@
 			itemsBaseURL:'',
 			maxItemsPerLine:0,
 			maxWidth:0,
-			viewer:'fancybox'
+			viewer:'internal'
 		}, options );
 		
 		return this.each(function() {
@@ -52,7 +52,7 @@ function nanoGALLERY() {
 	var g_containerViewer=null;
 	var g_containerViewerDisplayed=false;
 	var g_containerThumbnailsDisplayed=false;
-	var g_containerViewerClose=null;
+	var g_containerViewerCloseFloating=null;
 	var g_containerViewerContent=null;
 	var g_containerViewerToolbar=null;
 	var g_path2timthumb="";
@@ -93,8 +93,12 @@ function nanoGALLERY() {
 			if( g_options.album.length > 0 ) { g_options.displayBreadcrumb=false; }
 		}
 		else { g_options.album=''; }
-	
-		if( g_options.maxWidth > 0 ) { jQuery(element).css('maxWidth',g_options.maxWidth); }
+
+		if( g_options.maxWidth > 0 ) { 
+			jQuery(element).css('maxWidth',+g_options.maxWidth);
+			jQuery(element).css('margin-left','auto');
+			jQuery(element).css('margin-right','auto');
+		}
 	
 		if( g_options.displayBreadcrumb == true && ( g_options.kind=='picasa' || g_options.kind=='flickr')) {
 			g_containerBreadcrumb =jQuery('<div class="nanoGalleryBreadcrumb"></div>').appendTo(element);
@@ -588,13 +592,11 @@ function nanoGALLERY() {
 				}
 			});
 		});
-		
 
 		g_oneThumbnailWidth=w;
 		g_oneThumbnailHeight=h;
 		SetTumbnailsContainerWidth();
 		var newH=SetTumbnailsContainerHeight();
-		
 
 		jQuery(g_containerThumbnails).animate({maxHeight: newH}, 200, function() {
 			// animation to display the thumbnails
@@ -654,9 +656,10 @@ function nanoGALLERY() {
 		
 		//jQuery(g_containerViewer).children().remove();
 		g_containerViewer=jQuery('<div class="nanoGalleryViewer" style="visibility:hidden"></div>').appendTo(g_baseControl);
-		g_containerViewerContent=jQuery('<div class="content"><img class="image" src="" style="position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;"></div>').appendTo(g_containerViewer);
-		g_containerViewerClose=jQuery('<div class="closeButton"></div>').appendTo(g_containerViewer);
-		g_containerViewerToolbar=jQuery('<div class="toolbar"><div class="previousButton"></div><div class="nextButton"></div><div class="label"><div class="title"></div><div class="description"></div></div></div>').appendTo(g_containerViewer);
+		g_containerViewerContent=jQuery('<div class="content"><img class="image" src="" style="position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;"><div class="contentAreaPrevious"></div><div class="contentAreaNext"></div></div>').appendTo(g_containerViewer);
+		g_containerViewerCloseFloating=jQuery('<div class="closeButtonFloating"></div>').appendTo(g_containerViewer);
+		//g_containerViewerCloseFloating=jQuery('<div class="closeButtonFloating"></div>').appendTo(jQuery(g_containerViewerContent).find('img'));
+		g_containerViewerToolbar=jQuery('<div class="toolbar"><div class="previousButton"></div><div class="nextButton"></div><div class="closeButton"></div><div class="label"><div class="title"></div><div class="description"></div></div>').appendTo(g_containerViewer);
 
 
 		var highest_index = 0;
@@ -666,16 +669,9 @@ function nanoGALLERY() {
 			}
 		});
 		jQuery(g_containerViewer).css('z-index',highest_index+1);
-		//jQuery(g_containerViewerContent).css('z-index',highest_index+2);
-		//jQuery(g_containerViewerContent).find('img').css('z-index',highest_index+2);
-//		jQuery(g_containerViewerClose).css('z-index',highest_index+3);
-//		jQuery(g_containerViewer).find('.closeButton:after').css('z-index',highest_index+4);
-		//jQuery(g_containerViewerToolbar).css('z-index',highest_index+4);
 
 		jQuery('body').css('overflow','hidden');	//avoid scrollbars
 
-		//ResizeInternalViewer();
-		//jQuery(window).resize(function() { ResizeInternalViewer(); });
 		DisplayInternalViewer();
 
 		
@@ -685,10 +681,14 @@ function nanoGALLERY() {
 			}
 		});
 		
-		jQuery(g_containerViewerClose).on("click",function(){
+		jQuery(g_containerViewerCloseFloating).on("click",function(){
 			CloseInternalViewer();
 		});
 		
+		jQuery(g_containerViewerToolbar).find('.closeButton').on("click",function(){
+			CloseInternalViewer();
+		});
+
 		jQuery(g_containerViewerToolbar).find('.nextButton').on("click",function(){
 			if( g_viewerCurrentItem == g_itemInfo.length-1 ) {
 				g_viewerCurrentItem=0;
@@ -708,12 +708,43 @@ function nanoGALLERY() {
 			DisplayInternalViewer();
 		});
 
+
+		jQuery(g_containerViewerContent).find('.contentAreaNext').on("click",function(){
+			if( g_viewerCurrentItem == g_itemInfo.length-1 ) {
+				g_viewerCurrentItem=0;
+			}
+			else {
+				g_viewerCurrentItem++;
+			}
+			DisplayInternalViewer();
+		});
+		jQuery(g_containerViewerContent).find('.contentAreaPrevious').on("click",function(){
+			if( g_viewerCurrentItem == 0 ) {
+				g_viewerCurrentItem=g_itemInfo.length-1;
+			}
+			else {
+				g_viewerCurrentItem--;
+			}
+			DisplayInternalViewer();
+		});
+
 	};
 	
 	function DisplayInternalViewer() {
 		var url=g_itemInfo[g_viewerCurrentItem]['src'];
-		jQuery(g_containerViewerContent).find('img').attr('src',url);  
-		jQuery(g_containerViewerToolbar).find('.title').text(g_itemInfo[g_viewerCurrentItem]['title']);  
+		jQuery(g_containerViewerContent).find('img').attr('src',url);
+		if( g_itemInfo[g_viewerCurrentItem]['title'] !== undefined ) {
+			jQuery(g_containerViewerToolbar).find('.title').text(g_itemInfo[g_viewerCurrentItem]['title']);
+		}
+		else {
+			jQuery(g_containerViewerToolbar).find('.title').text('');
+		}
+		if( g_itemInfo[g_viewerCurrentItem]['description'] !== undefined ) {
+			jQuery(g_containerViewerToolbar).find('.description').text(g_itemInfo[g_viewerCurrentItem]['description']);
+		}
+		else {
+			jQuery(g_containerViewerToolbar).find('.description').text('');
+		}
 		ResizeInternalViewer();
 		g_containerViewerDisplayed=true;
 	};
@@ -760,7 +791,8 @@ function nanoGALLERY() {
 		var tV=imgBorderV+imgPaddingV;	//+tmargin;
 		var tH=imgBorderH+imgPaddingH;	//+tmargin;
 
-		var h=jQuery(window).height()-jQuery(g_containerViewerClose).outerHeight(true)-jQuery(g_containerViewerToolbar).outerHeight(true)-contentOuterWidthV;
+		//var h=jQuery(window).height()jQuery(g_containerViewerCloseFloating).outerHeight(true)-jQuery(g_containerViewerToolbar).outerHeight(true)-contentOuterWidthV;
+		var h=jQuery(window).height()-jQuery(g_containerViewerToolbar).outerHeight(true)-contentOuterWidthV;
 		var w=jQuery(window).width()-contentOuterWidthH;
 		jQuery(g_containerViewerContent).css({
 			"height":h,
@@ -769,10 +801,18 @@ function nanoGALLERY() {
 
 		
 		jQuery(g_containerViewerContent).children('img').css({
-			"max-width":w-tH,	//jQuery(g_containerViewerContent).width(),
-			"max-height":h-tV
+			"max-width":w-tV,	//jQuery(g_containerViewerContent).width(),
+			"max-height":h-tH
 		});
 		
+		var pt=(jQuery(g_containerViewerContent).find('img').outerHeight(true)-jQuery(g_containerViewerContent).find('img').outerHeight())/2;
+		var pl=(jQuery(g_containerViewerContent).find('img').outerWidth(true)-jQuery(g_containerViewerContent).find('img').outerWidth())/2;
+		//jQuery(g_containerViewerCloseFloating).css(p);
+		//alert(p);
+		//p=jQuery(g_containerViewerContent).find('img').css('left');
+		jQuery(g_containerViewerCloseFloating).css('top',pt-11);
+		jQuery(g_containerViewerCloseFloating).css('left',pl-11);
+		//alert(p.top);
 		
 		
 	};
