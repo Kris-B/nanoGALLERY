@@ -1,4 +1,4 @@
-/* Theme for nanoGallery - www.nanogallery.brisbois.fr */
+/* Theme for nanoGALLERY - www.nanogallery.brisbois.fr */
 
 /**************************************/
 /* MAIN CONTAINER                     */
@@ -232,7 +232,6 @@ font-family: 'nano_icon_font';
 	margin-left: 2px;
 	height:20px;*/
 
-	
 	content: '\e800';
 	/*font-size:1.5em;*/
 	margin-left: .2em;
