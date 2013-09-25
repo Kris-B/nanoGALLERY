@@ -45,13 +45,6 @@ Usage (v3.3.0)
 <!-- Add jsonp plugin -->
 <script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script>
 
-<!-- Add fancyBox plugin -->
-<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
-<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
-<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
-
 <!-- Add nanoGALLERY plugin -->
 <link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery.nanogallery.js"></script>
