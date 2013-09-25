@@ -37,7 +37,6 @@
 	"homepage": "http://www.nanogallery.brisbois.fr",
 	"demo": "http://www.nanogallery.brisbois.fr",
 	"dependencies": {
-		"jquery": ">=1.8",
-		"fancyBox": ">=2.1"
+		"jquery": ">=1.8"
 	}
 }
