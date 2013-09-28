@@ -7,7 +7,7 @@ Images are shown as clickable thumbnails, which will expand to full view via a m
 
 
 ### Displaying a gallery can be as easy as: 
-```html
+```js
 	$('#elt').nanoGallery({
 		'userID':'cbrisbois@gmail.com',
 		'kind':'picasa'
