@@ -38,7 +38,7 @@ Key features
   
 
   
-Demonstration
+Demonstration and Tutorials
 -------------
 
 [Go to the demonstration site](http://www.nanogallery.brisbois.fr/)
