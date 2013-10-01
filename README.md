@@ -2,11 +2,11 @@ nanoGALLERY - jQuery plugin
 ===========
 
 Image gallery for jQuery.
-Powerful and easy to use image gallery with support for pulling in Flickr and Picasa/Google+ photo albums as well. Mobile-friendly and responsive. Smooth in/out transitions.
-Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
+Powerful and easy to use image gallery with support for pulling in Flickr and Picasa/Google+ photo albums among others. Mobile-friendly and responsive. Smooth in/out transitions.
+Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
 
 
-### Displaying a gallery can be as easy as: 
+### Usage can be as easy as: 
 ```js
 	$('#elt').nanoGallery({
 		'userID':'cbrisbois@gmail.com',
