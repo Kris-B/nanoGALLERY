@@ -1,12 +1,12 @@
-/*
- * nanoGALLERY for jQuery v3.3.0
- * Plugin for jQuery by Christophe Brisbois
- * http://www.brisbois.fr
- * 
- * External components:
- *  - jQuery (http://www.jquery.com)
- *  - fancybox (http://www.fancybox.net)
- */
+//
+// nanoGALLERY for jQuery v3.3.0
+// Plugin for jQuery by Christophe Brisbois
+// http://www.brisbois.fr
+// 
+// External components:
+//  - jQuery (http://www.jquery.com)
+//  - fancybox (http://www.fancybox.net)
+//
 
 (function( $ ) {
 	$.fn.nanoGallery = function(options) {
