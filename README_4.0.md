@@ -44,7 +44,7 @@ Demonstration and Tutorials
 
 [Go to the demonstration site](http://www.nanogallery.brisbois.fr/)
 
-Usage (v3.4.0)
+Usage (v4.0)
 -----
 
 ### Include JS and CSS files
