@@ -165,8 +165,8 @@ font-family: 'nano_icon_font';
 	overflow: hidden;	
 }
 .nanogallery_theme_animdark .nanoGalleryContainer .container:hover{
-	border-color: #888;
-	transition: border-color 0.2s;
+	/*border-color: #888;
+	transition: border-color 0.2s;*/
 }
 
 .nanogallery_theme_animdark .nanoGalleryContainer .container:after {
@@ -193,10 +193,10 @@ font-family: 'nano_icon_font';
 	-o-transition : all 0.2s ease-out;
 }
 .nanogallery_theme_animdark .nanoGalleryContainer .container:hover img{
-	-moz-transform: scale(1.5);  
+	/*-moz-transform: scale(1.5);  
 	-o-transform: scale(1.5);  
 	-webkit-transform: scale(1.5);
-	transform: scale(1.5);
+	transform: scale(1.5);*/
 }
 
 .nanogallery_theme_animdark .nanoGalleryContainer .container .labelImage{

@@ -4,33 +4,59 @@
 <head>
 
 	<style>
-		* {font-family: sans-serif; color:#eee; }
+		* {font-family: sans-serif; color:#eee;  }
+		h1, h2, h3, h4, h5 {text-align:center;}
 		body {background:#222;}
 	</style>
 
 
-	<script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
+	<script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> 
 	<script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> 
+	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script> 
 
+	<!-- Fancybox - Optionnal -->
 	<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
 	<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
 	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
+	<!-- Fancybox -->
 
+	
+	
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/light/nanogallery_light.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/largedark/nanogallery_largedark.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/largelight/nanogallery_largelight.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/classicdark/nanogallery_classicdark.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/classiclight/nanogallery_classiclight.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/animdark/nanogallery_animdark.css" rel="stylesheet" type="text/css">
-	<link href="css/themes/animlight/nanogallery_animlight.css" rel="stylesheet" type="text/css">
+	<link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
 
 	<script>
 		$(document).ready(function () {
 			// Sample1
+			myColorScheme = {
+				breadcrumb : {
+					background : '#000',
+					border : '1px dotted #555',
+					color : '#ccc',
+					colorHover:'#fff'
+				},
+				thumbnail : {
+					background:'#000',
+					border:'1px solid #000',
+					labelBackground:'transparent',
+					labelOpacity:'0.8',
+					titleColor:'#fff',
+					descriptionColor:'#eee'
+				}
+			};
+			myColorSchemeViewer = {
+				background:'rgba(1, 1, 1, 0.75)',
+				imageBorder:'12px solid #f8f8f8',
+				imageBoxShadow:'#888 0px 0px 20px',
+				barBackground:'#222',
+				barBorder:'2px solid #111',
+				barColor:'#eee',
+				barDescriptionColor:'#aaa'
+			};
+
 			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
 			items: [
 				{
@@ -42,15 +68,17 @@
 					src: 'demonstration/img_02.jpg',
 					srct: 'demonstration/img_02t.jpg',
 					title: 'image 2' ,
-					description: 'This is the place for a description'
+					//description: 'This is the place for a description'
 				},
 				{
 					src: 'demonstration/img_03.jpg',
 					srct: 'demonstration/img_03t.jpg',
-					title: 'image 3 - The quick brown fox jumps over the lazy dog - The quick brown fox jumps over the lazy dog' 
+					title: 'image 3' ,
+					//title: 'image 3 - The quick brown fox jumps over the lazy dog - The quick brown fox jumps over the lazy dog' 
 				}
 				],
-				displayCaption:false
+				thumbnailHoverEffect:'borderLighter,imageScale150',
+				thumbnailLabel:{display:false}
 			});
 
 			// Sample1a
@@ -69,61 +97,42 @@
 				{
 					src: 'demonstration/img_03.jpg',
 					srct: 'demonstration/img_03ts.jpg',
-					title: 'image 3' 
+					title: 'image 3',
 				}
 				],
-				displayCaption:false,
-				theme:'animdark'
+				theme:'clean',
+				colorScheme:'darkOrange',
+				thumbnailHoverEffect:'imageInvisible,imageScale150Outside'
+				
 			});
 
-			//Sample2
- 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:300,thumbnailHeight:250,
+			//Sample2 - HREF
+ 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:200,thumbnailHeight:200,
 				itemsBaseURL:'demonstration',
 				displayCaption:true,
-				theme:'largedark'
-			});
-			jQuery("#nanoGallery2a").nanoGallery({thumbnailWidth:300,thumbnailHeight:250,
-				itemsBaseURL:'demonstration',
-				displayCaption:true
+				//thumbnailHoverEffect:[{'name':'imageRotateCornerBL','duration':300},{'name':'borderLighter'}],				
+				thumbnailHoverEffect:[{'name':'overScale','duration':300},{'name':'borderLighter'}],
+				colorScheme:'light'
 			});
  
-			//Sample3
-			jQuery("#nanoGallery3").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:170,thumbnailHeight:110,theme1:'animdark'});
+			//Sample3 - Picasa/Google+
+			//jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'List of Albums',blackList:'Scrapbook|forhomepage|profil',
+			//	maxItemsPerLine:3,
+			//	colorScheme:myColorScheme,
+			//	thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}],				
+			//});
 
-			//Sample4
-			jQuery("#nanoGallery4").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'List of Albums',blackList:'Scrapbook|forhomepage|profil',maxItemsPerLine:2});
+			//Sample4 - Flickr
+			//jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:170,thumbnailHeight:110,
+			//	maxItemsPerLine:3,
+			//	thumbnailHoverEffect:[{'name':'slideUp','duration':300},{'name':'borderLighter'}],				
+			//});
 
-
-			// Sample1 light
-			jQuery("#nanoGallery1light").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
-			items: [
-				{
-					src: 'demonstration/img_01.jpg',		// image url
-					srct: 'demonstration/img_01ts.jpg',		// thumbnail url
-					title: 'image 1' 						// thumbnail title
-				},
-				{
-					src: 'demonstration/img_02.jpg',
-					srct: 'demonstration/img_02ts.jpg',
-					title: 'image 2' 
-				},
-				{
-					src: 'demonstration/img_03.jpg',
-					srct: 'demonstration/img_03ts.jpg',
-					title: 'image 3' 
-				}
-				],
-				displayCaption:true,
-				theme:'light'
+			// DEMONSTRATION
+ 			jQuery("#nanoGalleryAnimation1").nanoGalleryDemo({thumbnailWidth:100, thumbnailHeight:100, itemsBaseURL:'demonstration',
+				thumbnailHoverEffect:[{'name':'borderLighter','duration':300}]
 			});
 
-			//Sample2 light
-			jQuery("#nanoGallery2light").nanoGallery({thumbnailWidth:300,thumbnailHeight:300,
-				itemsBaseURL:'demonstration',
-				displayCaption:true,
-				theme:'largelight'
-			});
-			
 			
 		});
 	</script>	
@@ -134,51 +143,46 @@
 
 	<div style="text-align:center;font-size:4.0em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span></div>
 	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
-	<div style="text-align:center;font-size:1em;"><br><br>more information about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
+	<div style="text-align:center;font-size:.9em;"><br>more about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
 	<br><br><br><br>
+	<div style="text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
+	
+	<br><br><br><br><br><br><br><br><br>
+	<h2 style="background:#555;">----- Possible image sources -----</h2>
 
-	<br><br>
-	<h2>#Sample 1: item list in options</h2>
+	<br><br><h2>Sample #1: item list in options</h2>
 	<div id="nanoGallery1"></div>
-	<div id="nanoGallery1a"></div>
+	<br>
+	<div style="background:#eee;padding:'10px';margin:auto;max-width:450px;">
+		<br>
+		<div id="nanoGallery1a"></div>
+		<br>
+	</div>
 
-	<br><br>
-	<h2>#Sample 2: HREF attributes</h2>
-	<h3>Theme: largedark</h3>
+	<br><br><h2>Sample #2: HREF attributes</h2>
 	<div id="nanoGallery2">
 		<a href="img_01.jpg" data-ngthumb="img_01tb.jpg" data-ngdesc="Odonata is an order of carnivorous insects, encompassing dragonflies (Anisoptera/Epiprocta) and damselflies (Zygoptera).">Odonata</a>
 		<a href="img_02.jpg" data-ngthumb="img_02tb.jpg" data-ngdesc="Insects in the family Tettigoniidae are commonly called katydids or bush-crickets">Tettigoniidae</a>
 		<a href="img_03.jpg" data-ngthumb="img_03tb.jpg" data-ngdesc=""></a>
 	</div>
-	<h3>Theme: default</h3>
-	<div id="nanoGallery2a">
-		<a href="img_01.jpg" data-ngthumb="img_01tb.jpg" data-ngdesc="Odonata is an order of carnivorous insects, encompassing dragonflies (Anisoptera/Epiprocta) and damselflies (Zygoptera).">Odonata</a>
-		<a href="img_02.jpg" data-ngthumb="img_02tb.jpg" data-ngdesc="Insects in the family Tettigoniidae are commonly called katydids or bush-crickets">Tettigoniidae</a>
-		<a href="img_03.jpg" data-ngthumb="img_03tb.jpg" data-ngdesc=""></a>
+
+	<br><br><h2>Sample #3: Picasa/Google+</h2>
+	<div style="margin:auto;max-width:945px;">
+		<div id="nanoGallery3"></div>
 	</div>
 
-	<br><br>
-	<h2>#Sample 3: Flickr</h2>
-	<div id="nanoGallery3"></div>
-
-	<br><br>
-	<h2>#Sample 4: Picasa/Google+</h2>
-	<div id="nanoGallery4"></div>
-
-	<br>
-	<br>
-	<h2>#With a light background:</h2>
-	<div style="background:#eee;padding:10px;">
-		<br>
-		<div id="nanoGallery1light"></div>
-		<br>
-		<div id="nanoGallery2light">
-			<a href="img_01.jpg" data-ngthumb="img_01tb.jpg" data-ngdesc="Odonata is an order of carnivorous insects, encompassing dragonflies (Anisoptera/Epiprocta) and damselflies (Zygoptera).">Odonata</a>
-			<a href="img_02.jpg" data-ngthumb="img_02tb.jpg" data-ngdesc="Insects in the family Tettigoniidae are commonly called katydids or bush-crickets">Tettigoniidae</a>
-			<a href="img_03.jpg" data-ngthumb="img_03tb.jpg" data-ngdesc=""></a>
-		</div>
-		<br>
+	<br><br><h2>Sample #4: Flickr</h2>
+	<div style="margin:auto;max-width:600px;">
+		<div id="nanoGallery4"></div>
 	</div>
+
+
+
+	<br><br><br><br><br><br><br><br><br>
+	<h2 style="background:#555;">----- Thumbnails configuration demo -----</h2>
+
+	<!--<br><br><h2>Animation type: borderLighter</h2>-->
+	<div id="nanoGalleryAnimation1" style="margin:50px"> <a href="img_01.jpg" data-ngthumb="img_01tb.jpg">Image 1</a> <a href="img_02.jpg" data-ngthumb="img_02tb.jpg">Image 2</a> <a href="img_03.jpg" data-ngthumb="img_03tb.jpg">Image 3</a> </div>
 
 	
 	<br><br><h5>by Kris_B - <a href="http://www.brisbois.fr">www.brisbois.fr</a></h5>
