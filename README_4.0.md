@@ -20,11 +20,12 @@ Key features
 - Display image gallery
 - Easy to setup and customizable
 - Responsive layout - mobile friendly
-- Smooth in/out transition
-- Display image captions and descriptions
+- 28 thumbnails hover effects (combinations possible)
+- Display image titles and descriptions
 - Breadcrumb for easy navigation in photo albums
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
+- easy layout customisation with color schemes - support custom ones
 - Delivered with multiple themes - Support custom themes
 - Supported image sources :
   * list of images
@@ -43,7 +44,7 @@ Demonstration and Tutorials
 
 [Go to the demonstration site](http://www.nanogallery.brisbois.fr/)
 
-Usage (v3.3.0)
+Usage (v3.4.0)
 -----
 
 ### Include JS and CSS files
@@ -177,9 +178,32 @@ Syntax and options
 * ```thumbnailWidth``` : integer - Width in pixels of the thumbnails (optional)
 * ```itemsBaseURL``` : URL prefix for the images defined with method#1 or method#2
 * ```theme``` : name of the theme (optional) - the corresponding css-file must also be included in the html file
-    Possible values : ```animdark``` ```animlight``` ```classicdark``` ```classiclight``` ```largedark``` ```largelight``` ```light```
+	Possible values : ```default``` ```clean```
 * ```maxItemsPerLine``` : integer - max number of thumbnails per line
+* ```maxWidth``` : interger - max width of the gallery in pixel
 * ```viewer``` : ```internal``` / ```fancybox``` - display images with the default viewer or with FancyBox (optional)
+* ```thumbnailLabel``` : display options for the image label (title and description)
+    ```position``` : possible vales : ```overImageOnBottom``` ```overImageOnTop``` ```onBottom```
+	```display``` : ```true``` / ```false``` - display or not the label
+	```displayDescription``` : ```true``` / ```false``` - display or not the description
+* ```thumbnailHoverEffect``` : set the thumbnail mouse hover effect
+    Possible values:
+		```slideUp``` ```slideDown``` ```slideLeft``` ```slideRight```
+		```imageSlideUp``` ```imageSlideDown``` ```imageSlideLeft``` ```imageSlideRight```
+		```labelAppear``` ```labelAppear75``` ```labelSlideDown``` ```labelSlideUp```
+		```labelOpacity50``` ```imageScale150``` ```imageScale150Outside``` ```scale120```
+		```borderLighter``` ```borderDarker``` ```imageInvisible``` ```overScale```
+		```overScaleOutside``` ```scaleLabelOverImage```
+	Transit plugin is required for following values
+		```rotateCornerBR``` ```rotateCornerBL``` ```imageRotateCornerBR``` ```imageRotateCornerBL```
+		```imageFlipHorizontal``` ```imageFlipVertical```
+* ```colorScheme``` : set the color scheme for the gallery (breadcrumb and thumbnails)
+	Possible values: ```darkRed``` ```darkGreen``` ```darkBlue``` ```darkOrange``` ```light```
+	Custom color schemes are supported
+* ```colorSchemeViewer``` : set the color scheme for image viewer
+	Possible values: ```darkRed``` ```darkGreen``` ```darkBlue``` ```darkOrange``` ```light```
+	Custom color schemes are supported
+
 
 ### Picasa/Google+ specific arguments
 * ```userID``` : user ID of the Picasa/Google+ account (mandatory)
@@ -226,6 +250,58 @@ $(document).ready(function () {
 ```
 
 
+Transit hover effects
+------
+
+The thumbnail mouse hover effects ```rotateCornerBR``` ```rotateCornerBL``` ```imageRotateCornerBR``` ```imageRotateCornerBL``` ```imageFlipHorizontal``` ```imageFlipVertical``` require to use the Transit jQuery plugin.
+
+For this, just include following JS in your page
+
+
+``` HTML
+<!-- Add Transit plugin -->
+<script type="text/javascript" src="third.party/transit/jquery.transit.min"></script> 
+```
+
+
+Advanced thumbnail mouse hover effects settings
+------
+Settings to fine tune the ```thumbnailHoverEffect``` parameter: ```name``` ```duration``` ```durationBack``` ```easing``` ```easingBack```
+Only ```name``` is mandatory.
+
+
+### Example:
+
+```js
+$(document).ready(function () {
+  jQuery("#nanoGallery").nanoGallery({
+  	userID:'cbrisbois@gmail.com',
+  	kind:'picasa',
+	thumbnailHoverEffect:[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'}]
+  });
+});
+```
+
+
+Combine thumbnail mouse hover effects
+------
+
+### Example:
+
+```js
+$(document).ready(function () {
+  jQuery("#nanoGallery").nanoGallery({
+  	userID:'cbrisbois@gmail.com',
+  	kind:'picasa',
+	thumbnailHoverEffect:
+		[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'},
+		{'name':'borderLighter','duration':300,'durationBack':200}]
+  });
+});
+```
+
+
+
 Display images with FancyBox
 ------
 
@@ -269,6 +345,7 @@ Requirements
 * Javascript must be enabled
 * jQuery
 * jsonp - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg
+* transit - jQuery plugin (http://ricostacruz.com/jquery.transit) (credits: Rico Sta. Cruz)
 * fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/de295d45496c01bb871078aac2bcfcac "githalytics.com")](http://githalytics.com/Kris-B/nanoGALLERY)
