@@ -7,8 +7,8 @@ Powerful and easy to use portfolio with support for pulling in Flickr and Picasa
 ### Usage can be as easy as: 
 ```js
 	$('#elt').nanoGallery({
-		'userID':'cbrisbois@gmail.com',
-		'kind':'picasa'
+		'kind':'picasa',
+		'userID':'cbrisbois@gmail.com'
 	});
 ```
 
@@ -111,8 +111,8 @@ Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the ga
 ```js
 $(document).ready(function () {
 	jQuery("#nanoGallery1").nanoGallery({
-		userID:'34858669@N00',
-		kind:'flickr'
+		kind:'flickr',
+		userID:'34858669@N00'
 	});
 });
 ```
@@ -132,8 +132,8 @@ Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the ga
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery2").nanoGallery({
-  	userID:'cbrisbois@gmail.com',
   	kind:'picasa',
+  	userID:'cbrisbois@gmail.com',
 	blackList:'Scrapbook|forhomepage|profil'
   });
 });
@@ -190,8 +190,7 @@ $(document).ready(function () {
 				srct: 'demonstration/img_02t.jpg',
 				title: 'image 2' 
 			}
-		],
-		displayCaption:false
+		]
 	});
 });
 ```
@@ -205,41 +204,43 @@ Syntax and options
 
 Name | Description
 ------- | -------
-thumbnailHeight | Height in pixels of the thumbnails
+**thumbnailHeight** | Height in pixels of the thumbnails
     | *integer*
-thumbnailWidth | Width in pixels of the thumbnails
+**thumbnailWidth** | Width in pixels of the thumbnails
     | *integer*
-maxItemsPerLine | Maximum number of thumbnails per line
+**maxItemsPerLine** | Maximum number of thumbnails per line
     | *integer; Default: 0 (undefined)*
-maxWidth | Maximum width of the gallery in pixel
+**maxWidth** | Maximum width of the gallery in pixel
     | *integer; Default: 0 (undefined)*
-viewer | Image display method (possible values: `internal`, `fancybox`)
+**viewer** | Image display method (possible values: `internal`, `fancybox`)
     | *string; Default: `internal`*
-thumbnailLabel | Display options for the image label (title and description)
+**thumbnailLabel** | Display options for the image label (title and description)
 	| *object; Default: `{position:'overImageOnBottom',display:true,displayDescription:true}`*
-	| position : Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
+	| **position** : Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
 	|	*string; Default: `overImageOnBottom`*
-	| display : Display or not the label.
+	| **display** : Display or not the label.
 	|	*Boolean; Default: `true`*
-	| displayDescription : Display or not the description
+	| **displayDescription** : Display or not the description
 	|	*Boolean; Default: `true`*
-thumbnailHoverEffect | Set the thumbnail mouse hover effect
+**thumbnailHoverEffect** | Set the thumbnail mouse hover effect
 	| *string, object, array; Default: `none`*
 	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`
 	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`, `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
-theme | Name of the theme - the corresponding css-file must also be included in the html file (Possible values : `default`, `clean`)
+**theme** | Name of the theme - the corresponding css-file must also be included in the html file (Possible values: `default`, `clean`)
 	| *string; Default: `default`*
-itemsBaseURL | URL prefix for the images defined with method#1 or method#2
+**itemsBaseURL** | URL prefix for the images defined with method#1 or method#2
 	| *string*
-colorScheme | Set the color scheme for the gallery (breadcrumb and thumbnails) (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
+**colorScheme** | Set the color scheme for the gallery (breadcrumb and thumbnails) (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
 	| *string, object; Deault: 'dark'*
-colorSchemeViewer | Set the color scheme for the image viewer (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
+**colorSchemeViewer** | Set the color scheme for the image viewer (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
 	| *string, object; Deault: 'dark'*
 
 
 ### Picasa/Google+ specific arguments
-* ```userID``` : user ID of the Picasa/Google+ account (mandatory)
-* ```kind``` : ```picasa``` - set the storage type (mandatory)
+Name | Description
+------- | -------
+kind | `picasa` Set the storage type (mandatory)
+userID | User ID of the Picasa/Google+ account (mandatory)
 * ```album``` : album ID - to display only the specified album 
 * ```displayBreadcrumb``` : ```true``` / ```false``` - display or not the navigation breadcrumb
 * ```displayCaptionFolder``` : ```true``` / ```false``` - display or not the title of the folders (optional)
@@ -272,8 +273,8 @@ http://www.flickr.com/services/api/explore/flickr.people.findByUsername
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery").nanoGallery({
-  	userID:'cbrisbois@gmail.com',
   	kind:'picasa',
+  	userID:'cbrisbois@gmail.com',
   	thumbnailWidth:150,
   	thumbnailHeight:150,
   	blackList:'scrapbook|forhomepage|profil'
@@ -285,7 +286,7 @@ $(document).ready(function () {
 Transit hover effects
 ------
 
-The thumbnail mouse hover effects ```rotateCornerBR``` ```rotateCornerBL``` ```imageRotateCornerBR``` ```imageRotateCornerBL``` ```imageFlipHorizontal``` ```imageFlipVertical``` require to use the Transit jQuery plugin.
+The thumbnail mouse hover effects `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`, `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical` require to use the Transit jQuery plugin.
 
 For this, just include following JS in your page
 
@@ -307,8 +308,9 @@ Only ```name``` is mandatory.
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery").nanoGallery({
-  	userID:'cbrisbois@gmail.com',
   	kind:'picasa',
+  	userID:'cbrisbois@gmail.com',
+  	blackList:'scrapbook|forhomepage|profil',
 	thumbnailHoverEffect:[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'}]
   });
 });
@@ -323,8 +325,9 @@ Combine thumbnail mouse hover effects
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery").nanoGallery({
-  	userID:'cbrisbois@gmail.com',
   	kind:'picasa',
+  	userID:'cbrisbois@gmail.com',
+  	blackList:'scrapbook|forhomepage|profil',
 	thumbnailHoverEffect:
 		[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'},
 		{'name':'borderLighter','duration':300,'durationBack':200}]
@@ -356,8 +359,8 @@ And call the plugin with the parameter ```viewer```, like in :
 ```js
 $(document).ready(function () {
   jQuery("#nanoGallery2").nanoGallery({
-  	userID:'cbrisbois@gmail.com',
   	kind:'picasa',
+  	userID:'cbrisbois@gmail.com',
 	blackList:'Scrapbook|forhomepage|profil',
 	viewer:'fancybox'
   });
