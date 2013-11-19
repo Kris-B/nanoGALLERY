@@ -319,26 +319,26 @@ function nanoGALLERY() {
 
 
 	var g_colorSchemeViewer_default = {
-		background:'rgba(1, 1, 1, 0.75)', imageBorder:'12px solid #f8f8f8', imageBoxShadow:'#888 0px 0px 20px', barBackground:'#222', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
+		background:'rgba(1, 1, 1, 0.75)', imageBorder:'6px solid #f8f8f8', imageBoxShadow:'#888 0px 0px 20px', barBackground:'#222', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
 	};
 	var g_colorSchemeViewer_darkRed = {
 		// #ffa3a3 #ff7373 #ff4040 #ff0000 #a60000
-		background:'rgba(1, 1, 1, 0.75)', imageBorder:'12px solid #ffa3a3', imageBoxShadow:'#ff0000 0px 0px 20px', barBackground:'#a60000', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
+		background:'rgba(1, 1, 1, 0.75)', imageBorder:'6px solid #ffa3a3', imageBoxShadow:'#ff0000 0px 0px 20px', barBackground:'#a60000', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
 	};
 	var g_colorSchemeViewer_darkGreen = {
 		// #97e697 #67e667 #39e639 #00cc00 #008500
-		background:'rgba(1, 1, 1, 0.75)', imageBorder:'12px solid #97e697', imageBoxShadow:'#00cc00 0px 0px 20px', barBackground:'#008500', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
+		background:'rgba(1, 1, 1, 0.75)', imageBorder:'6px solid #97e697', imageBoxShadow:'#00cc00 0px 0px 20px', barBackground:'#008500', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
 	};
 	var g_colorSchemeViewer_darkBlue = {
 		// #a0b0d7 #7080d7 #4a60d7 #162ea2 #071871
-		background:'rgba(1, 1, 1, 0.75)', imageBorder:'12px solid #a0b0d7', imageBoxShadow:'#162ea2 0px 0px 20px', barBackground:'#071871', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
+		background:'rgba(1, 1, 1, 0.75)', imageBorder:'6px solid #a0b0d7', imageBoxShadow:'#162ea2 0px 0px 20px', barBackground:'#071871', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
 	};
 	var g_colorSchemeViewer_darkOrange = {
 		// #ffd7b7 #ffd773 #ffc840 #ffb600 #a67600
-		background:'rgba(1, 1, 1, 0.75)', imageBorder:'12px solid #ffd7b7', imageBoxShadow:'#ffb600 0px 0px 20px', barBackground:'#a67600', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
+		background:'rgba(1, 1, 1, 0.75)', imageBorder:'6px solid #ffd7b7', imageBoxShadow:'#ffb600 0px 0px 20px', barBackground:'#a67600', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
 	};
 	var g_colorSchemeViewer_light = {
-		background:'rgba(1, 1, 1, 0.75)', imageBorder:'12px solid #f8f8f8', imageBoxShadow:'#888 0px 0px 20px', barBackground:'#222', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
+		background:'rgba(1, 1, 1, 0.75)', imageBorder:'6px solid #f8f8f8', imageBoxShadow:'#888 0px 0px 20px', barBackground:'#222', barBorder:'2px solid #111', barColor:'#eee', barDescriptionColor:'#aaa'
 	};
 
 	
@@ -361,7 +361,7 @@ function nanoGALLERY() {
 		jQuery(element).addClass('nanogallery_theme_'+g_options.theme);
 		SetColorScheme(element);
 		SetColorSchemeViewer(element);
-		if( window.location.hostname.indexOf('bri') == -1 ) { g_betamax = 4; }
+		//if( window.location.hostname.indexOf('bri') == -1 ) { g_betamax = 4; }
 
 
 		if( g_options.photoset !== undefined ) {

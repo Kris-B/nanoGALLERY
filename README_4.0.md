@@ -203,8 +203,8 @@ Syntax and options
 
 ### General options
 
-Name | Description | more
-------- | ------- | ----
+Name | Description
+------- | -------
 thumbnailHeight | Height in pixels of the thumbnails
     | *integer*
 thumbnailWidth | Width in pixels of the thumbnails
@@ -217,12 +217,12 @@ viewer | Image display method (possible values: `internal`, `fancybox`)
     | *string; Default: `internal`*
 thumbnailLabel | Display options for the image label (title and description)
 	| *object*
-	| position | Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
-	|	| *string*; Default: `overImageOnBottom`*
-	| display | Display or not the label.
-	|	| *Boolean; Default: `true`*
-	| displayDescription | Display or not the description
-	|	| *Boolean; Default: `true`*
+	| position : Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
+	|	*string*; Default: `overImageOnBottom`*
+	| display : Display or not the label.
+	|	*Boolean; Default: `true`*
+	| displayDescription : Display or not the description
+	|	*Boolean; Default: `true`*
 thumbnailHoverEffect | Set the thumbnail mouse hover effect
 	| *string, object, array; Default: `none`*
 	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`
