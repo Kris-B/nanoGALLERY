@@ -235,13 +235,14 @@ Syntax and options
 **colorSchemeViewer** | Set the color scheme for the image viewer (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
 	| *string, object; Deault: 'dark'*
 
+	
 
 ### Picasa/Google+ specific arguments
 **Name** | **Description**
 ------- | -------
 **kind** | Set the storage type (**mandatory**). Must be set to `**picasa**`
     | *string*
-**userID** | User ID of the Picasa/Google+ account (*mandatory**)
+**userID** | User ID of the Picasa/Google+ account (**mandatory**)
     | *string*
 **album** | Album ID - to display only the specified album 
     | *string*
@@ -271,18 +272,28 @@ $(document).ready(function () {
 ```
 
 
-### Flickr specific arguments
-* ```userID``` : user ID of the Flickr account (mandatory)
-* ```kind``` : ```flickr``` - set the storage type (mandatory)
-* ```photoset``` : photoset ID - to display only the specified photoset 
-* ```displayBreadcrumb``` : ```true``` / ```false``` - display or not the navigation breadcrumb
-* ```displayCaptionFolder``` : ```true``` / ```false``` - display or not the title of the folders (optional)
-* ```displayCaptionImage``` : ```true``` / ```false``` - display or not the title of the images (optional)
-* ```topLabel``` : label to display in the breadcrumb for the top level
-* ```blackList``` : list of keywords to ignore - photosets containing one of the keywords in the title will be ignored. Keyword separator is '|'. (optional)
-* ```whiteList``` : list of keywords to authorize - photosets must contain one of the keywords to be displayed. Keyword separator is '|'. (optional)
-* ```albumList``` : list of photosets to display. Separator is '|'. (optional)
 
+### Flickr specific arguments
+**Name** | **Description**
+------- | -------
+**kind** | Set the storage type (**mandatory**). Must be set to `**flickr**`
+    | *string*
+**userID** | User ID of the Picasa/Google+ account (**mandatory**)
+    | *string*
+**photoset** | Photoset ID - to display only the specified photoset 
+    | *string*
+**displayBreadcrumb** | Display or not the navigation breadcrumb
+	|	*Boolean; Default: `true`*
+**topLabel** | Label to display in the breadcrumb for the top level
+    | *string*
+**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is '|'.
+    | *string*
+**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is '|'.
+    | *string*
+**albumList** | List of albums to display. Separator is '|'.
+    | *string*
+
+	
 To retrieve your Flickr user ID, use this page:
 ```
 http://www.flickr.com/services/api/explore/flickr.people.findByUsername
