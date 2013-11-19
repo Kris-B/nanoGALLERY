@@ -10,9 +10,10 @@
 	</style>
 
 
-	<script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> 
+	<!-- <script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> --> 
+	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> 
-	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script> 
+	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script>
 
 	<!-- Fancybox - Optionnal -->
 	<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
@@ -77,8 +78,9 @@
 					//title: 'image 3 - The quick brown fox jumps over the lazy dog - The quick brown fox jumps over the lazy dog' 
 				}
 				],
-				thumbnailHoverEffect:'borderLighter,imageScale150',
-				thumbnailLabel:{display:false}
+				//thumbnailHoverEffect:'borderLighter,imageScale150',
+				thumbnailHoverEffect:'imageScale150',
+        thumbnailLabel:{display:true,position:'overImageOnBottom'}
 			});
 
 			// Sample1a

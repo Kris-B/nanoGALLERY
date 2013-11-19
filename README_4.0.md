@@ -1,10 +1,8 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-Image gallery for jQuery.
-Powerful and easy to use image gallery with support for pulling in Flickr and Picasa/Google+ photo albums among others. Mobile-friendly and responsive. Smooth in/out transitions.
-Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
-
+Simplistic to use image gallery plugin for jQuery
+Powerful and easy to use portfolio with support for pulling in Flickr and Picasa/Google+ photo albums among others. Mobile-friendly and responsive. Thumbnails mouse hover effects (combinable). Smooth in/out transitions. Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
 
 ### Usage can be as easy as: 
 ```js
@@ -15,13 +13,24 @@ Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails,
 ```
 
 
+New in v4
+--------
+Version 4 has been optimized and layout customisation is now much easyer.
+
+- parameter to set the thumbnails hover effects (combinations possible)
+- color schemes to avoid having to change any CSS file
+- display images faster (thanks to pre-loading)
+- icons now font-based for a better hires (Retina) display
+
+
 Key features
 --------
 - Display image gallery
+- Display image with titles and descriptions
+- Thumbnails with titles and descriptions
 - Easy to setup and customizable
 - Responsive layout - mobile friendly
 - 28 thumbnails hover effects (combinations possible)
-- Display image titles and descriptions
 - Breadcrumb for easy navigation in photo albums
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
@@ -42,10 +51,26 @@ Key features
 Demonstration and Tutorials
 -------------
 
-[Go to the demonstration site](http://www.nanogallery.brisbois.fr/)
+Visit the demonstration file for some usefull tips and tricks code samples: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
+- Flickr account
+	- display full portfolio with breadcrum navigation
+	- display a specific photoset
+- Picasa/Google+ account
+	- display full portfolio with breadcrum navigation
+	- display a specific album
+- list of images using HREF attribute
+- list of images passed to the script (API)
+- combine 3 thumbnail mouse hover effects
+- combine 3 thumbnail mouse hover effects and set the delays
+- specify the gallery color scheme (breadcrumb and thumbnails)
+- specify the image display color scheme
+- define a custom color scheme
+- specify a theme
+
 
 Usage (v4.0)
 -----
+
 
 ### Include JS and CSS files
 
@@ -53,8 +78,12 @@ Usage (v4.0)
 ``` HTML
 <!-- Add jQuery library -->
 <script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
-<!-- Add jsonp plugin -->
+
+<!-- Add jsonp plugin (only mandatory for Flickr, Google+ and Picasa) -->
 <script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script>
+
+<!-- Add Transit plugin (this is only required for some hover effets) -->
+<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 
 <!-- Add nanoGALLERY plugin -->
 <link href="css/nanogallery.css" rel="stylesheet" type="text/css">
@@ -132,7 +161,7 @@ $(document).ready(function () {
 });
 ```
 
-### Method 4: use a list of images passed to the script
+### Method 4: use a list of images passed to the script (API)
 
 * Create a container
 
@@ -172,7 +201,37 @@ $(document).ready(function () {
 Syntax and options
 ------------------
 
-### General arguments
+### General options
+
+Name | Description
+------- | -------
+thumbnailHeight | Height in pixels of the thumbnails
+    | *integer*
+thumbnailWidth | Width in pixels of the thumbnails
+    | *integer*
+maxItemsPerLine | Maximum number of thumbnails per line
+    | *integer; Default: 0 (undefined)*
+maxWidth | Maximum width of the gallery in pixel
+    | *integer; Default: 0 (undefined)*
+viewer | Image display method (possible values: `internal`, `fancybox`)
+    | *string; Default: `internal`*
+thumbnailLabel | Display options for the image label (title and description)
+	| *object*
+	| position | Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
+	|	| *string*; Default: `overImageOnBottom`*
+	| display | Display or not the label.
+	|	| *Boolean; Default: `true`*
+	| displayDescription | Display or not the description
+	|	| *Boolean; Default: `true`*
+thumbnailHoverEffect | Set the thumbnail mouse hover effect
+	| *string, object, array; Default: `none`*
+	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`,
+	| `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`,
+	| `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`, 
+	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`,
+	| `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
+
+
 * ```displayCaption``` : ```true``` / ```false``` - display or not the title of the thumbnails (optional)
 * ```thumbnailHeight``` : integer - Height in pixels of the thumbnails (optional)
 * ```thumbnailWidth``` : integer - Width in pixels of the thumbnails (optional)
