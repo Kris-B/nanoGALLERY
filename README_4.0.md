@@ -202,7 +202,7 @@ Syntax and options
 
 ### General options
 
-Name | Description
+**Name** | **Description**
 ------- | -------
 **thumbnailHeight** | Height in pixels of the thumbnails
     | *integer*
@@ -237,18 +237,38 @@ Name | Description
 
 
 ### Picasa/Google+ specific arguments
-Name | Description
+**Name** | **Description**
 ------- | -------
-kind | `picasa` Set the storage type (mandatory)
-userID | User ID of the Picasa/Google+ account (mandatory)
-* ```album``` : album ID - to display only the specified album 
-* ```displayBreadcrumb``` : ```true``` / ```false``` - display or not the navigation breadcrumb
-* ```displayCaptionFolder``` : ```true``` / ```false``` - display or not the title of the folders (optional)
-* ```displayCaptionImage``` : ```true``` / ```false``` - display or not the title of the images (optional)
-* ```topLabel``` : label to display in the breadcrumb for the top level
-* ```blackList``` : list of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is '|'. (optional)
-* ```whiteList``` : list of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is '|'. (optional)
-* ```albumList``` : list of albums to display. Separator is '|'. (optional)
+**kind** | Set the storage type (**mandatory**). Must be set to `**picasa**`
+    | *string*
+**userID** | User ID of the Picasa/Google+ account (*mandatory**)
+    | *string*
+**album** | Album ID - to display only the specified album 
+    | *string*
+**displayBreadcrumb** | Display or not the navigation breadcrumb
+	|	*Boolean; Default: `true`*
+**topLabel** | Label to display in the breadcrumb for the top level
+    | *string*
+**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is '|'.
+    | *string*
+**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is '|'.
+    | *string*
+**albumList** | List of albums to display. Separator is '|'.
+    | *string*
+
+#### Example:
+
+```js
+$(document).ready(function () {
+  jQuery("#nanoGallery").nanoGallery({
+  	kind:'picasa',
+  	userID:'cbrisbois@gmail.com',
+  	thumbnailWidth:150,
+  	thumbnailHeight:150,
+  	blackList:'scrapbook|forhomepage|profil'
+  });
+});
+```
 
 
 ### Flickr specific arguments
@@ -268,19 +288,6 @@ To retrieve your Flickr user ID, use this page:
 http://www.flickr.com/services/api/explore/flickr.people.findByUsername
 ```
 
-### Example:
-
-```js
-$(document).ready(function () {
-  jQuery("#nanoGallery").nanoGallery({
-  	kind:'picasa',
-  	userID:'cbrisbois@gmail.com',
-  	thumbnailWidth:150,
-  	thumbnailHeight:150,
-  	blackList:'scrapbook|forhomepage|profil'
-  });
-});
-```
 
 
 Transit hover effects
