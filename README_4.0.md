@@ -203,8 +203,8 @@ Syntax and options
 
 ### General options
 
-Name | Description
-------- | -------
+Name | Description | more
+------- | ------- | ----
 thumbnailHeight | Height in pixels of the thumbnails
     | *integer*
 thumbnailWidth | Width in pixels of the thumbnails
@@ -225,11 +225,8 @@ thumbnailLabel | Display options for the image label (title and description)
 	|	| *Boolean; Default: `true`*
 thumbnailHoverEffect | Set the thumbnail mouse hover effect
 	| *string, object, array; Default: `none`*
-	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`,
-	| `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`,
-	| `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`, 
-	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`,
-	| `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
+	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`
+	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`, `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
 
 
 * ```displayCaption``` : ```true``` / ```false``` - display or not the title of the thumbnails (optional)
