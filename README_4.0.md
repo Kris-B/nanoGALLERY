@@ -216,9 +216,9 @@ maxWidth | Maximum width of the gallery in pixel
 viewer | Image display method (possible values: `internal`, `fancybox`)
     | *string; Default: `internal`*
 thumbnailLabel | Display options for the image label (title and description)
-	| *object*
+	| *object; Default: `{position:'overImageOnBottom',display:true,displayDescription:true}`*
 	| position : Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
-	|	*string*; Default: `overImageOnBottom`*
+	|	*string; Default: `overImageOnBottom`*
 	| display : Display or not the label.
 	|	*Boolean; Default: `true`*
 	| displayDescription : Display or not the description
@@ -227,38 +227,14 @@ thumbnailHoverEffect | Set the thumbnail mouse hover effect
 	| *string, object, array; Default: `none`*
 	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`
 	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`, `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
-
-
-* ```displayCaption``` : ```true``` / ```false``` - display or not the title of the thumbnails (optional)
-* ```thumbnailHeight``` : integer - Height in pixels of the thumbnails (optional)
-* ```thumbnailWidth``` : integer - Width in pixels of the thumbnails (optional)
-* ```itemsBaseURL``` : URL prefix for the images defined with method#1 or method#2
-* ```theme``` : name of the theme (optional) - the corresponding css-file must also be included in the html file
-	Possible values : ```default``` ```clean```
-* ```maxItemsPerLine``` : integer - max number of thumbnails per line
-* ```maxWidth``` : interger - max width of the gallery in pixel
-* ```viewer``` : ```internal``` / ```fancybox``` - display images with the default viewer or with FancyBox (optional)
-* ```thumbnailLabel``` : display options for the image label (title and description)
-    ```position``` : possible vales : ```overImageOnBottom``` ```overImageOnTop``` ```onBottom```
-	```display``` : ```true``` / ```false``` - display or not the label
-	```displayDescription``` : ```true``` / ```false``` - display or not the description
-* ```thumbnailHoverEffect``` : set the thumbnail mouse hover effect
-    Possible values:
-		```slideUp``` ```slideDown``` ```slideLeft``` ```slideRight```
-		```imageSlideUp``` ```imageSlideDown``` ```imageSlideLeft``` ```imageSlideRight```
-		```labelAppear``` ```labelAppear75``` ```labelSlideDown``` ```labelSlideUp```
-		```labelOpacity50``` ```imageScale150``` ```imageScale150Outside``` ```scale120```
-		```borderLighter``` ```borderDarker``` ```imageInvisible``` ```overScale```
-		```overScaleOutside``` ```scaleLabelOverImage```
-	Transit plugin is required for following values
-		```rotateCornerBR``` ```rotateCornerBL``` ```imageRotateCornerBR``` ```imageRotateCornerBL```
-		```imageFlipHorizontal``` ```imageFlipVertical```
-* ```colorScheme``` : set the color scheme for the gallery (breadcrumb and thumbnails)
-	Possible values: ```darkRed``` ```darkGreen``` ```darkBlue``` ```darkOrange``` ```light```
-	Custom color schemes are supported
-* ```colorSchemeViewer``` : set the color scheme for image viewer
-	Possible values: ```darkRed``` ```darkGreen``` ```darkBlue``` ```darkOrange``` ```light```
-	Custom color schemes are supported
+theme | Name of the theme - the corresponding css-file must also be included in the html file (Possible values : `default`, `clean`)
+	| *string; Default: `default`*
+itemsBaseURL | URL prefix for the images defined with method#1 or method#2
+	| *string*
+colorScheme | Set the color scheme for the gallery (breadcrumb and thumbnails) (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
+	| *string, object; Deault: 'dark'*
+colorSchemeViewer | Set the color scheme for the image viewer (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
+	| *string, object; Deault: 'dark'*
 
 
 ### Picasa/Google+ specific arguments
