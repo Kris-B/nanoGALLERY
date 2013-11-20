@@ -1,8 +1,9 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-Simplistic to use image gallery plugin for jQuery
-Powerful and easy to use portfolio with support for pulling in Flickr and Picasa/Google+ photo albums among others. Mobile-friendly and responsive. Thumbnails mouse hover effects (combinable). Smooth in/out transitions. Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
+Simplistic to use image gallery plugin for jQuery.
+
+30 animated thumbnails **hover effects** (combinable). Support for pulling in **Flickr** and **Picasa/Google+** photo albums among others. Mobile-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
 
 ### Usage can be as easy as: 
 ```js
@@ -17,20 +18,20 @@ New in v4
 --------
 Version 4 has been optimized and layout customisation is now much easyer.
 
-- parameter to set the thumbnails hover effects (combinations possible)
-- color schemes to avoid having to change any CSS file
+- parameter to set the thumbnails animated hover effects (combinations possible)
+- color schemes to avoid having to edit any CSS file
 - display images faster (thanks to pre-loading)
 - icons now font-based for a better hires (Retina) display
 
 
 Key features
 --------
-- Display image gallery
-- Display image with titles and descriptions
+- Display image galleries
+- Display images with titles and descriptions
 - Thumbnails with titles and descriptions
+- 30 animated thumbnails hover effects (combinations are possible)
 - Easy to setup and customizable
 - Responsive layout - mobile friendly
-- 28 thumbnails hover effects (combinations possible)
 - Breadcrumb for easy navigation in photo albums
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
@@ -42,30 +43,24 @@ Key features
   * Picasa/Google+ account
 
 
-![Screenshot](/doc/nanoGALLERY_screenshot.png?raw=true "Screenshot")
-![Screenshot](/doc/nanoGALLERY_screenshot2.png?raw=true "Screenshot2")
-
-  
+![Screenshot](/doc/nanoGALLERY_screenshot.jpg?raw=true "Screenshot")
+![Screenshot](/doc/nanoGALLERY_screenshot2.jpg?raw=true "Screenshot2")
 
   
 Demonstration and Tutorials
 -------------
 
-Visit the demonstration file for some usefull tips and tricks code samples: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
+Visit the demonstration page for some usefull code samples and to test online some settings: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
+
+
 - Flickr account
-	- display full portfolio with breadcrum navigation
-	- display a specific photoset
+   * [display full portfolio with breadcrum navigation](http://jsfiddle.net/Kris_B/Gukd3/)
+   * [display a specific photoset](http://jsfiddle.net/Kris_B/Npw9e/)
 - Picasa/Google+ account
-	- display full portfolio with breadcrum navigation
-	- display a specific album
-- list of images using HREF attribute
-- list of images passed to the script (API)
-- combine 3 thumbnail mouse hover effects
-- combine 3 thumbnail mouse hover effects and set the delays
-- specify the gallery color scheme (breadcrumb and thumbnails)
-- specify the image display color scheme
-- define a custom color scheme
-- specify a theme
+   * [display full portfolio with breadcrum navigation](http://jsfiddle.net/Kris_B/AX9z9/)
+   * [display a specific album](http://jsfiddle.net/Kris_B/C6DFv/)
+- [list of images using HREF attribute](http://jsfiddle.net/Kris_B/ZeA5b/)
+- [list of images passed to the script (API)](http://jsfiddle.net/Kris_B/gvauS/)
 
 
 Usage (v4.0)
@@ -224,7 +219,7 @@ Syntax and options
 	|	*Boolean; Default: `true`*
 **thumbnailHoverEffect** | Set the thumbnail mouse hover effect
 	| *string, object, array; Default: `none`*
-	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`
+	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `imageOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`, `descriptionSlideUp`
 	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`, `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
 **theme** | Name of the theme - the corresponding css-file must also be included in the html file (Possible values: `default`, `clean`)
 	| *string; Default: `default`*
@@ -240,7 +235,7 @@ Syntax and options
 ### Picasa/Google+ specific arguments
 **Name** | **Description**
 ------- | -------
-**kind** | Set the storage type (**mandatory**). Must be set to `**picasa**`
+**kind** | Set the storage type (**mandatory**). Must be set to `picasa`
     | *string*
 **userID** | User ID of the Picasa/Google+ account (**mandatory**)
     | *string*
@@ -276,7 +271,7 @@ $(document).ready(function () {
 ### Flickr specific arguments
 **Name** | **Description**
 ------- | -------
-**kind** | Set the storage type (**mandatory**). Must be set to `**flickr**`
+**kind** | Set the storage type (**mandatory**). Must be set to `flickr`
     | *string*
 **userID** | User ID of the Picasa/Google+ account (**mandatory**)
     | *string*
@@ -311,7 +306,7 @@ For this, just include following JS in your page
 
 ``` HTML
 <!-- Add Transit plugin -->
-<script type="text/javascript" src="third.party/transit/jquery.transit.min"></script> 
+<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script> 
 ```
 
 
@@ -393,11 +388,19 @@ CSS layout description:
 ![CSS layout](/doc/css_map.png?raw=true "CSS Layout")
 
 
+Licence
+------------
+nanoGALLERY is licensed under [Creative Commons Attribution-NonCommercial 3.0 license](http://creativecommons.org/licenses/by-nc/3.0/).
+You are free to use nanoGALLERY for your personal or non-profit website projects.
+You need to get the author's permission to use nanoGALLERY for commercial websites.
+
+
+
 Requirements
 ------------
 * Javascript must be enabled
 * jQuery
-* jsonp - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg
+* jsonp - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg)
 * transit - jQuery plugin (http://ricostacruz.com/jquery.transit) (credits: Rico Sta. Cruz)
 * fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
 

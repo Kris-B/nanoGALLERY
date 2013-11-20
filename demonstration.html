@@ -6,7 +6,7 @@
 	<style>
 		* {font-family: sans-serif; color:#eee;  }
 		h1, h2, h3, h4, h5 {text-align:center;}
-		body {background:#222;}
+		body {background:#333;}
 	</style>
 
 
@@ -23,10 +23,11 @@
 	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
 	<!-- Fancybox -->
 
-	
-	
+	<!-- nanoGALLERY - default css file -->
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
+	<!-- nanoGALLERY - css file for the theme 'clean' -->
 	<link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet" type="text/css">
+	<!-- nanoGALLERY js -->
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
 
 	<script>
@@ -58,46 +59,47 @@
 				barDescriptionColor:'#aaa'
 			};
 
-			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
+			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 			items: [
 				{
-					src: 'demonstration/img_01.jpg',		// image url
-					srct: 'demonstration/img_01t.jpg',		// thumbnail url
-					title: 'image 1' 						// thumbnail title
+					src: 'demonstration/image_01.jpg',		// image url
+					srct: 'demonstration/image_01t.jpg',		// thumbnail url
+					title: 'image 1', 						// thumbnail title
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 				},
 				{
-					src: 'demonstration/img_02.jpg',
-					srct: 'demonstration/img_02t.jpg',
+					src: 'demonstration/image_02.jpg',
+					srct: 'demonstration/image_02t.jpg',
 					title: 'image 2' ,
-					//description: 'This is the place for a description'
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 				},
 				{
-					src: 'demonstration/img_03.jpg',
-					srct: 'demonstration/img_03t.jpg',
+					src: 'demonstration/image_03.jpg',
+					srct: 'demonstration/image_03t.jpg',
 					title: 'image 3' ,
 					//title: 'image 3 - The quick brown fox jumps over the lazy dog - The quick brown fox jumps over the lazy dog' 
 				}
 				],
-				thumbnailHoverEffect:'borderLighter,imageScale150',
+				thumbnailHoverEffect:'descriptionSlideUp,borderLighter',
 				thumbnailLabel:{display:true,position:'overImageOnBottom'}
 			});
 
 			// Sample1a
-			jQuery("#nanoGallery1a").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
+			jQuery("#nanoGallery1a").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 			items: [
 				{
-					src: 'demonstration/img_01.jpg',		// image url
-					srct: 'demonstration/img_01ts.jpg',		// thumbnail url
+					src: 'demonstration/image_01.jpg',		// image url
+					srct: 'demonstration/image_01ts.jpg',		// thumbnail url
 					title: 'image 1' 						// thumbnail title
 				},
 				{
-					src: 'demonstration/img_02.jpg',
-					srct: 'demonstration/img_02ts.jpg',
+					src: 'demonstration/image_02.jpg',
+					srct: 'demonstration/image_02ts.jpg',
 					title: 'image 2' 
 				},
 				{
-					src: 'demonstration/img_03.jpg',
-					srct: 'demonstration/img_03ts.jpg',
+					src: 'demonstration/image_03.jpg',
+					srct: 'demonstration/image_03ts.jpg',
 					title: 'image 3',
 				}
 				],
@@ -108,7 +110,7 @@
 			});
 
 			//Sample2 - HREF
- 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:200,thumbnailHeight:200,
+ 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:160,thumbnailHeight:160,
 				itemsBaseURL:'demonstration',
 				displayCaption:true,
 				//thumbnailHoverEffect:[{'name':'imageRotateCornerBL','duration':300},{'name':'borderLighter'}],				
@@ -130,7 +132,7 @@
 			});
 
 			// DEMONSTRATION
- 			jQuery("#nanoGalleryAnimation1").nanoGalleryDemo({thumbnailWidth:100, thumbnailHeight:100, itemsBaseURL:'demonstration',
+ 			jQuery("#nanoGalleryAnimation1").nanoGalleryDemo({thumbnailWidth:120, thumbnailHeight:120, itemsBaseURL:'demonstration',
 				thumbnailHoverEffect:[{'name':'borderLighter','duration':300}]
 			});
 
@@ -162,9 +164,9 @@
 
 	<br><br><h2>Sample #2: HREF attributes</h2>
 	<div id="nanoGallery2">
-		<a href="img_01.jpg" data-ngthumb="img_01tb.jpg" data-ngdesc="Odonata is an order of carnivorous insects, encompassing dragonflies (Anisoptera/Epiprocta) and damselflies (Zygoptera).">Odonata</a>
-		<a href="img_02.jpg" data-ngthumb="img_02tb.jpg" data-ngdesc="Insects in the family Tettigoniidae are commonly called katydids or bush-crickets">Tettigoniidae</a>
-		<a href="img_03.jpg" data-ngthumb="img_03tb.jpg" data-ngdesc=""></a>
+		<a href="image_01.jpg" data-ngthumb="image_01ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet interdum magna. Nunc luctus leo ut blandit tempor. Suspendisse at auctor lorem, sed hendrerit arcu.">India</a>
+		<a href="image_02.jpg" data-ngthumb="image_02ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Thailand</a>
+		<a href="image_03.jpg" data-ngthumb="image_03ts.jpg" data-ngdesc="">Vietnam</a>
 	</div>
 
 	<br><br><h2>Sample #3: Picasa/Google+</h2>
@@ -180,10 +182,9 @@
 
 
 	<br><br><br><br><br><br><br><br><br>
-	<h2 style="background:#555;">----- Thumbnails configuration demo -----</h2>
+	<h2 style="background:#555;">----- Thumbnails configuration demo -----</h2><br><br>
 
-	<!--<br><br><h2>Animation type: borderLighter</h2>-->
-	<div id="nanoGalleryAnimation1" style="margin:50px"> <a href="img_01.jpg" data-ngthumb="img_01tb.jpg">Image 1</a> <a href="img_02.jpg" data-ngthumb="img_02tb.jpg">Image 2</a> <a href="img_03.jpg" data-ngthumb="img_03tb.jpg">Image 3</a> </div>
+	<div id="nanoGalleryAnimation1" style="margin:50px"> <a href="image_01.jpg" data-ngthumb="image_01ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Image 1</a> <a href="image_02.jpg" data-ngthumb="image_02ts.jpg">Image 2</a> <a href="image_03.jpg" data-ngthumb="image_03ts.jpg">Image 3</a> </div>
 
 	
 	<br><br><h5>by Kris_B - <a href="http://www.brisbois.fr">www.brisbois.fr</a></h5>

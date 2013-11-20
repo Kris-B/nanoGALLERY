@@ -1,13 +1,13 @@
 /**!
- * @preserve nanoGALLERY v4.0beta2
+ * @preserve nanoGALLERY v4.0
  * Plugin for jQuery by Christophe Brisbois
  * http://nanogallery.brisbois.fr
  * 
  * External components:
- *  - jQuery (http://www.jquery.com)0
+ *  - jQuery (http://www.jquery.com)
  * 	- jQuery Color plugin - is embedded
- *  - Transit (http://ricostacruz.com/jquery.transit/) - optional
- *  - fancybox (http://www.fancybox.net) - optional
+ *  - Transit (http://ricostacruz.com/jquery.transit) - optional
+ *  - fancybox (http://fancyapps.com) - optional
  */
 
 
@@ -77,7 +77,7 @@
 			//displayCaptionImage:true,
 			theme:'default',
 			colorScheme:'default',
-			colorSchemeViewer:'none',
+			colorSchemeViewer:'default',
 			items:null,
 			itemsBaseURL:'',
 			maxItemsPerLine:0,
@@ -89,7 +89,7 @@
 			thumbnailHeight:154,
 			thumbnailHoverEffect:null,
 			//thumbnailHoverEffect:[{'name':'borderLighter','duration':300}],
-			thumbnailLabel:{position:'overImageOnBottom',display:true,displayDescription:true},
+			thumbnailLabel:{position:'overImageOnBottom',display:true,displayDescription:false},
 			preset:'none'
 		}, options );
 
@@ -102,7 +102,7 @@
 			sHoverEffects+='<option style="color:#000">slideUp</option><option style="color:#000">slideDown</option><option style="color:#000">slideLeft</option><option style="color:#000">slideRight</option>';
 			sHoverEffects+='<option style="color:#000">imageSlideUp</option><option style="color:#000">imageSlideDown</option><option style="color:#000">imageSlideLeft</option><option style="color:#000">imageSlideRight</option>';
 			sHoverEffects+='<option style="color:#000">labelAppear</option><option style="color:#000">labelAppear75</option><option style="color:#000">labelSlideDown</option><option style="color:#000">labelSlideUp</option>';
-			sHoverEffects+='<option style="color:#000">labelOpacity50</option>';
+			sHoverEffects+='<option style="color:#000">labelOpacity50</option><option style="color:#000">imageOpacity50</option><option style="color:#000">descriptionSlideUp</option>';
 			sHoverEffects+='<option style="color:#000">borderLighter</option><option style="color:#000">borderDarker</option><option style="color:#000">imageInvisible</option>';
 
 			sHoverEffects+='<option style="color:#000"></option><option style="color:#000">imageScale150*</option><option style="color:#000">imageScale150Outside*</option><option style="color:#000">scale120*</option>';
@@ -119,15 +119,15 @@
 			sPanel+='<br><div style="display:inline-block;">Thumbnail hover effect 2:&nbsp;<select name="lHoverEffect2" style="color:#000">'+sHoverEffects+'</select></div>';
 			sPanel+='<br><div style="display:inline-block;">Thumbnail hover effect 3:&nbsp;<select name="lHoverEffect3" style="color:#000">'+sHoverEffects+'</select></div>';
 			sPanel+='<br><div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*: requires Transit plugin</div>';
-			sPanel+='<br><br><div style="display:inline-block;">Thumbnail size:&nbsp;Width (px):&nbsp;<input type="text" name="thumbWidth" value="100" style="width:50px;color:#000">&nbsp;&nbsp;Height (px):&nbsp;<input type="text" name="thumbHeight" value="100" style="width:50px;color:#000"></div>';
+			sPanel+='<br><br><div style="display:inline-block;">Thumbnail size:&nbsp;Width (px):&nbsp;<input type="text" name="thumbWidth" value="120" style="width:50px;color:#000">&nbsp;&nbsp;Height (px):&nbsp;<input type="text" name="thumbHeight" value="120" style="width:50px;color:#000"></div>';
 			//sPanel+='<br><br><div style="display:inline-block;">Maximum number of thumbnails per line:&nbsp;<input type="text" name="thumbMaxItemsPerLine" value="" style="width:50px;color:#000"></div>';
 			//sPanel+='<div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maximum gallery width (px): <input type="text" name="thumbMaxWidth" value="" style="width:50px;color:#000"></div>';
 			sPanel+='<br><br><div>Thumbnail label: </div>';
 			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Position: <form style="display:inline-block;"><input type="radio" name="thumbnailLabelPosition" value="overImageOnBottom" checked>overImageOnBottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="overImageOnTop">overImageOnTop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="onBottom">onBottom</form>';
 			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplay" value="true" checked>Display label';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true" checked>Display description';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true">Display description';
 			sPanel+='<br><br><div>Color scheme: ';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="colorScheme" value="none" checked>none &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="dark">dark &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkRed">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="colorScheme" value="none" >none &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="dark" checked>dark &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkRed">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			sPanel+='<input type="radio" name="colorScheme" value="darkGreen">darkGreen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkBlue">darkBlue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			sPanel+='<input type="radio" name="colorScheme" value="darkOrange">darkOrange &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="light">light';
 			sPanel+='</form></div>';
@@ -165,13 +165,13 @@
 				setPreset('imageRotateCornerBL*','scale120*','borderLighter','overImageOnBottom',true,true,'dark');
 			});
 			jQuery(g_containerDemoPanel).find('button[name=bPreset3]').on("click",function(){
-				setPreset('imageScale150*','labelSlideUp','none','overImageOnBottom',true,true,'dark');
+				setPreset('imageScale150*','labelSlideUp','none','overImageOnBottom',true,false,'dark');
 			});
 			jQuery(g_containerDemoPanel).find('button[name=bPreset4]').on("click",function(){
-				setPreset('imageInvisible','imageScale150Outside*','none','overImageOnBottom',true,true,'light');
+				setPreset('imageInvisible','imageScale150Outside*','none','overImageOnBottom',true,false,'light');
 			});
 			jQuery(g_containerDemoPanel).find('button[name=bPreset5]').on("click",function(){
-				setPreset('none','none','none','overImageOnBottom',true,true,'dark');
+				setPreset('descriptionSlideUp','borderLighter','none','overImageOnBottom',true,true,'dark');
 			});
 		});
 
@@ -269,6 +269,7 @@ function nanoGALLERY() {
 		g_itemInfo=[],
 		g_oneThumbnailWidth=100,
 		g_oneThumbnailHeight=100,
+		g_oneThumbnailLabelTitleHeight=0,
 		g_blackList=null,
 		g_whiteList=null,
 		g_albumList=null,
@@ -436,17 +437,19 @@ function nanoGALLERY() {
 				case 'labelSlideDown':
 				case 'labelSlideUp':
 				case 'labelOpacity50':
-				case 'imageScale150':
-				case 'imageScale150Outside':
-				case 'scale120':
 				case 'borderLighter':
 				case 'borderDarker':
 				case 'imageInvisible':
+				case 'imageOpacity50':
+				case 'descriptionSlideUp':
+					break;
+
+				case 'imageScale150':
+				case 'imageScale150Outside':
+				case 'scale120':
 				case 'overScale':
 				case 'overScaleOutside':
 				case 'scaleLabelOverImage':
-					break;
-
 				case 'imageFlipHorizontal':
 				case 'imageFlipVertical':
 				//case 'flipHorizontal':		// hover issue
@@ -899,6 +902,7 @@ function nanoGALLERY() {
 	function renderGallery2() {
 		g_oneThumbnailWidth=0;
 		g_oneThumbnailHeight=0;
+		g_oneThumbnailLabelTitleHeight=0;
 		
 		// if one description is defined then put a value to those without
 		var foundDesc=false;
@@ -967,6 +971,14 @@ function nanoGALLERY() {
 
 			if( g_oneThumbnailWidth == 0 ) { g_oneThumbnailWidth=jQuery(newDiv).outerWidth(true); }
 			if( g_oneThumbnailHeight == 0 ) { g_oneThumbnailHeight=jQuery(newDiv).outerHeight(true); }
+			if( g_oneThumbnailLabelTitleHeight == 0 ) {
+				if( item['kind'] == 'album' ) {
+					g_oneThumbnailLabelTitleHeight=jQuery(newDiv).find('.labelFolderTitle').outerWidth(true);
+				}
+				else {
+					g_oneThumbnailLabelTitleHeight=jQuery(newDiv).find('.labelImageTitle').outerHeight(true);
+				}
+			}
 			jQuery(newDiv).data("index",i);
 
 			// CSS init depending on choosen effect
@@ -1153,13 +1165,21 @@ function nanoGALLERY() {
 						jQuery(elt).find('.labelImage').css({'top':-g_oneThumbnailHeight, 'bottom':'none'});
 					}
 					break;
+				case 'descriptionSlideUp':
+					if( g_options.thumbnailLabel.position == 'overImageOnBottom' ) {
+						jQuery(elt).css('overflow','hidden');
+						var p=g_oneThumbnailHeight - (jQuery(elt).find('.labelImage').outerHeight(true)-jQuery(elt).find('.labelImage').height()) - g_oneThumbnailLabelTitleHeight +'px';
+						jQuery(elt).find('.labelImage').css({'top':p, 'bottom':'none'});
+					}
+					break;
+
 				case 'imageFlipHorizontal':
 					if( g_supportTransit ) {
 						var n= Math.round(g_oneThumbnailHeight*1.2) + 'px';
 						//jQuery(elt).css({ perspective: n, 'backface-visibility': 'hidden' });
 						//jQuery(elt).find('.subcontainer').css({perspective: n, 'rotateX': '0deg', 'transform-style':'preserve-3d', 'backface-visibility': 'hidden'});
-						jQuery(elt).find('.imgContainer').css({perspective: n, rotateX: '0deg', 'backface-visibility': 'hidden'});
 						//jQuery(elt).find('.imgcontainer').css({perspective: n, rotateX: '0deg', 'backface-visibility': 'hidden'});
+						jQuery(elt).find('.imgContainer').css({perspective: n, rotateX: '0deg', 'backface-visibility': 'hidden'});
 						jQuery(elt).find('.labelImage').css({ perspective: n,rotateX: '180deg', 'backface-visibility': 'hidden','height':g_oneThumbnailHeight,'opacity':'1' });
 						useTransitPlugin=true;
 					}
@@ -1412,12 +1432,30 @@ function nanoGALLERY() {
 							}
 						}
 						break;
+					case 'descriptionSlideUp':
+						if( g_options.thumbnailLabel.position == 'overImageOnBottom' ) {
+							if( g_supportTransit ) {
+								jQuery(elt).find('.labelImage').transition({ 'top': 0},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+							}
+							else {
+								jQuery(elt).find('.labelImage').animate({ 'top': 0},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+							}
+						}
+						break;
 					case 'labelOpacity50':
 						if( g_supportTransit ) {
 							jQuery(elt).find('.labelImage').transition({ 'opacity': 0.5 },g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
 						}
 						else {
 							jQuery(elt).find('.labelImage').animate({ 'opacity': 0.5 },g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+						}
+						break;
+					case 'imageOpacity50':
+						if( g_supportTransit ) {
+							jQuery(elt).find('.imgContainer').transition({ 'opacity': 0.5 },g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+						}
+						else {
+							jQuery(elt).find('.imgContainer').animate({ 'opacity': 0.5 },g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
 						}
 						break;
 					case 'borderLighter':
@@ -1669,12 +1707,31 @@ function nanoGALLERY() {
 							}
 						}
 						break;
+					case 'descriptionSlideUp':
+						if( g_options.thumbnailLabel.position == 'overImageOnBottom' ) {
+							var p=g_oneThumbnailHeight - (jQuery(elt).find('.labelImage').outerHeight(true)-jQuery(elt).find('.labelImage').height()) - g_oneThumbnailLabelTitleHeight +'px';
+							if( g_supportTransit ) {
+								jQuery(elt).find('.labelImage').transition({ 'top': p},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+							}
+							else {
+								jQuery(elt).find('.labelImage').animate({ 'top': p},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+							}
+						}
+						break;
 					case 'labelOpacity50':
 						if( g_supportTransit ) {
 							jQuery(elt).find('.labelImage').transition({ 'opacity': g_oldLabelOpacity },g_thumbnailHoverEffect[j].durationBack, g_thumbnailHoverEffect[j].easingBack);
 						}
 						else {
 							jQuery(elt).find('.labelImage').animate({ 'opacity': g_oldLabelOpacity },g_thumbnailHoverEffect[j].durationBack, g_thumbnailHoverEffect[j].easingBack);
+						}
+						break;
+					case 'imageOpacity50':
+						if( g_supportTransit ) {
+							jQuery(elt).find('.imgContainer').transition({ 'opacity': 1 },g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+						}
+						else {
+							jQuery(elt).find('.imgContainer').animate({ 'opacity': 1 },g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
 						}
 						break;
 					case 'borderLighter':
