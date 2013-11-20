@@ -16,7 +16,7 @@ Simplistic to use image gallery plugin for jQuery.
 
 New in v4
 --------
-Version 4 has been optimized and layout customisation is now much easyer.
+Version 4 has been optimized and layout customization is now much easyer.
 
 - parameter to set the thumbnails animated hover effects (combinations possible)
 - color schemes to avoid having to edit any CSS file
