@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v4.0
+ * @preserve nanoGALLERY v4.0.2
  * Plugin for jQuery by Christophe Brisbois
  * http://nanogallery.brisbois.fr
  * 
@@ -114,32 +114,32 @@
 			sHoverEffects+='<option style="color:#000">imageFlipHorizontal*</option><option style="color:#000">imageFlipVertical*</option>';
 			sHoverEffects+='<option style="color:#000">rotateCornerBR*</option><option style="color:#000">rotateCornerBL*</option><option style="color:#000">imageRotateCornerBR*</option><option style="color:#000">imageRotateCornerBL*</option>';
 
-			var sPanel='<div style="margin:10px auto 30px auto;width:400px;text-align:center;border:1px solid #555;background:#000;padding:5px;font-size:1.2em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span> - demonstration panel</div>';
-			sPanel+='<div style="display:inline-block;">Thumbnail hover effect 1:&nbsp;<select name="lHoverEffect1" style="color:#000">'+sHoverEffects+'</select></div>';
-			sPanel+='<br><div style="display:inline-block;">Thumbnail hover effect 2:&nbsp;<select name="lHoverEffect2" style="color:#000">'+sHoverEffects+'</select></div>';
-			sPanel+='<br><div style="display:inline-block;">Thumbnail hover effect 3:&nbsp;<select name="lHoverEffect3" style="color:#000">'+sHoverEffects+'</select></div>';
+			var sPanel='<div style="line-height:normal;margin:10px auto 30px auto;width:400px;text-align:center;border:1px solid #555;background:#000;padding:5px;font-size:1.2em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span> - demonstration panel</div>';
+			sPanel+='<div style="display:inline-block;">Thumbnail hover effects:&nbsp;<select name="lHoverEffect1" style="color:#000">'+sHoverEffects+'</select>';
+			sPanel+='&nbsp;<select name="lHoverEffect2" style="color:#000">'+sHoverEffects+'</select>';
+			sPanel+='&nbsp;<select name="lHoverEffect3" style="color:#000">'+sHoverEffects+'</select></div>';
 			sPanel+='<br><div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*: requires Transit plugin</div>';
 			sPanel+='<br><br><div style="display:inline-block;">Thumbnail size:&nbsp;Width (px):&nbsp;<input type="text" name="thumbWidth" value="120" style="width:50px;color:#000">&nbsp;&nbsp;Height (px):&nbsp;<input type="text" name="thumbHeight" value="120" style="width:50px;color:#000"></div>';
 			//sPanel+='<br><br><div style="display:inline-block;">Maximum number of thumbnails per line:&nbsp;<input type="text" name="thumbMaxItemsPerLine" value="" style="width:50px;color:#000"></div>';
 			//sPanel+='<div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maximum gallery width (px): <input type="text" name="thumbMaxWidth" value="" style="width:50px;color:#000"></div>';
-			sPanel+='<br><br><div>Thumbnail label: </div>';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Position: <form style="display:inline-block;"><input type="radio" name="thumbnailLabelPosition" value="overImageOnBottom" checked>overImageOnBottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="overImageOnTop">overImageOnTop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="onBottom">onBottom</form>';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplay" value="true" checked>Display label';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true">Display description';
-			sPanel+='<br><br><div>Color scheme: ';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="colorScheme" value="none" >none &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="dark" checked>dark &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkRed">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			sPanel+='<input type="radio" name="colorScheme" value="darkGreen">darkGreen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkBlue">darkBlue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			sPanel+='<input type="radio" name="colorScheme" value="darkOrange">darkOrange &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="light">light';
+			sPanel+='<br><div>Thumbnail label: </div>';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Position: <form style="display:inline-block;"><input type="radio" name="thumbnailLabelPosition" value="overImageOnBottom" checked style="margin:0">overImageOnBottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="overImageOnTop" style="margin:0">overImageOnTop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="onBottom" style="margin:0">onBottom</form>';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplay" value="true" checked style="margin:0">Display label';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true" style="margin:0">Display description';
+			sPanel+='<br><div>Color scheme: <br>';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="colorScheme" value="none" style="margin:0">none &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="dark" checked style="margin:0">dark &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkRed" style="margin:0">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			sPanel+='<input type="radio" name="colorScheme" value="darkGreen" style="margin:0">darkGreen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkBlue" style="margin:0">darkBlue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			sPanel+='<input type="radio" name="colorScheme" value="darkOrange" style="margin:0">darkOrange &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="light" style="margin:0">light';
 			sPanel+='</form></div>';
-			sPanel+='<br><div>CSS file: ';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="cssFile" value="default" checked>default &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="cssFile" value="clean">clean</form></div>';
-			sPanel+='<br><div>Background color (not a nanoGALLERY parameter): ';
-			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="backgroundColor" value="dark" checked>Dark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="backgroundColor" value="light">Light</form></div>';
+			sPanel+='<div>CSS file: <br>';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="cssFile" value="default" checked style="margin:0">default &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="cssFile" value="clean" style="margin:0">clean</form></div>';
+			sPanel+='<div>Background color (not a nanoGALLERY parameter): <br>';
+			sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="backgroundColor" value="dark" checked style="margin:0">Dark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="backgroundColor" value="light" style="margin:0">Light</form></div>';
 
 
-			sPanel+='<div style="display:table;margin:auto;"><button name="bGo" "type="button" style="color:#000;padding:5px 15px;margin:5px;">Launch</button></div>';
+			sPanel+='<div style="display:table;margin:auto;"><button name="bGo" "type="button" style="color:#000;padding:5px 15px;margin:5px;">--> Launch</button></div>';
 
-			sPanel+='<hr><div style="display:table;margin:15px auto;text-align:center;">';
+			sPanel+='<hr style="margin:0px;"><div style="display:table;margin:15px auto;text-align:center;">';
 			sPanel+='<button name="bPreset1" "type="button" style="color:#000;padding:4px;">Preset 1</button>';
 			sPanel+='<button name="bPreset2" type="button" style="color:#000;padding:4px;">Preset 2</button>';
 			sPanel+='<button name="bPreset3" type="button" style="color:#000;padding:4px;">Preset 3</button>';
@@ -259,6 +259,7 @@ function nanoGALLERY() {
 		g_containerDemo=null,
 		g_containerThumbnails=null,
 		g_containerBreadcrumb=null,
+		g_containerViewerContainer=null,
 		g_containerViewer=null,
 		g_containerViewerDisplayed=false,
 		g_containerThumbnailsDisplayed=false,
@@ -268,7 +269,9 @@ function nanoGALLERY() {
 		g_path2timthumb="",
 		g_itemInfo=[],
 		g_oneThumbnailWidth=100,
+		g_oneThumbnailWidthContainer=0,
 		g_oneThumbnailHeight=100,
+		g_oneThumbnailHeightContainer=0,
 		g_oneThumbnailLabelTitleHeight=0,
 		g_blackList=null,
 		g_whiteList=null,
@@ -361,7 +364,7 @@ function nanoGALLERY() {
 		// Set theme and colorScheme
 		jQuery(element).addClass('nanogallery_theme_'+g_options.theme);
 		SetColorScheme(element);
-		SetColorSchemeViewer(element);
+		//SetColorSchemeViewer(element);
 		//if( window.location.hostname.indexOf('bri') == -1 ) { g_betamax = 4; }
 
 
@@ -380,10 +383,6 @@ function nanoGALLERY() {
 			jQuery(g_baseControl).css('margin-right','auto');
 		}
 	
-
-		//g_containerDemo =jQuery('<div class="nanoGalleryDemo"></div>').appendTo(element);
-		//buildDemoPanel();
-
 
 		if( g_options.displayBreadcrumb == true && ( g_options.kind=='picasa' || g_options.kind=='flickr')) {
 			g_containerBreadcrumb =jQuery('<div class="nanoGalleryBreadcrumb"></div>').appendTo(element);
@@ -901,7 +900,9 @@ function nanoGALLERY() {
 	
 	function renderGallery2() {
 		g_oneThumbnailWidth=0;
+		g_oneThumbnailWidthContainer=0;
 		g_oneThumbnailHeight=0;
+		g_oneThumbnailHeightContainer=0;
 		g_oneThumbnailLabelTitleHeight=0;
 		
 		// if one description is defined then put a value to those without
@@ -914,8 +915,8 @@ function nanoGALLERY() {
 
 		jQuery.each(g_itemInfo, function(i,item){
 			
-			var newDivTemp =jQuery('<div class="container"></div>');	
-			var newDivTemp1 =jQuery('<div class="subcontainer"></div>');	
+			var newDivTemp =jQuery('<div class="container" style="display: inline-block"></div>');	
+			var newDivTemp1 =jQuery('<div class="subcontainer" style="display: inline-block"></div>');	
 			//jQuery(newDivTemp1).append('<div class="imgContainer" style="width:'+g_options.thumbnailWidth+'px;height:'+g_options.thumbnailHeight+'px;"><img class="image" src="'+item['thumbsrc']+'" style="max-width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"></div>');
 			var newImg=jQuery('<div class="imgContainer" style="width:'+g_options.thumbnailWidth+'px;height:'+g_options.thumbnailHeight+'px;"><img class="image" src="'+item['thumbsrc']+'" style="max-width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"></div>');
 			jQuery(newDivTemp1).append(newImg);
@@ -969,8 +970,23 @@ function nanoGALLERY() {
 			}
 			
 
-			if( g_oneThumbnailWidth == 0 ) { g_oneThumbnailWidth=jQuery(newDiv).outerWidth(true); }
-			if( g_oneThumbnailHeight == 0 ) { g_oneThumbnailHeight=jQuery(newDiv).outerHeight(true); }
+			if( g_oneThumbnailWidth == 0 ) {
+				//g_oneThumbnailWidth= (jQuery(newDiv).outerWidth(false)-jQuery(newDiv).width()) + jQuery(newDiv).find('.imgContainer').outerWidth(true) ;
+				g_oneThumbnailWidth= jQuery(newDiv).find('.imgContainer').outerWidth(true) ;
+				//g_oneThumbnailWidth=jQuery(newDiv).outerWidth(true);
+			}
+			jQuery(newDiv).width(g_oneThumbnailWidth);
+			if( g_oneThumbnailWidthContainer == 0 ) {
+				g_oneThumbnailWidthContainer=jQuery(newDiv).outerWidth(true);
+			}
+			if( g_oneThumbnailHeight == 0 ) {
+				g_oneThumbnailHeight= jQuery(newDiv).find('.imgContainer').outerHeight(true);
+				//g_oneThumbnailHeight=jQuery(newDiv).outerHeight(true);
+			}
+			jQuery(newDiv).height(g_oneThumbnailHeight);
+			if( g_oneThumbnailHeightContainer == 0 ) {
+				g_oneThumbnailHeightContainer=jQuery(newDiv).outerHeight(true);
+			}
 			if( g_oneThumbnailLabelTitleHeight == 0 ) {
 				if( item['kind'] == 'album' ) {
 					g_oneThumbnailLabelTitleHeight=jQuery(newDiv).find('.labelFolderTitle').outerWidth(true);
@@ -1028,6 +1044,8 @@ function nanoGALLERY() {
 		SetTumbnailsContainerWidth();
 		var newH=SetTumbnailsContainerHeight();
 
+		//jQuery(g_containerThumbnails).find('.container').width(200);
+		
 		jQuery(g_containerThumbnails).animate({maxHeight: newH}, 200, function() {
 			// animation to display the thumbnails
 			jQuery(g_containerThumbnails).find('.container').each(function(i) {
@@ -1804,33 +1822,33 @@ function nanoGALLERY() {
 
 	function SetTumbnailsContainerHeight() {
 		var w=jQuery(g_containerThumbnails).width();
-		var nbItemsPerLineLines=Math.floor(w/g_oneThumbnailWidth);
+		var nbItemsPerLineLines=Math.floor(w/g_oneThumbnailWidthContainer);
 		var nbLines=Math.ceil(g_itemInfo.length/nbItemsPerLineLines);
-		var h=nbLines*g_oneThumbnailHeight;
+		var h=nbLines*g_oneThumbnailHeightContainer;
 		if( g_containerThumbnailsDisplayed ) { jQuery(g_containerThumbnails).css('max-height',h); }
 		return h;
 	};
 		
 	function SetTumbnailsContainerWidth() {
 		// set the max number of items per line
-		if( g_oneThumbnailWidth > 0 ) {
-			if( g_options.maxWidth > 0 && g_oneThumbnailWidth > g_options.maxWidth ) { jQuery(g_baseControl).css('maxWidth',g_oneThumbnailWidth); }
+		if( g_oneThumbnailWidthContainer > 0 ) {
+			if( g_options.maxWidth > 0 && g_oneThumbnailWidthContainer > g_options.maxWidth ) { jQuery(g_baseControl).css('maxWidth',g_oneThumbnailWidthContainer); }
 
 
 
 			var wcont=jQuery(g_containerParent).width();
 			if( g_options.maxItemsPerLine > 0 ) {
-				if( g_options.maxItemsPerLine*g_oneThumbnailWidth <= wcont ) {
-					jQuery(g_containerThumbnails).css('max-width',g_options.maxItemsPerLine*g_oneThumbnailWidth);
+				if( g_options.maxItemsPerLine*g_oneThumbnailWidthContainer <= wcont ) {
+					jQuery(g_containerThumbnails).css('max-width',g_options.maxItemsPerLine*g_oneThumbnailWidthContainer);
 				}
 				else {
-					var w=parseInt(wcont/g_oneThumbnailWidth)
-					jQuery(g_containerThumbnails).css('max-width',w*g_oneThumbnailWidth);
+					var w=parseInt(wcont/g_oneThumbnailWidthContainer);
+					jQuery(g_containerThumbnails).css('max-width',w*g_oneThumbnailWidthContainer);
 				}
 			}
 			else {
-				var w=parseInt(wcont/g_oneThumbnailWidth)
-				jQuery(g_containerThumbnails).css('max-width',w*g_oneThumbnailWidth);
+				var w=parseInt(wcont/g_oneThumbnailWidthContainer);	// number of thumbnails that can be displayed in 1 row
+				jQuery(g_containerThumbnails).css('max-width',w*g_oneThumbnailWidthContainer);
 			}
 		}
 	
@@ -1851,7 +1869,12 @@ function nanoGALLERY() {
 		g_viewerCurrentItem=jQuery(element).data("index");
 		
 		//jQuery(g_containerViewer).children().remove();
-		g_containerViewer=jQuery('<div class="nanoGalleryViewer" style="visibility:hidden"></div>').appendTo(g_baseControl);
+		//g_containerViewer=jQuery('<div class="nanoGalleryViewer" style="visibility:hidden"></div>').appendTo(g_baseControl);
+		g_containerViewerContainer=jQuery('<div class="nanoGalleryViewerContainer" style="visibility:hidden"></div>').appendTo('body');
+		jQuery(g_containerViewerContainer).addClass('nanogallery_theme_'+g_options.theme);
+		SetColorSchemeViewer(g_containerViewerContainer);
+
+		g_containerViewer=jQuery('<div class="nanoGalleryViewer" style="visibility:hidden"></div>').appendTo(g_containerViewerContainer);
 		
 		var sImg='';
 		for( var i =0; i <  g_itemInfo.length ; i++ ) {
@@ -1941,12 +1964,15 @@ function nanoGALLERY() {
 			//set2ElementsOnTop( jQuery(g_containerViewerContent), jQuery(g_containerViewerContent).find('img:eq('+g_viewerPreviousItem+')'), jQuery(g_containerViewerContent).find('img:eq('+g_viewerCurrentItem+')') );
 		}
 
+
 	
 		jQuery(g_containerViewerContent).find('img:eq('+g_viewerCurrentItem+')').css({'visibility':'visible', 'opacity':0});
 		if( g_viewerPreviousItem != -1 ) {
 			jQuery(g_containerViewerContent).find('img:eq('+g_viewerCurrentItem+')').animate({ 'opacity': '1' });
 			jQuery(g_containerViewerContent).find('img:eq('+g_viewerPreviousItem+')').animate({ 'opacity': '0' }, function() {
 				jQuery(g_containerViewerContent).find('img:eq('+g_viewerPreviousItem+')').css('visibility','hidden');
+				setElementOnTop( jQuery(g_containerViewer), jQuery(g_containerViewerContent).find('.contentAreaPrevious') );
+				setElementOnTop( jQuery(g_containerViewer), jQuery(g_containerViewerContent).find('.contentAreaNext') );
 			});
 		}
 		else {
@@ -1978,6 +2004,7 @@ function nanoGALLERY() {
 		if( g_containerViewerDisplayed ) {
 			g_containerViewerDisplayed=false;
 			jQuery(g_containerViewer).remove();
+			jQuery(g_containerViewerContainer).remove();
 			jQuery('body').css('overflow','inherit');
 			g_viewerPreviousItem=-1;
 		}
@@ -2173,11 +2200,12 @@ function nanoGALLERY() {
 		//s+=s1+'.nanoGalleryViewer { background:'+cs.viewer.background+'; color:'+cs.viewer.color+'; }'+'\n';
 		s+=s1+'.nanoGalleryViewer .content img { border:'+cs.imageBorder+'; box-shadow:'+cs.imageBoxShadow+'; }'+'\n';
 		s+=s1+'.nanoGalleryViewer .toolbar { background:'+cs.barBackground+'; border:'+cs.barBorder+'; color:'+cs.barColor+'; }'+'\n';
-		s+=s1+'.nanoGalleryViewer .toolbar .previousButton:after { color:'+cs.barColor+'; }'+'\n';
-		s+=s1+'.nanoGalleryViewer .toolbar .nextButton:after { color:'+cs.barColor+'; }'+'\n';
-		s+=s1+'.nanoGalleryViewer .toolbar .closeButton:after { color:'+cs.barColor+'; }'+'\n';
-		s+=s1+'.nanoGalleryViewer .toolbar .label .title { color:'+cs.barColor+'; }'+'\n';
-		s+=s1+'.nanoGalleryViewer .toolbar .label .description { color:'+cs.barDescriptionColor+'; }'+'\n';
+		s+=s1+'.nanoGalleryViewer .toolbar .previousButton:after { background:'+cs.barBackground+'; color:'+cs.barColor+'; }'+'\n';
+		s+=s1+'.nanoGalleryViewer .toolbar .nextButton:after { background:'+cs.barBackground+'; color:'+cs.barColor+'; }'+'\n';
+		s+=s1+'.nanoGalleryViewer .toolbar .closeButton:after { background:'+cs.barBackground+'; color:'+cs.barColor+'; }'+'\n';
+		s+=s1+'.nanoGalleryViewer .toolbar .label { background:'+cs.barBackground+'; }'+'\n';
+		s+=s1+'.nanoGalleryViewer .toolbar .label .title { background:'+cs.barBackground+'; color:'+cs.barColor+'; }'+'\n';
+		s+=s1+'.nanoGalleryViewer .toolbar .label .description { background:'+cs.barBackground+'; color:'+cs.barDescriptionColor+'; }'+'\n';
 		jQuery("head").append('<style>'+s+'</style>');
 		jQuery(element).addClass(g_colorSchemeLabel);
 	};

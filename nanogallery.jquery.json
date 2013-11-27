@@ -9,11 +9,13 @@
 		"photo",
 		"photoset",
 		"slideshow",
-		"album",
+		"flickr",
+		"googleplus",
+		"picasa",
 		"effects",
 		"responsive"
 	],
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"
