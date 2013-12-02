@@ -43,8 +43,9 @@ Key features
   * Picasa/Google+ account
 
 
-![Screenshot](/doc/nanoGALLERY_screenshot.jpg?raw=true "Screenshot")
-![Screenshot](/doc/nanoGALLERY_screenshot2.jpg?raw=true "Screenshot2")
+![Screenshot](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
+![Screenshot](/doc/nanoGALLERY4_screenshot2.png?raw=true "Screenshot2")
+![Screenshot](/doc/nanoGALLERY4_screenshot3.png?raw=true "Screenshot3")
 
   
 Demonstration and Tutorials
