@@ -107,6 +107,12 @@ font-family: 'nano_icon_font';
 	vertical-align: middle;
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 }
+.nanogallery_theme_clean .nanoGalleryBreadcrumb .loading{
+}
+.nanogallery_theme_clean .nanoGalleryBreadcrumb .loading:after{
+	content:'\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
+	background:url('loading.gif') no-repeat center;
+}
 
 /**************************************/
 /* THUMBNAILS                         */

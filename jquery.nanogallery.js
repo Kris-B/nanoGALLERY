@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v4.0.2
+ * @preserve nanoGALLERY v4.0.3
  * Plugin for jQuery by Christophe Brisbois
  * http://nanogallery.brisbois.fr
  * 
@@ -9,6 +9,8 @@
  *  - Transit (http://ricostacruz.com/jquery.transit) - optional
  *  - fancybox (http://fancyapps.com) - optional
  */
+
+
 
 
 (function( $ ) {
@@ -44,6 +46,7 @@
 			//thumbnailHoverEffect:[{'name':'borderLighter','duration':300}],
 			//thumbnailHoverEffect:[{'name':'imageFlipHorizontal','duration':300}],
 			thumbnailLabel:{position:'overImageOnBottom',display:true,displayDescription:true},
+			touchAnimation:true,
 			preset:'none'
 		}, options );
 		
@@ -90,6 +93,7 @@
 			thumbnailHoverEffect:null,
 			//thumbnailHoverEffect:[{'name':'borderLighter','duration':300}],
 			thumbnailLabel:{position:'overImageOnBottom',display:true,displayDescription:false},
+			touchAnimation:true,
 			preset:'none'
 		}, options );
 
@@ -540,33 +544,39 @@ function nanoGALLERY() {
 		g_itemInfo.length=0;
 
 		jQuery.each(g_options.items, function(i,item){
-			var newObj=new Array(5);
-			newObj.title=item.title;
+			var thumbsrc='';
 			if( item.srct !== undefined && item.srct.length>0 ) {
-				newObj.thumbsrc=g_options.itemsBaseURL+item.srct;
+				thumbsrc=g_options.itemsBaseURL+item.srct;
 			}
 			else {
-				newObj.thumbsrc=g_options.itemsBaseURL+item.src;
+				thumbsrc=g_options.itemsBaseURL+item.src;
 			}
-			newObj.src=g_options.itemsBaseURL+item.src;
+			var src=g_options.itemsBaseURL+item.src;
+			var description=''; 		//'&nbsp;';
 			if( toType(item.description) == 'string' ) {
-				newObj.description=item.description;
+				description=item.description;
 			}
-			else {
-				newObj.description='';	//'&nbsp;';
-			}
+			var destinationURL='';
 			if( item.destURL !== undefined && item.destURL.length>0 ) {
-				newObj.destinationURL=item.destURL;
+				destinationURL=item.destURL;
 			}
-			else {
-				newObj.destinationURL='';
-			}
-			newObj.kind='image';
-
-			g_itemInfo.push(newObj);
+			NGAddItem(item.title, thumbsrc, src, description, destinationURL, 'image' );
 		});
 		
 		renderGallery();
+	};
+	
+	function NGAddItem(title, thumbSrc, imageSrc, description, destinationURL, kind ) {
+		var newObj=new Array(8);
+		newObj.title=title;
+		newObj.thumbsrc=thumbSrc;
+		newObj.src=imageSrc;
+		newObj.description=description;
+		newObj.destinationURL=destinationURL;
+		newObj.kind=kind;
+		newObj.hovered=false;
+		newObj.elt=null;
+		g_itemInfo.push(newObj);
 	};
 
 	// ##### LIST OF HREF ATTRIBUTES #####
@@ -574,30 +584,25 @@ function nanoGALLERY() {
 		g_itemInfo.length=0;
 
 		jQuery.each(elements, function(i,item){
-			var newObj=new Array(5);
-			newObj.title=jQuery(item).text();
+			var thumbsrc='';
 			if( jQuery(item).attr('data-ngthumb') !== undefined && jQuery(item).attr('data-ngthumb').length>0 ) {
-				newObj.thumbsrc=g_options.itemsBaseURL+jQuery(item).attr('data-ngthumb');
+				thumbsrc=g_options.itemsBaseURL+jQuery(item).attr('data-ngthumb');
 			}
 			else {
-				newObj.thumbsrc=g_options.itemsBaseURL+jQuery(item).attr('href');
+				// thumbsrc=g_options.itemsBaseURL+jQuery(item).attr('href');
 			}
-			newObj.src=g_options.itemsBaseURL+jQuery(item).attr('href');
-			newObj.description=jQuery(item).attr('data-ngdesc');
+			src=g_options.itemsBaseURL+jQuery(item).attr('href');
+			//newObj.description=jQuery(item).attr('data-ngdesc');
+			var description='';
 			if( jQuery(item).attr('data-ngdesc') !== undefined && jQuery(item).attr('data-ngdesc').length>0 ) {
-				newObj.description=jQuery(item).attr('data-ngdesc');
+				description=jQuery(item).attr('data-ngdesc');
 			}
-			else {
-				newObj.description='';
-			}
+			var destURL='';
 			if( jQuery(item).attr('data-ngdest') !== undefined && jQuery(item).attr('data-ngdest').length>0 ) {
-				newObj.destURL=jQuery(item).attr('data-ngdest');
+				destURL=jQuery(item).attr('data-ngdest');
 			}
-			else {
-				newObj.destURL='';
-			}
-			newObj.kind='image';
-			g_itemInfo.push(newObj);
+			NGAddItem(jQuery(item).text(), thumbsrc, src, description, destURL, 'image' );
+
 		});
 		
 		jQuery.each(elements, function(i,item){
@@ -623,10 +628,14 @@ function nanoGALLERY() {
 				newDiv.click(function() {
 					var folder=jQuery(this).data("path");
 					jQuery(this).nextAll().remove();
+					removeGallery();
 					FlickrGetItems(folder,'');
 				});;
 			}
 		}
+
+		if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().addClass('loading'); }
+
 		
 		//jQuery(g_containerThumbnails).children().remove();
 
@@ -648,6 +657,7 @@ function nanoGALLERY() {
 			jQuery.jsonp({
 				"url": url,
 				"success": function(data) {
+					if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().removeClass('loading'); }
 					g_itemInfo.length=0;
 					var ok=true;
 					if( data.stat !== undefined ) {
@@ -668,17 +678,9 @@ function nanoGALLERY() {
 								itemDescription=item.description._content;
 							itemThumbURL = "http://farm" + item.farm + ".staticflickr.com/" + item.server + "/" + item.primary + "_" + item.secret + "_"+g_flickrThumbSize+".jpg";
 							imgUrl=''
-							itemKind=kind;
 
 							if( CheckAlbumName(itemTitle) ) {
-								newObj=new Array(5);
-								newObj.title=itemTitle;
-								newObj.thumbsrc=itemThumbURL;
-								newObj.src=itemID;
-								newObj.description=itemDescription;
-								newObj.destinationURL='';
-								newObj.kind=itemKind;
-								g_itemInfo.push(newObj);
+								NGAddItem(itemTitle, itemThumbURL, itemID, itemDescription, '', kind );
 							}
 						});
 						
@@ -686,6 +688,7 @@ function nanoGALLERY() {
 					}
 				},
 				"error": function(xOptions,textStatus) {
+					if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().removeClass('loading'); }
 					alert("nanoGALLERY - Could not retrieve Flickr photoset list: "+textStatus);
 				}
 			});
@@ -709,6 +712,7 @@ function nanoGALLERY() {
 			jQuery.jsonp({
 				"url": url,
 				"success": function(data) {
+					if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().removeClass('loading'); }
 					g_itemInfo.length=0;
 
 					jQuery.each(data.photoset.photo, function(i,item){
@@ -718,22 +722,22 @@ function nanoGALLERY() {
 						//Get the description
 						itemDescription=item.description._content;
 						itemThumbURL = "http://farm" + item.farm + ".staticflickr.com/" + item.server + "/" + item.id +"_" + item.secret + "_"+g_flickrThumbSize+".jpg";
-						imgUrl = "http://farm" + item.farm + ".staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_o.jpg";
-						itemKind=kind;
+						if( item.url_o !== undefined ) {
+							imgUrl=item.url_o;
+						}
+						else {
+							imgUrl=item.url_m;
+							//imgUrl = "http://farm" + item.farm + ".staticflickr.com/" + item.server + "/" + item.id + "_" + item.secret + "_o.jpg";
+						}
 						
-						var newObj=new Array(5);
-						newObj.title=itemTitle;
-						newObj.thumbsrc=itemThumbURL;
-						newObj.src=item.url_o;			//imgUrl;
-						newObj.description=itemDescription;
-						newObj.destinationURL='';
-						newObj.kind=itemKind;
-						g_itemInfo.push(newObj);
+						itemKind=kind;
+						NGAddItem(itemTitle, itemThumbURL, imgUrl, itemDescription, '', itemKind );
 						
 					});
 					renderGallery();
 				},
 				"error": function(xOptions,textStatus) {
+					if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().removeClass('loading'); }
 					alert("nanoGALLERY - Could not retrieve Flickr photo list: "+textStatus);
 				}
 			});
@@ -767,12 +771,14 @@ function nanoGALLERY() {
 				newDiv.click(function() {
 					var folder=jQuery(this).data("path");
 					jQuery(this).nextAll().remove();
+					removeGallery();
 					PicasaGetItems(folder,'');
 				});;
 			}
 		}
 		
 		// get the content and display it
+		if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().addClass('loading'); }
 		jQuery.ajaxSetup({ cache: false });
 		jQuery.support.cors = true;
 		url = url + "&callback=?";
@@ -787,6 +793,7 @@ function nanoGALLERY() {
 		jQuery.jsonp({
 			"url": url,	//+"?callback=?",
 			"success": function(data) {
+				if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().removeClass('loading'); }
 				g_itemInfo.length=0;
 				
 				jQuery.each(data.feed.entry, function(i,data){
@@ -813,17 +820,14 @@ function nanoGALLERY() {
 					}
 					
 					if( ok ) {
-						newObj=new Array(5);
-						newObj.title=itemTitle;
-						newObj.thumbsrc=itemThumbURL;
-						if( kind == 'album' ) 
-							newObj.src=itemID;
-						else
-							newObj.src=imgUrl;
-						newObj.description=itemDescription;
-						newObj.destinationURL='';
-						newObj.kind=itemKind;
-						g_itemInfo.push(newObj);
+						var src="";
+						if( kind == 'album' ) {
+							src=itemID;
+						}
+						else {
+							src=imgUrl;
+						}
+						NGAddItem(itemTitle, itemThumbURL, src, itemDescription, '', itemKind );
 					}
 					
 				});
@@ -831,6 +835,7 @@ function nanoGALLERY() {
 				renderGallery();
 			},
 			"error": function(xOptions,textStatus) {
+				if( g_options.displayBreadcrumb == true ) { jQuery(g_containerBreadcrumb).find('.folder').last().removeClass('loading'); }
 				alert("nanoGALLERY - Could not retrieve Picasa/Google+ data: "+textStatus);
 			}
 		});
@@ -897,6 +902,19 @@ function nanoGALLERY() {
 		});
 	
 	};
+
+	function removeGallery() {
+		var elt=jQuery(g_containerThumbnails).parent();
+		jQuery(g_containerThumbnails).animate({'max-height': '0'}, 200);
+		jQuery(elt).animate({opacity: 0},100).promise().done(function(){
+			g_containerThumbnailsDisplayed=false;
+			jQuery(g_containerThumbnails).children().remove();
+			jQuery(elt).css('opacity','1');
+			//renderGallery2();
+		});
+	
+	};
+
 	
 	function renderGallery2() {
 		g_oneThumbnailWidth=0;
@@ -948,7 +966,8 @@ function nanoGALLERY() {
 			jQuery(newDivTemp).append(newDivTemp1);	
 			jQuery(newDivTemp).css('opacity','0');
 			var newDiv =jQuery(newDivTemp).appendTo(g_containerThumbnails); //.animate({ opacity: 1},1000, 'swing');	//.show('slow'); //.fadeIn('slow').slideDown('slow');
-			
+			g_itemInfo[i].elt=newDiv;
+
 
 			
 			switch( g_options.thumbnailLabel.position ){
@@ -1005,38 +1024,87 @@ function nanoGALLERY() {
 			if( g_oldBorderColor == '' || g_oldBorderColor == null || g_oldBorderColor == undefined ) { g_oldBorderColor='#000'; }
 			g_oldLabelOpacity=jQuery(newDiv).find('.labelImage').css('opacity');
 			
-			jQuery(newDiv).hover(
-				function() {
-					ThumbnailHover(this);
 
-				}, function() {
+			//jQuery(newDiv).mouseenter(
+			//	function(e) {
+			//		e.preventDefault();
+			//		ThumbnailHover(this);
+			//	}
+			//);
+			//jQuery(newDiv).mouseleave(
+			//	function(e) {
+			//		e.preventDefault();
+			//		ThumbnailHoverOut(this);
+			//	}
+			//);
+			
+			jQuery(newDiv).nanoHoverIntent(
+				function(e) {
+					//e.preventDefault();
+					//pipo
+					ThumbnailHover(this);
+				}, function(e) {
+					//e.preventDefault();
 					ThumbnailHoverOut(this);
 				}
 			);
+
+			//jQuery(newDiv).hover(
+			//	function(e) {
+			//		e.preventDefault();
+			//		//pipo
+			//		ThumbnailHover(this);
+			//	}, function(e) {
+			//		e.preventDefault();
+			//		ThumbnailHoverOut(this);
+			//	}
+			//);
 			
-			newDiv.click(function() {
+			newDiv.click(function(e) {
+				e.stopPropagation();
 				var n=jQuery(this).data("index");
 
-				// open URL
-				if( g_itemInfo[n].destinationURL !== undefined && g_itemInfo[n].destinationURL.length >0 ) {
-					window.location = g_itemInfo[n].destinationURL;
-					return;
-				}
+				
+				if( g_options.touchAnimation == false || g_itemInfo[n].hovered === true ) {
+				//alert(g_itemInfo[n].hovered);
+					// open URL
+					if( g_itemInfo[n].destinationURL !== undefined && g_itemInfo[n].destinationURL.length >0 ) {
+						window.location = g_itemInfo[n].destinationURL;
+						return;
+					}
 
-				if( g_itemInfo[n].kind == 'album' ) {
-					
-					if( g_options.kind == 'picasa' )
-						// open Picasa/Google+ album
-						PicasaGetItems(g_itemInfo[n].src,g_itemInfo[n].title);
-					else
-						// Open Flickr photoset
-						FlickrGetItems(g_itemInfo[n].src,g_itemInfo[n].title);
+					if( g_itemInfo[n].kind == 'album' ) {
+						
+						if( g_options.kind == 'picasa' ) {
+							// open Picasa/Google+ album
+							removeGallery();
+							PicasaGetItems(g_itemInfo[n].src,g_itemInfo[n].title);
+						}
+						else {
+							// Open Flickr photoset
+							removeGallery();
+							FlickrGetItems(g_itemInfo[n].src,g_itemInfo[n].title);
+						}
+					}
+					else {
+						// Display photo
+						DisplayItem(this);
+					}
 				}
 				else {
-					// Display photo
-					DisplayItem(this);
+					// hover effect on click --> touchscreen
+					ThumbnailHoverOutAll();
+					ThumbnailHover(this);
 				}
+				
 			});
+			
+			// play the hover out animation on thumbnail --> touchscreen
+			if( g_options.touchAnimation ) {
+				$(document.body).click(function(e){
+					ThumbnailHoverOutAll();
+				});
+			}
 		});
 
 		//g_oneThumbnailWidth=w;
@@ -1056,6 +1124,14 @@ function nanoGALLERY() {
 
 
 	};
+	
+	function ThumbnailHoverOutAll() {
+		for( var i=0; i < g_itemInfo.length ; i++ ) {
+			if( g_itemInfo[i].hovered === true ) {
+				ThumbnailHoverOut(g_itemInfo[i].elt);
+			}
+		}
+	}
 	
 	function ThumbnailInit( elt ) {
 		var useTransitPlugin = false;
@@ -1248,6 +1324,8 @@ function nanoGALLERY() {
 	function ThumbnailHover( elt ) {
 		//if( jQueryMinVersion('1.9') ) { jQuery(elt).find('*').finish(); }
 		jQuery(elt).find('*').stop(true,true);
+		var n=jQuery(elt).data("index");
+		g_itemInfo[n].hovered=true;
 		try {
 			for( j=0; j<g_thumbnailHoverEffect.length; j++) {
 				switch(g_thumbnailHoverEffect[j].name ) {
@@ -1567,6 +1645,8 @@ function nanoGALLERY() {
 	function ThumbnailHoverOut( elt ) {
 		//if( jQueryMinVersion('1.9') ) { jQuery(elt).find('*').finish(); }
 		jQuery(elt).find('*').stop(true,false);
+		var n=jQuery(elt).data("index");
+		g_itemInfo[n].hovered=false;
 		try {
 			for( j=0; j<g_thumbnailHoverEffect.length; j++) {
 				switch(g_thumbnailHoverEffect[j].name ) {
@@ -1898,11 +1978,13 @@ function nanoGALLERY() {
 			}
 		});
 		
-		jQuery(g_containerViewerCloseFloating).on("click",function(){
+		jQuery(g_containerViewerCloseFloating).on("click",function(e){
+			e.stopPropagation();
 			CloseInternalViewer();
 		});
 		
-		jQuery(g_containerViewerToolbar).find('.closeButton').on("click",function(){
+		jQuery(g_containerViewerToolbar).find('.closeButton').on("click",function(e){
+			e.stopPropagation();
 			CloseInternalViewer();
 		});
 
@@ -1915,8 +1997,8 @@ function nanoGALLERY() {
 				DisplayNextImage();
 			}
 		});
-		jQuery(g_containerViewerToolbar).find('.nextButton').on("click",function(){ DisplayNextImage(); });
-		jQuery(g_containerViewerToolbar).find('.previousButton').on("click",function(){ DisplayPreviousImage(); });
+		jQuery(g_containerViewerToolbar).find('.nextButton').on("click",function(e){ e.stopPropagation(); DisplayNextImage(); });
+		jQuery(g_containerViewerToolbar).find('.previousButton').on("click",function(e){ e.stopPropagation(); DisplayPreviousImage(); });
 		jQuery(g_containerViewerContent).find('.contentAreaNext').on("click",function(e){ e.stopPropagation(); DisplayNextImage(); });
 		jQuery(g_containerViewerContent).find('.contentAreaPrevious').on("click",function(e){ e.stopPropagation(); DisplayPreviousImage(); });
 
@@ -3049,3 +3131,124 @@ colors = jQuery.Color.names = {
 
 
 
+
+
+/**!
+ * @preserve
+ * Includes also hoverIntent r7 // 2013.03.11 // jQuery 1.9.1+
+ * http://cherne.net/brian/resources/jquery.hoverIntent.html
+ *
+ * You may use hoverIntent under the terms of the MIT license. Basically that
+ * means you are free to use hoverIntent as long as this header is left intact.
+ * Copyright 2007, 2013 Brian Cherne
+ */
+
+/* hoverIntent is similar to jQuery's built-in "hover" method except that
+ * instead of firing the handlerIn function immediately, hoverIntent checks
+ * to see if the user's mouse has slowed down (beneath the sensitivity
+ * threshold) before firing the event. The handlerOut function is only
+ * called after a matching handlerIn.
+ *
+ * // basic usage ... just like .hover()
+ * .hoverIntent( handlerIn, handlerOut )
+ * .hoverIntent( handlerInOut )
+ *
+ * // basic usage ... with event delegation!
+ * .hoverIntent( handlerIn, handlerOut, selector )
+ * .hoverIntent( handlerInOut, selector )
+ *
+ * // using a basic configuration object
+ * .hoverIntent( config )
+ *
+ * @param  handlerIn   function OR configuration object
+ * @param  handlerOut  function OR selector for delegation OR undefined
+ * @param  selector    selector OR undefined
+ * @author Brian Cherne <brian(at)cherne(dot)net>
+ */
+
+/* embedded version rename nanoHoverIntent to avoid conflicts */
+
+(function($) {
+    $.fn.nanoHoverIntent = function(handlerIn,handlerOut,selector) {
+
+        // default configuration values
+        var cfg = {
+            interval: 100,
+            sensitivity: 7,
+            timeout: 0
+        };
+
+        if ( typeof handlerIn === "object" ) {
+            cfg = $.extend(cfg, handlerIn );
+        } else if ($.isFunction(handlerOut)) {
+            cfg = $.extend(cfg, { over: handlerIn, out: handlerOut, selector: selector } );
+        } else {
+            cfg = $.extend(cfg, { over: handlerIn, out: handlerIn, selector: handlerOut } );
+        }
+
+        // instantiate variables
+        // cX, cY = current X and Y position of mouse, updated by mousemove event
+        // pX, pY = previous X and Y position of mouse, set by mouseover and polling interval
+        var cX, cY, pX, pY;
+
+        // A private function for getting mouse position
+        var track = function(ev) {
+            cX = ev.pageX;
+            cY = ev.pageY;
+        };
+
+        // A private function for comparing current and previous mouse position
+        var compare = function(ev,ob) {
+            ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t);
+            // compare mouse positions to see if they've crossed the threshold
+            if ( ( Math.abs(pX-cX) + Math.abs(pY-cY) ) < cfg.sensitivity ) {
+                $(ob).off("mousemove.nanoHoverIntent",track);
+                // set hoverIntent state to true (so mouseOut can be called)
+                ob.hoverIntent_s = 1;
+                return cfg.over.apply(ob,[ev]);
+            } else {
+                // set previous coordinates for next time
+                pX = cX; pY = cY;
+                // use self-calling timeout, guarantees intervals are spaced out properly (avoids JavaScript timer bugs)
+                ob.hoverIntent_t = setTimeout( function(){compare(ev, ob);} , cfg.interval );
+            }
+        };
+
+        // A private function for delaying the mouseOut function
+        var delay = function(ev,ob) {
+            ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t);
+            ob.hoverIntent_s = 0;
+            return cfg.out.apply(ob,[ev]);
+        };
+
+        // A private function for handling mouse 'hovering'
+        var handleHover = function(e) {
+            // copy objects to be passed into t (required for event object to be passed in IE)
+            var ev = jQuery.extend({},e);
+            var ob = this;
+
+            // cancel hoverIntent timer if it exists
+            if (ob.hoverIntent_t) { ob.hoverIntent_t = clearTimeout(ob.hoverIntent_t); }
+
+            // if e.type == "mouseenter"
+            if (e.type == "mouseenter") {
+                // set "previous" X and Y position based on initial entry point
+                pX = ev.pageX; pY = ev.pageY;
+                // update "current" X and Y position based on mousemove
+                $(ob).on("mousemove.nanoHoverIntent",track);
+                // start polling interval (self-calling timeout) to compare mouse coordinates over time
+                if (ob.hoverIntent_s != 1) { ob.hoverIntent_t = setTimeout( function(){compare(ev,ob);} , cfg.interval );}
+
+                // else e.type == "mouseleave"
+            } else {
+                // unbind expensive mousemove event
+                $(ob).off("mousemove.hoverIntent",track);
+                // if hoverIntent state is true, then call the mouseOut function after the specified delay
+                if (ob.hoverIntent_s == 1) { ob.hoverIntent_t = setTimeout( function(){delay(ev,ob);} , cfg.timeout );}
+            }
+        };
+
+        // listen for mouseenter and mouseleave
+        return this.on({'mouseenter.hoverIntent':handleHover,'mouseleave.hoverIntent':handleHover}, cfg.selector);
+    };
+})(jQuery);

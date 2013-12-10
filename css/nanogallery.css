@@ -108,6 +108,13 @@ font-family: 'nano_icon_font';
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 }
 
+.nanogallery_theme_default .nanoGalleryBreadcrumb .loading{
+}
+.nanogallery_theme_default .nanoGalleryBreadcrumb .loading:after{
+	content:'\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
+	background:url('loading.gif') no-repeat center;
+}
+
 /**************************************/
 /* THUMBNAILS                         */
 /**************************************/

@@ -230,6 +230,10 @@ Syntax and options
 	| *string, object; Deault: 'dark'*
 **colorSchemeViewer** | Set the color scheme for the image viewer (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
 	| *string, object; Deault: 'dark'*
+**touchAnimation** | Enable/Disable animation on touch event
+    | *boolean; Default: `true`*
+	
+	
 
 	
 
@@ -246,11 +250,11 @@ Syntax and options
 	|	*Boolean; Default: `true`*
 **topLabel** | Label to display in the breadcrumb for the top level
     | *string*
-**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is '|'.
+**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is  `|`.
     | *string*
-**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is '|'.
+**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is `|`.
     | *string*
-**albumList** | List of albums to display. Separator is '|'.
+**albumList** | List of albums to display. Separator is `|`.
     | *string*
 
 #### Example:
@@ -282,11 +286,11 @@ $(document).ready(function () {
 	|	*Boolean; Default: `true`*
 **topLabel** | Label to display in the breadcrumb for the top level
     | *string*
-**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is '|'.
+**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is `|`.
     | *string*
-**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is '|'.
+**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is `|`.
     | *string*
-**albumList** | List of albums to display. Separator is '|'.
+**albumList** | List of albums to display. Separator is `|`.
     | *string*
 
 	
