@@ -3,7 +3,7 @@ nanoGALLERY - jQuery plugin
 
 Simplistic to use image gallery plugin for jQuery.
 
-30 animated thumbnails **hover effects** (combinable). Support for pulling in **Flickr** and **Picasa/Google+** photo albums among others. Mobile-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
+Many animated thumbnails **hover effects** (combinable). Support for pulling in **Flickr** and **Picasa/Google+** photo albums among others. Touchscreen-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Pagination and image lazy load. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Slideshow. Support custom themes.
 
 ### Usage can be as easy as: 
 ```js
@@ -14,6 +14,18 @@ Simplistic to use image gallery plugin for jQuery.
 ```
 
 
+New in v4.1
+--------
+- gesture support
+- optimized support of large galleries (thumbnail image lazy loading or pagination)
+- support browser back-button to close the lightbox
+- albums content is now cached avoiding reloads
+- slideshow mode
+- keyboard shortcuts
+- i18n support in gallery content (titles and descriptions) and in UI
+For a full feature list look at the release note.
+
+
 New in v4
 --------
 Version 4 has been optimized and layout customization is now much easyer.
@@ -21,7 +33,7 @@ Version 4 has been optimized and layout customization is now much easyer.
 - parameter to set the thumbnails animated hover effects (combinations possible)
 - color schemes to avoid having to edit any CSS file
 - display images faster (thanks to pre-loading)
-- icons now font-based for a better hires (Retina) display
+- icons now font-based for a better display on high resolution screens
 
 
 Key features
@@ -31,21 +43,25 @@ Key features
 - Thumbnails with titles and descriptions
 - 30 animated thumbnails hover effects (combinations are possible)
 - Easy to setup and customizable
-- Responsive layout - mobile friendly
+- Responsive layout - mobile friendly - gesture support
 - Breadcrumb for easy navigation in photo albums
+- Slideshow mode
+- optimized support of very large galleries (thumbnail image lazy loading or pagination)
+- Keyboard shortcuts
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
 - easy layout customisation with color schemes - support custom ones
 - Delivered with multiple themes - Support custom themes
+- Internationalization support (i18n)
 - Supported image sources :
   * list of images
   * Flickr account
   * Picasa/Google+ account
 
 
-![Screenshot](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
-![Screenshot](/doc/nanoGALLERY4_screenshot2.png?raw=true "Screenshot2")
-![Screenshot](/doc/nanoGALLERY4_screenshot3.png?raw=true "Screenshot3")
+![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
+![Screenshot2](/doc/nanoGALLERY4_screenshot2.png?raw=true "Screenshot2")
+![Screenshot3](/doc/nanoGALLERY4_screenshot3.png?raw=true "Screenshot3")
 
   
 Demonstration and Tutorials
@@ -64,7 +80,7 @@ Visit the demonstration page for some usefull code samples and to test online so
 - [list of images passed to the script (API)](http://jsfiddle.net/Kris_B/gvauS/)
 
 
-Usage (v4.0)
+Usage (v4.1)
 -----
 
 
@@ -72,16 +88,16 @@ Usage (v4.0)
 
 
 ``` HTML
-<!-- Add jQuery library -->
+<!-- Add jQuery library (mandatory) -->
 <script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
 
-<!-- Add jsonp plugin (only mandatory for Flickr, Google+ and Picasa) -->
-<script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script>
+<!-- Add Transit plugin (optional - this is only required for some hover effects) -->
+<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script> 
 
-<!-- Add Transit plugin (this is only required for some hover effets) -->
-<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
+<!-- Add Hammer.js plugin (optional - this is only required for gesture support) -->
+<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script> 
 
-<!-- Add nanoGALLERY plugin -->
+<!-- Add nanoGALLERY plugin files (mandatory) -->
 <link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery.nanogallery.js"></script>
 
@@ -227,15 +243,32 @@ Syntax and options
 **itemsBaseURL** | URL prefix for the images defined with method#1 or method#2
 	| *string*
 **colorScheme** | Set the color scheme for the gallery (breadcrumb and thumbnails) (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
-	| *string, object; Deault: 'dark'*
+	| *string, object; Default: 'dark'*
 **colorSchemeViewer** | Set the color scheme for the image viewer (possible values: `none`, `dark`,`darkRed`, `darkGreen`, `darkBlue`, `darkOrange`, `light`). Custom color schemes are supported.
-	| *string, object; Deault: 'dark'*
+	| *string, object; Default: 'dark'*
 **touchAnimation** | Enable/Disable animation on touch event
     | *boolean; Default: `true`*
-	
+**galleryToolbarWidthAligned** | Toolbar is automatically resized to the width of the thumbnails area	
+    | *boolean; Default: `true`*
+**slideshowDelay** | Delay in ms before displaying next image (slideshow)
+    | *integer; Default: 3000*
+**paginationMaxItemsPerPage** | Maximum number of thumbnails per page (pagination)
+    | *integer; Default: 0 (pagination disabled)*
+**paginationMaxLinesPerPage** | Maximum number of thumbnail lines per page (pagination)
+    | *integer; Default: 0 (pagination disabled)*
+**thumbnailDisplayInterval** | Interval in ms between the display of 2 thumbnails
+    | *integer; Default: 30*
+**thumbnailDisplayTransition** | Enable transition animation before displaying one thumbnail
+    | *boolean; Default: `true`*
+**thumbnailLazyLoad** | Enable lazy load of thumbnails image (images are loaded only when displayed in the viewport)
+    | *boolean; Default: `false`*
+**thumbnailLazyLoadTreshold** | Extend the viewport area (in pixel) for thumbnails image lazy load
+    | *integer; Default: 100*
+**i18n** | UI string translations
+    | *object;*
 	
 
-	
+
 
 ### Picasa/Google+ specific arguments
 **Name** | **Description**
@@ -248,26 +281,24 @@ Syntax and options
     | *string*
 **displayBreadcrumb** | Display or not the navigation breadcrumb
 	|	*Boolean; Default: `true`*
-**topLabel** | Label to display in the breadcrumb for the top level
+**~~topLabel~~** | ~~Label to display in the breadcrumb for the top level~~ Outdated and replaced by i18n
+    | *~~string~~*
+**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is  &#124;
+    | *string; Default: `scrapbook|profil`*
+**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is &#124;
     | *string*
-**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is  `|`.
-    | *string*
-**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is `|`.
-    | *string*
-**albumList** | List of albums to display. Separator is `|`.
+**albumList** | List of albums to display. Separator is &#124;
     | *string*
 
 #### Example:
 
 ```js
-$(document).ready(function () {
-  jQuery("#nanoGallery").nanoGallery({
-  	kind:'picasa',
-  	userID:'cbrisbois@gmail.com',
-  	thumbnailWidth:150,
-  	thumbnailHeight:150,
-  	blackList:'scrapbook|forhomepage|profil'
-  });
+jQuery("#nanoGallery").nanoGallery({
+  kind:'picasa',
+  userID:'cbrisbois@gmail.com',
+  thumbnailWidth:150,
+  thumbnailHeight:150,
+  blackList:'scrapbook|forhomepage|profil'
 });
 ```
 
@@ -284,13 +315,13 @@ $(document).ready(function () {
     | *string*
 **displayBreadcrumb** | Display or not the navigation breadcrumb
 	|	*Boolean; Default: `true`*
-**topLabel** | Label to display in the breadcrumb for the top level
+**~~topLabel~~** | ~~Label to display in the breadcrumb for the top level~~ Outdated and replaced by i18n
+    | *~~string~~*
+**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is &#124;
+    | *string; Default: `scrapbook|profil`*
+**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is &#124;
     | *string*
-**blackList** | List of keywords to ignore - albums containing one of the keywords in the title will be ignored. Keyword separator is `|`.
-    | *string*
-**whiteList** | List of keywords to authorize - albums must contain one of the keywords to be displayed. Keyword separator is `|`.
-    | *string*
-**albumList** | List of albums to display. Separator is `|`.
+**albumList** | List of albums to display. Separator is &#124;
     | *string*
 
 	
@@ -324,13 +355,11 @@ Only ```name``` is mandatory.
 ### Example:
 
 ```js
-$(document).ready(function () {
-  jQuery("#nanoGallery").nanoGallery({
-  	kind:'picasa',
-  	userID:'cbrisbois@gmail.com',
-  	blackList:'scrapbook|forhomepage|profil',
-	thumbnailHoverEffect:[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'}]
-  });
+jQuery("#nanoGallery").nanoGallery({
+  kind:'picasa',
+  userID:'cbrisbois@gmail.com',
+  blackList:'scrapbook|forhomepage|profil',
+thumbnailHoverEffect:[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'}]
 });
 ```
 
@@ -341,17 +370,80 @@ Combine thumbnail mouse hover effects
 ### Example:
 
 ```js
-$(document).ready(function () {
-  jQuery("#nanoGallery").nanoGallery({
-  	kind:'picasa',
-  	userID:'cbrisbois@gmail.com',
-  	blackList:'scrapbook|forhomepage|profil',
-	thumbnailHoverEffect:
-		[{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'},
-		{'name':'borderLighter','duration':300,'durationBack':200}]
-  });
+jQuery("#nanoGallery").nanoGallery({
+  kind:'picasa',
+  userID:'cbrisbois@gmail.com',
+  blackList:'scrapbook|forhomepage|profil',
+thumbnailHoverEffect:
+  [{'name':'slideUp','duration':400,'durationBack':200,'easing':'swing','easingBack':'swing'},
+  {'name':'borderLighter','duration':300,'durationBack':200}]
 });
 ```
+
+
+
+i18n
+------
+
+The language defined in the browser is used. If no corresponding definition is found, then the default language is used.
+
+### Internationalization of UI elements
+
+Following elements support multi-language: `breadcrumbHome` `paginationPrevious` `paginationNext`.
+Set the correponding i18n properties. Use _LanguageCode to specify one language.
+
+Example:
+
+```js
+i18n:{
+  'paginationPrevious':'Previous','paginationPrevious_FR':'Précédent','paginationPrevious_DE':'Zurück',
+  'paginationNext':'Next','paginationNext_FR':'Suivant','paginationNext_DE':'Weiter'
+}
+```
+
+### multi-language image titles and descriptions
+
+Supported by API-method.
+
+Use _LanguageCode to specify one language. So title_FR is the french title, and description_DE is the german description.
+
+Example:
+
+```js
+jQuery("#nanoGallery").nanoGallery({
+  items: [
+    {
+      src: 'demonstration/image_01.jpg',
+      srct: 'demonstration/image_01t.jpg',
+      title: 'image 1',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      title_FR: 'image 2 (fr)',
+      description_FR : 'description image 1 (fr)'
+    },
+    {
+      src: 'demonstration/image_02.jpg',
+      srct: 'demonstration/image_02t.jpg',
+      title: 'image 2' ,
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      title_FR: 'image 2 (fr)',
+      description_FR : 'description image 2 (fr)'
+    }
+  ]
+});
+```
+
+
+jQuery-JSONP plugin
+------
+You can optionally use the jQuery-JSONP plugin for a better ajax-support.
+This apply only to Flickr/Picasa/Google+.
+
+To activate it,  include following JS file:
+
+``` HTML
+<!-- Add jsonp plugin (optional - affects only the usage of Flickr, Google+ or Picasa) -->
+<script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script>
+``` HTML
 
 
 
@@ -397,16 +489,19 @@ Licence
 ------------
 nanoGALLERY is licensed under [Creative Commons Attribution-NonCommercial 3.0 license](http://creativecommons.org/licenses/by-nc/3.0/).
 You are free to use nanoGALLERY for your personal or non-profit website projects.
-You need to get the author's permission to use nanoGALLERY for commercial websites.
+You need to get the author's permission to use nanoGALLERY for commercial websites or for commercial activities.
 
 
 
 Requirements
 ------------
+Mandatory:
 * Javascript must be enabled
 * jQuery
-* jsonp - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg)
+Optional:
 * transit - jQuery plugin (http://ricostacruz.com/jquery.transit) (credits: Rico Sta. Cruz)
+* Hammer.js - Jquery plugin (http://eightmedia.github.io/hammer.js/) (credits: Jorik Tangelder)
+* jQuery-JSONP - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg)
 * fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/de295d45496c01bb871078aac2bcfcac "githalytics.com")](http://githalytics.com/Kris-B/nanoGALLERY)
