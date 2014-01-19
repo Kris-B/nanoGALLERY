@@ -13,9 +13,14 @@
 		"googleplus",
 		"picasa",
 		"effects",
-		"responsive"
+		"gesture",
+		"responsive",
+		"ui",
+    "mobile",
+    "ajax",
+    "lightbox"
 	],
-	"version": "4.0.3",
+	"version": "4.1.0",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"
