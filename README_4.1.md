@@ -3,7 +3,7 @@ nanoGALLERY - jQuery plugin
 
 Simplistic to use image gallery plugin for jQuery.
 
-30 animated thumbnails **hover effects** (combinable). Support for pulling in **Flickr** and **Picasa/Google+** photo albums among others. Mobile-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.
+Many animated thumbnails **hover effects** (combinable). Support for pulling in **Flickr** and **Picasa/Google+** photo albums among others. Touchscreen-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Pagination and image lazy load. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Slideshow. Support custom themes.
 
 ### Usage can be as easy as: 
 ```js
@@ -19,7 +19,7 @@ New in v4.1
 - gesture support
 - optimized support of large galleries (thumbnail image lazy loading or pagination)
 - support browser back-button to close the lightbox
-- albums content are now cached avoiding reloads
+- albums content is now cached avoiding reloads
 - slideshow mode
 - keyboard shortcuts
 - i18n support in gallery content (titles and descriptions) and in UI
@@ -80,7 +80,7 @@ Visit the demonstration page for some usefull code samples and to test online so
 - [list of images passed to the script (API)](http://jsfiddle.net/Kris_B/gvauS/)
 
 
-Usage (v4.0)
+Usage (v4.1)
 -----
 
 
