@@ -359,7 +359,7 @@ function nanoGALLERY() {
     g_viewerIsFullscreen=false,
     g_supportTransit=false,
     g_i18nLang='';
-    var g_i18nTranslations={'paginationPrevious':'Previous','paginationNext':'Next','breadcrumbHome':'Home'};
+    var g_i18nTranslations={'paginationPrevious':'Previous','paginationNext':'Next','breadcrumbHome':'List of Albums'};
     var lastImageChange=0,
     g_paginationLinesMaxItemsPossiblePerLine=1,
     g_paginationMaxItemsPerPage=0,
