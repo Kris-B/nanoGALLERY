@@ -167,7 +167,7 @@ nanoGALLERY v4.1.0 release notes.
       sHoverEffects+='<option style="color:#000">imageFlipHorizontal*</option><option style="color:#000">imageFlipVertical*</option>';
       sHoverEffects+='<option style="color:#000">rotateCornerBR*</option><option style="color:#000">rotateCornerBL*</option><option style="color:#000">imageRotateCornerBR*</option><option style="color:#000">imageRotateCornerBL*</option>';
 
-      var sPanel='<div style="line-height:normal;margin:10px auto 30px auto;width:400px;text-align:center;border:1px solid #555;background:#000;padding:5px;font-size:1.2em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span> - demonstration panel</div>';
+      var sPanel='<div style="line-height:normal;margin:10px auto 30px auto;text-align:center;border:1px solid #555;background:#000;padding:5px;font-size:1.2em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span> - demonstration panel</div>';
       sPanel+='<div style="display:inline-block;">Thumbnail hover effects:&nbsp;<select name="lHoverEffect1" style="color:#000">'+sHoverEffects+'</select>';
       sPanel+='&nbsp;<select name="lHoverEffect2" style="color:#000">'+sHoverEffects+'</select>';
       sPanel+='&nbsp;<select name="lHoverEffect3" style="color:#000">'+sHoverEffects+'</select></div>';
@@ -1911,6 +1911,9 @@ function nanoGALLERY() {
               g_paginationLinesMaxItemsPossiblePerLine=parseInt(areaW/g_oneThumbnailWidthContainer);
               if( g_paginationLinesMaxItemsPossiblePerLine < 1 ) {
                 g_paginationLinesMaxItemsPossiblePerLine=1;
+              }
+              if(  g_options.maxItemsPerLine >0 && g_paginationLinesMaxItemsPossiblePerLine >  g_options.maxItemsPerLine ) {
+                g_paginationLinesMaxItemsPossiblePerLine=g_options.maxItemsPerLine;
               }
             }
           }

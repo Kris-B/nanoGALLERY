@@ -1,7 +1,7 @@
 {
 	"name": "nanogallery",
 	"title": "jQuery nanoGALLERY",
-	"description": "Simplistic to use image gallery plugin for jQuery, with support for pulling in Flickr and Picasa/Google+ photo albums among others. 30 animated thumbnails hover effects (combinable). Mobile-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Support custom themes.",
+	"description": "Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage. Featuring multi-level navigation in albums, lightbox, many hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.",
 	"keywords": [
 		"image",
 		"gallery",
@@ -18,7 +18,9 @@
 		"ui",
     "mobile",
     "ajax",
-    "lightbox"
+    "lightbox",
+    "cloud",
+    "touchscreen"
 	],
 	"version": "4.1.0",
 	"author": {

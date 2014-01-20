@@ -1,9 +1,10 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-Simplistic to use image gallery plugin for jQuery.
+Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage.
 
-Many animated thumbnails **hover effects** (combinable). Support for pulling in **Flickr** and **Picasa/Google+** photo albums among others. Touchscreen-friendly and responsive. Smooth in/out transitions. Breadcrumb for multi-level navigation. Pagination and image lazy load. Images are shown as clickable thumbnails, which will expand to full view via a modal popup window. Slideshow. Support custom themes.
+Featuring multi-level navigation in albums, lightbox, many hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.
+
 
 ### Usage can be as easy as: 
 ```js
@@ -59,6 +60,7 @@ Key features
   * Picasa/Google+ account
 
 
+![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
 ![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
 ![Screenshot2](/doc/nanoGALLERY4_screenshot2.png?raw=true "Screenshot2")
 ![Screenshot3](/doc/nanoGALLERY4_screenshot3.png?raw=true "Screenshot3")
@@ -112,7 +114,7 @@ Note 2: If you specify a theme, the corresponding css file must also be included
 
 * Create a container
 
-Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the gallery to be displayed.
+Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
 
 ```html
 <div id="nanoGallery1"></div>
@@ -133,7 +135,7 @@ $(document).ready(function () {
 
 * Create a container
 
-Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the gallery to be displayed.
+Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
 
 ```html
 <div id="nanoGallery2"></div>
@@ -155,7 +157,7 @@ $(document).ready(function () {
 
 * Create a container
 
-Put a ```<DIV>``` element in the ```<BODY>``` on the page at the place where you want the gallery to be displayed.
+Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
 Add ```<A>``` elements to this container. Each element points to one image.
 
 ```html
@@ -177,7 +179,7 @@ $(document).ready(function () {
 
 * Create a container
 
-Put a ```<DIV>``` element in the ```<BODY>``` on the place where you want the gallery to be displayed.
+Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
 
 ```html
 <div id="nanoGallery4"></div>

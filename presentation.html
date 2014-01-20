@@ -10,7 +10,8 @@
 	<link href="http://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" type="text/css">
 
 	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> 
-	<script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> 
+	<!-- <script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> -->
+	<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script>
 
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
@@ -18,15 +19,17 @@
 	<script>
 		$(document).ready(function () {
 			jQuery("#nanoGallery4").nanoGallery({
-				thumbnailWidth:300,
-				thumbnailHeight:200,
+				thumbnailWidth:300,thumbnailHeight:200,
+				//thumbnailWidth:144,thumbnailHeight:144,
 				userID:'cbrisbois@gmail.com',
 				kind:'picasa',
 				topLabel:'List of Albums',
 				blackList:'Scrapbook|forhomepage|profil',
 				maxItemsPerLine:3,
+				paginationMaxLinesPerPage:2,
 				thumbnailHoverEffect:'labelOpacity50,borderLighter',
-				maxWidth:942
+				//thumbnailHoverEffect:'slideUp,labelSlideUp,borderLighter'
+        //maxWidth:942
 			});
 		});
 	</script>	
@@ -34,14 +37,14 @@
 </head>
 
 <body >
-	<br><br>
-	<div style="text-align:center;font-size:5.0em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span></div>
+	<!-- <br><br> -->
+	<div style="text-align:center;font-size:4.5em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span></div>
 	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin</div>
-	<br><br><br>
+	<br>
 	
-	<div id="nanoGallery4"></div>
+	<h7 style="font-size:0.8em;"><div id="nanoGallery4"></div></h7>
 
-	<br><br>
+	<br><br><br><br><br>
 	<div style="text-align:center;font-size:0.8em;">
 	more information about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a>
 	<br>
