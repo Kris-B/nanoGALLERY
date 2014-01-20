@@ -500,6 +500,7 @@ Requirements
 Mandatory:
 * Javascript must be enabled
 * jQuery
+
 Optional:
 * transit - jQuery plugin (http://ricostacruz.com/jquery.transit) (credits: Rico Sta. Cruz)
 * Hammer.js - Jquery plugin (http://eightmedia.github.io/hammer.js/) (credits: Jorik Tangelder)
