@@ -3348,19 +3348,19 @@ function nanoGALLERY() {
       if( g_ngItems[j].kind == 'image' && g_ngItems[j].destinationURL == '' ) {
         current++;
         lstImages[current]=new Object;
-        lstImages[current].href=g_ngItems.length[j].src;
-        lstImages[current].title=g_ngItems.length[j].title;
+        lstImages[current].href=g_ngItems[j].src;
+        lstImages[current].title=g_ngItems[j].title;
       }
     }
     for( var j=0; j<n; j++) {
       if( g_ngItems[j].kind == 'image' && g_ngItems[j].destinationURL == '' ) {
         current++;
         lstImages[current]=new Object;
-        lstImages[current].href=g_ngItems.length[j].src;
-        lstImages[current].title=g_ngItems.length[j].title;
+        lstImages[current].href=g_ngItems[j].src;
+        lstImages[current].title=g_ngItems[j].title;
       }
     }
-    jQuery.fancybox.open(lstImages,{'autoPlay':false, 'nextEffect':'fade', 'prevEffect':'fade','scrolling':'no',
+    jQuery.fancybox(lstImages,{'autoPlay':false, 'nextEffect':'fade', 'prevEffect':'fade','scrolling':'no',
       helpers    : {  buttons  : { 'position' : 'bottom'} }
     });
   };
