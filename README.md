@@ -57,7 +57,7 @@ Key features
 ![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
 ![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
 ![Screenshot2](/doc/nanoGALLERY4_screenshot2.png?raw=true "Screenshot2")
-![Screenshot3](/doc/nanoGALLERY4_screenshot3.png?raw=true "Screenshot3")
+![Screenshot3](/doc/nanoGALLERY4_screenshot3.png?raw=true "Screenshot4")
 
   
 Demonstration and Tutorials
