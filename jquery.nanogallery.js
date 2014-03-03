@@ -3842,7 +3842,11 @@ nanoConsoleLog((new Date().getTime()));
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         lstImages[current].href=g_ngItems[j].responsiveURL();
+=======
+        lstImages[current].href=g_ngItems[j].src;
+>>>>>>> 5422c70915d71878e87730fac2c65c183d3954f2
 =======
         lstImages[current].href=g_ngItems[j].src;
 >>>>>>> 5422c70915d71878e87730fac2c65c183d3954f2
@@ -3862,7 +3866,11 @@ nanoConsoleLog((new Date().getTime()));
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         lstImages[current].href=g_ngItems[j].responsiveURL();
+=======
+        lstImages[current].href=g_ngItems[j].src;
+>>>>>>> 5422c70915d71878e87730fac2c65c183d3954f2
 =======
         lstImages[current].href=g_ngItems[j].src;
 >>>>>>> 5422c70915d71878e87730fac2c65c183d3954f2
