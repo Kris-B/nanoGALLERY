@@ -3839,7 +3839,11 @@ nanoConsoleLog((new Date().getTime()));
       if( g_ngItems[j].kind == 'image' && g_ngItems[j].albumID == g_ngItems[imageIdx].albumID && g_ngItems[j].destinationURL == '' ) {
         current++;
         lstImages[current]=new Object;
+<<<<<<< HEAD
         lstImages[current].href=g_ngItems[j].responsiveURL();
+=======
+        lstImages[current].href=g_ngItems[j].src;
+>>>>>>> 5422c70915d71878e87730fac2c65c183d3954f2
         lstImages[current].title=g_ngItems[j].title;
       }
     }
@@ -3847,11 +3851,15 @@ nanoConsoleLog((new Date().getTime()));
       if( g_ngItems[j].kind == 'image' && g_ngItems[j].albumID == g_ngItems[imageIdx].albumID && g_ngItems[j].destinationURL == '' ) {
         current++;
         lstImages[current]=new Object;
+<<<<<<< HEAD
         lstImages[current].href=g_ngItems[j].responsiveURL();
+=======
+        lstImages[current].href=g_ngItems[j].src;
+>>>>>>> 5422c70915d71878e87730fac2c65c183d3954f2
         lstImages[current].title=g_ngItems[j].title;
       }
     }
-    jQuery.fancybox.open(lstImages,{'autoPlay':false, 'nextEffect':'fade', 'prevEffect':'fade','scrolling':'no',
+    jQuery.fancybox(lstImages,{'autoPlay':false, 'nextEffect':'fade', 'prevEffect':'fade','scrolling':'no',
       helpers    : {  buttons  : { 'position' : 'bottom'} }
     });
   };
