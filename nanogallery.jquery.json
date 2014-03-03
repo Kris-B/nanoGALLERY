@@ -1,7 +1,7 @@
 {
 	"name": "nanogallery",
 	"title": "jQuery nanoGALLERY",
-	"description": "Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage. Featuring multi-level navigation in albums, lightbox, many hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.",
+	"description": "Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage. Featuring multi-level navigation in albums, lightbox, many hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, deep linking, themes, bootstrap compatibility, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.",
 	"keywords": [
 		"image",
 		"gallery",
@@ -22,7 +22,7 @@
     "cloud",
     "touchscreen"
 	],
-	"version": "4.1.0",
+	"version": "4.2.0",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"

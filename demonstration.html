@@ -2,7 +2,7 @@
 <html>
 
 <head>
-
+  <title>nanoGALLERY</title>
 	<style>
 		* {font-family: sans-serif; color:#eee;  }
 		h1, h2, h3, h4, h5 {text-align:center;}
@@ -15,13 +15,14 @@
 	<!-- <script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> -->
 	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script>
 	<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script>
+	<script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
 
 	<!-- Fancybox - Optionnal -->
 	<!-- <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
 	<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
-	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script>  -->
+	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> -->
 	<!-- Fancybox -->
 
 	<!-- nanoGALLERY - default css file -->
@@ -90,7 +91,8 @@
 				//thumbnailHoverEffect:'imageFlipHorizontal,borderLighter',
 				//thumbnailHoverEffect:'descriptionSlideUp,borderLighter',
 				thumbnailHoverEffect:'labelSlideUpTop,borderLighter',
-				thumbnailLabel:{display:true,position:'overImageOnBottom'}
+				thumbnailLabel:{display:true,position:'overImageOnBottom'},
+        viewerDisplayLogo:true
 			});
 
 			// Sample1a
@@ -117,7 +119,8 @@
 				theme:'clean',
 				colorScheme:'darkOrange',
 				thumbnailHoverEffect:'imageInvisible,imageScale150Outside',
-				useTags:false
+				useTags:false,
+        viewerDisplayLogo:true
 			});
 
 			//Sample2 - HREF
@@ -126,14 +129,19 @@
 				displayCaption:true,
 				//thumbnailHoverEffect:[{'name':'imageRotateCornerBL','duration':300},{'name':'borderLighter'}],				
 				thumbnailHoverEffect:[{'name':'overScale','duration':300},{'name':'borderLighter'}],
-				colorScheme:'light'
+				colorScheme:'light',
+        viewerDisplayLogo:true
 			});
  
 			//Sample3 - Picasa/Google+
-			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',topLabel:'List of Albums',blackList:'Scrapbook|forhomepage|profil',
-				maxItemsPerLine:3,
+			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+				//maxItemsPerLine:3,
 				//album: '5852572882905112961',
+        //album:'5856259539659194001',
 				colorScheme:myColorScheme,
+        locationHash:false,
+        viewerDisplayLogo:true,
+        //viewer:'fancybox',
 				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}],				
 			});
 
@@ -142,8 +150,10 @@
 			// Ray Conrado - user id="76715816@N00" - 700 sets
 			// LoadStone - user id="9142293@N06"
 			// 34858669@N00
-			jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',topLabel:'Home',thumbnailWidth:170,thumbnailHeight:110,
+			jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',thumbnailWidth:170,thumbnailHeight:'auto',  //110,
 				maxItemsPerLine:3,
+        viewerDisplayLogo:true,
+        locationHash:false,
 				//thumbnailDisplayInterval:0,
 				//thumbnailDisplayTransition:false,
 				//paginationMaxLinesPerPage:5,
@@ -160,14 +170,14 @@
 					src: 'demonstration/image_01.jpg',		// image url
 					srct: 'demonstration/image_01ts.jpg',	// thumbnail url
 					title: 'image 01', 						        // thumbnail title
-					id:1
+					ID:101
 				},
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 02',
-					id:2 },
+					ID:102 },
 				{ src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 1',
-					id:3,	kind:'album' },
+					ID:103,	kind:'album' },
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 2',
-					id:4,	kind:'album' },
+					ID:104,	kind:'album' },
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 03' },
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 04' },
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 05' },
@@ -188,47 +198,47 @@
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 19' },
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 20' },
 				{ src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1a',
-					albumID:3	},
+					albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1b',
-					albumID:3	},
+					albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1c',
-					albumID:3	},
+					albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1d',
-					albumID:3	},
+					albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1e',
-					albumID:3 },
+					albumID:103 },
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1f',
-					albumID:3	},
+					albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2a',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2b',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2c',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2d',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2e',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2f',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2g',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2h',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2i',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2j',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2k',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2l',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2m',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2n',
-					albumID:4	},
+					albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2o',
-					albumID:4	}
+					albumID:104	}
         ];
 			
 			jQuery("#nanoGalleryMLN").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
@@ -236,12 +246,16 @@
 				//paginationMaxItemsPerPage:3,
 				paginationMaxLinesPerPage:1,
 				thumbnailHoverEffect:'imageInvisible,imageScale150Outside',
-				useTags:false
-			}); 			
+        viewerDisplayLogo:true,
+				useTags:false,
+        viewer:'fancybox',
+        locationHash:false
+			});
 			
 
 			// DEMONSTRATION
  			jQuery("#nanoGalleryAnimation1").nanoGalleryDemo({thumbnailWidth:120, thumbnailHeight:120, itemsBaseURL:'demonstration',
+        viewerDisplayLogo:true,
 				thumbnailHoverEffect:[{'name':'borderLighter','duration':300}]
 			});
 
@@ -279,7 +293,7 @@
 	</div>
 
 	<br><br><h2>Sample #3: Picasa/Google+</h2>
-	<div style="margin:auto;max-width:945px;">
+	<div style="margin:auto;max-width:960px;">
 		<div id="nanoGallery3"></div>
 	</div>
 

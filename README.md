@@ -3,7 +3,7 @@ nanoGALLERY - jQuery plugin
 
 Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage.
 
-Featuring multi-level navigation in albums, lightbox, many hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.
+Featuring multi-level navigation in albums, lightbox, many hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, deep linking, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.
 
 
 ### Usage can be as easy as: 
@@ -17,24 +17,16 @@ Featuring multi-level navigation in albums, lightbox, many hover effects on thum
 
 New in v4.1
 --------
-- gesture support
-- optimized support of large galleries (thumbnail image lazy loading or pagination)
-- support browser back-button to close the lightbox
-- albums content is now cached avoiding reloads
-- slideshow mode
-- keyboard shortcuts
-- i18n support in gallery content (titles and descriptions) and in UI
+- display current image number and total count of images
+- close button in upper right corner
+- use responsive image resolution with Flickr/Picasa/Google+ (small images are used on low-res device)
+- back/forward navigation
+- deep linking of images and albums
+- thumbnail height auto: fill the thumbnail with the entire image (no black space)
 For a full feature list look at the release note.
 
 
-New in v4
---------
-Version 4 has been optimized and layout customization is now much easyer.
-
-- parameter to set the thumbnails animated hover effects (combinations possible)
-- color schemes to avoid having to edit any CSS file
-- display images faster (thanks to pre-loading)
-- icons now font-based for a better display on high resolution screens
+[View ChangeLog](/changelog.md)
 
 
 Key features
@@ -47,8 +39,10 @@ Key features
 - Responsive layout - mobile friendly - gesture support
 - Breadcrumb for easy navigation in photo albums
 - Slideshow mode
+- deep linking of images and albums
 - optimized support of very large galleries (thumbnail image lazy loading or pagination)
 - Keyboard shortcuts
+- back/forward navigation
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
 - easy layout customisation with color schemes - support custom ones
@@ -99,6 +93,9 @@ Usage (v4.1)
 <!-- Add Hammer.js plugin (optional - this is only required for gesture support) -->
 <script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script> 
 
+<!-- Add imagesloaded.js plugin (optional - this is only required for parameter thumbnailHeight:'auto') -->
+<script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
 <!-- Add nanoGALLERY plugin files (mandatory) -->
 <link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery.nanogallery.js"></script>
@@ -110,7 +107,7 @@ Note 1: If you already use jQuery on your site, do not include it a second time.
 Note 2: If you specify a theme, the corresponding css file must also be included.
 
 
-### Method 1: use a Flickr account
+### Method 1: use one Flickr account
 
 * Create a container
 
@@ -120,7 +117,7 @@ Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want t
 <div id="nanoGallery1"></div>
 ```
 
-* Call the plugin
+* Initialize the script
 
 ```js
 $(document).ready(function () {
@@ -131,7 +128,7 @@ $(document).ready(function () {
 });
 ```
 
-### Method 2: use a Picasa/Google+ account
+### Method 2: use one Picasa/Google+ account
 
 * Create a container
 
@@ -141,7 +138,7 @@ Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want t
 <div id="nanoGallery2"></div>
 ```
 
-* Call the plugin
+* Initialize the script
 
 ```js
 $(document).ready(function () {
@@ -153,12 +150,14 @@ $(document).ready(function () {
 });
 ```
 
-### Method 3: use a list of images using HREF attribute
+### Method 3: use inline elements
+
+use a list of images using HREF attribute
 
 * Create a container
 
 Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
-Add ```<A>``` elements to this container. Each element points to one image.
+And add some ```<A>``` elements to this container. Each element points to one image.
 
 ```html
 <div id="nanoGallery3">
@@ -167,7 +166,7 @@ Add ```<A>``` elements to this container. Each element points to one image.
 </div>
 ```
 
-* Call the plugin
+* Initialize the script
 
 ```js
 $(document).ready(function () {
@@ -175,7 +174,7 @@ $(document).ready(function () {
 });
 ```
 
-### Method 4: use a list of images passed to the script (API)
+### Method 4: pass the list of images to the script (API)
 
 * Create a container
 
@@ -185,9 +184,9 @@ Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want t
 <div id="nanoGallery4"></div>
 ```
 
-* Call the plugin
+* Initialize the script
 
-Use the 'items' parameter to pass the list of images to the plugin.
+Use the 'items' parameter to set the list of images.
 
 ```js
 $(document).ready(function () {
@@ -219,7 +218,7 @@ Syntax and options
 **Name** | **Description**
 ------- | -------
 **thumbnailHeight** | Height in pixels of the thumbnails
-    | *integer*
+    | *integer|auto*
 **thumbnailWidth** | Width in pixels of the thumbnails
     | *integer*
 **maxItemsPerLine** | Maximum number of thumbnails per line
@@ -268,7 +267,11 @@ Syntax and options
     | *integer; Default: 100*
 **i18n** | UI string translations
     | *object;*
-	
+**locationHash** | Enable or disable back/forward navigation and deep linking of images and photo albums.
+    | *boolean; Default: `false`*
+    | Note: only one gallery per page should use this feature.
+**viewerDisplayLogo** | Enable or disable logo display on top of images (defined in CSS file)
+    | *boolean; Default: `false`*
 
 
 
@@ -466,7 +469,7 @@ For this, include following JS and CSS files
 <script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
 ```
 
-And call the plugin with the parameter ```viewer```, like in :
+And initialize the script with the parameter ```viewer```, like in :
 
 ```js
 $(document).ready(function () {
@@ -504,6 +507,7 @@ Mandatory:
 Optional:
 * transit - jQuery plugin (http://ricostacruz.com/jquery.transit) (credits: Rico Sta. Cruz)
 * Hammer.js - Jquery plugin (http://eightmedia.github.io/hammer.js/) (credits: Jorik Tangelder)
+* imagesloaded (https://github.com/desandro/imagesloaded) (credits: David DeSandro)
 * jQuery-JSONP - jQuery plugin (https://github.com/jaubourg/jquery-jsonp) (credits: Julian Aubourg)
 * fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
 
