@@ -15,7 +15,7 @@ Featuring multi-level navigation in albums, lightbox, many hover effects on thum
 ```
 
 
-New in v4.1
+New in v4.2
 --------
 - display current image number and total count of images
 - close button in upper right corner
