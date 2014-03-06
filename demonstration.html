@@ -4,8 +4,8 @@
 <head>
   <title>nanoGALLERY</title>
 	<style>
-		* {font-family: sans-serif; color:#eee;  }
-		h1, h2, h3, h4, h5 {text-align:center;}
+		* {font-family: sans-serif; } 
+		a, h1, h2, h3, h4, h5 {text-align:center; color:#eee;}
 		body {background:#333;}
 	</style>
 
@@ -29,6 +29,7 @@
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 	<!-- nanoGALLERY - css file for the theme 'clean' -->
 	<link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet" type="text/css">
+	<link href="css/themes/light/nanogallery_light.css" rel="stylesheet" type="text/css">
 	<!-- nanoGALLERY js -->
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
 
@@ -61,7 +62,7 @@
 				barDescriptionColor:'#aaa'
 			};
 
-			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
+/*			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 			items: [
 				{
 					src: 'demonstration/image_01.jpg',		// image url
@@ -93,7 +94,7 @@
 				thumbnailHoverEffect:'labelSlideUpTop,borderLighter',
 				thumbnailLabel:{display:true,position:'overImageOnBottom'},
         viewerDisplayLogo:true
-			});
+			});*/
 
 			// Sample1a
 			
@@ -118,7 +119,7 @@
 				items:contentGallery1a,
 				theme:'clean',
 				colorScheme:'darkOrange',
-				thumbnailHoverEffect:'imageInvisible,imageScale150Outside',
+				thumbnailHoverEffect:'imageInvisible,imageScale150',
 				useTags:false,
         viewerDisplayLogo:true
 			});
@@ -132,7 +133,8 @@
 				colorScheme:'light',
         viewerDisplayLogo:true
 			});
- 
+
+      
 			//Sample3 - Picasa/Google+
 			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
 				//maxItemsPerLine:3,
@@ -141,8 +143,20 @@
 				colorScheme:myColorScheme,
         locationHash:false,
         viewerDisplayLogo:true,
-        //viewer:'fancybox',
-				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}],				
+				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}]
+			});
+			jQuery("#nanoGallery3a").nanoGallery({thumbnailWidth:144,thumbnailHeight:144,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+				//maxItemsPerLine:3,
+				//album: '5852572882905112961',
+        //album:'5856259539659194001',
+        colorScheme:'none',
+        locationHash:false,
+        viewerDisplayLogo:true,
+				thumbnailHoverEffect:[{'name':'labelAppear75','duration':300},{'name':'borderDarker'}],
+        theme:'light',
+        i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
+				thumbnailLabel:{display:true,position:'overImageOnMiddle'},
+        paginationMaxLinesPerPage:1
 			});
 
 			//Sample4 - Flickr
@@ -245,7 +259,7 @@
 				items:contentGalleryMLN,
 				//paginationMaxItemsPerPage:3,
 				paginationMaxLinesPerPage:1,
-				thumbnailHoverEffect:'imageInvisible,imageScale150Outside',
+				thumbnailHoverEffect:'imageInvisible,imageScale150',
         viewerDisplayLogo:true,
 				useTags:false,
         viewer:'fancybox',
@@ -267,11 +281,11 @@
 
 <body >
 
-	<div style="text-align:center;font-size:4.0em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span></div>
+	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
 	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
-	<div style="text-align:center;font-size:.9em;"><br>more about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
+	<div style="color:#eee;text-align:center;font-size:.9em;"><br>more about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
 	<br><br><br><br>
-	<div style="text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
+	<div style="color:#eee;text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
 	
 	<br><br><br><br><br><br><br><br><br>
 	<h2 style="background:#555;">----- Possible image sources -----</h2>
@@ -295,6 +309,12 @@
 	<br><br><h2>Sample #3: Picasa/Google+</h2>
 	<div style="margin:auto;max-width:960px;">
 		<div id="nanoGallery3"></div>
+	</div>
+  <br><br><br>
+	<div style="margin:auto;max-width:960px;background:#fff;color:#f00;">
+		<br><br><br>
+    <div id="nanoGallery3a"></div>
+    <br><br><br>
 	</div>
 
 	<br><br><h2>Sample #4: Flickr</h2>

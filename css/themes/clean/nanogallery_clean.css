@@ -393,6 +393,7 @@
 /**************************************/
 
 .nanogallery_theme_clean .nanoGalleryContainerParent .nanoGalleryPagination{
+	color:#eee;
 	margin: 10px auto 5px auto;
 	padding: 4px;
 	text-align:center;
@@ -531,7 +532,7 @@
 	-moz-box-sizing: content-box;
 	-o-box-sizing: content-box;
 }
-.nanogallery_theme_default .nanoGalleryViewer .content .imgCurrent{
+.nanogallery_theme_clean .nanoGalleryViewer .content .imgCurrent{
 	cursor:pointer;
 }
 .nanogallery_theme_clean .nanoGalleryViewer .content .contentAreaPrevious {

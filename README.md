@@ -76,7 +76,7 @@ Visit the demonstration page for some usefull code samples and to test online so
 - [list of images passed to the script (API)](http://jsfiddle.net/Kris_B/gvauS/)
 
 
-Usage (v4.1)
+Usage (v4.2)
 -----
 
 
@@ -84,27 +84,25 @@ Usage (v4.1)
 
 
 ``` HTML
-<!-- Add jQuery library (mandatory) -->
-<script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
+<!-- Add jQuery library (MANDATORY) -->
+<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> 
 
-<!-- Add Transit plugin (optional - this is only required for some hover effects) -->
+<!-- Add Transit plugin (OPTIONAL - this is only required for some hover effects) -->
 <script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script> 
 
-<!-- Add Hammer.js plugin (optional - this is only required for gesture support) -->
+<!-- Add Hammer.js plugin (OPTIONAL - this is only required for gesture support) -->
 <script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script> 
 
-<!-- Add imagesloaded.js plugin (optional - this is only required for parameter thumbnailHeight:'auto') -->
+<!-- Add imagesloaded.js plugin (OPTIONAL - this is only required for parameter thumbnailHeight:'auto') -->
 <script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
 
-<!-- Add nanoGALLERY plugin files (mandatory) -->
+<!-- Add nanoGALLERY plugin files (MANDATORY) -->
 <link href="css/nanogallery.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery.nanogallery.js"></script>
 
 ```
 
-Note 1: If you already use jQuery on your site, do not include it a second time.
-
-Note 2: If you specify a theme, the corresponding css file must also be included.
+Note: If you specify a theme, the corresponding css file must also be included.
 
 
 ### Method 1: use one Flickr account
@@ -145,7 +143,7 @@ $(document).ready(function () {
   jQuery("#nanoGallery2").nanoGallery({
   	kind:'picasa',
   	userID:'cbrisbois@gmail.com',
-	blackList:'Scrapbook|forhomepage|profil'
+    blackList:'Scrapbook|forhomepage|profil'
   });
 });
 ```
@@ -229,7 +227,7 @@ Syntax and options
     | *string; Default: `internal`*
 **thumbnailLabel** | Display options for the image label (title and description)
 	| *object; Default: `{position:'overImageOnBottom',display:true,displayDescription:true}`*
-	| **position** : Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `onBottom`)
+	| **position** : Position of the label (possible values: `overImageOnBottom`, `overImageOnTop`, `overImageOnMiddle`, `onBottom`)
 	|	*string; Default: `overImageOnBottom`*
 	| **display** : Display or not the label.
 	|	*Boolean; Default: `true`*
@@ -239,7 +237,7 @@ Syntax and options
 	| *string, object, array; Default: `none`*
 	| Possible values: `slideUp`, `slideDown`, `slideLeft`, `slideRight`, `imageSlideUp`, `imageSlideDown`, `imageSlideLeft`, `imageSlideRight`, `labelAppear`, `labelAppear75`, `labelSlideDown`, `labelSlideUp`, `labelOpacity50`, `imageOpacity50`, `borderLighter`, `borderDarker`, `imageInvisible`, `descriptionSlideUp`
 	| Transit plugin is required for following values: `imageScale150`, `imageScale150Outside`, `scale120`, `overScale`, `overScaleOutside`, `scaleLabelOverImage`, `rotateCornerBR`, `rotateCornerBL`, `imageRotateCornerBR`, `imageRotateCornerBL`, `imageFlipHorizontal`, `imageFlipVertical`
-**theme** | Name of the theme - the corresponding css-file must also be included in the html file (Possible values: `default`, `clean`)
+**theme** | Name of the theme - the corresponding css-file must also be included in the html file (Possible values: `default`, `clean`, `light`)
 	| *string; Default: `default`*
 **itemsBaseURL** | URL prefix for the images defined with method#1 or method#2
 	| *string*
@@ -394,7 +392,7 @@ The language defined in the browser is used. If no corresponding definition is f
 
 ### Internationalization of UI elements
 
-Following elements support multi-language: `breadcrumbHome` `paginationPrevious` `paginationNext`.
+Following elements support multi-language: `breadcrumbHome` `paginationPrevious` `paginationNext` `thumbnailImageTitle` `thumbnailAlbumTitle` `thumbnailImageDescription` `thumbnailAlbumDescription`.
 Set the correponding i18n properties. Use _LanguageCode to specify one language.
 
 Example:
@@ -446,7 +444,7 @@ This apply only to Flickr/Picasa/Google+.
 To activate it,  include following JS file:
 
 ``` HTML
-<!-- Add jsonp plugin (optional - affects only the usage of Flickr, Google+ or Picasa) -->
+<!-- Add jsonp plugin (OPTIONAL - affects only the usage of Flickr, Google+ or Picasa) -->
 <script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script>
 ``` HTML
 
@@ -476,8 +474,8 @@ $(document).ready(function () {
   jQuery("#nanoGallery2").nanoGallery({
   	kind:'picasa',
   	userID:'cbrisbois@gmail.com',
-	blackList:'Scrapbook|forhomepage|profil',
-	viewer:'fancybox'
+    blackList:'Scrapbook|forhomepage|profil',
+    viewer:'fancybox'
   });
 });
 ```

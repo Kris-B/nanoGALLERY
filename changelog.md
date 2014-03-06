@@ -4,6 +4,25 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v4.2.1
+------
+
+##### New features:
+- global photo/album title and description
+- new label position `overImageOnMiddle`
+- new theme `light` (optimized for light backgrounds)
+
+
+##### New options:
+- **i18n**: new elements `thumbnailImageTitle` `thumbnailAlbumTitle` `thumbnailImageDescription` `thumbnailAlbumDescription`.
+- **thumbnailLabel**: new possible value `{position:'overImageOnMiddle'}
+
+##### Deprecated options:
+- none
+
+##### Misc
+- bug **mouse click outside gallery not working** - fixed
+
 
 v4.2.0
 ------
@@ -28,8 +47,6 @@ v4.2.0
 **thumbnailHeight** | Height in pixels of the thumbnails
     | *integer|auto*
 
-
-**See readme.md for usage details**
 
 ##### Deprecated options:
 - none
@@ -70,8 +87,6 @@ v4.1.0
 * `thumbnailLazyLoad`: enable lazy load of thumbnails image (image is loaded when displayed in the viewport)
 * `thumbnailLazyLoadTreshold`: extend the viewport area for thumbnails image lazy load
 * `i18n`: UI string translations
-
-**See readme.md for usage details**
 
 ##### Outdated options:
 * `topLabel`: replaced by i18n
