@@ -2,15 +2,36 @@
 <html>
 
 <head>
+<<<<<<< HEAD
 	<script type="text/javascript" src="third.party/jquery-1.8.2.min.js"></script> 
+=======
+  <title>nanoGALLERY</title>
+	<style>
+		* {font-family: sans-serif; } 
+		a, h1, h2, h3, h4, h5 {text-align:center; color:#eee;}
+		body {background:#333;}
+	</style>
 
-	<link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
+
+	<!-- <script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> --> 
+	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
+	<!-- <script type="text/javascript" src="third.party/jquery-jsonp/jquery.jsonp.js"></script> -->
+	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script>
+	<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script>
+	<script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
+>>>>>>> da2da436a24b8c4dd57eaa0c576f4d76c53916bb
+
+	<!-- Fancybox - Optionnal -->
+	<!-- <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
 	<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
-	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> 
+	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> -->
+	<!-- Fancybox -->
 
+	<!-- nanoGALLERY - default css file -->
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
+<<<<<<< HEAD
 	<script type="text/javascript" src="jquery.nanogallery-3.2.0.js"></script> 
 
 	<script>
@@ -45,4 +66,315 @@
 </body>
 
 
+=======
+	<!-- nanoGALLERY - css file for the theme 'clean' -->
+	<link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet" type="text/css">
+	<link href="css/themes/light/nanogallery_light.css" rel="stylesheet" type="text/css">
+	<!-- nanoGALLERY js -->
+	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
+
+	<script>
+		$(document).ready(function () {
+			// Sample1
+			myColorScheme = {
+				breadcrumb : {
+					background : '#000',
+					border : '1px dotted #555',
+					color : '#ccc',
+					colorHover:'#fff'
+				},
+				thumbnail : {
+					background:'#000',
+					border:'1px solid #000',
+					labelBackground:'transparent',
+					labelOpacity:'0.8',
+					titleColor:'#fff',
+					descriptionColor:'#eee'
+				}
+			};
+			myColorSchemeViewer = {
+				background:'rgba(1, 1, 1, 0.75)',
+				imageBorder:'12px solid #f8f8f8',
+				imageBoxShadow:'#888 0px 0px 20px',
+				barBackground:'#222',
+				barBorder:'2px solid #111',
+				barColor:'#eee',
+				barDescriptionColor:'#aaa'
+			};
+
+/*			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
+			items: [
+				{
+					src: 'demonstration/image_01.jpg',		// image url
+					srct: 'demonstration/image_01t.jpg',	// thumbnail url
+					title: 'image 1', 						// thumbnail title
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+					title_FR: 'image 2 (fr)',
+					description_FR : 'description image 1 (fr)'
+				},
+				{
+					src: 'demonstration/image_02.jpg',
+					srct: 'demonstration/image_02t.jpg',
+					title: 'image 2' ,
+					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+					title_FR: 'image 2 (fr)',
+					description_FR : 'description image 2 (fr)'
+				},
+				{
+					src: 'demonstration/image_03.jpg',
+					srct: 'demonstration/image_03t.jpg',
+					title: 'image 3' ,
+					//title: 'image 3 - The quick brown fox jumps over the lazy dog - The quick brown fox jumps over the lazy dog',
+					title_FR: 'image 3 (fr)',
+					description_FR : 'description image 3 (fr)'
+				}
+				],
+				//thumbnailHoverEffect:'imageFlipHorizontal,borderLighter',
+				//thumbnailHoverEffect:'descriptionSlideUp,borderLighter',
+				thumbnailHoverEffect:'labelSlideUpTop,borderLighter',
+				thumbnailLabel:{display:true,position:'overImageOnBottom'},
+        viewerDisplayLogo:true
+			});*/
+
+			// Sample1a
+			
+			var contentGallery1a=[
+				{
+					src: 'demonstration/image_01.jpg',		// image url
+					srct: 'demonstration/image_01ts.jpg',	// thumbnail url
+					title: 'image 1' 						// thumbnail title
+				},
+				{
+					src: 'demonstration/image_02.jpg',
+					srct: 'demonstration/image_02ts.jpg',
+					title: 'image 2'
+				},
+				{
+					src: 'demonstration/image_03.jpg',
+					srct: 'demonstration/image_03ts.jpg',
+					title: 'album 1'
+				}];
+			
+			jQuery("#nanoGallery1a").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
+				items:contentGallery1a,
+				theme:'clean',
+				colorScheme:'darkOrange',
+				thumbnailHoverEffect:'imageInvisible,imageScale150',
+				useTags:false,
+        viewerDisplayLogo:true
+			});
+
+			//Sample2 - HREF
+ 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:160,thumbnailHeight:160,
+				itemsBaseURL:'demonstration',
+				displayCaption:true,
+				//thumbnailHoverEffect:[{'name':'imageRotateCornerBL','duration':300},{'name':'borderLighter'}],				
+				thumbnailHoverEffect:[{'name':'overScale','duration':300},{'name':'borderLighter'}],
+				colorScheme:'light',
+        viewerDisplayLogo:true
+			});
+
+      
+			//Sample3 - Picasa/Google+
+			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+				//maxItemsPerLine:3,
+				//album: '5852572882905112961',
+        //album:'5856259539659194001',
+				colorScheme:myColorScheme,
+        locationHash:false,
+        viewerDisplayLogo:true,
+				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}]
+			});
+			jQuery("#nanoGallery3a").nanoGallery({thumbnailWidth:144,thumbnailHeight:144,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+				//maxItemsPerLine:3,
+				//album: '5852572882905112961',
+        //album:'5856259539659194001',
+        colorScheme:'none',
+        locationHash:false,
+        viewerDisplayLogo:true,
+				thumbnailHoverEffect:[{'name':'labelAppear75','duration':300},{'name':'borderDarker'}],
+        theme:'light',
+        i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
+				thumbnailLabel:{display:true,position:'overImageOnMiddle'},
+        paginationMaxLinesPerPage:1
+			});
+
+			//Sample4 - Flickr
+			// thomashawk - user id="51035555243@N01" - 1900 sets
+			// Ray Conrado - user id="76715816@N00" - 700 sets
+			// LoadStone - user id="9142293@N06"
+			// 34858669@N00
+			jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',thumbnailWidth:170,thumbnailHeight:'auto',  //110,
+				maxItemsPerLine:3,
+        viewerDisplayLogo:true,
+        locationHash:false,
+				//thumbnailDisplayInterval:0,
+				//thumbnailDisplayTransition:false,
+				//paginationMaxLinesPerPage:5,
+				//photoset:'72157594299597591',
+				thumbnailHoverEffect:[{'name':'slideUp','duration':300},{'name':'borderLighter'}],				
+			});
+			
+			
+			// Multi-level navigation (API)
+			// Sample1a
+			
+			var contentGalleryMLN=[
+				{
+					src: 'demonstration/image_01.jpg',		// image url
+					srct: 'demonstration/image_01ts.jpg',	// thumbnail url
+					title: 'image 01', 						        // thumbnail title
+					ID:101
+				},
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 02',
+					ID:102 },
+				{ src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 1',
+					ID:103,	kind:'album' },
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 2',
+					ID:104,	kind:'album' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 03' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 04' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 05' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 06' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 07' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 08' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 09' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 10' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 10' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 11' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 12' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 13' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 14' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 15' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 16' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 17' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 18' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 19' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 20' },
+				{ src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1a',
+					albumID:103	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1b',
+					albumID:103	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1c',
+					albumID:103	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1d',
+					albumID:103	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1e',
+					albumID:103 },
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1f',
+					albumID:103	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2a',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2b',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2c',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2d',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2e',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2f',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2g',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2h',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2i',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2j',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2k',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2l',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2m',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2n',
+					albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2o',
+					albumID:104	}
+        ];
+			
+			jQuery("#nanoGalleryMLN").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
+				items:contentGalleryMLN,
+				//paginationMaxItemsPerPage:3,
+				paginationMaxLinesPerPage:1,
+				thumbnailHoverEffect:'imageInvisible,imageScale150',
+        viewerDisplayLogo:true,
+				useTags:false,
+        viewer:'fancybox',
+        locationHash:false
+			});
+			
+
+			// DEMONSTRATION
+ 			jQuery("#nanoGalleryAnimation1").nanoGalleryDemo({thumbnailWidth:120, thumbnailHeight:120, itemsBaseURL:'demonstration',
+        viewerDisplayLogo:true,
+				thumbnailHoverEffect:[{'name':'borderLighter','duration':300}]
+			});
+
+			
+		});
+	</script>
+
+</head>
+
+<body >
+
+	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
+	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
+	<div style="color:#eee;text-align:center;font-size:.9em;"><br>more about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
+	<br><br><br><br>
+	<div style="color:#eee;text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
+	
+	<br><br><br><br><br><br><br><br><br>
+	<h2 style="background:#555;">----- Possible image sources -----</h2>
+
+	<br><br><h2>Sample #1: item list in options</h2>
+	<div id="nanoGallery1"></div>
+	<br>
+	<div style="background:#eee;padding:'10px';margin:auto;max-width:450px;">
+		<br>
+		<div id="nanoGallery1a"></div>
+		<br>
+	</div>
+
+	<br><br><h2>Sample #2: HREF attributes</h2>
+	<div id="nanoGallery2">
+		<a href="image_01.jpg" data-ngthumb="image_01ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet interdum magna. Nunc luctus leo ut blandit tempor. Suspendisse at auctor lorem, sed hendrerit arcu.">Thailand</a>
+		<a href="image_02.jpg" data-ngthumb="image_02ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Vietnam</a>
+		<a href="image_03.jpg" data-ngthumb="image_03ts.jpg" data-ngdesc="">India</a>
+	</div>
+
+	<br><br><h2>Sample #3: Picasa/Google+</h2>
+	<div style="margin:auto;max-width:960px;">
+		<div id="nanoGallery3"></div>
+	</div>
+  <br><br><br>
+	<div style="margin:auto;max-width:960px;background:#fff;color:#f00;">
+		<br><br><br>
+    <div id="nanoGallery3a"></div>
+    <br><br><br>
+	</div>
+
+	<br><br><h2>Sample #4: Flickr</h2>
+	<div style="margin:auto;max-width:600px;">
+		<div id="nanoGallery4"></div>
+	</div>
+
+	
+	<br><br><br><br><br><br><br><br><br>
+	<h2 style="background:#555;">----- Multi-level navigation and pagination (API) -----</h2><br><br>
+	<div id="nanoGalleryMLN"></div>
+
+
+	<br><br><br><br><br><br><br><br><br>
+	<h2 style="background:#555;">----- Thumbnails configuration demo -----</h2><br><br>
+
+	<div id="nanoGalleryAnimation1" style="margin:50px"> <a href="image_01.jpg" data-ngThumb="image_01ts.jpg" data-ngDesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Image 1</a> <a href="image_02.jpg" data-ngThumb="image_02ts.jpg">Image 2</a> <a href="image_03.jpg" data-ngThumb="image_03ts.jpg">Image 3</a> </div>
+
+	
+	<br><br><h5>by Kris_B - <a href="http://www.brisbois.fr">www.brisbois.fr</a></h5>
+</body>
+>>>>>>> da2da436a24b8c4dd57eaa0c576f4d76c53916bb
 </html>
