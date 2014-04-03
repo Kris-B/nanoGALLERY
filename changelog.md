@@ -4,6 +4,7 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+<<<<<<< HEAD
 v4.3.0
 ------
 
@@ -49,6 +50,8 @@ v4.3.0
 **Contributors: Giovanni Chiodi and AlexRed --> many thanks!**
 
 
+=======
+>>>>>>> a5ad3b854e129b5123dc46baa29c9026bb0347c7
 v4.2.1
 ------
 
