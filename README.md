@@ -1,7 +1,9 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-Image gallery simplified. It is touch enabled, responsive, fast and it supports cloud storage.
+###Image gallery simplified.
+
+It is touch enabled, responsive, fast and it supports cloud storage.
 
 Featuring multi-level navigation in albums, lightbox, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, deep linking, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.
 
@@ -19,10 +21,15 @@ New in v4.3
 --------
 - new image display possibilities giving a larger area to the images (customizable position of navigation buttons and labels)
 - set the maximum length of title and description to avoid too long content
+- display or hide the icons of the thumbnails label and/or navigation breadcrumb
 - breadcrumb: new icon for home folder
+- sorting of photos and of albums
 - preload also previous image
-- added Text-Shadow attribute to the color schemes
+- added Text-Shadow attribute to color schemes
 - refinement of the 'light' theme
+- new thumbnail hover effects
+- added support of Picasa/Google+ albums that are limited to people who have a link with an authkey
+
 For a full feature list look at the release note.
 
 
@@ -88,6 +95,7 @@ Usage (v4.3)
 
 Note: If you specify a theme, the corresponding css file must also be included.
 
+>>>>>>> a5ad3b854e129b5123dc46baa29c9026bb0347c7
 
 ### Method 1: use one Flickr account
 
