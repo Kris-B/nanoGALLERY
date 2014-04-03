@@ -1,16 +1,28 @@
 {
 	"name": "nanogallery",
 	"title": "jQuery nanoGALLERY",
-	"description": "Really easy to implement and powerful jQuery plugin to display image galleries. Mobile-friendly and responsive. Support custom themes. Display also albums and images stored in Flickr or Google+/Picasa.",
+	"description": "Image gallery simplified. Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage.Featuring multi-level navigation in albums, lightbox, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, browser back/forward navigation, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.",
 	"keywords": [
 		"image",
 		"gallery",
 		"portfolio",
 		"photo",
+		"photoset",
 		"slideshow",
-		"responsive"
+		"flickr",
+		"googleplus",
+		"picasa",
+		"effects",
+		"swipe",
+		"responsive",
+		"ui",
+    "mobile",
+    "ajax",
+    "lightbox",
+    "cloud",
+    "touchscreen"
 	],
-	"version": "3.2.1",
+	"version": "4.3.0",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"
@@ -24,8 +36,8 @@
 	],
 	"licenses": [
 		{
-			"type": "GPL-3.0",
-			"url": "http://opensource.org/licenses/GPL-3.0"
+			"type": "CC BY-NC 3.0",
+			"url": "http://creativecommons.org/licenses/by-nc/3.0/"
 		}
 	],
 	"repository": {
@@ -33,10 +45,9 @@
 		"url": "https://github.com/Kris-B/nanoGALLERY.git"
 	},
 	"bugs": "https://github.com/Kris-B/nanoGALLERY/issues",
-	"homepage": "http://www.brisbois.fr/cms/nanogallery",
-	"demo": "http://www.brisbois.fr/cms/nanogallery",
+	"homepage": "http://www.nanogallery.brisbois.fr",
+	"demo": "http://www.nanogallery.brisbois.fr",
 	"dependencies": {
-		"jquery": ">=1.8",
-		"fancyBox": ">=2.1"
+		"jquery": ">=1.7"
 	}
 }
