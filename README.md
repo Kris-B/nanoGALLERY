@@ -88,7 +88,6 @@ Usage (v4.3)
 
 Note: If you specify a theme, the corresponding css file must also be included.
 
->>>>>>> a5ad3b854e129b5123dc46baa29c9026bb0347c7
 
 ### Method 1: use one Flickr account
 
