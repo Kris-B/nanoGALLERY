@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v4.3.0
+ * @preserve nanoGALLERY v4.3.1beta
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -16,34 +16,19 @@
 
 /*
 
-nanoGALLERY v4.3.0 release notes.
+nanoGALLERY v4.3.1beta release notes.
 
 ##### New features:
-- new image display possibilities giving a larger area to the images (customizable position of navigation buttons and labels)
-- set the maximum length of title and description to avoid too long content
-- display or hide the icons of the thumbnails label and/or navigation breadcrumb
-- breadcrumb: new icon for home folder
-- sorting of photos and of albums
-- preload also previous image
-- added Text-Shadow attribute to color schemes
-- refinement of the 'light' theme
-- new thumbnail hover effects
-- added support of Picasa/Google+ albums that are limited to people who have a link with an authkey
+- added image microdata
+- refinement of demonstration panel
+- helpers to extend the capabilities of nanoGALLERY
 
 ##### New options:
-- **viewerToolbar**: Display options for toolbar of the viewer (navigation buttons and captions)
-	*object; Default: `{position:'bottom', style:'innerImage'}`*
-	**position** : Position of the viewer toolbar (possible values: `top`, `bottom`)
-	*string; Default: `bottom`*
-	**style** : style of the toolbar (possible values: `innerImage`, `stuckImage`, `fullWidth`)
-	*string; Default: `innerImage`*
-- **thumbnailLabel**: new parameters `titleMaxLength`, `descriptionMaxLength`, `hideIcons` and 'align'
-- **galleryToolbarHideIcons**: display or not the icons in the navigation breadcrumb
-- **photoSorting**: sort photo albums (possible values: `standard`, `reversed`, `random`) (Flickr/Picasa/Google+)
-	*string; Default: `standard`*
-- **albumSorting**: sort photos in albums (possible values: `standard`, `reversed`, `random`) (Flickr/Picasa/Google+)
-	*string; Default: `standard`*
-- **thumbnailHoverEffect**:	new possible values: `labelSplitVert`, `labelSplit4`, `labelAppearSplitVert`, `labelAppearSplit4`, `imageSplitVert`, `imageSplit4`
+- **flickrSizeB**: include the large size (B-size / 1024) when needed
+	*boolean; Default: `false`*
+- **imageTransition**: transition animation when moving from image to image (`default`, `fade')
+	*string; Default: `default`*
+- **thumbnailInit**, **thumbnailHoverInit**, **thumbnailHover**, **thumbnailHoverOut**: helpers
   
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -51,12 +36,7 @@ nanoGALLERY v4.3.0 release notes.
 - none
 
 ##### Misc
-- CSS: renamed 'container' to 'nanoGalleryContainerParent'
-- remove support of jQuery-JSONP
-- bufix incorrect label display under the thumbnail
 - minor bugfixes
-
-**Contributors: Giovanni Chiodi and AlexRed --> many thanks!**
 
 */
  
@@ -91,6 +71,7 @@ nanoGALLERY v4.3.0 release notes.
       maxWidth:0,
       viewer:'internal',
       viewerDisplayLogo:false,
+      imageTransition:'default',
       viewerToolbar:{position:'bottom', style:'innerImage'},
       thumbnailWidth:230,
       thumbnailHeight:154,
@@ -100,13 +81,17 @@ nanoGALLERY v4.3.0 release notes.
       thumbnailDisplayTransition:true,
       thumbnailLazyLoad:false,
       thumbnailLazyLoadTreshold:100,
+      thumbnailGlobalImageTitle:'',
+      thumbnailGlobalAlbumTitle:'',
+      thumbnailInit:null,
+      thumbnailHoverInit:null,
+      thumbnailHover:null,
+      thumbnailHoverOut:null,
       touchAnimation:true,
       useTags:false,
       preset:'none',
       locationHash:false,
       slideshowDelay:3000,
-      thumbnailGlobalImageTitle:'',
-      thumbnailGlobalAlbumTitle:'',
       photoSorting:'',
       albumSorting:'',
       i18n:{
@@ -136,7 +121,6 @@ function nanoGALLERY() {
     g_baseControl=null,
     g_baseControlID=null,
     $g_containerThumbnailsParent=null,
-    g_containerDemo=null,
     $g_containerThumbnails=null,
     $g_containerThumbnailsHidden=null,
     $g_containerPagination=null,
@@ -504,6 +488,10 @@ function nanoGALLERY() {
       
       // FLICKR
       case 'flickr':
+        if( g_options.flickrSizeB ) {
+          g_flickrThumbAvailableSizes.push(1024);
+          g_flickrThumbAvailableSizesStr.push('b');
+        }
         for( i=0; i<g_flickrThumbAvailableSizes.length; i++) {
           g_flickrThumbSize=g_flickrThumbAvailableSizesStr[i];
           if( si < g_flickrThumbAvailableSizes[i] ) {
@@ -1323,6 +1311,8 @@ function nanoGALLERY() {
 
   function FlickrProcessItems( albumIdx, processLocationHash, imageID, setLocationHash) {
 
+    manageGalleryToolbar(albumIdx);
+  
     if( g_ngItems[albumIdx].contentLength != 0 ) {    // already loaded?
       DisplayAlbum(albumIdx,setLocationHash);
       return;
@@ -1341,13 +1331,13 @@ function nanoGALLERY() {
       kind='image';
     }
 
-    if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.folder').last().addClass('loading'); }
+    if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.oneFolder').last().addClass('loading'); }
 
     jQuery.ajaxSetup({ cache: false });
     jQuery.support.cors = true;
 
     jQuery.getJSON(url, function(data) {
-      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.folder').last().removeClass('loading'); }
+      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.oneFolder').last().removeClass('loading'); }
       if( kind == 'album' ) {
         FlickrParsePhotoSets(albumIdx, data);
       }
@@ -1377,7 +1367,7 @@ function nanoGALLERY() {
       }
     })
     .fail( function(jqxhr, textStatus, error) {
-      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.folder').last().removeClass('loading'); }
+      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.oneFolder').last().removeClass('loading'); }
       var err = textStatus + ', ' + error;
       nanoAlert("Could not retrieve Flickr photoset list (jQuery): " + err);
     });
@@ -1499,6 +1489,8 @@ function nanoGALLERY() {
 
   function PicasaProcessItems( albumIdx, processLocationHash, imageID, setLocationHash ) {
 
+    manageGalleryToolbar(albumIdx);
+  
     if( g_ngItems[albumIdx].contentLength != 0 ) {    // already loaded?
       //renderGallery(albumIdx,0);
       DisplayAlbum(albumIdx,setLocationHash);
@@ -1520,7 +1512,7 @@ function nanoGALLERY() {
       kind='image';
     }
     url = url + "&callback=?";
-    if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.folder').last().addClass('loading'); }
+    if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.oneFolder').last().addClass('loading'); }
 
 
     // get the content and display it
@@ -1536,7 +1528,7 @@ function nanoGALLERY() {
 
     // use jQuery
     jQuery.getJSON(url, function(data) {
-      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.folder').last().removeClass('loading'); }
+      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.oneFolder').last().removeClass('loading'); }
       PicasaParseData(albumIdx,data,kind);
       //renderGallery(albumIdx,0);
       if( processLocationHash ) {
@@ -1562,7 +1554,7 @@ function nanoGALLERY() {
       }
     })
     .fail( function(jqxhr, textStatus, error) {
-      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.folder').last().removeClass('loading'); }
+      if( g_options.displayBreadcrumb == true ) { $g_containerBreadcrumb.find('.oneFolder').last().removeClass('loading'); }
       var err = textStatus + ', ' + error;
       nanoAlert("Could not retrieve Picasa/Google+ data (jQuery): " + err);
     });
@@ -1749,7 +1741,7 @@ function nanoGALLERY() {
     if(albumIdx == 0 ) {
       cl="folderHome";
     }
-    var newDiv =jQuery('<div class="'+cl+'">'+g_ngItems[albumIdx].title+'</div>').appendTo($g_containerBreadcrumb);
+    var newDiv =jQuery('<div class="'+cl+' oneFolder">'+g_ngItems[albumIdx].title+'</div>').appendTo($g_containerBreadcrumb);
     jQuery(newDiv).data('albumIdx',albumIdx);
     newDiv.click(function() {
       var cAlbumIdx=jQuery(this).data('albumIdx');
@@ -1875,7 +1867,7 @@ function nanoGALLERY() {
           });;
         }
         // add album to breadcrumb
-        var newDiv =jQuery('<div class="folder">'+g_ngItems[albumIdx].title+'</div>').appendTo($g_containerBreadcrumb);
+        var newDiv =jQuery('<div class="folder oneFolder">'+g_ngItems[albumIdx].title+'</div>').appendTo($g_containerBreadcrumb);
         jQuery(newDiv).data('albumIdx',albumIdx);
         newDiv.click(function() {
           var cAlbumIdx=jQuery(this).data('albumIdx');
@@ -2252,7 +2244,7 @@ function nanoGALLERY() {
     }
 
     if( g_options.displayBreadcrumb == true ) {
-      $g_containerBreadcrumb.find('.folder').last().removeClass('loading');
+      $g_containerBreadcrumb.find('.oneFolder').last().removeClass('loading');
     }
 
     var eltOpacity='1';
@@ -2295,7 +2287,7 @@ function nanoGALLERY() {
             
             var $newDiv=thumbnailBuild(item, idx, eltOpacity, foundDesc);
 
-            thumbnailPositionContent($newDiv);
+            thumbnailPositionContent($newDiv, item);
 
             setThumbnailSize($newDiv, item);
             
@@ -2424,7 +2416,7 @@ function nanoGALLERY() {
   function thumbnailBuild( item, idx, eltOpacity, foundDesc ) {
     var newElt=[];
     var newEltIdx=0;
-    newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer nanogalleryHideElement" style="display:inline-block,opacity:'+eltOpacity+'"><div class="subcontainer" style="display: inline-block">';
+    newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer nanogalleryHideElement" style="display:inline-block,opacity:'+eltOpacity+'" itemscope itemtype="http://schema.org/ImageObject"><div class="subcontainer" style="display: inline-block">';
     
     var src='';
     if( g_options.thumbnailLazyLoad ) {
@@ -2436,15 +2428,15 @@ function nanoGALLERY() {
     
     var checkImageSize=false;
     if( g_options.thumbnailHeight == 'auto' ) {
-      newElt[newEltIdx++]='<div class="imgContainer" style="width:'+g_options.thumbnailWidth+'px;"><img class="image" src='+src+' style="width:'+g_options.thumbnailWidth+'px;"></div>';
+      newElt[newEltIdx++]='<div class="imgContainer" style="width:'+g_options.thumbnailWidth+'px;"><img class="image" src='+src+' style="width:'+g_options.thumbnailWidth+'px;" itemprop="contentURL"></div>';
       if( g_ngItems[idx].thumbHeight == 0 ) { checkImageSize=true; }
     }
     else if( g_options.thumbnailWidth == 'auto' ) {
-        newElt[newEltIdx++]='<div class="imgContainer" style="height:'+g_options.thumbnailHeight+'px;"><img class="image" src='+src+' style="height:'+g_options.thumbnailHeight+'px;"></div>';
+        newElt[newEltIdx++]='<div class="imgContainer" style="height:'+g_options.thumbnailHeight+'px;"><img class="image" src='+src+' style="height:'+g_options.thumbnailHeight+'px;" itemprop="contentURL"></div>';
         if( g_ngItems[idx].thumbWidth == 0 ) { checkImageSize=true; }
       }
       else {
-        newElt[newEltIdx++]='<div class="imgContainer" style="width:'+g_options.thumbnailWidth+'px;height:'+g_options.thumbnailHeight+'px;"><img class="image" src='+src+' style="max-width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"></div>';
+        newElt[newEltIdx++]='<div class="imgContainer" style="width:'+g_options.thumbnailWidth+'px;height:'+g_options.thumbnailHeight+'px;"><img class="image" src='+src+' style="max-width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;" itemprop="contentURL"></div>';
       }
 
     var sTitle=getThumbnailTitle(item);
@@ -2452,14 +2444,14 @@ function nanoGALLERY() {
     if( item.kind == 'album' ) {
       // ALBUM
       if( g_options.thumbnailLabel.display == true ) {
-        newElt[newEltIdx++]='<div class="labelImage" style="width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"><div class="labelFolderTitle">'+sTitle+'</div><div class="labelDescription">'+sDesc+'</div></div>';
+        newElt[newEltIdx++]='<div class="labelImage" style="width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"><div class="labelFolderTitle" itemprop="name">'+sTitle+'</div><div class="labelDescription" itemprop="description">'+sDesc+'</div></div>';
       }
     }
     else {
       // IMAGE
       if( g_options.thumbnailLabel.display == true ) {
         if( foundDesc && sDesc.length == 0 && g_options.thumbnailLabel.position == 'onBottom' ) { sDesc='&nbsp;'; }
-        newElt[newEltIdx++]='<div class="labelImage" style="width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"><div class="labelImageTitle">'+sTitle+'</div><div class="labelDescription">'+sDesc+'</div></div>';
+        newElt[newEltIdx++]='<div class="labelImage" style="width:'+g_options.thumbnailWidth+'px;max-height:'+g_options.thumbnailHeight+'px;"><div class="labelImageTitle" itemprop="name">'+sTitle+'</div><div class="labelDescription" itemprop="description">'+sDesc+'</div></div>';
       }
     }
     newElt[newEltIdx++]='</div></div>';
@@ -2591,7 +2583,13 @@ function nanoGALLERY() {
       }
   }
   
-  function thumbnailPositionContent( $elt ) {
+  function thumbnailPositionContent( $elt, item ) {
+  
+    if( typeof g_options.thumbnailInit == 'function' ) { 
+      g_options.thumbnailInit(elt, item);
+      return;
+    }    
+
     switch( g_options.thumbnailLabel.position ){
       case 'onBottom':
         $elt.find('.labelImage').css({'top':'0', 'position':'relative'});
@@ -2666,6 +2664,10 @@ function nanoGALLERY() {
     if( n == undefined ) { return; }    // required because can be fired on ghost elements
     var item=g_ngItems[n];
 
+    if( typeof g_options.thumbnailHoverInit == 'function' ) { 
+      g_options.thumbnailHoverInit(elt, item);
+    }
+    
     for( j=0; j<g_thumbnailHoverEffect.length; j++) {
       var useTransitPlugin = false;
       switch(g_thumbnailHoverEffect[j].name ) {
@@ -2990,6 +2992,10 @@ function nanoGALLERY() {
     var item=g_ngItems[n];
     item.hovered=true;
 
+    if( typeof g_options.thumbnailHover == 'function' ) { 
+      g_options.thumbnailHover(jQuery(elt), item);
+    }    
+    
     try {
       for( j=0; j<g_thumbnailHoverEffect.length; j++) {
         switch(g_thumbnailHoverEffect[j].name ) {
@@ -3409,6 +3415,10 @@ function nanoGALLERY() {
     var item=g_ngItems[n];
     item.hovered=false;
 
+    if( typeof g_options.thumbnailHoverOut == 'function' ) { 
+      g_options.thumbnailHoverOut(jQuery(elt), item);
+    }    
+
     try {
       for( j=0; j<g_thumbnailHoverEffect.length; j++) {
         switch(g_thumbnailHoverEffect[j].name ) {
@@ -3641,13 +3651,13 @@ function nanoGALLERY() {
             }
             break;
           case 'labelSlideUpTop':
-            var n= item.thumbRealHeight + 'px';
-            if( g_options.thumbnailLabel.position == 'overImageOnBottom' ) {
+            var p= item.thumbRealHeight + 'px';
+            if( g_options.thumbnailLabel.position != 'onBottom' ) {
               if( g_thumbnailHoverEffect[j].method == 'transit' ) {
-                jQuery(elt).find('.labelImage').transition({ 'top': n},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+                jQuery(elt).find('.labelImage').transition({ 'top': p},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
               }
               else {
-                jQuery(elt).find('.labelImage').animate({ 'top': n},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
+                jQuery(elt).find('.labelImage').animate({ 'top': p},g_thumbnailHoverEffect[j].duration, g_thumbnailHoverEffect[j].easing);
               }
             }
             break;
@@ -3788,14 +3798,14 @@ function nanoGALLERY() {
     $g_containerViewerContainer.addClass('nanogallery_theme_'+g_options.theme);
     SetColorSchemeViewer($g_containerViewerContainer);
 
-    $g_containerViewer=jQuery('<div  id="nanoGalleryViewer" class="nanoGalleryViewer" style="visibility:visible"></div>').appendTo($g_containerViewerContainer);
+    $g_containerViewer=jQuery('<div  id="nanoGalleryViewer" class="nanoGalleryViewer" style="visibility:visible" itemscope itemtype="http://schema.org/ImageObject"></div>').appendTo($g_containerViewerContainer);
     
     var sImg='';
     var l=g_ngItems.length;
 
-    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;">';
-    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;">';
-    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;">';
+    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
 
     $g_containerViewerContent=jQuery('<div class="content">'+sImg+'<div class="contentAreaPrevious"></div><div class="contentAreaNext"></div></div>').appendTo($g_containerViewer);
     $g_ViewerImagePrevious=$g_containerViewer.find('.image').eq(0);
@@ -3808,7 +3818,7 @@ function nanoGALLERY() {
     if( g_supportFullscreenAPI ) {
       fs='<div class="setFullscreenButton fullscreenButton"></div>';
     }
-    $g_containerViewerToolbar=jQuery('<div class="toolbarContainer" style="visibility:hidden;"><div class="toolbar"><div class="previousButton"></div><div class="pageCounter"></div><div class="nextButton"></div><div class="playButton playPauseButton"></div>'+fs+'<div class="closeButton"></div><div class="label"><div class="title"></div><div class="description"></div></div></div>').appendTo($g_containerViewer);
+    $g_containerViewerToolbar=jQuery('<div class="toolbarContainer" style="visibility:hidden;"><div class="toolbar"><div class="previousButton"></div><div class="pageCounter"></div><div class="nextButton"></div><div class="playButton playPauseButton"></div>'+fs+'<div class="closeButton"></div><div class="label"><div class="title" itemprop="name"></div><div class="description" itemprop="description"></div></div></div>').appendTo($g_containerViewer);
     if( g_options.viewerDisplayLogo ) {
       $g_containerViewerLogo=jQuery('<div class="nanoLogo"></div>').appendTo($g_containerViewer);
     }
@@ -4026,10 +4036,19 @@ function nanoGALLERY() {
     g_viewerCurrentItemIdx=imageIdx;
 
     var s='-'+(1*jQuery(window).width())+'px';
+    
+    var transitionScroll=true;
+    if( g_options.imageTransition == 'fade' ) { transitionScroll=false; }
+    
     var animImgCurrent='';
     switch( displayType ) {
       case 'nextImage':
-        animImgCurrent = { left : s,'opacity': 0 };
+        if( transitionScroll ) {
+          animImgCurrent = { left : s,'opacity': 0 };
+        }
+        else {
+          animImgCurrent = { 'opacity': 0 };
+        }
         $g_containerViewerContent.find('*').stop(true,true);
         $g_ViewerImageNext.css({'opacity':0, 'right':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
         
@@ -4044,7 +4063,12 @@ function nanoGALLERY() {
         break;
 
       case 'previousImage':
-        animImgCurrent = { right : s,'opacity': 0 };
+        if( transitionScroll ) {
+          animImgCurrent = { right : s,'opacity': 0 };
+        }
+        else {
+          animImgCurrent = { 'opacity': 0 };
+        }
         $g_containerViewerContent.find('*').stop(true,true);
         $g_ViewerImagePrevious.css({'opacity':0, 'right':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
         
@@ -4556,52 +4580,166 @@ function nanoGALLERY() {
 
     return this.each(function(index) {
       g_save=jQuery(this)[0].outerHTML;
-      g_containerDemo =jQuery('<div class="nanoGalleryDemo" style="padding:5px"></div>').replaceAll(this);
+      g_containerDemo =jQuery('<div class="nanoGalleryDemo" style="padding:5px;"></div>').replaceAll(this);
     
       var sHoverEffects='<option style="color:#000">none</option>';
-      sHoverEffects+='<option style="color:#000">slideUp</option><option style="color:#000">slideDown</option><option style="color:#000">slideLeft</option><option style="color:#000">slideRight</option>';
-      sHoverEffects+='<option style="color:#000">imageSlideUp</option><option style="color:#000">imageSlideDown</option><option style="color:#000">imageSlideLeft</option><option style="color:#000">imageSlideRight</option>';
-      sHoverEffects+='<option style="color:#000">imageSplitVert</option><option style="color:#000">imageSplit4</option>';
-      sHoverEffects+='<option style="color:#000">labelAppear</option><option style="color:#000">labelAppear75</option><option style="color:#000">labelSlideDown</option><option style="color:#000">labelSlideUp</option>';
-      sHoverEffects+='<option style="color:#000">labelSplitVert</option><option style="color:#000">labelSplit4</option><option style="color:#000">labelAppearSplitVert</option><option style="color:#000">labelAppearSplit4</option>';
-      sHoverEffects+='<option style="color:#000">labelOpacity50</option><option style="color:#000">imageOpacity50</option><option style="color:#000">descriptionSlideUp</option>';
-      sHoverEffects+='<option style="color:#000">borderLighter</option><option style="color:#000">borderDarker</option><option style="color:#000">imageInvisible</option>';
+      sHoverEffects+='<option style="color:#000">slideUp</option>';
+      sHoverEffects+='<option style="color:#000">slideDown</option>';
+      sHoverEffects+='<option style="color:#000">slideLeft</option>';
+      sHoverEffects+='<option style="color:#000">slideRight</option>';
+      sHoverEffects+='<option style="color:#000">imageSlideUp</option>';
+      sHoverEffects+='<option style="color:#000">imageSlideDown</option>';
+      sHoverEffects+='<option style="color:#000">imageSlideLeft</option>';
+      sHoverEffects+='<option style="color:#000">imageSlideRight</option>';
+      sHoverEffects+='<option style="color:#000">imageSplitVert</option>';
+      sHoverEffects+='<option style="color:#000">imageSplit4</option>';
+      sHoverEffects+='<option style="color:#000">labelAppear</option>';
+      sHoverEffects+='<option style="color:#000">labelAppear75</option>';
+      sHoverEffects+='<option style="color:#000">labelSlideDown</option>';
+      sHoverEffects+='<option style="color:#000">labelSlideUp</option>';
+      sHoverEffects+='<option style="color:#000">labelSplitVert</option>';
+      sHoverEffects+='<option style="color:#000">labelSplit4</option>';
+      sHoverEffects+='<option style="color:#000">labelAppearSplitVert</option>';
+      sHoverEffects+='<option style="color:#000">labelAppearSplit4</option>';
+      sHoverEffects+='<option style="color:#000">labelOpacity50</option>';
+      sHoverEffects+='<option style="color:#000">imageOpacity50</option>';
+      sHoverEffects+='<option style="color:#000">descriptionSlideUp</option>';
+      sHoverEffects+='<option style="color:#000">borderLighter</option>';
+      sHoverEffects+='<option style="color:#000">borderDarker</option>';
+      sHoverEffects+='<option style="color:#000">imageInvisible</option>';
+
+      sHoverEffects+='<option style="color:#000"></option>';
+      sHoverEffects+='<option style="color:#000">imageScale150*</option>';
+      sHoverEffects+='<option style="color:#000">imageScale150Outside*</option>';
+      sHoverEffects+='<option style="color:#000">scale120*</option>';
+      sHoverEffects+='<option style="color:#000">overScale*</option>';
+      sHoverEffects+='<option style="color:#000">overScaleOutside*</option>';
+      sHoverEffects+='<option style="color:#000">scaleLabelOverImage*</option>';
+      sHoverEffects+='<option style="color:#000">imageFlipHorizontal*</option>';
+      sHoverEffects+='<option style="color:#000">imageFlipVertical*</option>';
+      sHoverEffects+='<option style="color:#000">rotateCornerBR*</option>';
+      sHoverEffects+='<option style="color:#000">rotateCornerBL*</option>';
+      sHoverEffects+='<option style="color:#000">imageRotateCornerBR*</option>';
+      sHoverEffects+='<option style="color:#000">imageRotateCornerBL*</option>';
+
+      var sThumbnailLabelPosition='<option style="color:#000">overImageOnBottom</option>';
+      sThumbnailLabelPosition+='<option style="color:#000">overImageOnMiddle</option>';
+      sThumbnailLabelPosition+='<option style="color:#000">overImageOnTop</option>';
+      sThumbnailLabelPosition+='<option style="color:#000">onBottom</option>';
+
+      var sGalleryColorScheme='<option style="color:#000">none</option>';
+      sGalleryColorScheme+='<option style="color:#000">default</option>';
+      sGalleryColorScheme+='<option style="color:#000">dark</option>';
+      sGalleryColorScheme+='<option style="color:#000">darkRed</option>';
+      sGalleryColorScheme+='<option style="color:#000">darkGreen</option>';
+      sGalleryColorScheme+='<option style="color:#000">darkBlue</option>';
+      sGalleryColorScheme+='<option style="color:#000">darkOrange</option>';
+      sGalleryColorScheme+='<option style="color:#000">light</option>';
+      sGalleryColorScheme+='<option style="color:#000">lightBackground</option>';
+      
+      var sViewerColorScheme='<option style="color:#000">none</option>';
+      sViewerColorScheme+='<option style="color:#000">default</option>';
+      sViewerColorScheme+='<option style="color:#000">darkRed</option>';
+      sViewerColorScheme+='<option style="color:#000">darkGreen</option>';
+      sViewerColorScheme+='<option style="color:#000">darkBlue</option>';
+      sViewerColorScheme+='<option style="color:#000">darkOrange</option>';
+      sViewerColorScheme+='<option style="color:#000">light</option>';
+
+      var sCSS='<option style="color:#000">default</option>';
+      sCSS+='<option style="color:#000">clean</option>';
+      sCSS+='<option style="color:#000">light</option>';
+
+      var sBColor='<option style="color:#000">dark</option>';
+      sBColor+='<option style="color:#000">light</option>';
+      
+      var sPanel='<div style="line-height:normal;margin:10px auto 30px auto;text-align:center;border:1px solid #555;background:#000;padding:5px;font-size:1.2em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span><span style="color:#d3d3d3;"> - demonstration panel</span></div>';
 
       
-      sHoverEffects+='<option style="color:#000"></option><option style="color:#000">imageScale150*</option><option style="color:#000">imageScale150Outside*</option><option style="color:#000">scale120*</option>';
-      sHoverEffects+='<option style="color:#000">overScale*</option>';
-      sHoverEffects+='<option style="color:#000">overScaleOutside*</option><option style="color:#000">scaleLabelOverImage*</option>';
-
-      sHoverEffects+='<option style="color:#000">imageFlipHorizontal*</option><option style="color:#000">imageFlipVertical*</option>';
-      sHoverEffects+='<option style="color:#000">rotateCornerBR*</option><option style="color:#000">rotateCornerBL*</option><option style="color:#000">imageRotateCornerBR*</option><option style="color:#000">imageRotateCornerBL*</option>';
-
-      var sPanel='<div style="line-height:normal;margin:10px auto 30px auto;text-align:center;border:1px solid #555;background:#000;padding:5px;font-size:1.2em;"><span style="color:#d3d3d3;">nano</span><span style="color:#6e6;">GALLERY</span> - demonstration panel</div>';
-      sPanel+='<div style="display:inline-block;"><b>Thumbnail hover effects:</b>&nbsp;<select name="lHoverEffect1" style="color:#000">'+sHoverEffects+'</select>';
-      sPanel+='&nbsp;<select name="lHoverEffect2" style="color:#000">'+sHoverEffects+'</select>';
-      sPanel+='&nbsp;<select name="lHoverEffect3" style="color:#000">'+sHoverEffects+'</select></div>';
-      sPanel+='<br><div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*: requires Transit plugin</div>';
-      sPanel+='<br><br><div style="display:inline-block;"><b>Thumbnail size:</b>&nbsp;Width (px):&nbsp;<input type="text" name="thumbWidth" value="120" style="width:50px;color:#000">&nbsp;&nbsp;Height (px):&nbsp;<input type="text" name="thumbHeight" value="120" style="width:50px;color:#000"></div>';
-      //sPanel+='<br><br><div style="display:inline-block;">Maximum number of thumbnails per line:&nbsp;<input type="text" name="thumbMaxItemsPerLine" value="" style="width:50px;color:#000"></div>';
-      //sPanel+='<div style="display:inline-block;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Maximum gallery width (px): <input type="text" name="thumbMaxWidth" value="" style="width:50px;color:#000"></div>';
-      sPanel+='<br><br><div><b>Thumbnail label: </b></div>';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Position: <form style="display:inline-block;"><input type="radio" name="thumbnailLabelPosition" value="overImageOnBottom" checked style="margin:0">overImageOnBottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="overImageOnTop" style="margin:0">overImageOnTop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="onBottom" style="margin:0">onBottom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="thumbnailLabelPosition" value="overImageOnMiddle" style="margin:0">overImageOnMiddle</form>';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplay" value="true" checked style="margin:0">Display label';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true" style="margin:0">Display description';
-      sPanel+='<br><br><div><b>Gallery color scheme:</b> <br>';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" checked name="colorScheme" value="none" style="margin:0">none &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="default" style="margin:0">default &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="dark" style="margin:0">dark &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkRed" style="margin:0">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      sPanel+='<input type="radio" name="colorScheme" value="darkGreen" style="margin:0">darkGreen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkBlue" style="margin:0">darkBlue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      sPanel+='<input type="radio" name="colorScheme" value="darkOrange" style="margin:0">darkOrange &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="light" style="margin:0">light &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="lightBackground" style="margin:0">lightBackground';
-      sPanel+='</form></div>';
-      sPanel+='<br><div><b>Image display color scheme:</b> <br>';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" checked name="colorSchemeViewer" value="none" style="margin:0">none &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorSchemeViewer" value="default" style="margin:0">default &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorSchemeViewer" value="darkRed" style="margin:0">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorScheme" value="darkRed" style="margin:0">darkRed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      sPanel+='<input type="radio" name="colorSchemeViewer" value="darkGreen" style="margin:0">darkGreen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorSchemeViewer" value="darkBlue" style="margin:0">darkBlue &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-      sPanel+='<input type="radio" name="colorSchemeViewer" value="darkOrange" style="margin:0">darkOrange &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="colorSchemeViewer" value="light" style="margin:0">light';
-      sPanel+='</form></div>';
-      sPanel+='<br><div><b>CSS file:</b> <br>';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="cssFile" value="default" checked style="margin:0">default &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="cssFile" value="clean" style="margin:0">clean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="cssFile" value="light" style="margin:0">light</form></div>';
-      sPanel+='<br><div><b>Background color</b> (not a nanoGALLERY parameter): <br>';
-      sPanel+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<form style="display:inline-block;"><input type="radio" name="backgroundColor" value="dark" checked style="margin:0">Dark&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="backgroundColor" value="light" style="margin:0">Light</form></div>';
-
+      sPanel+='<table>';
+      sPanel+='<tbody>';
+      sPanel+='<tr>';
+        sPanel+='<td>';
+          sPanel+='<b>Thumbnail hover effects:</b>&nbsp;';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lHoverEffect1" style="color:#000">'+sHoverEffects+'</select>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lHoverEffect2" style="color:#000">'+sHoverEffects+'</select>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lHoverEffect3" style="color:#000">'+sHoverEffects+'</select></div>';
+        sPanel+='</td>';
+      sPanel+='</tr>';
+      sPanel+='<tr>';
+        sPanel+='<td>';
+          sPanel+='&nbsp;&nbsp;&nbsp;*: requires Transit plugin';
+        sPanel+='</td>';
+        sPanel+='<td>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+        sPanel+='</td>';
+      sPanel+='</tr>';
+      sPanel+='<tr>';
+        sPanel+='<td>';
+          sPanel+='<b>Thumbnail size:</b>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<input type="text" name="thumbWidth" value="120" style="width:50px;color:#000"> width (px)';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<input type="text" name="thumbHeight" value="120" style="width:50px;color:#000"> height (px)';
+        sPanel+='</td>';
+        sPanel+='<td>';
+        sPanel+='</td>';
+      sPanel+='</tr>';
+      sPanel+='<tr>';
+        sPanel+='<td>';
+          sPanel+='<b>Thumbnail label: </b>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lThumbnailLabelPosition" style="color:#000">'+sThumbnailLabelPosition+'</select>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<input type="checkbox" name="thumbnailLabelDisplay" value="true" checked style="margin:0"> Display label';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true" style="margin:0"> Display description';
+        sPanel+='</td>';
+      sPanel+='</tr>';
+      sPanel+='<tr>';
+        sPanel+='<td>';
+          sPanel+='<b>Gallery color scheme:</b>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lGalleryColorScheme" style="color:#000">'+sGalleryColorScheme+'</select>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<b>Image color scheme:</b> ';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lViewerColorScheme" style="color:#000">'+sViewerColorScheme+'</select>';
+        sPanel+='</td>';
+      sPanel+='</tr>';
+      sPanel+='<tr>';
+        sPanel+='<td>';
+          sPanel+='<b>Theme:</b> ';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lCSS" style="color:#000">'+sCSS+'</select>';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<b>Background color</b>:';
+        sPanel+='</td>';
+        sPanel+='<td>';
+          sPanel+='<select name="lBColor" style="color:#000">'+sBColor+'</select>';
+        sPanel+='</td>';
+      sPanel+='</tr>';
+      sPanel+='</tbody>';
+      sPanel+='</table>';
+      
 
       sPanel+='<div style="display:table;margin:auto;"><button name="bGo" "type="button" style="color:#000;padding:5px 15px;margin:5px;">--> Launch</button></div>';
 
@@ -4611,7 +4749,7 @@ function nanoGALLERY() {
       sPanel+='<button name="bPreset3" type="button" style="color:#000;padding:4px;">Preset 3</button>';
       sPanel+='<button name="bPreset4" type="button" style="color:#000;padding:4px;">Preset 4</button>';
       sPanel+='<button name="bPreset5" type="button" style="color:#000;padding:4px;">Preset 5</button></div>';
-      g_containerDemoPanel=jQuery(g_containerDemo).append('<div class="nanoGalleryDemoPanel" style="display:table;border:2px solid #666;background:#555;margin:10px auto;padding:5px;font-size:0.8em;">'+sPanel+'</div>');
+      g_containerDemoPanel=jQuery(g_containerDemo).append('<div class="nanoGalleryDemoPanel" style="display:table;border:2px solid #666;background:#ccc;margin:10px auto;padding:5px;font-size:0.8em;">'+sPanel+'</div>');
 
       g_containerNew=jQuery(g_save).appendTo(g_containerDemo);
       jQuery(g_containerDemoPanel).find('[name=lHoverEffect1]').val('borderLighter');
@@ -4689,14 +4827,19 @@ function nanoGALLERY() {
       //  jQuery(g_containerDemoPanel).find('[name=thumbMaxWidth]').val(tMW);
       //  settings.maxWidth=tMW;
       //}
-      settings.thumbnailLabel.position=jQuery(g_containerDemoPanel).find('input[name=thumbnailLabelPosition]:checked',g_containerDemoPanel).val();
+
+      //settings.thumbnailLabel.position=jQuery(g_containerDemoPanel).find('input[name=thumbnailLabelPosition]:checked',g_containerDemoPanel).val();
+      settings.thumbnailLabel.position=jQuery(g_containerDemoPanel).find('[name=lThumbnailLabelPosition] option:selected').text();
+
       settings.thumbnailLabel.display=jQuery(g_containerDemoPanel).find('[name=thumbnailLabelDisplay]').prop('checked');
       settings.thumbnailLabel.displayDescription=jQuery(g_containerDemoPanel).find('[name=thumbnailLabelDisplayDescription]').prop('checked');
-      settings.colorScheme=jQuery(g_containerDemoPanel).find('input[name=colorScheme]:checked',g_containerDemoPanel).val();
-      settings.colorSchemeViewer=jQuery(g_containerDemoPanel).find('input[name=colorSchemeViewer]:checked',g_containerDemoPanel).val();
-      settings.theme=jQuery(g_containerDemoPanel).find('input[name=cssFile]:checked',g_containerDemoPanel).val();
+
+      settings.colorScheme=jQuery(g_containerDemoPanel).find('[name=lGalleryColorScheme] option:selected').text();
+      settings.colorSchemeViewer=jQuery(g_containerDemoPanel).find('[name=lViewerColorScheme] option:selected').text();
+
+      settings.theme=jQuery(g_containerDemoPanel).find('[name=lCSS] option:selected').text();
       
-      if( jQuery(g_containerDemoPanel).find('input[name=backgroundColor]:checked',g_containerDemoPanel).val() == 'dark' ) {
+      if( jQuery(g_containerDemoPanel).find('[name=lBColor] option:selected').text() == 'dark' ) {
         jQuery(g_containerDemoPanel).css('background','#222');
       }
       else {
