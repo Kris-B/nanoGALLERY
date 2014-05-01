@@ -4,6 +4,43 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+
+v4.4.0
+------
+
+
+##### New features:
+- SmugMug storage support
+- new thumbnail display mode justified
+- helpers to extend the capabilities of nanoGALLERY
+- added image microdata
+- refinement of demonstration panel
+- removed support of browser-back to close the photo viewer
+- added HTTPS support
+- error messages displayed beneath the gallery (alert() was used up to now)
+- restored icons in the light theme (hidding icons is now configurable)
+
+##### New options:
+- **thumbnailWidth**: new possible values 'auto' and 'autoUpScale'
+- **fnThumbnailInit**, **fnThumbnailHoverInit**, **fnThumbnailHover**, **fnThumbnailHoverOut**, **fnThumbnailDisplayEffect**: javascript helpers
+- **breadcrumbAutoHideTopLevel**: hide the breadcrumb if user on first level
+	*boolean; Default: `false`*
+- **flickrSizeB**: include the large size (B-size / 1024) when needed
+	*boolean; Default: `false`*
+- **imageTransition**: transition animation when moving from image to image (`default`, `fade')
+	*string; Default: `default`*
+
+**Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
+
+##### Deprecated options:
+- none
+
+##### Misc
+- change default colorSchemeViewer default from 'none' to 'default'
+- fixed compatibility issue with niceScroll plugin (http://areaaperta.com/nicescroll)
+- minor bugfixes
+
+
 v4.3.0
 ------
 

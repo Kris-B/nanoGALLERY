@@ -91,7 +91,7 @@
 }
 
 .nanogallery_theme_clean .nanoGalleryNavigationbar {
-	color:#ccc;
+	/*color:#ccc;*/
 	/*border: 1px dotted #555;*/
 	border-top: 1px solid #555;
 	border-bottom: 1px solid #555;
@@ -252,33 +252,6 @@
 	overflow:hidden;
 }
 
-.nanogallery_theme_clean .nanoGalleryContainer .iconInfo{
-}
-.nanogallery_theme_clean .nanoGalleryContainer .iconInfo:after{
-	visibility: hidden;
-	content:".";
-	left:8px;
-	top:8px;
-	position:absolute;
-	background: rgba(0,0,0,0.75); 
-	color: #fff; 
-	border: 2px solid #aaa;
-	width: 20px;
-	height: 20px;
-	line-height: 20px;
-	text-align: center;
-	-webkit-border-radius: 20px;
-	-moz-border-radius: 20px;
-	border-radius: 20px;
-	transition: all 0.5s ease;
-	-webkit-transition: all 0.5s ease;
-	-moz-transition: all 0.5s ease;
-	-o-transition: all 0.5s ease;
-}
-.nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer:hover .iconInfo:after{
-	opacity: 0;
-}
-
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer{
 	cursor:  pointer;
 	/*border: 1px solid #000;*/
@@ -292,9 +265,18 @@
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	-o-box-sizing: content-box;
+	overflow:hidden;
 }
 
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer .subcontainer{
+	box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-o-box-sizing: content-box;
+	border: 0px solid #000;
+	margin: 0px;
+	padding: 0px;
+	overflow:hidden;
 }
 
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer .imgContainer{
@@ -324,24 +306,26 @@
 	opacity: 1;
 	text-align:left;
 	padding: 2px 0 0 0;
+  left: 0px;
 	position:absolute;
 	min-height:0%;
 	overflow:hidden;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelImageTitle{
 	color:#eee;
+  left: 0px;
 	overflow:hidden;
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 	vertical-align: middle;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelImageTitle:before{
 	content: '\e803';	/* .icon-picture */
@@ -362,14 +346,15 @@
 
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelFolderTitle{
 	color:#eee;
+  left: 0px;
 	overflow:hidden;
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
 	vertical-align: middle;
 	display: inline;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelFolderTitle:before{
 	content: '\e815';	/* .icon-folder-empty */
@@ -391,13 +376,14 @@
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelDescription{
 	clear:both;
 	color:#aaa;
+  left: 0px;
   font-size:0.8em;
 	margin:1px 2px;
 	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 /**************************************/
@@ -405,7 +391,7 @@
 /**************************************/
 
 .nanogallery_theme_clean .nanoGalleryContainerParent .nanoGalleryPagination{
-	color:#eee;
+	/*color:#eee;*/
 	margin: 10px auto 5px auto;
 	padding: 4px;
 	text-align:center;
@@ -753,6 +739,7 @@
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	-o-box-sizing: content-box;
+  background-color:initial;
 }
 
 .nanogallery_theme_clean .nanoGalleryViewer .toolbar .label .title{
@@ -778,3 +765,20 @@
 }
 
 
+/**************************************/
+/* CONSOLE                            */
+/**************************************/
+
+.nanogallery_theme_clean .nanoGalleryConsoleParent {
+  visibility:hidden;
+  height:0px;
+  background:#111;
+  color:#e00;
+  padding:5px;
+  margin:2px;
+}
+.nanogallery_theme_clean .nanoGalleryConsoleParent p {
+  color:#e00;
+  padding:2px;
+  margin:0px;
+}

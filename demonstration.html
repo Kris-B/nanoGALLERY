@@ -5,18 +5,19 @@
 	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> 
   <title>nanoGALLERY</title>
 	<style>
-		* {font-family: sans-serif; } 
+		* {font-family: sans-serif; color:#fff;} 
 		a, h1, h2, h3, h4, h5 {text-align:center; color:#eee;}
 		body {background:#333;}
 	</style>
 
-
+  
 	<!-- <script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> --> 
 	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script>
 	<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script>
 	<script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
 
+  
 	<!-- Fancybox - Optionnal -->
 	<!-- <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
@@ -40,6 +41,7 @@
   
 	<script>
 		$(document).ready(function () {
+    
 			// Sample1
 			myColorScheme = {
 				breadcrumb : {
@@ -66,6 +68,19 @@
 				barColor:'#eee',
 				barDescriptionColor:'#aaa'
 			};
+
+      // custom thumbnail hover effect
+      function myThumbnailInit($elt, item) {
+      }
+      function myThumbnailHoverInit($elt, item) {
+        $elt.find('.labelDescription').css({'opacity':'0'});
+      }
+      function myThumbnailHover($elt, item) {
+        $elt.find('.labelDescription').delay(150).animate({'opacity':'1'},400);
+      }
+      function myThumbnailHoverOut($elt, item) {
+        $elt.find('.labelDescription').animate({'opacity':'0'},300);
+      }
 
 			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 			items: [
@@ -94,11 +109,13 @@
 					description_FR : 'description image 3 (fr)'
 				}
 				],
-				//thumbnailHoverEffect:'imageFlipHorizontal,borderLighter',
-				//thumbnailHoverEffect:'descriptionSlideUp,borderLighter',
 				thumbnailHoverEffect:'labelSlideUpTop,borderLighter',
 				thumbnailLabel:{display:true,position:'overImageOnBottom'},
-        viewerDisplayLogo:true
+        viewerDisplayLogo:true,
+        //thumbnailInit:myThumbnailInit,
+        fnThumbnailHoverInit:myThumbnailHoverInit,
+        fnThumbnailHover:myThumbnailHover,
+        fnThumbnailHoverOut:myThumbnailHoverOut
 			});
 
 			// Sample1a
@@ -136,7 +153,6 @@
  			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:160,thumbnailHeight:160,
 				itemsBaseURL:'demonstration',
 				thumbnailHoverEffect:[{'name':'imageRotateCornerBL','duration':300},{'name':'borderLighter'}],				
-				//thumbnailHoverEffect:[{'name':'overScale','duration':300},{'name':'borderLighter'}],
 				colorScheme:'light',
         viewerDisplayLogo:true
 			});
@@ -155,17 +171,19 @@
         viewerDisplayLogo:true,
 				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}]
 			});
-      
-			jQuery("#nanoGallery3a").nanoGallery({thumbnailWidth:144,thumbnailHeight:144,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+
+  
+			jQuery("#nanoGallery3a").nanoGallery({thumbnailWidth:'auto',thumbnailHeight:170,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
 				//maxItemsPerLine:3,
 				//album: '5852572882905112961',
         //album:'5856259539659194001',
+        album:'5911347863561293937',
         colorScheme:'none',
         locationHash:false,
         viewerDisplayLogo:true,
 				thumbnailHoverEffect:[{'name':'labelAppear75','duration':300},{'name':'borderDarker'}],
-				//thumbnailHoverEffect:'labelSplitVert',
         theme:'light',
+        photoSorting:'random',
         i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
 				thumbnailLabel:{display:true,position:'overImageOnMiddle'},
         colorSchemeViewer:'default'
@@ -189,7 +207,20 @@
         theme:'clean',
         colorScheme:'light'
 			});
-			
+		
+
+			//Sample5 - SMUGMUG
+			jQuery("#nanoGallery5").nanoGallery({thumbnailWidth:'auto',thumbnailHeight:160,
+        kind:'smugmug',
+        userID:'kris-b',
+        gallery:'cars',
+        photoSorting:'random',
+        albumSorting:'random',
+        colorScheme:myColorScheme,
+        locationHash:false,
+        viewerDisplayLogo:true
+			});
+
 			
 			// Multi-level navigation (API)
 			// Sample1a
@@ -335,6 +366,10 @@
 		<div id="nanoGallery4"></div>
 	</div>
 
+	<br><br><h2>Sample #5: SmugMug</h2>
+	<div style="margin:auto;max-width:600px;">
+		<div id="nanoGallery5"></div>
+	</div>
 	
 	<br><br><br><br><br><br><br><br><br>
 	<h2 style="background:#555;">----- Multi-level navigation and pagination (API) -----</h2><br><br>
@@ -347,6 +382,6 @@
 	<div id="nanoGalleryAnimation1" style="margin:50px"> <a href="image_01.jpg" data-ngThumb="image_01ts.jpg" data-ngDesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Image 1</a> <a href="image_02.jpg" data-ngThumb="image_02ts.jpg">Image 2</a> <a href="image_03.jpg" data-ngThumb="image_03ts.jpg">Image 3</a> </div>
 
 	
-	<br><br><h5>by Kris_B - <a href="http://www.brisbois.fr">www.brisbois.fr</a></h5>
+	<br><br><h5>by <a href="https://plus.google.com/111186676244625461692?rel=author">Christophe Brisbois</a></h5>
 </body>
 </html>

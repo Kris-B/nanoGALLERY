@@ -11,24 +11,23 @@ Featuring multi-level navigation in albums, lightbox, combinable hover effects o
 ### Usage can be as easy as: 
 ```js
 	$('#elt').nanoGallery({
-		'kind':'picasa',
-		'userID':'YourEmail@gmail.com'
+		kind : 'picasa',
+		userID : 'YourEmail@gmail.com'
 	});
 ```
 
 
-New in v4.3
+New in v4.4
 --------
-- new image display possibilities giving a larger area to the images (customizable position of navigation buttons and labels)
-- set the maximum length of title and description to avoid too long content
-- display or hide the icons of the thumbnails label and/or navigation breadcrumb
-- breadcrumb: new icon for home folder
-- sorting of photos and of albums
-- preload also previous image
-- added Text-Shadow attribute to color schemes
-- refinement of the 'light' theme
-- new thumbnail hover effects
-- added support of Picasa/Google+ albums that are limited to people who have a link with an authkey
+- SmugMug storage support
+- new thumbnail display mode justified
+- helpers to extend the capabilities of nanoGALLERY
+- added image microdata
+- refinement of demonstration panel
+- removed support of browser-back to close the photo viewer
+- added HTTPS support
+- error messages displayed beneath the gallery (alert() was used up to now)
+- restored icons in the light theme (hidding icons is now configurable)
 
 For a full feature list look at the release note.
 
@@ -39,8 +38,7 @@ For a full feature list look at the release note.
 Key features
 --------
 - Display image galleries
-- Display images with titles and descriptions
-- Thumbnails with titles and descriptions
+- Display thumbnails and images with titles and descriptions
 - numerous animated thumbnails hover effects (combinations are possible)
 - Easy to setup and customizable
 - Responsive layout - mobile friendly - swipe support
@@ -59,6 +57,7 @@ Key features
   * list of images URL
   * Flickr account
   * Picasa/Google+ account
+  * SmugMug account
 
 
 ![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
@@ -67,14 +66,14 @@ Key features
 ![Screenshot3](/doc/nanoGALLERY4_screenshot4.png?raw=true "Screenshot3")
 
   
-Documentation, Demonstrations and Tutorials
+Full Documentation, Demonstrations and Tutorials
 -------------
 
 Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
 
 
 
-Usage (v4.3)
+Usage (v4.4)
 -----
 
 
@@ -218,6 +217,4 @@ Optional:
 * Hammer.js - Jquery plugin (http://eightmedia.github.io/hammer.js/) (credits: Jorik Tangelder)
 * imagesloaded (https://github.com/desandro/imagesloaded) (credits: David DeSandro)
 * fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/de295d45496c01bb871078aac2bcfcac "githalytics.com")](http://githalytics.com/Kris-B/nanoGALLERY)
 

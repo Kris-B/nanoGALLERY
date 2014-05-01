@@ -1,7 +1,7 @@
 {
 	"name": "nanogallery",
 	"title": "jQuery nanoGALLERY",
-	"description": "Image gallery simplified. Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage.Featuring multi-level navigation in albums, lightbox, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, browser back/forward navigation, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.",
+	"description": "Image gallery simplified. Very easy to implement image gallery plugin for jQuery. It is touch enabled, responsive, fast and it supports cloud storage. Featuring multi-level navigation in albums, lightbox, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, browser back/forward navigation, i18n, and pulling in Flickr/Picasa/Google+/smugmug photo albums among others.",
 	"keywords": [
 		"image",
 		"gallery",
@@ -12,6 +12,7 @@
 		"flickr",
 		"googleplus",
 		"picasa",
+		"smugmug",
 		"effects",
 		"swipe",
 		"responsive",
@@ -22,7 +23,7 @@
     "cloud",
     "touchscreen"
 	],
-	"version": "4.3.0",
+	"version": "4.4.0",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"

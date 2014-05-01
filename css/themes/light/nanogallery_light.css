@@ -91,7 +91,7 @@
 }
 
 .nanogallery_theme_light .nanoGalleryNavigationbar {
-	color:#000;
+	/*color:#000;*/
 	/*border: 1px dotted #555;*/
 	border-top: 1px solid #555;
 	border-bottom: 1px solid #555;
@@ -160,6 +160,38 @@
 .nanogallery_theme_light .nanoGalleryBreadcrumb .folder:hover,
 .nanogallery_theme_light .nanoGalleryBreadcrumb .folderHome:hover{
 	color: #555;
+}
+.nanogallery_theme_light .nanoGalleryBreadcrumb  .folder:before{
+	content: '\e815';	/* .icon-folder-empty */
+	margin-left: .2em;
+	margin-right: .3em;
+	/*Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;*/
+	font-family: "nano_icon_font";
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
+}
+.nanogallery_theme_light .nanoGalleryBreadcrumb  .folderHome:before{
+	content: '\e80c';	/* .icon-home */
+	margin-left: .2em;
+	margin-right: .3em;
+	/*Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;*/
+	font-family: "nano_icon_font";
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
 }
 .nanogallery_theme_light .nanoGalleryBreadcrumb .separator {
 	margin: 0px 5px;
@@ -234,9 +266,18 @@
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	-o-box-sizing: content-box;
+	overflow:hidden;
 }
 
 .nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer .subcontainer{
+	box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-o-box-sizing: content-box;
+	border: 0px solid #000;
+	margin: 0px;
+	padding: 0px;
+	overflow:hidden;
 }
 
 .nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer .imgContainer{
@@ -266,46 +307,90 @@
 	opacity: 1;
 	text-align:center;
 	padding: 0px 0 0 0;
+  left: 0px;
 	position:absolute;
 	min-height:0%;
 	overflow:hidden;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 .nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelImageTitle{
 	color:#eee;
+  left: 0px;
 	overflow:hidden;
 	vertical-align: middle;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+}
+.nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelImageTitle:before{
+	content: '\e803';	/* .icon-picture */
+	margin-left: .2em;
+	margin-right: .3em;
+	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
+	font-family: "nano_icon_font";
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 .nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelFolderTitle{
 	color:#eee;
+  left: 0px;
 	overflow:hidden;
 	/*Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;*/
 	vertical-align: middle;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+}
+.nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelFolderTitle:before{
+	content: '\e815';	/* .icon-folder-empty */
+	margin-left: .2em;
+	margin-right: .3em;
+	Text-Shadow: #000000 1px 0px 0px, #000000 1px 1px 0px, #000000 1px -1px 0px, #000000 -1px 1px 0px, #000000 -1px 0px 0px, #000000 -1px -1px 0px, #000000 0px 1px 0px, #000000 0px -1px 0px;
+	font-family: "nano_icon_font";
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	text-align: center;
+	font-variant: normal;
+	text-transform: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 .nanogallery_theme_light .nanoGalleryContainer .nanoGalleryThumbnailContainer  .labelDescription{
 	clear:both;
+  left: 0px;
 	color:#aaa;
   font-size:0.7em;
 	margin:1px 0px;
   /*border-top:1px solid #555;*/
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-o-box-sizing: content-box;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
 }
 
 /**************************************/
@@ -313,7 +398,7 @@
 /**************************************/
 
 .nanogallery_theme_light .nanoGalleryContainerParent .nanoGalleryPagination{
-	color:#000;
+	/*color:#000;*/
 	margin: 10px auto 5px auto;
 	padding: 4px;
 	text-align:center;
@@ -662,6 +747,7 @@
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	-o-box-sizing: content-box;
+  background-color:initial;
 }
 
 .nanogallery_theme_light .nanoGalleryViewer .toolbar .label .title{
@@ -687,3 +773,20 @@
 }
 
 
+/**************************************/
+/* CONSOLE                            */
+/**************************************/
+
+.nanogallery_theme_light .nanoGalleryConsoleParent {
+  visibility:hidden;
+  height:0px;
+  background:#111;
+  color:#e00;
+  padding:5px;
+  margin:2px;
+}
+.nanogallery_theme_light .nanoGalleryConsoleParent p {
+  color:#e00;
+  padding:2px;
+  margin:0px;
+}
