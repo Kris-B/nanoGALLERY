@@ -2737,7 +2737,6 @@ function nanoGALLERY() {
               if( g_options.thumbnailDisplayTransition ) {
                 if( g_thumbnailDisplayInterval > 0 ) {
                   if( typeof g_options.fnThumbnailDisplayEffect == 'function' ) { 
-                    console.log(g_galleryItemsCount*g_thumbnailDisplayInterval);
                     g_options.fnThumbnailDisplayEffect($p, item, g_galleryItemsCount );
                   }
                   else {

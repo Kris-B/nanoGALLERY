@@ -3,9 +3,9 @@ nanoGALLERY - jQuery plugin
 
 ###Image gallery simplified.
 
-It is touch enabled, responsive, fast and it supports cloud storage.
+Touch enabled, responsive, fast and supporting cloud storage.
 
-Featuring multi-level navigation in albums, lightbox, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, bootstrap compatibility, deep linking, customizable, i18n, and pulling in Flickr/Picasa/Google+ photo albums among others.
+Featuring multi-level navigation in albums, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug Sphoto albums among others.
 
 
 ### Usage can be as easy as: 
@@ -44,15 +44,15 @@ Key features
 - Responsive layout - mobile friendly - swipe support
 - Breadcrumb for easy navigation in photo albums
 - Slideshow mode
-- deep linking of images and albums
-- optimized support of very large galleries (thumbnail image lazy loading or pagination)
+- Deep linking of images and albums
+- Optimized support of very large galleries (thumbnail image lazy loading or pagination)
 - Keyboard shortcuts
-- back/forward navigation
+- Browser Back/Forward navigation
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
-- easy layout customisation with color schemes - support custom ones
-- Delivered with multiple themes - Support custom themes
+- Color schemes / Themes
 - Internationalization support (i18n)
+- Helpers for custom extensions
 - Supported image sources :
   * list of images URL
   * Flickr account
@@ -62,18 +62,19 @@ Key features
 
 ![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
 ![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
-![Screenshot2](/doc/nanoGALLERY4_screenshot2.png?raw=true "Screenshot2")
-![Screenshot3](/doc/nanoGALLERY4_screenshot4.png?raw=true "Screenshot3")
+![Screenshot2](/doc/nanoGALLERY4_screenshot7.png?raw=true "Screenshot2")
+![Screenshot3](/doc/nanoGALLERY4_screenshot5.png?raw=true "Screenshot3")
+![Screenshot3](/doc/nanoGALLERY4_screenshot6.png?raw=true "Screenshot3")
 
   
-Full Documentation, Demonstrations and Tutorials
+Documentation, Demonstrations and Tutorials
 -------------
 
 Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
 
 
 
-Usage (v4.4)
+Usage examples
 -----
 
 
@@ -139,63 +140,9 @@ $(document).ready(function () {
 });
 ```
 
-### Method 3: use inline elements
 
-use a list of images using HREF attribute
-
-* Create a container
-
-Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
-And add some ```<A>``` elements to this container. Each element points to one image.
-
-```html
-<div id="nanoGallery3">
-	<a href="demonstration/img_01.jpg" data-ngthumb="demonstration/img_01t.jpg" data-ngdesc="Description1">Image1</a>
-	<a href="demonstration/img_02.jpg" data-ngthumb="demonstration/img_02t.jpg"></a>
-</div>
-```
-
-* Initialize the script
-
-```js
-$(document).ready(function () {
-  jQuery("#nanoGallery3").nanoGallery();
-});
-```
-
-### Method 4: pass the list of images to the script (API)
-
-* Create a container
-
-Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
-
-```html
-<div id="nanoGallery4"></div>
-```
-
-* Initialize the script
-
-Use the 'items' parameter to set the list of images.
-
-```js
-$(document).ready(function () {
-	jQuery("#nanoGallery4").nanoGallery({thumbnailWidth:100,thumbnailHeight:100,
-		items: [
-			{
-				src: 'demonstration/img_01.jpg',		// image url
-				srct: 'demonstration/img_01t.jpg',		// thumbnail url
-				title: 'image 1', 						// thumbnail title
-				description : 'image 1 description'		// thumbnail description
-			},
-			{
-				src: 'demonstration/img_02.jpg',
-				srct: 'demonstration/img_02t.jpg',
-				title: 'image 2' 
-			}
-		]
-	});
-});
-```
+For the full documentation, visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
+-------------
 
 
 License
