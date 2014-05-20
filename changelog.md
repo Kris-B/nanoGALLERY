@@ -4,6 +4,43 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v4.4.1
+------
+
+
+##### New features:
+- Flickr images now only over HTTPS (Flickr is going SSL-Only on June 27th, 2014)
+- lazy gallery building
+- use image filename as image title
+- Flickr: new algorithm to retrieve the best image size depending on the screen resolution
+- Flickr: do not display the original uploaded image (e.g. to avoid rotation issue)
+
+
+##### New options:
+- **lazyBuild**: display the gallery only when visible (possible values: 'loadData', 'display', 'none')
+	*string; Default: `display`*
+- **lazyBuildTreshold**: Shorten the viewport area height (in pixel) for lazyBuild
+	*integer; Default: `150`*
+- **thumbnailLabel.title**: variable to set the image title (undescores are replaced by spaces). Possible values: '%filename', '%filemaneNoExt'
+  *string; default:''*
+- **thumbnailLabel.itemsCount: add the number of items in one per photo album (possible values: 'none', 'title', 'description')
+	*string; Default: `none`*
+- **flickrSkipOriginal**: do not display the original uploaded image (e.g. to avoid rotation issue)
+  *boolean; default:true*
+
+**Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
+
+##### Deprecated options:
+- **flickrSizeB**: no longer needed / new algorithm implemented
+
+##### Misc
+- improved Firefox for Android support
+- removed demo panel from main plugin file (now available in jquery.nanogallerydemo.js)
+- fixed on location hash not refreshed by breadcrumb
+- fixed bug on Flickr album sorting (thanks to Mark Koh)
+- fixed bug in fnThumbnailInit() call (thanks to Houlala - https://github.com/Houlala)
+- minor bugfixes
+
 
 v4.4.0
 ------

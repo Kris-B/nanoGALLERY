@@ -752,7 +752,7 @@
 
 .nanogallery_theme_default .nanoGalleryViewer .toolbar .label{
   padding:3px 20px 3px 10px;
-	min-width: 100px;
+	min-width: 10px;
 	border-left: 0px solid #000;
 	overflow: hidden;
 	display: table-cell;
