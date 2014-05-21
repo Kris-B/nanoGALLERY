@@ -32,7 +32,7 @@ nanoGALLERY v4.4.1 release notes.
 	*string; Default: `display`*
 - **lazyBuildTreshold**: Shorten the viewport area height (in pixel) for lazyBuild
 	*integer; Default: `150`*
-- **thumbnailLabel.title**: variable to set the image title (undescores are replaced by spaces). Possible values: '%filename', '%filemaneNoExt'
+- **thumbnailLabel.title**: variable to set the image title (undescores are replaced by spaces). Possible values: '%filename', '%filenameNoExt'
   *string; default:''*
 - **thumbnailLabel.itemsCount: add the number of items in one per photo album (possible values: 'none', 'title', 'description')
 	*string; Default: `none`*
