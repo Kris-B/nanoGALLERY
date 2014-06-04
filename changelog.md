@@ -4,6 +4,28 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+
+v4.4.2
+------
+
+
+##### New features:
+- added native swipe support (hammer.js no more needed but still used if present)
+
+##### New options:
+- **viewerScrollBarHidden**: hide the viewer scrollbars
+	*boolean; Default: `true`*
+
+**Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
+
+##### Deprecated options:
+- none
+
+##### Misc
+- enhanced Picasa / Google+ filename decode
+- minor bugfixes
+
+
 v4.4.1
 ------
 

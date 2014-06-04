@@ -5,7 +5,7 @@ nanoGALLERY - jQuery plugin
 
 Touch enabled, responsive, fast and supporting cloud storage.
 
-Featuring multi-level navigation in albums, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug Sphoto albums among others.
+Featuring multi-level navigation in albums, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug photo albums among others.
 
 
 ### Usage can be as easy as: 
@@ -19,6 +19,7 @@ Featuring multi-level navigation in albums, combinable hover effects on thumbnai
 
 New in v4.4
 --------
+- added native swipe support (hammer.js is no more required)
 - SmugMug storage support
 - new thumbnail display mode justified
 - helpers to extend the capabilities of nanoGALLERY
@@ -39,11 +40,11 @@ Key features
 --------
 - Display image galleries
 - Display thumbnails and images with titles and descriptions
-- numerous animated thumbnails hover effects (combinations are possible)
+- Numerous animated thumbnails hover effects (combinations are possible)
 - Easy to setup and customizable
-- Responsive layout - mobile friendly - swipe support
+- Responsive layout - mobile friendly - Swipe support
 - Breadcrumb for easy navigation in photo albums
-- Slideshow mode
+- Image slideshow
 - Deep linking of images and albums
 - Optimized support of very large galleries (thumbnail image lazy loading or pagination)
 - Keyboard shortcuts
@@ -54,17 +55,16 @@ Key features
 - Internationalization support (i18n)
 - Helpers for custom extensions
 - Supported image sources :
-  * list of images URL
+  * self hosted images
   * Flickr account
   * Picasa/Google+ account
   * SmugMug account
 
 
 ![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
-![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot1")
+![Screenshot1](/doc/nanogallery_screenshot.png?raw=true "Screenshot1")
 ![Screenshot2](/doc/nanoGALLERY4_screenshot7.png?raw=true "Screenshot2")
-![Screenshot3](/doc/nanoGALLERY4_screenshot5.png?raw=true "Screenshot3")
-![Screenshot3](/doc/nanoGALLERY4_screenshot6.png?raw=true "Screenshot3")
+![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot3")
 
   
 Documentation, Demonstrations and Tutorials
@@ -84,9 +84,6 @@ Usage examples
 ``` HTML
 <!-- Add jQuery library (MANDATORY) -->
 <script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> 
-
-<!-- Add Hammer.js plugin (OPTIONAL - this is only required for swipe support) -->
-<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script> 
 
 <!-- Add nanoGALLERY plugin files (MANDATORY) -->
 <link href="css/nanogallery.css" rel="stylesheet" type="text/css">
@@ -113,30 +110,6 @@ $(document).ready(function () {
 		kind:'flickr',
 		userID:'34858669@N00'
 	});
-});
-```
-
-
-### Method 2: use one Picasa/Google+ account
-
-* Create a container
-
-Put a ```<DIV>``` element in the ```<BODY>``` of your HTML page where you want the gallery to be displayed.
-
-```html
-<div id="nanoGallery2"></div>
-```
-
-* Initialize the script
-
-```js
-$(document).ready(function () {
-  jQuery("#nanoGallery2").nanoGallery({
-  	kind:'picasa',
-  	userID:'cbrisbois@gmail.com',
-    blackList:'Scrapbook|forhomepage|profil'
-  	kind:'picasa'
-  });
 });
 ```
 

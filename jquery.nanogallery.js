@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v4.4.1
+ * @preserve nanoGALLERY v4.4.2
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -16,40 +16,23 @@
 
 /*
 
-nanoGALLERY v4.4.1 release notes.
+nanoGALLERY v4.4.2 release notes.
 
 
 ##### New features:
-- Flickr images now only over HTTPS (Flickr is going SSL-Only on June 27th, 2014)
-- lazy gallery building
-- use image filename as image title
-- Flickr: new algorithm to retrieve the best image size depending on the screen resolution
-- Flickr: do not display the original uploaded image (e.g. to avoid rotation issue)
-
+- added native swipe support (hammer.js no more needed but still used if present)
 
 ##### New options:
-- **lazyBuild**: display the gallery only when visible (possible values: 'loadData', 'display', 'none')
-	*string; Default: `display`*
-- **lazyBuildTreshold**: Shorten the viewport area height (in pixel) for lazyBuild
-	*integer; Default: `150`*
-- **thumbnailLabel.title**: variable to set the image title (undescores are replaced by spaces). Possible values: '%filename', '%filenameNoExt'
-  *string; default:''*
-- **thumbnailLabel.itemsCount: add the number of items in one per photo album (possible values: 'none', 'title', 'description')
-	*string; Default: `none`*
-- **flickrSkipOriginal**: do not display the original uploaded image (e.g. to avoid rotation issue)
-  *boolean; default:true*
+- **viewerScrollBarHidden**: hide the viewer scrollbars
+	*boolean; Default: `true`*
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
 ##### Deprecated options:
-- **flickrSizeB**: no longer needed / new algorithm implemented
+- none
 
 ##### Misc
-- improved Firefox for Android support
-- removed demo panel from main plugin file (now available in jquery.nanogallerydemo.js)
-- fixed on location hash not refreshed by breadcrumb
-- fixed bug on Flickr album sorting (thanks to Mark Koh)
-- fixed bug in fnThumbnailInit() call (thanks to Houlala - https://github.com/Houlala)
+- enhanced Picasa / Google+ filename decode
 - minor bugfixes
 
 */
@@ -86,6 +69,7 @@ nanoGALLERY v4.4.1 release notes.
       maxWidth:0,
       viewer:'internal',
       viewerDisplayLogo:false,
+      viewerScrollBarHidden:true,
       imageTransition:'default',
       viewerToolbar:{position:'bottom', style:'innerImage'},
       thumbnailWidth:230,
@@ -221,7 +205,8 @@ function nanoGALLERY() {
 		g_thumbScale=1,
     g_delayedAlbumIdx=-1,
     g_delayedSetLocationHash=false,
-    g_previous_touched;
+    g_previous_touched,
+    g_viewerSwipe=null;
     
     // ### Picasa/Google+
     // square format : 32, 48, 64, 72, 104, 144, 150, 160 (cropped)
@@ -375,7 +360,7 @@ function nanoGALLERY() {
       this.paginationLastWidth=0;
       this.customVars={};
     }
-  
+
     // public static
     NGItems.get_nextId = function () {
       return nextId;
@@ -782,6 +767,7 @@ function nanoGALLERY() {
   }
 
   function gestureGallery() {
+  
     // GESTURE --> requires HAMMER.JS
     // drag gallery left/right to display previous/next page
     if( typeof(Hammer) !== 'undefined' ) {
@@ -831,7 +817,185 @@ function nanoGALLERY() {
         }
       });
     }
+    else {
+      var t= new GallerySwipeSupport($g_containerThumbnailsParent[0]);
+    }
   }
+  
+  
+  // Moves an element horizontaly
+  function ElementTranslateX( element, posX ) {
+    jQuery(element).css({ 'left': posX }); 
+  
+    // var transformStyle = 'translateX('+posX+'px)';
+    // element.style.msTransform = transformStyle;
+    // element.style.MozTransform = transformStyle;
+    // element.style.webkitTransform = transformStyle;
+    // element.style.transform = transformStyle;
+  }
+  
+  // based on "Implement Custom Gestures" from Google
+  // https://developers.google.com/web/fundamentals/input/touch-input/touchevents/
+  function GallerySwipeSupport(element) {
+    var elementToSwipe=element,
+    isAnimating=false,
+    initialTouchPos=null,
+    lastTouchPos=null,
+    currentXPosition=0;
+    
+    // Handle the start of gestures
+    this.handleGestureStart = function(e) {
+
+      if( g_containerViewerDisplayed ) { return; }
+
+      e.preventDefault();
+
+      if(e.touches && e.touches.length > 1) { return; }
+      initialTouchPos = getGesturePointFromEvent(e);
+
+      // Add the move and end listeners
+      if (window.navigator.msPointerEnabled) {
+        // Pointer events are supported.
+        document.addEventListener('MSPointerMove', this.handleGestureMove, true);
+        document.addEventListener('MSPointerUp', this.handleGestureEnd, true);
+      } else {
+        // Add Touch Listeners
+        document.addEventListener('touchmove', this.handleGestureMove, true);
+        document.addEventListener('touchend', this.handleGestureEnd, true);
+        document.addEventListener('touchcancel', this.handleGestureEnd, true);
+      
+        // Add Mouse Listeners
+        document.addEventListener('mousemove', this.handleGestureMove, true);
+        document.addEventListener('mouseup', this.handleGestureEnd, true);
+      }
+      
+    }.bind(this);
+    
+    // Handle move gestures
+    this.handleGestureMove = function (e) {
+      e.preventDefault();
+
+      lastTouchPos = getGesturePointFromEvent(e);
+      
+      if(isAnimating) { return; }
+      
+      isAnimating = true;
+      
+      window.requestAnimFrame(onAnimFrame);
+    }.bind(this);
+
+    
+    // Handle end gestures
+    this.handleGestureEnd = function(e) {
+
+      e.preventDefault();
+
+      if(e.touches && e.touches.length > 0) {
+        return;
+      }
+
+      isAnimating = false;
+      
+      // Remove Event Listeners
+      if (window.navigator.msPointerEnabled) {
+        // Remove Pointer Event Listeners
+        document.removeEventListener('MSPointerMove', this.handleGestureMove, true);
+        document.removeEventListener('MSPointerUp', this.handleGestureEnd, true);
+      } else {
+        // Remove Touch Listeners
+        document.removeEventListener('touchmove', this.handleGestureMove, true);
+        document.removeEventListener('touchend', this.handleGestureEnd, true);
+        document.removeEventListener('touchcancel', this.handleGestureEnd, true);
+      
+        // Remove Mouse Listeners
+        document.removeEventListener('mousemove', this.handleGestureMove, true);
+        document.removeEventListener('mouseup', this.handleGestureEnd, true);
+      }
+      
+      updateSwipeRestPosition();
+    }.bind(this);
+    
+    function updateSwipeRestPosition() {
+    
+      if( lastTouchPos == null ) {      // touchend without touchmove
+        currentXPosition=0;
+        initialTouchPos=null;
+        return; 
+      }
+
+      var differenceInX = initialTouchPos.x - lastTouchPos.x;
+      currentXPosition = currentXPosition - differenceInX;
+        if( differenceInX < -50 ) {
+          ThumbnailHoverOutAll();
+          paginationPreviousPage();
+        }
+        if( differenceInX > 50 ) {
+          ThumbnailHoverOutAll();
+          paginationNextPage();
+        }
+        
+      currentXPosition=0;
+      initialTouchPos=null;
+      lastTouchPos=null;
+
+      if(Math.abs(differenceInX) < 50) {
+        ElementTranslateX(elementToSwipe,currentXPosition);
+      }
+      return;
+    }
+    
+
+    function getGesturePointFromEvent(e) {
+      var point = {};
+
+      if(e.targetTouches) {
+        point.x = e.targetTouches[0].clientX;
+        point.y = e.targetTouches[0].clientY;
+      } else {
+        // Either Mouse event or Pointer Event
+        point.x = e.clientX;
+        point.y = e.clientY;
+      }
+
+      return point;
+    }
+    
+    function onAnimFrame() {
+      if(!isAnimating) { return; }
+      
+      var differenceInX = initialTouchPos.x - lastTouchPos.x;
+      
+      ElementTranslateX(elementToSwipe,currentXPosition - differenceInX);
+      
+      isAnimating = false;
+    }
+
+    
+    // Check if pointer events are supported.
+    if (window.navigator.msPointerEnabled) {
+      // Add Pointer Event Listener
+      elementToSwipe.addEventListener('MSPointerDown', this.handleGestureStart, true);
+    }
+    else {
+      // Add Touch Listener
+      elementToSwipe.addEventListener('touchstart', this.handleGestureStart, true);
+      
+      // Add Mouse Listener
+      elementToSwipe.addEventListener('mousedown', this.handleGestureStart, true);
+    }
+    
+  }
+
+  // Shim for requestAnimationFrame from Paul Irishpaul ir
+  // http://www.paulirish.com/2011/requestanimationframe-for-smart-animating/ 
+  window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+  })();
 
   // CHECK PLUGIN PARAMETERS CONSISTENCY
   function checkPluginParameters() {
@@ -1013,6 +1177,9 @@ function nanoGALLERY() {
           nanoAlert('Unknow parameter "'+g_thumbnailHoverEffect[i].name+'" for "thumbnailHoverEffect".');
           break;
       }
+      if( g_thumbnailHoverEffect.length == 0 ) {
+        gO.touchAnimation=false;
+      }
     }
   }  
 
@@ -1192,6 +1359,8 @@ function nanoGALLERY() {
       var s=imageSRC.split('/').pop();
       return (s.split('.').shift()).replace('_',' ');
     }
+    
+    return imageSRC;
   }
     
   function ProcessItemOption() {
@@ -1337,7 +1506,7 @@ function nanoGALLERY() {
       }
 
       var title=jQuery(item).text();
-      if( gO.thumbnailLabel.title != '' ) {
+      if( !(gO.thumbnailLabel.title == '' || gO.thumbnailLabel.title == undefined) ) {
         title=GetImageTitle(src);
       }
 
@@ -1670,7 +1839,7 @@ function nanoGALLERY() {
       }
     }
 
-    
+   
     jQuery.each(data.feed.entry, function(i,data){
       
       var filename='';
@@ -1696,7 +1865,7 @@ function nanoGALLERY() {
       var imgUrl=data.media$group.media$content[0].url;
       
       if( gO.thumbnailLabel.title != '' ) {
-        itemTitle=GetImageTitle(imgUrl);
+        itemTitle=GetImageTitle(unescape(unescape(unescape(unescape(imgUrl)))));
       }
 
       var ok=true;
@@ -2903,15 +3072,15 @@ function nanoGALLERY() {
     
     var checkImageSize=false;
     if( gO.thumbnailHeight == 'auto' ) {
-      newElt[newEltIdx++]='<div class="imgContainer" style="width:'+gO.thumbnailWidth+'px;"><img class="image" src='+src+' style="width:'+gO.thumbnailWidth+'px;"></div>';
+      newElt[newEltIdx++]='<div class="imgContainer" style="width:'+gO.thumbnailWidth+'px;"><img class="image" src='+src+' alt=" " style="width:'+gO.thumbnailWidth+'px;"></div>';
       if( g_ngItems[idx].thumbHeight == 0 ) { checkImageSize=true; }
     }
     else if( gO.thumbnailWidth == 'auto' || gO.thumbnailWidth == 'autoUpScale' ) {
-        newElt[newEltIdx++]='<div class="imgContainer" style="height:'+gO.thumbnailHeight+'px;"><img class="image" src='+src+' style="height:'+gO.thumbnailHeight+'px;" ></div>';
+        newElt[newEltIdx++]='<div class="imgContainer" style="height:'+gO.thumbnailHeight+'px;"><img class="image" src='+src+' alt=" " style="height:'+gO.thumbnailHeight+'px;" ></div>';
         if( g_ngItems[idx].thumbWidth == 0 ) { checkImageSize=true; }
       }
       else {
-        newElt[newEltIdx++]='<div class="imgContainer" style="width:'+gO.thumbnailWidth+'px;height:'+gO.thumbnailHeight+'px;"><img class="image" src='+src+' style="max-width:'+gO.thumbnailWidth+'px;max-height:'+gO.thumbnailHeight+'px;" ></div>';
+        newElt[newEltIdx++]='<div class="imgContainer" style="width:'+gO.thumbnailWidth+'px;height:'+gO.thumbnailHeight+'px;"><img class="image" src='+src+' alt=" " style="max-width:'+gO.thumbnailWidth+'px;max-height:'+gO.thumbnailHeight+'px;" ></div>';
       }
 
     var sTitle=getThumbnailTitle(item);
@@ -4284,11 +4453,10 @@ function nanoGALLERY() {
     //if( !gO.locationHash ) {
     //  top.location.hash='nanogallery/'+g_baseControlID+'/v';
     //}
-    
-    if( typeof(jQuery().niceScroll) === 'undefined' ) {
-      // compatibility issue with niceScroll plugin - http://areaaperta.com/nicescroll/
+    if( gO.viewerScrollBarHidden ) {
       jQuery('body').css('overflow','hidden');  //avoid scrollbars
     }
+    
     $g_containerViewerContainer=jQuery('<div  class="nanoGalleryViewerContainer" style="visibility:visible"></div>').appendTo('body');
     $g_containerViewerContainer.addClass('nanogallery_theme_'+gO.theme);
     SetColorSchemeViewer($g_containerViewerContainer);
@@ -4298,9 +4466,12 @@ function nanoGALLERY() {
     var sImg='';
     var l=g_ngItems.length;
 
-    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-    sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    // sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    // sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    // sImg+='<img class="image" src="//:0" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    sImg+='<img class="image" src="//:0" alt="" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    sImg+='<img class="image" src="//:0" alt="" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+    sImg+='<img class="image" src="//:0" alt="" style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
 
     $g_containerViewerContent=jQuery('<div class="content">'+sImg+'<div class="contentAreaPrevious"></div><div class="contentAreaNext"></div></div>').appendTo($g_containerViewer);
     $g_ViewerImagePrevious=$g_containerViewer.find('.image').eq(0);
@@ -4372,10 +4543,13 @@ function nanoGALLERY() {
       });
     }
     
+    lastImageChange=new Date().getTime();
+    
     $g_containerViewerCloseFloating.on("click",function(e){
       e.stopPropagation();
       //if( gO.locationHash ) {
-        CloseInternalViewer(true);
+      if( (new Date().getTime()) - lastImageChange < 400 ) { return; }
+      CloseInternalViewer(true);
       //}
       //else {
       //  window.history.back();
@@ -4385,7 +4559,8 @@ function nanoGALLERY() {
     $g_containerViewerToolbar.find('.closeButton').on("click",function(e){
       e.stopPropagation();
       //if( gO.locationHash ) {
-        CloseInternalViewer(true);
+      if( (new Date().getTime()) - lastImageChange < 400 ) { return; }
+      CloseInternalViewer(true);
       //}
       //else {
       //  window.history.back();
@@ -4393,7 +4568,9 @@ function nanoGALLERY() {
     });
 
     $g_containerViewerContent.find('img').on("click",function(e){
-      e.stopPropagation();
+return;
+// ATTENTION --> 2 FOIS
+    e.stopPropagation();
       if( e.pageX < (jQuery(window).width()/2) ) {
         DisplayPreviousImage();
       }
@@ -4419,7 +4596,7 @@ function nanoGALLERY() {
     $g_containerViewerContent.find('.contentAreaPrevious').on("click",function(e){ e.stopPropagation(); DisplayPreviousImage(); });
 
     $g_containerViewerContent.on("click",function(e){ 
-      if( (new Date().getTime()) - lastImageChange < 300 ) { return; }
+      if( (new Date().getTime()) - lastImageChange < 400 ) { return; }
       e.stopPropagation();
       //if( gO.locationHash ) {
         CloseInternalViewer(true);
@@ -4432,6 +4609,171 @@ function nanoGALLERY() {
     DisplayInternalViewer(imageIdx, '');
 
   };
+
+  // based on "Implement Custom Gestures" from Google
+  // https://developers.google.com/web/fundamentals/input/touch-input/touchevents/
+  function ViewerSwipeSupport(element) {
+    var elementToSwipe=element,
+    isAnimating=false,
+    initialTouchPos=null,
+    lastTouchPos=null,
+    currentXPosition=0;
+    
+    // Handle the start of gestures
+    this.handleGestureStart = function(e) {
+
+      if( !g_containerViewerDisplayed ) { return; }
+      
+      e.preventDefault();
+
+      if(e.touches && e.touches.length > 1) { return; }
+
+      // Add the move and end listeners
+      if (window.navigator.msPointerEnabled) {
+        // Pointer events are supported.
+        document.addEventListener('MSPointerMove', this.handleGestureMove, true);
+        document.addEventListener('MSPointerUp', this.handleGestureEnd, true);
+      } else {
+        // Add Touch Listeners
+        document.addEventListener('touchmove', this.handleGestureMove, true);
+        document.addEventListener('touchend', this.handleGestureEnd, true);
+        document.addEventListener('touchcancel', this.handleGestureEnd, true);
+      
+        // Add Mouse Listeners
+        document.addEventListener('mousemove', this.handleGestureMove, true);
+        document.addEventListener('mouseup', this.handleGestureEnd, true);
+      }
+      
+      initialTouchPos = getGesturePointFromEvent(e);
+    }.bind(this);
+    
+    // Handle move gestures
+    this.handleGestureMove = function (e) {
+      e.preventDefault();
+
+      lastTouchPos = getGesturePointFromEvent(e);
+      
+      if(isAnimating) { return; }
+      
+      isAnimating = true;
+      
+      window.requestAnimFrame(onAnimFrame);
+    }.bind(this);
+
+    
+    // Handle end gestures
+    this.handleGestureEnd = function(e) {
+      e.preventDefault();
+
+      if(e.touches && e.touches.length > 0) {
+        return;
+      }
+
+      isAnimating = false;
+      
+      // Remove Event Listeners
+      if (window.navigator.msPointerEnabled) {
+        // Remove Pointer Event Listeners
+        document.removeEventListener('MSPointerMove', this.handleGestureMove, true);
+        document.removeEventListener('MSPointerUp', this.handleGestureEnd, true);
+      } else {
+        // Remove Touch Listeners
+        document.removeEventListener('touchmove', this.handleGestureMove, true);
+        document.removeEventListener('touchend', this.handleGestureEnd, true);
+        document.removeEventListener('touchcancel', this.handleGestureEnd, true);
+      
+        // Remove Mouse Listeners
+        document.removeEventListener('mousemove', this.handleGestureMove, true);
+        document.removeEventListener('mouseup', this.handleGestureEnd, true);
+      }
+      
+      updateSwipeRestPosition(this);
+    }.bind(this);
+    
+    function updateSwipeRestPosition(me) {
+      if( lastTouchPos == null ) {      // touchend without touchmove
+        currentXPosition=0;
+        initialTouchPos=null;
+        return; 
+      }
+
+      var differenceInX = initialTouchPos.x - lastTouchPos.x;
+      currentXPosition = currentXPosition - differenceInX;
+    
+      if( differenceInX < -50 ) {
+        removeEventListener(me);
+        DisplayPreviousImage();
+      }
+      if( differenceInX > 50 ) {
+        removeEventListener(me);
+        DisplayNextImagePart1();
+      }
+      currentXPosition=0;
+      initialTouchPos=null;
+      lastTouchPos=null;
+        
+      if(Math.abs(differenceInX) < 50) {
+        ElementTranslateX($g_containerViewerContent.find('.imgCurrent')[0],currentXPosition);
+      }
+      return;
+    }
+    
+
+    function getGesturePointFromEvent(e) {
+      var point = {};
+
+      if(e.targetTouches) {
+        point.x = e.targetTouches[0].clientX;
+        point.y = e.targetTouches[0].clientY;
+      } else {
+        // Either Mouse event or Pointer Event
+        point.x = e.clientX;
+        point.y = e.clientY;
+      }
+
+      return point;
+    }
+    
+    function onAnimFrame() {
+      if(!isAnimating) { return; }
+      
+      var differenceInX = initialTouchPos.x - lastTouchPos.x;
+      
+      ElementTranslateX($g_containerViewerContent.find('.imgCurrent')[0],currentXPosition - differenceInX);
+      
+      isAnimating = false;
+    }
+
+    function removeEventListener(me) {
+      if (window.navigator.msPointerEnabled) {
+        elementToSwipe.removeEventListener('MSPointerDown', me.handleGestureStart, true);
+      }
+      else {
+        elementToSwipe.removeEventListener('touchstart', me.handleGestureStart, true);
+        elementToSwipe.removeEventListener('mousedown', me.handleGestureStart, true);
+      }
+    }
+    
+    // Check if pointer events are supported.
+    if (window.navigator.msPointerEnabled) {
+      // Add Pointer Event Listener
+      elementToSwipe.addEventListener('MSPointerDown', this.handleGestureStart, true);
+    }
+    else {
+      // Add Touch Listener
+      elementToSwipe.addEventListener('touchstart', this.handleGestureStart, true);
+      
+      // Add Mouse Listener
+      elementToSwipe.addEventListener('mousedown', this.handleGestureStart, true);
+    }
+    
+  }
+
+
+
+
+
+
   
   // Toggle fullscreen mode on/off
   function ViewerFullscreenToggle(){
@@ -4539,13 +4881,15 @@ function nanoGALLERY() {
     switch( displayType ) {
       case 'nextImage':
         if( transitionScroll ) {
+          var s='-'+(1*jQuery(window).width())+'px';
           animImgCurrent = { left : s,'opacity': 0 };
         }
         else {
           animImgCurrent = { 'opacity': 0 };
         }
         $g_containerViewerContent.find('*').stop(true,true);
-        $g_ViewerImageNext.css({'opacity':0, 'right':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
+        $g_ViewerImageNext.css({'opacity':0, 'left':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
+        //$g_ViewerImageNext.css({'opacity':0, 'right':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
         
 //        ResizeInternalViewer($g_ViewerImageNext);
         
@@ -4559,13 +4903,16 @@ function nanoGALLERY() {
 
       case 'previousImage':
         if( transitionScroll ) {
-          animImgCurrent = { right : s,'opacity': 0 };
+          var s=(1*jQuery(window).width())+'px';
+          animImgCurrent = { left : s,'opacity': 0 };
+          //animImgCurrent = { right : s,'opacity': 0 };
         }
         else {
           animImgCurrent = { 'opacity': 0 };
         }
         $g_containerViewerContent.find('*').stop(true,true);
-        $g_ViewerImagePrevious.css({'opacity':0, 'right':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
+        $g_ViewerImagePrevious.css({'opacity':0, 'left':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
+        //$g_ViewerImagePrevious.css({'opacity':0, 'right':'0', visibility: 'visible'});  //.attr('src',g_ngItems[imageIdx].responsiveURL());
         
 //        ResizeInternalViewer($g_ViewerImagePrevious);
         
@@ -4579,7 +4926,8 @@ function nanoGALLERY() {
         
       default:
         $g_containerViewerContent.find('*').stop(true,true);
-        $g_ViewerImageCurrent.css({'opacity':0, 'right':'0', visibility: 'visible'}).attr('src',g_ngItems[imageIdx].responsiveURL());
+        $g_ViewerImageCurrent.css({'opacity':0, 'left':'0', visibility: 'visible'}).attr('src',g_ngItems[imageIdx].responsiveURL());
+        //$g_ViewerImageCurrent.css({'opacity':0, 'right':'0', visibility: 'visible'}).attr('src',g_ngItems[imageIdx].responsiveURL());
 
         jQuery.when(
           $g_ViewerImageCurrent.animate({'opacity': 1 }, 300)
@@ -4613,11 +4961,18 @@ function nanoGALLERY() {
     }
     $g_ViewerImageCurrent.addClass('imgCurrent');
     
-    $g_ViewerImageNext.css({'opacity':0, 'right':'0', 'left':'0', visibility: 'hidden'}).attr('src',g_ngItems[GetNextImageIdx(imageIdx)].responsiveURL());
-    $g_ViewerImagePrevious.css({'opacity':0, 'right':'0', 'left':'0', visibility: 'hidden'}).attr('src',g_ngItems[GetPreviousImageIdx(imageIdx)].responsiveURL());
+    if( typeof(Hammer) == 'undefined' ) {
+      g_viewerSwipe=null;
+      g_viewerSwipe = new ViewerSwipeSupport($g_ViewerImageCurrent[0]);
+    }
+    
+    $g_ViewerImageNext.css({'opacity':0, 'left':'0', visibility: 'hidden'}).attr('src',g_ngItems[GetNextImageIdx(imageIdx)].responsiveURL());
+    //$g_ViewerImageNext.css({'opacity':0, 'right':'0', 'left':'0', visibility: 'hidden'}).attr('src',g_ngItems[GetNextImageIdx(imageIdx)].responsiveURL());
+    $g_ViewerImagePrevious.css({'opacity':0, 'left':'0', visibility: 'hidden'}).attr('src',g_ngItems[GetPreviousImageIdx(imageIdx)].responsiveURL());
+    //$g_ViewerImagePrevious.css({'opacity':0, 'right':'0', 'left':'0', visibility: 'hidden'}).attr('src',g_ngItems[GetPreviousImageIdx(imageIdx)].responsiveURL());
 
     $g_ViewerImageCurrent.on("click",function(e){
-    e.stopPropagation();
+      e.stopPropagation();
       if( e.pageX < (jQuery(window).width()/2) ) {
         DisplayPreviousImage();
       }
@@ -4725,6 +5080,7 @@ function nanoGALLERY() {
     }
 
     if( g_containerViewerDisplayed ) {
+      g_viewerSwipe=null;
       window.clearInterval(g_viewerResizeTimerID);
       if( g_playSlideshow ) {
         window.clearInterval(g_playSlideshowTimerID);
@@ -4735,8 +5091,8 @@ function nanoGALLERY() {
       }
       g_containerViewerDisplayed=false;
       $g_containerViewerContainer.off().remove();
-      if( typeof(jQuery().niceScroll) === 'undefined' ) {
-        // compatibility issue with niceScroll plugin - http://areaaperta.com/nicescroll/
+
+      if( gO.viewerScrollBarHidden ) {
         jQuery('body').css('overflow','inherit');
       }
       

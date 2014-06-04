@@ -2,7 +2,6 @@
 <html>
 
 <head>
-	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> 
   <title>nanoGALLERY</title>
 	<style>
 		* {font-family: sans-serif; color:#fff;} 
@@ -14,7 +13,7 @@
 	<!-- <script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> --> 
 	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script>
-	<script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script>
+	<!-- <script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script> -->
 	<script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
 
   
@@ -37,6 +36,7 @@
 
 	<!-- nanoGALLERY javascript -->
 	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
+	<!-- <script type="text/javascript" src="src/jquery.nanogallery.js"></script>  -->
 
 	<!-- nanoGALLERY DEMO PANEL javascript -->
 	<script type="text/javascript" src="jquery.nanogallerydemo.js"></script> 
@@ -161,7 +161,10 @@
 
       
 			//Sample3 - Picasa/Google+
-			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,
+        userID:'cbrisbois@gmail.com',
+        kind:'picasa',
+        blackList:'Scrapbook|forhomepage|profil',
 				//maxItemsPerLine:3,
         //album: '5851968929721015169?authkey=CJSlhdKSgoiXtgE',
 				//album: '5851968929721015169&authkey=Gv1sRgCJSlhdKSgoiXtgE',
@@ -381,7 +384,11 @@
 	<br><br><br><br><br><br><br><br><br>
 	<h2 style="background:#555;">----- Thumbnails configuration demo -----</h2><br><br>
 
-	<div id="nanoGalleryAnimation1" style="margin:50px"> <a href="image_01.jpg" data-ngThumb="image_01ts.jpg" data-ngDesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Image 1</a> <a href="image_02.jpg" data-ngThumb="image_02ts.jpg">Image 2</a> <a href="image_03.jpg" data-ngThumb="image_03ts.jpg">Image 3</a> </div>
+	<div id="nanoGalleryAnimation1" style="margin:50px">
+    <a href="image_01.jpg" data-ngThumb="image_01ts.jpg" data-ngDesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Image 1</a>
+    <a href="image_02.jpg" data-ngThumb="image_02ts.jpg">Image 2</a>
+    <a href="image_03.jpg" data-ngThumb="image_03ts.jpg">Image 3</a>
+  </div>
 
 	
 	<br><br><h5>by <a href="https://plus.google.com/111186676244625461692?rel=author">Christophe Brisbois</a></h5>
