@@ -2571,7 +2571,7 @@ function nanoGALLERY() {
         });
         
         
-        $g_containerThumbnails.width(areaW).height(curPosY+gO.thumbnailHeight);
+        $g_containerThumbnails.width(areaW).height(curPosY);
       }
       else {
         
