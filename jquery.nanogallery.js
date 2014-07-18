@@ -1864,7 +1864,7 @@ function nanoGALLERY() {
       
       var imgUrl=data.media$group.media$content[0].url;
       
-      if( gO.thumbnailLabel.title != '' ) {
+      if( kind == 'image' && gO.thumbnailLabel.title != '' ) {
         itemTitle=GetImageTitle(unescape(unescape(unescape(unescape(imgUrl)))));
       }
 
