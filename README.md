@@ -1,11 +1,11 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-###Image gallery simplified.
+### Image gallery simplified.
 
-Touch enabled, responsive, fast and supporting cloud storage.
+Touch enabled, responsive, justified/cascading/grid layout and supporting cloud storage.
 
-Featuring multi-level navigation in albums, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug photo albums among others.
+Featuring multi-level navigation in albums, combinable hover effects on thumbnails, justified/cascading/grid layout, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug photo albums among others.
 
 
 ### Usage can be as easy as: 
@@ -17,37 +17,17 @@ Featuring multi-level navigation in albums, combinable hover effects on thumbnai
 ```
 
 
-New in v4.4
---------
-- added native swipe support (hammer.js is no more required)
-- SmugMug storage support
-- new thumbnail display mode justified
-- helpers to extend the capabilities of nanoGALLERY
-- added image microdata
-- refinement of demonstration panel
-- removed support of browser-back to close the photo viewer
-- added HTTPS support
-- error messages displayed beneath the gallery (alert() was used up to now)
-- restored icons in the light theme (hidding icons is now configurable)
-
-For a full feature list look at the release note.
-
-
-[View ChangeLog](/changelog.md)
-
-
 Key features
 --------
-- Display image galleries
+- Display image galleries with justified, cascading or grid layout
 - Display thumbnails and images with titles and descriptions
 - Numerous animated thumbnails hover effects (combinations are possible)
 - Easy to setup and customizable
 - Responsive layout - mobile friendly - Swipe support
 - Breadcrumb for easy navigation in photo albums
-- Image slideshow
+- Image slideshow with swipe and keyboard shortcuts support
 - Deep linking of images and albums
 - Optimized support of very large galleries (thumbnail image lazy loading or pagination)
-- Keyboard shortcuts
 - Browser Back/Forward navigation
 - Ignore undesired albums or photosets (by keyword blacklisting)
 - Multiple galleries on one page
@@ -59,6 +39,8 @@ Key features
   * Flickr account
   * Picasa/Google+ account
   * SmugMug account
+
+[View ChangeLog](/changelog.md)
 
 
 ![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
@@ -92,7 +74,7 @@ Usage examples
 
 Note: If you specify a theme, the corresponding css file must also be included.
 
-### Method 1: use one Flickr account
+### Example with images from a Flickr account
 
 * Create a container
 
@@ -114,27 +96,15 @@ $(document).ready(function () {
 ```
 
 
-For the full documentation, visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
--------------
 
+### License
 
-License
-------------
-nanoGALLERY is licensed under [Creative Commons Attribution-NonCommercial 3.0 license](http://creativecommons.org/licenses/by-nc/3.0/).
-You are free to use nanoGALLERY for your personal or non-profit website projects.
-You need to get the author's permission to use nanoGALLERY for commercial websites or for commercial activities. Contact nano@brisbois.fr
+nanoGALLERY is licensed under [CC BY-NC 3.0](http://creativecommons.org/licenses/by-nc/3.0/).
+For personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.
 
 
 
-Requirements
-------------
-Mandatory:
+### Requirements
 * Javascript must be enabled
 * jQuery
-
-Optional:
-* transit - jQuery plugin (http://ricostacruz.com/jquery.transit) (credits: Rico Sta. Cruz)
-* Hammer.js - Jquery plugin (http://eightmedia.github.io/hammer.js/) (credits: Jorik Tangelder)
-* imagesloaded (https://github.com/desandro/imagesloaded) (credits: David DeSandro)
-* fancybox2 - jQuery plugin (https://github.com/fancyapps/fancyBox) (credits: Janis Skarnelis)
 
