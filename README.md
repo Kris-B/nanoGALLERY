@@ -5,7 +5,7 @@ nanoGALLERY - jQuery plugin
 
 Touch enabled, responsive, justified/cascading/grid layout and supporting cloud storage.
 
-Featuring multi-level navigation in albums, combinable hover effects on thumbnails, justified/cascading/grid layout, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug photo albums among others.
+Featuring multi-level navigation in albums, combinable hover effects on thumbnails, multiple layout, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug photo albums among others.
 
 
 ### Usage can be as easy as: 
