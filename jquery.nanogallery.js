@@ -2466,6 +2466,10 @@ function nanoGALLERY() {
         var rowNum=0;
 
         var rowHeight=[];
+        var maxRowHeightVertical=0;     // max height of a row with vertical thumbs
+        var maxRowHeightHorizontal=0;   // max height of a row with horizontal thumbs
+        var rowHasVertical=false;       // current row has vertical thumbs
+        var rowHasHorizontal=false;     // current row has horizontal thumbs
         var bNewRow=false;
         $g_containerThumbnails.find('.nanoGalleryThumbnailContainer').each(function() {
           var n=jQuery(this).data("index");
@@ -2478,8 +2482,15 @@ function nanoGALLERY() {
               bNewRow=false;
               rowNum++;
               curWidth=0;
+              rowHasVertical=false;
+              rowHasHorizontal=false;
             }
-            
+
+            if( item.thumbHeight > item.thumbWidth )
+                rowHasVertical = true;
+            else
+                rowHasHorizontal = true;
+
             if( gO.thumbnailWidth != 'auto' ) {
               // up scale image resolution
               if( (curWidth + w) < areaW ) {
@@ -2502,6 +2513,11 @@ function nanoGALLERY() {
               if( (curWidth + w) < areaW ) {
                 curWidth+=w;
                 rowHeight[rowNum]=gO.thumbnailHeight;
+                // prevent incomplete row from being heigher than the previous ones.
+                var rowHeightLimit=Math.max(rowHasVertical ? maxRowHeightVertical : 0,
+                                            rowHasHorizontal ? maxRowHeightHorizontal : 0);
+                if( gO.adjustLastRowHeight && rowHeightLimit > 0 )
+                    rowHeight[rowNum]=Math.min(rowHeight[rowNum],rowHeightLimit);
                 rowLastItem[rowNum]=n;
               }
               else {
@@ -2509,6 +2525,11 @@ function nanoGALLERY() {
                 curWidth+=w;
                 var rH=Math.floor(gO.thumbnailHeight*areaW/curWidth);
                 rowHeight[rowNum]=rH;
+                // save the max row height for each thumb orientation.
+                if( rowHasVertical )
+                    maxRowHeightVertical=Math.max(maxRowHeightVertical,rH);
+                if( rowHasHorizontal )
+                    maxRowHeightHorizontal=Math.max(maxRowHeightHorizontal,rH);
                 rowLastItem[rowNum]=n;
                 bNewRow=true;
               }
