@@ -10,45 +10,97 @@
 	</style>
 
   
-	<!-- <script type="text/javascript" src="third.party/jquery-1.9.0.min.js"></script> --> 
-	<script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
-	<script type="text/javascript" src="third.party/transit/jquery.transit.min.js"></script>
-	<!-- <script type="text/javascript" src="third.party/hammer.js/hammer.min.js"></script> -->
-	<script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
+  <!-- nanoGALLERY                                                                                                          -->
+  <!-- Plugin for jQuery by Christophe Brisbois                                                                             -->
+  <!-- Demo: http://nanogallery.brisbois.fr                                                                                 -->
+  <!-- Sources: https://github.com/Kris-B/nanoGALLERY                                                                       -->
 
   
-	<!-- Fancybox - Optionnal -->
-	<!-- <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script> 
-	<link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script> 
-	<script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script> -->
-	<!-- Fancybox -->
+  <!-- #################################################################################################################### -->
+  <!-- jQuery                                                                                                               -->
+  <!--                                                                                                                      -->
+  <script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>  -->
+  <!-- #################################################################################################################### -->
 
-	<!-- nanoGALLERY - default css file -->
+
+  <!-- #################################################################################################################### -->
+  <!-- nanoGALLERY CSS files                                                                                                -->
+  <!-- please only include the css file corresponding to the selected theme                                                 -->
+  <!-- include 'nanogallery.css' if no theme is specified                                                                   -->
+  <!--                                                                                                                      -->
+	<!-- nanoGALLERY - default theme css file                                                                                 -->
 	<link href="css/nanogallery.css" rel="stylesheet" type="text/css">
-
-	<!-- nanoGALLERY - css file for the theme 'clean' -->
+	<!-- nanoGALLERY - css file for the theme 'clean'                                                                         -->
 	<link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet" type="text/css">
-
-	<!-- nanoGALLERY - css file for the theme 'light' -->
+	<!-- nanoGALLERY - css file for the theme 'light'                                                                         -->
 	<link href="css/themes/light/nanogallery_light.css" rel="stylesheet" type="text/css">
+  <!-- #################################################################################################################### -->
 
-	<!-- nanoGALLERY javascript -->
-	<script type="text/javascript" src="jquery.nanogallery.js"></script> 
-	<!-- <script type="text/javascript" src="src/jquery.nanogallery.js"></script>  -->
+  <!-- #################################################################################################################### -->
+	<!-- nanoGALLERY javascript                                                                                               -->
+	<script type="text/javascript" src="jquery.nanogallery.js"></script>
+  <!--                                                                                                                      -->
+  <!-- #################################################################################################################### -->
 
-	<!-- nanoGALLERY DEMO PANEL javascript -->
+  
+
+  
+  
+  
+  <!-- #################################################################################################################### -->
+	<!-- nanoGALLERY DEMO PANEL javascript - NOT NEEDED TO USE THE PLUGIN                                                     -->
 	<script type="text/javascript" src="jquery.nanogallerydemo.js"></script> 
+  <!-- #################################################################################################################### -->
+
+
+  <!-- #################################################################################################################### -->
+  <!-- transit.js animation engine - Optionnal                                                                              -->
+  <!-- This plugin is used alternatively for all animations (hover effects et image display animations)                     -->
+  <!-- warning: not compatible with IE9-                                                                                    -->
+  <!--                                                                                                                      -->
+  <!-- <script type="text/javascript" src="third.party/transit/jquery.transit.js"></script>                                 -->
+  <!-- #################################################################################################################### -->
+
+  
+  <!-- #################################################################################################################### -->
+  <!-- elevatezoom.js - Optionnal - JUST FOR TEST PURPOSES / PLEASE DO NOT USE!!!                                           -->
+  <!-- To add a lens effect on images                                                                                       -->
+  <!--                                                                                                                      -->
+	<!-- <script type="text/javascript" src="third.party/elevatezoom/jquery.elevatezoom.js"></script>                         -->
+  <!-- #################################################################################################################### -->
+
+  
+  <!-- #################################################################################################################### -->
+	<!-- Fancybox - Optionnal                                                                                                 -->
+  <!-- To display images with Fancybox / must be enabled with option viewer='fancybox'                                      -->
+  <!--                                                                                                                      -->
+	<!-- <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">                      -->
+	<!-- <script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script>                  -->
+	<!-- <link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">      -->
+	<!-- <script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>       -->
+	<!-- <script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script>         -->
+  <!-- #################################################################################################################### -->
+
+  
+  <!-- #################################################################################################################### -->
+  <!-- velocity animation engine - optionnal - JUST FOR TEST PURPOSES / PLEASE DO NOT USE!!!                                -->
+  <!--                                                                                                                      -->
+  <!-- <script type="text/javascript" src="third.party/velocity/jquery.velocity.min.js"></script>                           -->
+	<!-- <script type="text/javascript" src="http://julian.com/research/velocity/build/jquery.velocity.min.js"></script>      -->
+  <!-- #################################################################################################################### -->
+
   
 	<script>
 		$(document).ready(function () {
     
-			// Sample1
-			myColorScheme = {
-				breadcrumb : {
+      // ##################################################################################################################
+      // ##### Sample1 - API method #####
+      // ##################################################################################################################
+			var myColorScheme = {
+				navigationbar : {
 					background : '#000',
-					border : '1px dotted #555',
+					border : '0px dotted #555',
 					color : '#ccc',
 					colorHover:'#fff'
 				},
@@ -61,7 +113,7 @@
 					descriptionColor:'#eee'
 				}
 			};
-			myColorSchemeViewer = {
+			var myColorSchemeViewer = {
 				background:'rgba(1, 1, 1, 0.75)',
 				imageBorder:'12px solid #f8f8f8',
 				imageBoxShadow:'#888 0px 0px 20px',
@@ -74,14 +126,44 @@
       // custom thumbnail hover effect
       function myThumbnailInit($elt, item) {
       }
-      function myThumbnailHoverInit($elt, item) {
-        $elt.find('.labelDescription').css({'opacity':'0'});
+      function myThumbnailHoverInit($elt, item, data) {
+        //$elt.find('.labelDescription').css({'opacity':'0'});
+
+        var $subCon=$elt.find('.subcontainer');
+        var th=$elt.outerHeight(true);
+        var $iC=$elt.find('.imgContainer');
+        var w=$iC.outerWidth(true)/10;
+        var h=$iC.outerHeight(true);
+        for(var c=0; c<10; c++ ) {
+          var s='rect(0px, '+w*(c+1)+'px, '+h+'px, '+w*c+'px)';
+          //var $t=$lI.clone().appendTo($subCon).css({'bottom':-(h+c*4), 'clip':s});
+          $iC.clone().appendTo($elt.find('.subcontainer')).css({'bottom':0, 'scale':1, 'clip':s, 'left':0, 'position':'absolute'});
+          //$t.css({'top':c*2});
+        }
+        $iC.remove();
       }
-      function myThumbnailHover($elt, item) {
-        $elt.find('.labelDescription').delay(150).animate({'opacity':'1'},400);
+      
+      function myThumbnailHover($elt, item, data) {
+        //$elt.find('.labelDescription').delay(150)[data.animationEngine]({'opacity':'1'},400);
+        //$elt.find('.labelDescription').delay(150).animate({'opacity':'1'},400);
+        var w=$elt.find('.imgContainer').outerWidth(true)/10;
+        $elt.find('.imgContainer').each(function( index ) {
+          $(this)[data.animationEngine]({ 'left':(-w*10)+w*index*3, 'scale':2},20000);
+          console.log( index*w + ' ' + index+ '-'+w );
+        });
       }
-      function myThumbnailHoverOut($elt, item) {
-        $elt.find('.labelDescription').animate({'opacity':'0'},300);
+      function myThumbnailHoverOut($elt, item, data) {
+        //$elt.find('.labelDescription').animate({'opacity':'0'},300);
+        var h=$elt.find('.labelImage').outerHeight(true);
+        var w=$elt.find('.labelImage').outerWidth(true)/10;
+        $elt.find('.labelImage').each(function( index ) {
+          $(this)[data.animationEngine]({'bottom':-(h+index*4)});
+        });
+      }
+      
+      // custom info button on viewer toolbar
+      function myViewerInfo(item, data) {
+        alert('Image URL: '+ item.thumbsrc);
       }
 
 			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
@@ -91,7 +173,7 @@
 					srct: 'demonstration/image_01t.jpg',	// thumbnail url
 					title: 'image 1', 						        // thumbnail title
 					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					title_FR: 'image 2 (fr)',
+					title_FR: 'image 1 (fr)',
 					description_FR : 'description image 1 (fr)'
 				},
 				{
@@ -111,18 +193,22 @@
 					description_FR : 'description image 3 (fr)'
 				}
 				],
-				thumbnailHoverEffect:'labelSlideUpTop,borderLighter',
+				thumbnailHoverEffect:[{name:'imageScaleIn80'},{'name':'descriptionAppear','delay':300},{'name':'borderLighter'}],				
 				thumbnailLabel:{display:true,position:'overImageOnBottom'},
         viewerDisplayLogo:true,
         //thumbnailInit:myThumbnailInit,
-        fnThumbnailHoverInit:myThumbnailHoverInit,
-        fnThumbnailHover:myThumbnailHover,
-        fnThumbnailHoverOut:myThumbnailHoverOut
+        //fnThumbnailHoverInit:myThumbnailHoverInit,
+        //fnThumbnailHover:myThumbnailHover,
+        //fnThumbnailHoverOut:myThumbnailHoverOut,
+        theme:'light',
+        fnViewerInfo:myViewerInfo
 			});
 
-			// Sample1a
-			
-			var contentGallery1a=[
+      
+      // ##################################################################################################################
+			// ##### Sample1a - API method #####
+      // ##################################################################################################################
+      var contentGallery1a=[
 				{
 					src: 'demonstration/image_01.jpg',		// image url
 					srct: 'demonstration/image_01ts.jpg',	// thumbnail url
@@ -142,79 +228,129 @@
 			jQuery("#nanoGallery1a").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 				items:contentGallery1a,
 				theme:'clean',
-				thumbnailHoverEffect:'labelSplit4',
+				thumbnailHoverEffect:{'name':'imageFlipHorizontal','duration':500},
 				useTags:false,
         viewerDisplayLogo:true,
-        theme:'light',
+        theme:'clean',
         i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
-				thumbnailLabel:{display:true,position:'overImageOnMiddle'},
-        colorSchemeViewer:'default',
-			});
-
-			//Sample2 - HREF
- 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:160,thumbnailHeight:160,
-				itemsBaseURL:'demonstration',
-				thumbnailHoverEffect:[{'name':'imageRotateCornerBL','duration':300},{'name':'borderLighter'}],				
-				colorScheme:'light',
-        viewerDisplayLogo:true
+				thumbnailLabel:{display:true,position:'overImageOnMiddle', align:'center'},
+        colorSchemeViewer:'default'
 			});
 
       
-			//Sample3 - Picasa/Google+
-			jQuery("#nanoGallery3").nanoGallery({thumbnailWidth:300,thumbnailHeight:200,
-        userID:'cbrisbois@gmail.com',
-        kind:'picasa',
-        blackList:'Scrapbook|forhomepage|profil',
+      // ##################################################################################################################
+			// ##### Sample2 - inline elements / HREF #####
+      // ##################################################################################################################
+ 			jQuery("#nanoGallery2").nanoGallery({thumbnailWidth:160,thumbnailHeight:160,
+				itemsBaseURL:'demonstration',
+				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}],				
+				colorScheme:'clean',
+				thumbnailLabel:{display:true,position:'overImageOnTop', align:'center'},
+        viewerDisplayLogo:true
+
+			});
+
+      
+      // ##################################################################################################################
+			// ##### Sample3 - Picasa/Google+ #####
+      // ##################################################################################################################
+			jQuery("#nanoGallery3").nanoGallery({
+        thumbnailWidth:'auto', thumbnailHeight:200,
+        userID: 'cbrisbois@gmail.com',
+        //userID:'103482106723589181634', // --> Cyrilic
+        kind: 'picasa',
 				//maxItemsPerLine:3,
         //album: '5851968929721015169?authkey=CJSlhdKSgoiXtgE',
 				//album: '5851968929721015169&authkey=Gv1sRgCJSlhdKSgoiXtgE',
         //album:'5856259539659194001',
-        photoSorting:'random',
-        albumSorting:'random',
-        colorScheme:myColorScheme,
-        //locationHash:true,
-        thumbnailLabel:{title:'%filenameNoExt', itemsCount:'title'},
-        viewerDisplayLogo:true,
-				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}]
+        photoSorting: 'random',
+        albumSorting: 'random',
+        colorScheme: myColorScheme,
+        galleryFullpageButton: true,
+        //thumbnailLabel:{title:'%filenameNoExt', itemsCount:'title'},
+        viewerDisplayLogo: true,
+        photoSorting: 'titleAsc',
+				thumbnailHoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
+				//thumbnailHoverEffect: [{'name':'imageScaleIn80','duration':300},{'name':'borderLighter'}]
 			});
 
-  
-			jQuery("#nanoGallery3a").nanoGallery({thumbnailWidth:'auto',thumbnailHeight:170,userID:'cbrisbois@gmail.com',kind:'picasa',blackList:'Scrapbook|forhomepage|profil',
+    
+      // ##################################################################################################################
+			// ##### Sample3a - Picasa/Google+ #####
+      // ##################################################################################################################
+      jQuery("#nanoGallery3a").nanoGallery({
+        thumbnailWidth:200, thumbnailHeight:100,
+        userID:'cbrisbois@gmail.com',
+        kind:'picasa',
 				//maxItemsPerLine:3,
 				//album: '5852572882905112961',
         //album:'5856259539659194001',
-        album:'5911347863561293937',
-        colorScheme:'none',
+        //album:'5911347863561293937',
+        galleryFullpageButton:true,
+        galleryFullpageBgColor : '#fff',
+        colorScheme:'lightBackground',
         locationHash:false,
         viewerDisplayLogo:true,
-				thumbnailHoverEffect:[{'name':'labelAppear75','duration':300},{'name':'borderDarker'}],
+				//thumbnailHoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}],
+				thumbnailHoverEffect:[{'name':'imageScaleIn80', 'duration':500}],
         theme:'light',
-        photoSorting:'random',
         i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
-				thumbnailLabel:{display:true,position:'overImageOnMiddle'},
+				thumbnailLabel:{display:true,position:'onBottom'},
         colorSchemeViewer:'default'
+        //fnProcessData: fnDemopProcessData,    // javascript custom extension
+        //fnViewerInfo: fnDemoViewerInfo        // javascript custom extension
 			});
+      
+      
 
-			//Sample4 - Flickr
+      function fnDemopProcessData(item, kind, sourceData) {
+        if( kind == 'picasa' && item.kind == 'image' ) {
+          console.dir(sourceData);
+          item.customData.imgOriginalWidth = sourceData.gphoto$width.$t;
+          item.customData.imgOriginalHeight = sourceData.gphoto$height.$t;
+          var ex = { model: 'na', iso: 'na' }
+          if (typeof sourceData.exif$tags !== "undefined"){
+            if (typeof sourceData.exif$tags.exif$model !== "undefined" && typeof sourceData.exif$tags.exif$model.$t !== "undefined"){
+              ex.model = sourceData.exif$tags.exif$model.$t;
+            }
+          }
+          item.customData.exif = ex;
+        }
+      }
+      
+      function fnDemoViewerInfo( item, data ) {
+        var s= 'camera: '+item.customData.exif.model + ' / width: '+item.customData.imgOriginalWidth+' / height: '+item.customData.imgOriginalHeight;
+        alert(s);
+      }
+
+
+      // ##################################################################################################################
+			// ##### Sample4 - Flickr #####
+      // ##################################################################################################################
 			// thomashawk - user id="51035555243@N01" - 1900 sets
 			// Ray Conrado - user id="76715816@N00" - 700 sets
 			// LoadStone - user id="9142293@N06"
       // babasteve - 64749744@N00 / 72157644268331557
 			// kris_b - 34858669@N00  / 72157594299597591
-			jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',thumbnailWidth:170,thumbnailHeight:'auto',  //110,
+			jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',thumbnailWidth:'auto',thumbnailHeight:160,  //110,
         viewerDisplayLogo:true,
         locationHash:false,
-        //photoset:'72157594299597591',
+        //photoset:'none',//'72157594299597591',
 				//thumbnailDisplayInterval:0,
 				//thumbnailDisplayTransition:false,
-				thumbnailHoverEffect:[{'name':'imageScale150','duration':300},{'name':'borderDarker'}],				
-				thumbnailLabel:{display:true,position:'onBottom',descriptionMaxLength:20},
+				thumbnailHoverEffect:[{'name':'labelSlideUp','duration':300},{'name':'borderDarker'}],
+				//thumbnailLabel:{display:true,position:'onBottom',descriptionMaxLength:200},
+				thumbnailLabel:{display:true,position:'overImageOnBottom',descriptionMaxLength:50},
+        thumbnailLazyLoad:true,
         theme:'clean',
-        colorScheme:'light'
+        colorScheme:'light',
+        level1: { thumbnailWidth: 200, thumbnailHeight: 120 }
 			});
-		
 
-			//Sample5 - SMUGMUG
+
+      // ##################################################################################################################
+			// ##### Sample5 - SMUGMUG #####
+      // ##################################################################################################################
 			jQuery("#nanoGallery5").nanoGallery({thumbnailWidth:'auto',thumbnailHeight:160,
         kind:'smugmug',
         userID:'kris-b',
@@ -227,8 +363,9 @@
 			});
 
 			
-			// Multi-level navigation (API)
-			// Sample1a
+      // ##################################################################################################################
+			// ##### Multi-level navigation (API method) #####
+      // ##################################################################################################################
 			var contentGalleryMLN=[
 				{
 					src: 'demonstration/image_01.jpg',		// image url
@@ -312,23 +449,25 @@
 				thumbnailHoverEffect:'imageInvisible,imageScale150',
         viewerDisplayLogo:true,
 				useTags:false,
-        locationHash:false
+        locationHash:false,
+        maxItemsPerLine:5
 			});
 			
 
-			// DEMONSTRATION
+      // ##################################################################################################################
+			// ##### DEMO PANEL #####
+      // ##################################################################################################################
  			jQuery("#nanoGalleryAnimation1").nanoGalleryDemo({thumbnailWidth:120, thumbnailHeight:120, itemsBaseURL:'demonstration',
-        viewerDisplayLogo:true,
-				thumbnailHoverEffect:[{'name':'borderLighter','duration':300}]
+        viewerDisplayLogo:true
 			});
 
-			
+	
 		});
 	</script>
 
 </head>
 
-<body >
+<body>
 
 	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
 	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
@@ -356,11 +495,12 @@
 	</div>
 
 	<br><br><h2>Sample #3: Picasa/Google+</h2>
-	<div style="margin:auto;max-width:960px;">
+	<!-- <div style="margin:auto;max-width:960px;"> -->
+	<div>
 		<div id="nanoGallery3"></div>
 	</div>
   <br><br><br>
-	<div style="margin:auto;max-width:960px;background:#fff;color:#f00;">
+	<div style="margin:auto;max-width:960px;background:#fff;color:#f00;padding:1px;">
 		<br><br><br>
     <div id="nanoGallery3a"></div>
     <br><br><br>

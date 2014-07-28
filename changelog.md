@@ -5,9 +5,89 @@ ChangeLog
 ------
 
 
-v4.4.2
+
+v5.0.0
 ------
 
+
+##### New features:
+- new gallery layout engine
+- gallery alignment (left, right, center, justified)
+- gutter space between thumbnails
+- highly improved thumbnail hover effects (better combinations and now layout style regardless)
+- removed the dependency to transit.js (no more required)
+- removed support of hammer.js
+- display full flickr photostream (set photoset='none', limited to 500 photos)
+- new option to automatically start the slideshow
+- new gallery fullpage mode
+- new thumbnail hover effects
+- sort content on title (Flickr, Picasa, Google+, SmugMug)
+- thumbnail hover effects: 
+    - new option to delay the effect
+    - changed default duration from 200ms to 400ms
+- new loading animation (now even if breadcrumb is not visible)
+- on touch-devices:
+    - delay to open automatically the touched thumbnail
+    - improved usability (gallery and image display)
+- new embedded font version with additional icons (nano_icon_font3)
+- imagesloaded is now embedded to avoid conflict with other version
+- new javascript helpers (fnViewerInfo, fnProcessData, fnThumbnailHoverResize)
+- possibility to define thumbnail images real size (inline and API methods)
+- better IE9 support
+
+
+##### New options:
+- **thumbnailAlignment**: set the thumbnail alignment. Possible values: `left`, `right`, `justified`, `center`  
+  *string; Default: `center`*
+- **thumbnailGutterWidth**: set the horizontal gutter space between thumbnails  
+  *integer; Default: `2`*
+- **thumbnailGutterHeight**: set the vertical gutter space between thumbnails  
+  *integer; Default: `2`*
+- **touchAutoOpenDelay**: delay in ms before opening the touched thumbnail. Particular values: `-1`=disabled, `0`=automatic.  
+  *integer; Default:`0`*
+- **slideshowAutoStart**: start automatically the slideshow when an image is displayed  
+  *boolean; default:`false`*
+- **thumbnailHoverEffect**: new hover effects `descriptionAppear`, `imageScaleIn80`
+- **thumbnailHoverEffect**: new parameters `delay`, `delayBack`
+- **photoSorting** / **albumSorting** : new possible values `titleAsc`, `titleDesc`, `randomN` (N=integer representing the maximum number of items to display)
+- **dataSorting**: Items sort order (only markup and API method). Possible values: `standard`, `reversed`, `random`  
+  *string; default:`'standard'`*
+- **galleryFullpageButton**: button to display the gallery in fullpage  
+  *boolean; Default:`false`*
+- **galleryFullpageBgColor**: background color when the gallery is displayed in fullpage  
+  *string; Default:`'#111'`*
+- **imgtHeigt** and **imgtWidth**: set the real size of thumbnail images (API method)
+- **data-ngthumbImgHeight** and **data-ngthumbImgWidth**: set the real size of thumbnail images (inline method)
+- **thumbnailAdjustLastRowHeight**: Automatically lower the last row height to avoid layout breaks (only for justified layout - thumbailWidth='auto')
+  *boolean; default:`true`*
+  
+- **fnProcessData**: javascript helper to extend data associated to thumbnails/images (Flickr, Picasa, Google+, SmugMug)
+    Parameters: item (thumbnail object), kind (api, markup, flickr, picasa, smugmug), sourceData (original data retrieved from the online photo sharing site)
+- **fnThumbnailHoverResize**: javascript helper fired on gallery resize  
+    Parameters: $elt (thumbail element), item (thumbnail object), data (public data)
+- **fnViewerInfo**: javascript helper for info button on viewer toolbar  
+    Parameters: item (thumbnail object), data (public data)
+  
+##### Deprecated options:
+- removed support of hammer.js
+- `paginationMaxItemsPerPage`
+- `thumbnailWidth`=`autoUpScale`
+- `viewerScrollBarHidden`
+- effect `labelSlideUp2`
+
+##### Misc
+- fixed broken image icon on some browser
+- fixed some bugs in themes clean and light
+- added management of browser prefix for a better browser support even with odler jQuery versions
+- some css optimization
+- many code refactoring
+- minor bugfixes
+
+
+
+
+v4.4.2
+------
 
 ##### New features:
 - added native swipe support (hammer.js no more needed but still used if present)
@@ -16,7 +96,6 @@ v4.4.2
 - **viewerScrollBarHidden**: hide the viewer scrollbars
 	*boolean; Default: `true`*
 
-**Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
 ##### Deprecated options:
 - none

@@ -21,90 +21,104 @@
     
     var settings = $.extend(true, {
       // default settings
-      userID:'',
-      kind:'',
-      album:'',
-      photoset:'',
-      blackList:'scrapbook|profil',
-      whiteList:'',
-      albumList:'',
-      galleryToolbarWidthAligned:true,
-      displayBreadcrumb:false,
-      theme:'default',
-      colorScheme:'none',
-      colorSchemeViewer:'none',
-      items:null,
-      itemsBaseURL:'',
-      maxItemsPerLine:0,
-      paginationMaxItemsPerPage:0,
-      paginationMaxLinesPerPage:0,
-      maxWidth:0,
-      imageTitle:'',
-      viewer:'internal',
-      viewerDisplayLogo:true,
-      viewerToolbar:{position:'bottom', style:'innerImage'},
-      thumbnailWidth:230,
-      thumbnailHeight:154,
-      thumbnailHoverEffect:null,
-      thumbnailLabel:{position:'overImageOnBottom',display:true,displayDescription:false},
-      thumbnailDisplayInterval:30,
-      thumbnailDisplayTransition:true,
-      thumbnailLazyLoad:false,
-      thumbnailLazyLoadTreshold:100,
-      touchAnimation:true,
-      useTags:false,
-      preset:'none',
-      locationHash:false,
-      slideshowDelay:3000,
-      thumbnailGlobalImageTitle:'',
-      thumbnailGlobalAlbumTitle:''
+      userID : '',
+      kind : '',
+      album : '',
+      photoset : '',
+      blackList : 'scrapbook|profil',
+      whiteList : '',
+      albumList : '',
+      galleryToolbarWidthAligned : true,
+      galleryToolbarHideIcons : false,
+      galleryFullpageButton : false,
+      breadcrumbAutoHideTopLevel : false,
+      displayBreadcrumb : false,
+      theme : 'default',
+      colorScheme : 'none',
+      colorSchemeViewer : 'default',
+      items : null,
+      itemsBaseURL : '',
+      paginationMaxLinesPerPage : 0,
+      maxWidth : 0,
+      viewer : 'internal',
+      viewerDisplayLogo : false,
+      imageTransition : 'default',
+      viewerToolbar : {position : 'bottom', style : 'innerImage'},
+      thumbnailAlignment : 'center',
+      thumbnailWidth : 230,
+      thumbnailHeight : 154,
+      thumbnailGutterWidth : 2,
+      thumbnailGutterHeight : 2,
+      thumbnailFeatured : false,
+      thumbnailHoverEffect : null,
+      thumbnailLabel : {position : 'overImageOnBottom', display : true, displayDescription : true, titleMaxLength : 0, descriptionMaxLength : 0, hideIcons : false, title : '', itemsCount : '' },
+      thumbnailDisplayInterval : 30,
+      thumbnailDisplayTransition : true,
+      thumbnailLazyLoad : false,
+      thumbnailLazyLoadTreshold : 100,
+      thumbnailGlobalImageTitle : '',
+      thumbnailGlobalAlbumTitle : '',
+      fnThumbnailInit : null,
+      fnThumbnailHoverInit : null,
+      fnThumbnailHoverResize : null,
+      fnThumbnailHover : null,
+      fnThumbnailHoverOut : null,
+      fnThumbnailDisplayEffect : null,
+      fnViewerInfo : null,
+      fnProcessData : null,
+      touchAnimation : true,
+      touchAutoOpenDelay : 0,
+      useTags : false,
+      preset : 'none',
+      locationHash : false,
+      slideshowDelay : 3000,
+      slideshowAutoStart : false,
+      photoSorting : '',
+      albumSorting : '',
+      dataSorting : '',
+      lazyBuild : 'none',
+      lazyBuildTreshold : 150,
+      flickrSkipOriginal : true,
+      i18n : {
+        'breadcrumbHome' : 'List of Albums', 'breadcrumbHome_FR' : 'Liste des Albums',
+        'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',
+        'paginationNext' : 'Next', 'paginationNext_FR' : 'Suivant', 'paginationNext_DE' : 'Weiter', 'paginationNext_IT' : 'Avanti',
+        'thumbnailLabelItemsCountPart1' : '| ',
+        'thumbnailLabelItemsCountPart2' : ' photos',
+        'thumbnailImageTitle' : '',
+        'thumbnailAlbumTitle' : '',
+        'thumbnailImageDescription' : '',
+        'thumbnailAlbumDescription' : '',
+        'infoBoxPhoto' : 'Photo',
+        'infoBoxDate' : 'Date',
+        'infoBoxAlbum' : 'Album',
+        'infoBoxDimensions' : 'Dimensions',
+        'infoBoxFilename' : 'Filename',
+        'infoBoxFileSize' : 'File size',
+        'infoBoxCamera' : 'Camera',
+        'infoBoxFocalLength' : 'Focal length',
+        'infoBoxExposure' : 'Exposure',
+        'infoBoxFNumber' : 'F Number',
+        'infoBoxISO' : 'ISO',
+        'infoBoxMake' : 'Make',
+        'infoBoxFlash' : 'Flash',
+        'infoBoxViews' : 'Views',
+        'infoBoxComments' : 'Comments'
+      }
     }, options );
 
 
     return this.each(function(index) {
       g_save=jQuery(this)[0].outerHTML;
       g_containerDemo =jQuery('<div class="nanoGalleryDemo" style="padding:5px;"></div>').replaceAll(this);
-    
-      var sHoverEffects='<option style="color:#000">none</option>';
-      sHoverEffects+='<option style="color:#000">slideUp</option>';
-      sHoverEffects+='<option style="color:#000">slideDown</option>';
-      sHoverEffects+='<option style="color:#000">slideLeft</option>';
-      sHoverEffects+='<option style="color:#000">slideRight</option>';
-      sHoverEffects+='<option style="color:#000">imageSlideUp</option>';
-      sHoverEffects+='<option style="color:#000">imageSlideDown</option>';
-      sHoverEffects+='<option style="color:#000">imageSlideLeft</option>';
-      sHoverEffects+='<option style="color:#000">imageSlideRight</option>';
-      sHoverEffects+='<option style="color:#000">imageSplitVert</option>';
-      sHoverEffects+='<option style="color:#000">imageSplit4</option>';
-      sHoverEffects+='<option style="color:#000">labelAppear</option>';
-      sHoverEffects+='<option style="color:#000">labelAppear75</option>';
-      sHoverEffects+='<option style="color:#000">labelSlideDown</option>';
-      sHoverEffects+='<option style="color:#000">labelSlideUp</option>';
-      sHoverEffects+='<option style="color:#000">labelSplitVert</option>';
-      sHoverEffects+='<option style="color:#000">labelSplit4</option>';
-      sHoverEffects+='<option style="color:#000">labelAppearSplitVert</option>';
-      sHoverEffects+='<option style="color:#000">labelAppearSplit4</option>';
-      sHoverEffects+='<option style="color:#000">labelOpacity50</option>';
-      sHoverEffects+='<option style="color:#000">imageOpacity50</option>';
-      sHoverEffects+='<option style="color:#000">descriptionSlideUp</option>';
-      sHoverEffects+='<option style="color:#000">borderLighter</option>';
-      sHoverEffects+='<option style="color:#000">borderDarker</option>';
-      sHoverEffects+='<option style="color:#000">imageInvisible</option>';
-
-      sHoverEffects+='<option style="color:#000"></option>';
-      sHoverEffects+='<option style="color:#000">imageScale150*</option>';
-      sHoverEffects+='<option style="color:#000">imageScale150Outside*</option>';
-      sHoverEffects+='<option style="color:#000">scale120*</option>';
-      sHoverEffects+='<option style="color:#000">overScale*</option>';
-      sHoverEffects+='<option style="color:#000">overScaleOutside*</option>';
-      sHoverEffects+='<option style="color:#000">scaleLabelOverImage*</option>';
-      sHoverEffects+='<option style="color:#000">imageFlipHorizontal*</option>';
-      sHoverEffects+='<option style="color:#000">imageFlipVertical*</option>';
-      sHoverEffects+='<option style="color:#000">rotateCornerBR*</option>';
-      sHoverEffects+='<option style="color:#000">rotateCornerBL*</option>';
-      sHoverEffects+='<option style="color:#000">imageRotateCornerBR*</option>';
-      sHoverEffects+='<option style="color:#000">imageRotateCornerBL*</option>';
-
+      // var lstEffects=['none','scale120','scaleLabelOverImage','overScale','overScaleOutside','slideUp','slideDown','slideRight','slideLeft','rotateCornerBL','rotateCornerBR','','imageScale150','imageScaleIn80','imageScale150Outside','imageSplit4','imageSplitVert','imageSlideUp','imageSlideDown','imageSlideRight','imageSlideLeft','imageRotateCornerBL','imageRotateCornerBR','imageFlipHorizontal','imageFlipVertical','imageSlide2Up','imageSlide2Down','imageSlide2Left','imageSlide2Right','imageSlide2UpRight','imageSlide2UpLeft','imageSlide2DownRight','imageSlide2DownLeft','imageSlide2Random','',
+      var lstEffects=['none','scale120','scaleLabelOverImage','overScale','overScaleOutside','slideUp','slideDown','slideRight','slideLeft','rotateCornerBL','rotateCornerBR','','imageScale150','imageScaleIn80','imageScale150Outside','imageSplit4','imageSplitVert','imageSlideUp','imageSlideDown','imageSlideRight','imageSlideLeft','imageRotateCornerBL','imageRotateCornerBR','imageFlipHorizontal','imageFlipVertical','',
+              'labelAppear','labelAppear75','labelOpacity50','descriptionAppear','descriptionSlideUp','labelSlideUpTop','labelSlideUp','labelSlideDown','labelSplit4','labelSplitVert','labelAppearSplit4','labelAppearSplitVert','','borderLighter','borderDarker']
+   
+      var sHoverEffects=''
+      for( var i=0; i< lstEffects.length; i++ ) {
+        sHoverEffects+='<option style="color:#000">'+lstEffects[i]+'</option>';
+      }
       var sThumbnailLabelPosition='<option style="color:#000">overImageOnBottom</option>';
       sThumbnailLabelPosition+='<option style="color:#000">overImageOnMiddle</option>';
       sThumbnailLabelPosition+='<option style="color:#000">overImageOnTop</option>';
@@ -112,7 +126,7 @@
 
       var sGalleryColorScheme='<option style="color:#000">none</option>';
       sGalleryColorScheme+='<option style="color:#000">default</option>';
-      sGalleryColorScheme+='<option style="color:#000">dark</option>';
+      //sGalleryColorScheme+='<option style="color:#000">dark</option>';
       sGalleryColorScheme+='<option style="color:#000">darkRed</option>';
       sGalleryColorScheme+='<option style="color:#000">darkGreen</option>';
       sGalleryColorScheme+='<option style="color:#000">darkBlue</option>';
@@ -122,6 +136,7 @@
       
       var sViewerColorScheme='<option style="color:#000">none</option>';
       sViewerColorScheme+='<option style="color:#000">default</option>';
+      sViewerColorScheme+='<option style="color:#000">dark</option>';
       sViewerColorScheme+='<option style="color:#000">darkRed</option>';
       sViewerColorScheme+='<option style="color:#000">darkGreen</option>';
       sViewerColorScheme+='<option style="color:#000">darkBlue</option>';
@@ -158,7 +173,7 @@
       sPanel+='</tr'+sTRStyle+'>';
       sPanel+='<tr>';
         sPanel+='<td'+sTDStyle+'>';
-          sPanel+='&nbsp;&nbsp;&nbsp;*: requires Transit plugin';
+          // sPanel+='&nbsp;&nbsp;&nbsp;*: requires Transit plugin';
         sPanel+='</td>';
         sPanel+='<td'+sTDStyle+'>';
         sPanel+='</td>';
@@ -191,7 +206,7 @@
           sPanel+='<input type="checkbox" name="thumbnailLabelDisplay" value="true" checked style="margin:0"> Display label';
         sPanel+='</td>';
         sPanel+='<td'+sTDStyle+'>';
-          sPanel+='<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true" style="margin:0"> Display description';
+          sPanel+='<input type="checkbox" name="thumbnailLabelDisplayDescription" value="true" checked style="margin:0"> Display description';
         sPanel+='</td>';
       sPanel+='</tr>';
       sPanel+='<tr'+sTRStyle+'>';
@@ -281,17 +296,20 @@
       var sTHE=jQuery(g_containerDemoPanel).find('[name=lHoverEffect1] option:selected').text();
       if( sTHE != 'none' && sTHE != '' ) {
         sTHE=sTHE.replace('*', '');
-        settings.thumbnailHoverEffect.push({'name':sTHE,'duration':200,'durationBack':200,'easing':'swing','easingBack':'swing'});
+        //settings.thumbnailHoverEffect.push({'name':sTHE,'duration':200,'durationBack':200,'easing':'swing','easingBack':'swing'});
+        settings.thumbnailHoverEffect.push({'name':sTHE});
       }
       sTHE=jQuery(g_containerDemoPanel).find('[name=lHoverEffect2] option:selected').text();
       if( sTHE != 'none' && sTHE != '' ) {
         sTHE=sTHE.replace('*', '');
-        settings.thumbnailHoverEffect.push({'name':sTHE,'duration':200,'durationBack':200,'easing':'swing','easingBack':'swing'});
+        //settings.thumbnailHoverEffect.push({'name':sTHE,'duration':200,'durationBack':200,'easing':'swing','easingBack':'swing'});
+        settings.thumbnailHoverEffect.push({'name':sTHE});
       }
       sTHE=jQuery(g_containerDemoPanel).find('[name=lHoverEffect3] option:selected').text();
       if( sTHE != 'none' && sTHE != '' ) {
         sTHE=sTHE.replace('*', '');
-        settings.thumbnailHoverEffect.push({'name':sTHE,'duration':200,'durationBack':200,'easing':'swing','easingBack':'swing'});
+        //settings.thumbnailHoverEffect.push({'name':sTHE,'duration':200,'durationBack':200,'easing':'swing','easingBack':'swing'});
+        settings.thumbnailHoverEffect.push({'name':sTHE});
       }
       var tW=+parseInt(jQuery(g_containerDemoPanel).find('[name=thumbWidth]').val(),10);
       if( tW >= 10 && tW <= 500) {
