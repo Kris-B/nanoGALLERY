@@ -56,7 +56,7 @@ Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nano
 
 
 
-Usage examples
+Usage example with images from a Flickr account
 -----
 
 
@@ -72,9 +72,8 @@ Usage examples
 <script type="text/javascript" src="jquery.nanogallery.js"></script>
 ```
 
-Note: If you specify a theme, the corresponding css file must also be included.
+Note: If you specify a theme, the corresponding css file must be included.
 
-### Example with images from a Flickr account
 
 * Create a container
 
@@ -99,12 +98,12 @@ $(document).ready(function () {
 
 ### License
 
-nanoGALLERY is licensed under [CC BY-NC 3.0](http://creativecommons.org/licenses/by-nc/3.0/).
-For personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.
+nanoGALLERY is licensed under [CC BY-NC 3.0](http://creativecommons.org/licenses/by-nc/3.0/).  
+Only or personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.
 
 
 
 ### Requirements
 * Javascript must be enabled
-* jQuery
+* jQuery 1.7.1
 
