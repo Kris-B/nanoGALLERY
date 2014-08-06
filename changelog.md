@@ -6,6 +6,29 @@ ChangeLog
 
 
 
+v5.0.1
+------
+
+##### New features
+- BETA : thumbnail sizes can be configured according to different screen resolutions (Flickr/Picasa/Google+)
+
+
+##### Misc
+- fixed thumbnail hover animation issue on grid layout
+- fixed issue on 'randomN' (parameters: albumSorting and photoSorting)
+- fixed incompatibility issue on Safari Mobile before v6.0
+- fixed touch twice issue on thumbnail (touchAutoOpenDelay=-1)
+- fixed swip up/down on image display
+- fixed incompatibility issue between transit.js plugin detection and Bootstrap
+- pagination: scroll to gallery top if top is out of the viewport
+- breadcrumb label 'List of Albums' renamed 'Galleries'
+
+
+##### Deprecated options:
+- WARNING: this is the last version supporting SmugMug storage. This support will be removed by lack of users and because the SmugMug API is not very smart.
+
+
+
 v5.0.0
 ------
 
