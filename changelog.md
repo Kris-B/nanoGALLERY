@@ -6,10 +6,26 @@ ChangeLog
 
 
 
+v5.0.2
+------
+
+##### New feature
+- BETA **imageTransition**: image swipe animation. Possible values: `slideAppear`, `swipe`. Swipe is optimized for modern browser but is supported by older ones also.  
+  *string; Default: `slideAppear`*
+
+##### Misc
+- fixed issue with `colorScheme` and thumbnail hover effects `labelAppear` and `labelAppear75`
+- added `none` to the supported values of `thumbnailHoverEffect`
+- parameter `albumList` now supports album IDs as well as album names
+
+##### Deprecated options:
+- WARNING: v5.0.x is the last version supporting SmugMug storage. This support will be removed by lack of users and because the SmugMug API is not very smart.
+
+
 v5.0.1
 ------
 
-##### New features
+##### New feature
 - BETA : thumbnail sizes can be configured according to different screen resolutions (Flickr/Picasa/Google+)
 
 
@@ -25,7 +41,7 @@ v5.0.1
 
 
 ##### Deprecated options:
-- WARNING: this is the last version supporting SmugMug storage. This support will be removed by lack of users and because the SmugMug API is not very smart.
+- WARNING: v5.0.x is the last version supporting SmugMug storage. This support will be removed by lack of users and because the SmugMug API is not very smart.
 
 
 
