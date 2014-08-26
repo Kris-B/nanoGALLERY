@@ -5,6 +5,17 @@ ChangeLog
 ------
 
 
+v5.0.3
+------
+
+##### Google+ and Picasa galleries not loading since 08-25-2014  
+Google has changed the MIME TYPE for JSONP preventing nanoGALLERY from executing.  
+Issue fixed by switching the Google+/Picasa requests to HTTPS.
+
+##### Deprecated options:
+- WARNING: v5.0.x is the last version supporting SmugMug storage. This support will be removed by lack of users and because the SmugMug API is not very smart.
+
+
 
 v5.0.2
 ------
