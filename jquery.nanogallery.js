@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.0.2
+ * @preserve nanoGALLERY v5.0.3
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -21,16 +21,11 @@
  
 /*
 
-nanoGALLERY v5.0.2 release notes.
+nanoGALLERY v5.0.3 release notes.
 
-##### New feature
-- BETA **imageTransition**: image swipe animation. Possible values: `slideAppear`, `swipe`. Swipe is optimized for modern browser but is supported by older ones also.
-  *string; Default: `slideAppear`*
-
-##### Misc
-- fixed issue with `colorScheme` and thumbnail hover effects `labelAppear` and `labelAppear75`
-- added `none` to the supported values of `thumbnailHoverEffect`
-- parameter `albumList` now supports album IDs as well as album names
+##### Google+ and Picasa galleries not loading since 08-25-2014
+Google has changed the MIME TYPE for JSONP preventing nanoGALLERY from executing.  
+Issue fixed by switching the Google+/Picasa requests to HTTPS.
 
 ##### Deprecated options:
 - WARNING: v5.0.x is the last version supporting SmugMug storage. This support will be removed by lack of users and because the SmugMug API is not very smart.
@@ -275,7 +270,7 @@ g_thumbSize = 0,
     // details: https://developers.google.com/picasa-web/docs/2.0/reference
     var g_picasa = {
       url: function() {
-        return (location.protocol=='https:' ? 'https://picasaweb.google.com/data/feed/api/' : 'http://picasaweb.google.com/data/feed/api/');
+        return (location.protocol=='https:' ? 'https://picasaweb.google.com/data/feed/api/' : 'https://picasaweb.google.com/data/feed/api/');
       },
       thumbSize:64,
       thumbAvailableSizes : new Array(32, 48, 64, 72, 94, 104, 110, 128, 144, 150, 160, 200, 220, 288, 320, 400, 512, 576, 640, 720, 800, 912, 1024, 1152, 1280, 1440, 1600),
