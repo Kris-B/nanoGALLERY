@@ -3721,6 +3721,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
     if( $gE.conPagin == undefined ) return;
     
     $gE.conPagin.children().remove();
+    $gE.conPagin.hide ();
 
     if( g_tn.settings.height[g_curNavLevel][g_curWidth] == 'auto' || g_tn.settings.width[g_curNavLevel][g_curWidth] == 'auto' ) { return; }
     
@@ -3782,6 +3783,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
       });
     }
 
+    $gE.conPagin.show ();
     $gE.conPagin.width(w);
 
   }
