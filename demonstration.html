@@ -12,8 +12,10 @@
   
   <!-- nanoGALLERY                                                                                                          -->
   <!-- Plugin for jQuery by Christophe Brisbois                                                                             -->
-  <!-- Demo: http://nanogallery.brisbois.fr                                                                                 -->
+  <!-- Demo & doc: http://nanogallery.brisbois.fr                                                                           -->
   <!-- Sources: https://github.com/Kris-B/nanoGALLERY                                                                       -->
+  <!-- License: For personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.          -->
+  <!-- -------- ALL OTHER USES REQUIRE THE PURCHASE OF A PROFESSIONAL LICENSE.                                              -->
 
   
   <!-- #################################################################################################################### -->
@@ -26,7 +28,7 @@
 
   <!-- #################################################################################################################### -->
   <!-- nanoGALLERY CSS files                                                                                                -->
-  <!-- please only include the css file corresponding to the selected theme                                                 -->
+  <!-- only include the css file corresponding to the selected theme                                                        -->
   <!-- include 'nanogallery.css' if no theme is specified                                                                   -->
   <!--                                                                                                                      -->
 	<!-- nanoGALLERY - default theme css file                                                                                 -->
@@ -39,6 +41,7 @@
 
   <!-- #################################################################################################################### -->
 	<!-- nanoGALLERY javascript                                                                                               -->
+  <!--                                                                                                                      -->
 	<script type="text/javascript" src="jquery.nanogallery.js"></script>
   <!--                                                                                                                      -->
   <!-- #################################################################################################################### -->
@@ -59,27 +62,10 @@
   <!-- This plugin is used alternatively for all animations (hover effects et image display animations)                     -->
   <!-- warning: not compatible with IE9-                                                                                    -->
   <!--                                                                                                                      -->
-  <!-- <script type="text/javascript" src="third.party/transit/jquery.transit.js"></script>                                 -->
-  <!-- #################################################################################################################### -->
-
-  
-  <!-- #################################################################################################################### -->
-  <!-- elevatezoom.js - Optionnal - JUST FOR TEST PURPOSES / PLEASE DO NOT USE!!!                                           -->
-  <!-- To add a lens effect on images                                                                                       -->
-  <!--                                                                                                                      -->
-	<!-- <script type="text/javascript" src="third.party/elevatezoom/jquery.elevatezoom.js"></script>                         -->
-  <!-- #################################################################################################################### -->
-
-  
-  <!-- #################################################################################################################### -->
-	<!-- Fancybox - Optionnal                                                                                                 -->
-  <!-- To display images with Fancybox / must be enabled with option viewer='fancybox'                                      -->
-  <!--                                                                                                                      -->
-	<!-- <link href="third.party/fancybox/jquery.fancybox.css?v=2.1.4" rel="stylesheet" type="text/css">                      -->
-	<!-- <script type="text/javascript" src="third.party/fancybox/jquery.fancybox.pack.js?v=2.1.4"></script>                  -->
-	<!-- <link href="third.party/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" rel="stylesheet" type="text/css">      -->
-	<!-- <script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>       -->
-	<!-- <script type="text/javascript" src="third.party/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5"></script>         -->
+  <!--
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min.js">
+  </script>                                 
+  -->
   <!-- #################################################################################################################### -->
 
   
@@ -237,7 +223,7 @@
         colorSchemeViewer:'default'
 			});
 
-      
+     
       // ##################################################################################################################
 			// ##### Sample2 - inline elements / HREF #####
       // ##################################################################################################################
@@ -247,7 +233,6 @@
 				colorScheme:'clean',
 				thumbnailLabel:{display:true,position:'overImageOnTop', align:'center'},
         viewerDisplayLogo:true
-
 			});
 
       
@@ -255,8 +240,12 @@
 			// ##### Sample3 - Picasa/Google+ #####
       // ##################################################################################################################
 			jQuery("#nanoGallery3").nanoGallery({
-        thumbnailWidth:'auto', thumbnailHeight:200,
-        userID: 'cbrisbois@gmail.com',
+        //thumbnailWidth:'auto', thumbnailHeight:200,
+
+        thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
+        thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
+
+        userID: '111186676244625461692',
         //userID:'103482106723589181634', // --> Cyrilic
         kind: 'picasa',
 				//maxItemsPerLine:3,
@@ -270,7 +259,7 @@
         //thumbnailLabel:{title:'%filenameNoExt', itemsCount:'title'},
         viewerDisplayLogo: true,
         photoSorting: 'titleAsc',
-				thumbnailHoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
+  			thumbnailHoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
 				//thumbnailHoverEffect: [{'name':'imageScaleIn80','duration':300},{'name':'borderLighter'}]
 			});
 
@@ -280,7 +269,7 @@
       // ##################################################################################################################
       jQuery("#nanoGallery3a").nanoGallery({
         thumbnailWidth:200, thumbnailHeight:100,
-        userID:'cbrisbois@gmail.com',
+        userID:'111186676244625461692',
         kind:'picasa',
 				//maxItemsPerLine:3,
 				//album: '5852572882905112961',
@@ -323,7 +312,6 @@
         alert(s);
       }
 
-
       // ##################################################################################################################
 			// ##### Sample4 - Flickr #####
       // ##################################################################################################################
@@ -348,21 +336,6 @@
 			});
 
 
-      // ##################################################################################################################
-			// ##### Sample5 - SMUGMUG #####
-      // ##################################################################################################################
-			jQuery("#nanoGallery5").nanoGallery({thumbnailWidth:'auto',thumbnailHeight:160,
-        kind:'smugmug',
-        userID:'kris-b',
-        gallery:'cars',
-        photoSorting:'random',
-        albumSorting:'random',
-        colorScheme:myColorScheme,
-        locationHash:false,
-        viewerDisplayLogo:true
-			});
-
-			
       // ##################################################################################################################
 			// ##### Multi-level navigation (API method) #####
       // ##################################################################################################################
@@ -450,6 +423,7 @@
         viewerDisplayLogo:true,
 				useTags:false,
         locationHash:false,
+        breadcrumbAutoHideTopLevel:true,
         maxItemsPerLine:5
 			});
 			
@@ -511,10 +485,6 @@
 		<div id="nanoGallery4"></div>
 	</div>
 
-	<br><br><h2>Sample #5: SmugMug</h2>
-	<div style="margin:auto;max-width:600px;">
-		<div id="nanoGallery5"></div>
-	</div>
 	
 	<br><br><br><br><br><br><br><br><br>
 	<h2 style="background:#555;">----- Multi-level navigation and pagination (API) -----</h2><br><br>

@@ -386,7 +386,8 @@
 
 .nanogallery_theme_default .nanoGalleryContainer .nanoGalleryThumbnailContainer img{
 	/* no border or padding allowed here */
-  background:url('loading.gif') no-repeat center;
+  /* background:url('loading.gif') no-repeat center; */
+  background:url('data:image/gif;base64,R0lGODlhEAAQAIAAAP///////yH5BAEKAAEALAAAAAAQABAAAAIOjI+py+0Po5y02ouzPgUAOw==') no-repeat center;
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto;
 	display: block;
   vertical-align: bottom;
@@ -620,7 +621,7 @@
 }
 .nanogallery_theme_default .nanoGalleryViewer .content img{
 	/* never define a margin here */
-	background:url('loading.gif') no-repeat center;
+  background:url('loading.gif') no-repeat center;
 	border:4px solid #f8f8f8;
 	/*display:block;*/
 	padding:0px;
@@ -708,7 +709,7 @@
   display:inline-block;
 	vertical-align:middle;
 	overflow:hidden;
-	min-width:200px;
+	min-width:50px;
 	background:rgba(4,4,4,0.7);
   color:#eee;
 	margin: 1px;
@@ -805,6 +806,13 @@
 
 .nanogallery_theme_default .nanoGalleryViewer .toolbar .infoButton:after{
 	content: '\e82c';	/* icon-info */
+}
+
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .viewToolbarButton:after{
+	content: '\e817';	/* icon-menu */
+}
+.nanogallery_theme_default .nanoGalleryViewer .toolbar .hideToolbarButton:after{
+	content: '\e81e';	/* icon-ellipsis-vert */
 }
 
 .nanogallery_theme_default .nanoGalleryViewer .toolbar .pageCounter{

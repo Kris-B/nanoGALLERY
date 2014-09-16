@@ -1,59 +1,33 @@
-nanoGALLERY - jQuery plugin 
+nanoGALLERY - image gallery for jQuery
 ===========
 
 ### Image gallery simplified.
 
 Touch enabled, responsive, justified/cascading/grid layout and supporting cloud storage.
 
-Featuring multi-level navigation in albums, combinable hover effects on thumbnails, multiple layouts, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa, Google+ and SmugMug photo albums among others.
+Featuring multi-level navigation in albums, combinable hover effects on thumbnails, responsive thumbnail sizes, multiple layouts, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa and Google+ photo albums among others.
 
 
 ### Usage can be as easy as: 
 ```js
 	$('#elt').nanoGallery({
 		kind : 'picasa',
-		userID : 'YourEmail@gmail.com'
+		userID : 'YourUserID'
 	});
 ```
 
+[View ChangeLog](/changelog.md)  
+  
+Documentation, Demonstrations and Tutorials
+-------------
 
-Key features
---------
-- Display image galleries with justified, cascading or grid layout
-- Display thumbnails and images with titles and descriptions
-- Numerous animated thumbnails hover effects (combinations are possible)
-- Easy to setup and customizable
-- Responsive layout - mobile friendly - Swipe support
-- Breadcrumb for easy navigation in photo albums
-- Image slideshow with swipe and keyboard shortcuts support
-- Deep linking of images and albums
-- Optimized support of very large galleries (thumbnail image lazy loading or pagination)
-- Browser Back/Forward navigation
-- Ignore undesired albums or photosets (by keyword blacklisting)
-- Multiple galleries on one page
-- Color schemes / Themes
-- Internationalization support (i18n)
-- Helpers for custom extensions
-- Supported image sources :
-  * self hosted images
-  * Flickr account
-  * Picasa/Google+ account
-  * SmugMug account
-
-[View ChangeLog](/changelog.md)
-
+Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)   
+  
 
 ![Animation](/doc/nanoGALLERY4_demo.gif?raw=true "Animation")
 ![Screenshot1](/doc/nanogallery_screenshot.png?raw=true "Screenshot1")
 ![Screenshot2](/doc/nanoGALLERY4_screenshot7.png?raw=true "Screenshot2")
 ![Screenshot1](/doc/nanoGALLERY4_screenshot1a.png?raw=true "Screenshot3")
-
-  
-Documentation, Demonstrations and Tutorials
--------------
-
-Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)
-
 
 
 Usage example with images from a Flickr account
