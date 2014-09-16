@@ -39,7 +39,7 @@ v5.1.0
 - bugfix parameter `breadcrumbAutoHideTopLevel` not showing breadcrumb at all in some cases.
 - bugfix issue #40 - Script errors in requirejs app (thanks to @jefftmills).
 - bugfix PR #44 - pagination container not hidden if not used (thanks to @grief-of-these-days).
-- bugfix `thumbnailWidth='auto'` image not fille 100% of the thumbnail area.
+- bugfix `thumbnailWidth='auto'` image does not fill 100% of the thumbnail area.
 
 
 ##### Deprecated options:
