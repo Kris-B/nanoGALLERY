@@ -8,29 +8,29 @@ v5.0.1
 ------
 
 ##### New features
-- possibility to define the image swipe animation. Default (`swipe`) is optimized for modern browser but is supported by older ones also.
-- image toolbar now in 2 sizes: minimized and standard. Minimized is used on small screens.
-- define different thumbnail size dependant on the screen resolution (note: the syntax has evolved since beta).
+- possibility to define the image swipe animation. Default (`swipe`) is optimized for modern browser but is supported by older ones also.  
+- image toolbar now in 2 sizes: minimized and standard. Minimized is used on small screens.  
+- define different thumbnail size dependant on the screen resolution (note: the syntax has evolved since beta).  
 
 
 ##### New options
 - **imageTransition**: image swipe animation. Possible values: `slideAppear`, `swipe`. Swipe is optimized for modern browser but is supported by older ones also.  
-  *string; Default: `swipe`*
-- **viewerToolbar**: new option `autoMinimize` (*integer; Default: `800`*) to define a breakpoint for switching between minimized and standard toolbar. If the width is lower than this value, the toolbar is switched to minimized.
+  *string; Default: `swipe`*  
+- **viewerToolbar**: new option `autoMinimize` (*integer; Default: `800`*) to define a breakpoint for switching between minimized and standard toolbar. If the width is lower than this value, the toolbar is switched to minimized.  
 - **thumbnailHeight** / **thumbnailWidth**: additional syntax to define sizes dependant of the screen resolution.
-  Syntax: `'defaultValue XSn1 SMn2 MEn3 LAn4 XLn5'` where `n1` to `n5` are the values for resolutions `XS` to `XL`. Syntax is case sensitive.
-  Examples: `'200 XS80 SM150 LA250 XL400'` / `'200 XSauto SMauto LA250 XL400'`.
-  Picasa/Google+: thumbnails can be cropped (square) or not. To get the cropped thumbnail, add `C` after the size.
-  Example: `'200C XS80C SM150C LA250 XL400'`.  
+  Syntax: `'defaultValue XSn1 SMn2 MEn3 LAn4 XLn5'` where `n1` to `n5` are the values for resolutions `XS` to `XL`. Syntax is case sensitive.  
+  Examples: `'200 XS80 SM150 LA250 XL400'` / `'200 XSauto SMauto LA250 XL400'`.  
+  Picasa/Google+: thumbnails can be cropped (square) or not. To get the cropped thumbnail, add `C` after the size.  
+  Example: `'200C XS80C SM150C LA250 XL400'`.    
 - **thumbnailL1Height** / **thumbnailL1Width**: define the thumbnail size for the first navigation level. Same syntax as for **thumbnailHeight** / **thumbnailWidth**.  
-- **thumbnailSizeSM**: screen width breakpoint for thumbnail size SM.
-  *integer; Default: `480`*
-- **thumbnailSizeME**: screen width breakpoint for thumbnail size ME.
-  *integer; Default: `992`*
-- **thumbnailSizeLA**: screen width breakpoint for thumbnail size LA.
-  *integer; Default: `1200`*
-- **thumbnailSizeXL**: screen width breakpoint for thumbnail size XL.
-  *integer; Default: `1800`*
+- **thumbnailSizeSM**: screen width breakpoint for thumbnail size SM.  
+  *integer; Default: `480`*  
+- **thumbnailSizeME**: screen width breakpoint for thumbnail size ME.  
+  *integer; Default: `992`*  
+- **thumbnailSizeLA**: screen width breakpoint for thumbnail size LA.  
+  *integer; Default: `1200`*  
+- **thumbnailSizeXL**: screen width breakpoint for thumbnail size XL.  
+  *integer; Default: `1800`*  
 
   
 ##### Misc
