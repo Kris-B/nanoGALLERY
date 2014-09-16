@@ -4,7 +4,7 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
-v5.0.1
+v5.1.0
 ------
 
 ##### New features
