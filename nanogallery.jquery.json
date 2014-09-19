@@ -1,7 +1,7 @@
 {
 	"name": "nanogallery",
 	"title": "jQuery nanoGALLERY",
-	"description": "Image gallery simplified. Touch enabled, responsive, justified/cascading/grid layout and it supports cloud storage. Featuring multi-level navigation in albums, lightbox, combinable hover effects on thumbnails, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, browser back/forward navigation, i18n, and pulling in Flickr, Picasa and Google+ photo albums among others.",
+	"description": "Image gallery simplified. Touch enabled, fully responsive, justified/cascading/grid layout and it supports cloud storage.",
 	"keywords": [
     "image",
     "gallery",
@@ -22,7 +22,7 @@
     "cloud",
     "touchscreen"
 	],
-	"version": "5.1.0",
+	"version": "5.1.1",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"

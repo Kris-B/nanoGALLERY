@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.1.0
+ * @preserve nanoGALLERY v5.1.1
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -21,46 +21,24 @@
  
 /*
 
-nanoGALLERY v5.1.0 release notes.
+nanoGALLERY v5.1.1 release notes.
 
 
 ##### New features
-- possibility to define the image swipe animation. Default (`swipe`) is optimized for modern browser but is supported by older ones also.
-- image toolbar now in 2 sizes: minimized and standard. Minimized is used on small screens.
-- define different thumbnail size dependant on the screen resolution (note: the syntax has evolved since beta).
-
+-
 
 ##### New options
-- **imageTransition**: image swipe animation. Possible values: `slideAppear`, `swipe`. Swipe is optimized for modern browser but is supported by older ones also.  
-  *string; Default: `swipe`*
-- **viewerToolbar**: new option `autoMinimize` (*integer; Default: `800`*) to define a breakpoint for switching between minimized and standard toolbar. If the width is lower than this value, the toolbar is switched to minimized.
-- **thumbnailHeight** / **thumbnailWidth**: additional syntax to define sizes dependant of the screen resolution.
-  Syntax: `'defaultValue XSn1 SMn2 MEn3 LAn4 XLn5'` where `n1` to `n5` are the values for resolutions `XS` to `XL`. Syntax is case sensitive.
-  Examples: `'200 XS80 SM150 LA250 XL400'` / `'200 XSauto SMauto LA250 XL400'`.
-  Picasa/Google+: thumbnails can be cropped (square) or not. To get the cropped thumbnail, add `C` after the size.
-  Example: `'200C XS80C SM150C LA250 XL400'`.  
-- **thumbnailL1Height** / **thumbnailL1Width**: define the thumbnail size for the first navigation level. Same syntax as for **thumbnailHeight** / **thumbnailWidth**.  
-- **thumbnailSizeSM**: screen width breakpoint for thumbnail size SM.
-  *integer; Default: `480`*
-- **thumbnailSizeME**: screen width breakpoint for thumbnail size ME.
-  *integer; Default: `992`*
-- **thumbnailSizeLA**: screen width breakpoint for thumbnail size LA.
-  *integer; Default: `1200`*
-- **thumbnailSizeXL**: screen width breakpoint for thumbnail size XL.
-  *integer; Default: `1800`*
+-
 
   
 ##### Misc
-- cleanup of the delivery package. Only jQuery still integrated.
-- removed thumbnails loading gif.
-- bugfix parameter `breadcrumbAutoHideTopLevel` not showing breadcrumb at all in some cases.
-- bugfix issue #40 - Script errors in requirejs app (thanks to @jefftmills).
-- bugfix PR #44 - pagination container not hidden if not used (thanks to @grief-of-these-days).
-- bugfix `thumbnailWidth='auto'` image not fille 100% of the thumbnail area.
-
+- embeded imagesLoaded.js updated to v3.1.8
+- bugfix thumbnail images not loading when thumbnailHoverEffect='scale120'
+- bugfix Picasa/Google+ wrong thumbnail image URL on albums
+- bugfix on Firefox with thumbnail lazy load: Picasa/Google+ wrong thumbnail image size on albums
 
 ##### Deprecated options:
-- **SmugMug support removed**.
+-
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
@@ -845,19 +823,19 @@ this.thumbImgHeight = 0;           // thumbnail image height
 		}
     var si=0;
     if( SettingsGetTnHeight() == 'auto' ) {
-      g_thumbSize=SettingsGetTnWidth()*g_tn.scale;
+      g_thumbSize=Math.ceil(SettingsGetTnWidth()*g_tn.scale);
       g_flickr.thumbSizeDir='width_';
     }
     else if( SettingsGetTnWidth() == 'auto' ) {
-        g_thumbSize=SettingsGetTnHeight()*g_tn.scale;
+        g_thumbSize=Math.ceil(SettingsGetTnHeight()*g_tn.scale);
       }
       else {
         if( SettingsGetTnWidth() > SettingsGetTnHeight() ) {
-          g_thumbSize=SettingsGetTnWidth()*g_tn.scale;
+          g_thumbSize=Math.ceil(SettingsGetTnWidth()*g_tn.scale);
           g_flickr.thumbSizeDir='width_';
         }
         else {
-          g_thumbSize=SettingsGetTnHeight()*g_tn.scale;
+          g_thumbSize=Math.ceil(SettingsGetTnHeight()*g_tn.scale);
         }
       }
 
@@ -2471,7 +2449,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
     for(var i=0; i<sizes.length; i++ ) {
       if( g_tn.settings.width[level][sizes[i]] == 'auto' ) {
         var sdir='height_';
-        var tsize=g_tn.settings.height[level][sizes[i]]*g_tn.scale;
+        var tsize=Math.ceil(g_tn.settings.height[level][sizes[i]]*g_tn.scale);
         var one=FlickrRetrieveOneImage(sdir, tsize, item );
         tn.url[level][sizes[i]]=one.url;
         tn.width[level][sizes[i]]=one.width;
@@ -2480,7 +2458,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
       else 
         if( g_tn.settings.height[level][sizes[i]] == 'auto' ) {
           var sdir='width_';
-          var tsize=g_tn.settings.width[level][sizes[i]]*g_tn.scale;
+          var tsize=Math.ceil(g_tn.settings.width[level][sizes[i]]*g_tn.scale);
           var one=FlickrRetrieveOneImage(sdir, tsize, item );
           tn.url[level][sizes[i]]=one.url;
           tn.width[level][sizes[i]]=one.width;
@@ -2488,10 +2466,10 @@ this.thumbImgHeight = 0;           // thumbnail image height
         }
         else {
           var sdir='height_';
-          var tsize=g_tn.settings.height[level][sizes[i]]*g_tn.scale;
+          var tsize=Math.ceil(g_tn.settings.height[level][sizes[i]]*g_tn.scale);
           if( g_tn.settings.width[level][sizes[i]] > g_tn.settings.height[level][sizes[i]] ) {
             sdir='width_';
-            tsize=g_tn.settings.width[level][sizes[i]]*g_tn.scale;
+            tsize=Math.ceil(g_tn.settings.width[level][sizes[i]]*g_tn.scale);
           }
           var one=FlickrRetrieveOneImage(sdir, tsize, item );
           tn.url[level][sizes[i]]=one.url;
@@ -2656,15 +2634,15 @@ this.thumbImgHeight = 0;           // thumbnail image height
   // ##########################
 
   function AddOneThumbSize(thumbSizes, v1, v2, c1, c2 ) {
-    var v=(v2*g_tn.scale)+c2;
+    var v=Math.ceil(v2*g_tn.scale)+c2;
     if( v1 == 'auto' ) {
-      v=(v2*g_tn.scale)+c2;
+      v=Math.ceil(v2*g_tn.scale)+c2;
     }
     else if( v2 == 'auto' ) {
-        v=(v1*g_tn.scale)+c1;
+        v=Math.ceil(v1*g_tn.scale)+c1;
       }
       else if( v1 > v2 ) {
-        v=(v1*g_tn.scale)+c1;
+        v=Math.ceil(v1*g_tn.scale)+c1;
       }
       
     if( thumbSizes.length > 0 ) {
@@ -2698,7 +2676,6 @@ this.thumbImgHeight = 0;           // thumbnail image height
     thumbSizes=AddOneThumbSize(thumbSizes, g_tn.settings.width.lN.me, g_tn.settings.height.lN.me, g_tn.settings.width.lN.mec, g_tn.settings.height.lN.mec );
     thumbSizes=AddOneThumbSize(thumbSizes, g_tn.settings.width.lN.la, g_tn.settings.height.lN.la, g_tn.settings.width.lN.lac, g_tn.settings.height.lN.lac );
     thumbSizes=AddOneThumbSize(thumbSizes, g_tn.settings.width.lN.xl, g_tn.settings.height.lN.xl, g_tn.settings.width.lN.xlc, g_tn.settings.height.lN.xlc );
-
     if( gI[albumIdx].GetID() == 0 ) {
       // albums
       //url = g_picasa.url() + 'user/'+gO.userID+'?alt=json&kind=album&imgmax=d&thumbsize='+g_picasa.thumbSize;
@@ -2844,7 +2821,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
           }
           else {
             src=s+'h'+window.screen.height+'/'+filename;
-          }
+            }
         }
         var newItem= NGAddItem(itemTitle, itemThumbURL, src, itemDescription, '', kind, tags, itemID, albumID );
         newItem.picasaThumbBaseURL=picasaThumbBaseURL;
@@ -2941,8 +2918,22 @@ this.thumbImgHeight = 0;           // thumbnail image height
         }
       }
       else {
-        if( g_tn.settings.width[level][sizes[i]] != 'auto' ) { tn.width[level][sizes[i]]=data.media$group.media$thumbnail[startI+i].width; }
-        if( g_tn.settings.height[level][sizes[i]] != 'auto' ) { tn.height[level][sizes[i]]=data.media$group.media$thumbnail[startI+i].height; }
+        if( g_tn.settings.width[level][sizes[i]] != 'auto' ) {
+          tn.width[level][sizes[i]]=data.media$group.media$thumbnail[startI+i].width;
+        }
+        else {
+          var url=tn.url[level][sizes[i]].substring(0, tn.url[level][sizes[i]].lastIndexOf('/'));
+          url=url.substring(0, url.lastIndexOf('/')) + '/';
+          tn.url[level][sizes[i]]=url+'h'+g_tn.settings.height[level][sizes[i]]+'/';
+        }
+        if( g_tn.settings.height[level][sizes[i]] != 'auto' ) { 
+          tn.height[level][sizes[i]]=data.media$group.media$thumbnail[startI+i].height;
+        }
+        else {
+            var url=tn.url[level][sizes[i]].substring(0, tn.url[level][sizes[i]].lastIndexOf('/'));
+            url=url.substring(0, url.lastIndexOf('/')) + '/';
+            tn.url[level][sizes[i]]=url+'w'+g_tn.settings.width[level][sizes[i]]+'/';
+        }
       }
       // if( kind == 'image' || g_tn.settings.width.l1[sizes[i]] != 'auto' ) { tn.width.l1[sizes[i]]=data.media$group.media$thumbnail[i].width; }
       // if( kind == 'image' || g_tn.settings.height.l1[sizes[i]] != 'auto' ) { tn.height.l1[sizes[i]]=data.media$group.media$thumbnail[i].height; }
@@ -3626,7 +3617,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
         }
 
         // by grief-of-these-days
-        if( item.thumbHeight > item.thumbWidth ) {
+        if( item.thumbImg().height > item.thumbImg().width ) {
           rowHasVertical = true;
         }
         else {
@@ -3893,6 +3884,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
         if( jQuery($image).attr('src') == g_emptyGif ) {
           var idx=jQuery(this).data('index');
           // jQuery($image).attr('src',gI[idx].thumbsrc);
+          jQuery($image).attr('src','');
           jQuery($image).attr('src',gI[idx].thumbImg().src);
         }
     });
@@ -4143,6 +4135,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
             if( gO.thumbnailLazyLoad ) {
               if( !endInViewportTest ) {
                 if( inViewport($newDiv, g_tn.lazyLoadTreshold) ) {
+                  $newDiv.find('img').attr('src','');
                   $newDiv.find('img').attr('src',item.thumbImg().src);
                   startInViewportTest=true;
                 }
@@ -4267,15 +4260,15 @@ this.thumbImgHeight = 0;           // thumbnail image height
         if( item == undefined || jQuery(instance.images[0].img).attr('src') == g_emptyGif ) { return; }    // also fired for blank image --> ignore
         var b=false;
         if( item.thumbImg().height != instance.images[0].img.naturalHeight ) {
-          item.thumbImgHeight=instance.images[0].img.naturalHeight;
-          item.thumbImgWidth=instance.images[0].img.naturalWidth;
+//          item.thumbImgHeight=instance.images[0].img.naturalHeight;
+//          item.thumbImgWidth=instance.images[0].img.naturalWidth;
           item.thumbSetImgHeight(instance.images[0].img.naturalHeight);
           item.thumbSetImgWidth(instance.images[0].img.naturalWidth);
           b=true;
         }
         if( item.thumbImg().width != instance.images[0].img.naturalWidth ) {
-          item.thumbImgHeight=instance.images[0].img.naturalHeight;
-          item.thumbImgWidth=instance.images[0].img.naturalWidth;
+//          item.thumbImgHeight=instance.images[0].img.naturalHeight;
+//          item.thumbImgWidth=instance.images[0].img.naturalWidth;
           item.thumbSetImgHeight(instance.images[0].img.naturalHeight);
           item.thumbSetImgWidth(instance.images[0].img.naturalWidth);
           b=true;
@@ -8056,26 +8049,8 @@ colors = jQuery.Color.names = {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*!
- * imagesLoaded PACKAGED v3.1.5
+ * imagesLoaded PACKAGED v3.1.8
  * JavaScript is all like "You images are done yet or what?"
  * MIT License
  */
@@ -8095,7 +8070,7 @@ colors = jQuery.Color.names = {
 	 * Class for managing events.
 	 * Can be extended to provide event functionality in other classes.
 	 *
-	 * @class EventEmitter Manages event registering and emitting.
+	 * @class ngEventEmitter Manages event registering and emitting.
 	 */
 	function ngEventEmitter() {}
 
@@ -8210,7 +8185,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|RegExp} evt Name of the event to attach the listener to.
 	 * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.addListener = function addListener(evt, listener) {
 		var listeners = this.getListenersAsObject(evt);
@@ -8240,7 +8215,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|RegExp} evt Name of the event to attach the listener to.
 	 * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.addOnceListener = function addOnceListener(evt, listener) {
 		return this.addListener(evt, {
@@ -8259,7 +8234,7 @@ colors = jQuery.Color.names = {
 	 * You need to tell it what event names should be matched by a regex.
 	 *
 	 * @param {String} evt Name of the event to create.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.defineEvent = function defineEvent(evt) {
 		this.getListeners(evt);
@@ -8270,7 +8245,7 @@ colors = jQuery.Color.names = {
 	 * Uses defineEvent to define multiple events.
 	 *
 	 * @param {String[]} evts An array of event names to define.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.defineEvents = function defineEvents(evts) {
 		for (var i = 0; i < evts.length; i += 1) {
@@ -8285,7 +8260,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|RegExp} evt Name of the event to remove the listener from.
 	 * @param {Function} listener Method to remove from the event.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.removeListener = function removeListener(evt, listener) {
 		var listeners = this.getListenersAsObject(evt);
@@ -8318,7 +8293,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add to multiple events at once.
 	 * @param {Function[]} [listeners] An optional array of listener functions to add.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.addListeners = function addListeners(evt, listeners) {
 		// Pass through to manipulateListeners
@@ -8333,7 +8308,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to remove from multiple events at once.
 	 * @param {Function[]} [listeners] An optional array of listener functions to remove.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.removeListeners = function removeListeners(evt, listeners) {
 		// Pass through to manipulateListeners
@@ -8350,7 +8325,7 @@ colors = jQuery.Color.names = {
 	 * @param {Boolean} remove True if you want to remove listeners, false if you want to add.
 	 * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add/remove from multiple events at once.
 	 * @param {Function[]} [listeners] An optional array of listener functions to add/remove.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.manipulateListeners = function manipulateListeners(remove, evt, listeners) {
 		var i;
@@ -8393,7 +8368,7 @@ colors = jQuery.Color.names = {
 	 * You can also pass a regex to remove all events that match it.
 	 *
 	 * @param {String|RegExp} [evt] Optional name of the event to remove all listeners for. Will remove from every event if not passed.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.removeEvent = function removeEvent(evt) {
 		var type = typeof evt;
@@ -8438,7 +8413,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
 	 * @param {Array} [args] Optional array of arguments to be passed to each listener.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.emitEvent = function emitEvent(evt, args) {
 		var listeners = this.getListenersAsObject(evt);
@@ -8483,7 +8458,7 @@ colors = jQuery.Color.names = {
 	 *
 	 * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
 	 * @param {...*} Optional additional arguments to be passed to each listener.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.emit = function emit(evt) {
 		var args = Array.prototype.slice.call(arguments, 1);
@@ -8496,7 +8471,7 @@ colors = jQuery.Color.names = {
 	 * after execution. This value defaults to true.
 	 *
 	 * @param {*} value The new value to check for when executing listeners.
-	 * @return {Object} Current instance of ngEventEmitter for chaining.
+	 * @return {Object} Current instance of EventEmitter for chaining.
 	 */
 	proto.setOnceReturnValue = function setOnceReturnValue(value) {
 		this._onceReturnValue = value;
@@ -8633,7 +8608,7 @@ if ( typeof define === 'function' && define.amd ) {
 })( this );
 
 /*!
- * imagesLoaded v3.1.5
+ * imagesLoaded v3.1.8
  * JavaScript is all like "You images are done yet or what?"
  * MIT License
  */
@@ -8655,7 +8630,7 @@ if ( typeof define === 'function' && define.amd ) {
     // CommonJS
     module.exports = factory(
       window,
-      require('ngEventEmitter'),
+      require('wolfy87-eventemitter'),
       require('eventie')
     );
   } else {
@@ -8667,7 +8642,7 @@ if ( typeof define === 'function' && define.amd ) {
     );
   }
 
-})( this,
+})( window,
 
 // --------------------------  factory -------------------------- //
 
@@ -8720,7 +8695,7 @@ function makeArray( obj ) {
    * @param {Function} onAlways - callback function
    */
   function ngImagesLoaded( elem, options, onAlways ) {
-    // coerce ngImagesLoaded() without new, to be new ngImagesLoaded()
+    // coerce ImagesLoaded() without new, to be new ImagesLoaded()
     if ( !( this instanceof ngImagesLoaded ) ) {
       return new ngImagesLoaded( elem, options );
     }
@@ -8772,7 +8747,8 @@ function makeArray( obj ) {
       }
       // find children
       // no non-element nodes, #143
-      if ( !elem.nodeType || !( elem.nodeType === 1 || elem.nodeType === 9 ) ) {
+      var nodeType = elem.nodeType;
+      if ( !nodeType || !( nodeType === 1 || nodeType === 9 || nodeType === 11 ) ) {
         continue;
       }
       var childElems = elem.querySelectorAll('img');
@@ -8966,6 +8942,18 @@ function makeArray( obj ) {
   return ngImagesLoaded;
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

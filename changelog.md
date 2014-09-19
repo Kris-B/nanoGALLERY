@@ -4,6 +4,18 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.1.1
+------
+
+ 
+##### Misc
+- embeded imagesLoaded.js updated to v3.1.8
+- bugfix thumbnail images not loading when thumbnailHoverEffect='scale120'
+- bugfix Picasa/Google+ wrong thumbnail image URL on albums
+- bugfix on Firefox with thumbnail lazy load: Picasa/Google+ wrong thumbnail image size on albums
+
+
+
 v5.1.0
 ------
 
