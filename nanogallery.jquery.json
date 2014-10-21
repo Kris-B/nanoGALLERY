@@ -22,7 +22,7 @@
     "cloud",
     "touchscreen"
 	],
-	"version": "5.1.1",
+	"version": "5.2.1",
 	"author": {
 		"name": "Kris_B",
 		"url": "http://www.brisbois.fr"
@@ -48,6 +48,6 @@
 	"homepage": "http://www.nanogallery.brisbois.fr",
 	"demo": "http://www.nanogallery.brisbois.fr",
 	"dependencies": {
-		"jquery": ">=1.7"
+		"jquery": ">=1.7.1"
 	}
 }

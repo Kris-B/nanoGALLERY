@@ -4,6 +4,62 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.2.1
+------
+
+##### New features
+- support right-to-Left display direction (RTL)
+- customize image toolbar (content and order)
+- added partial support for IE8 (update warning displayed on IE7/6)
+- direct link to the Flickr/Google+ image page
+- fancyBox custom settings
+- CSS files: additional versions with embedded WOFF icons font (to avoid same origin policy issues)
+
+
+##### New options
+- **RTL**: display direction from right to left.  
+  *boolean; Default: false*  
+- **viewerToolbar**: new display options for the image toolbar:  
+  `display` (*boolean; Default: `false`*): display or hide the toolbar.  
+
+  `standard` (*string;*): list of items to display in the standard toolbar (comma separated). The order is taken into account.
+    Default value: `'minimizeButton,previousButton,pageCounter,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label'`
+    Possible values: `minimizeButton`, `previousButton`, `pageCounter`, `nextButton`, `playPauseButton`, `fullscreenButton`, `infoButton`, `linkOriginalButton`, `closeButton`, `label`, `customN`  
+
+  `minimized` (*string*): list of items to display in the minimized toolbar (comma separated). The order is taken into account.
+    Default value: `'minimizeButton,label'`
+    Possible values: `minimizeButton`, `previousButton`, `pageCounter`, `nextButton`, `playPauseButton`, `fullscreenButton`, `infoButton`, `linkOriginalButton`, `closeButton`, `label`, `customN`
+- **fancyBoxOptions**: options for fancyBox. This will overwrite the default settings.  
+  *object; Default: null*  
+- **fnImgToolbarCustInit**: called once on toolbar building to define the specified custom element.  
+  Parameters: elementName (current custom element name)
+- **fnImgToolbarCustDisplay**: called on each image display. Called once for all image toolbar custom elements.  
+  Parameters: $elements (custom elements), item (thumbnail object), data (public data)
+- **fnImgToolbarCustClick**: fired on click event on one image toolbar custom element.  
+  Parameters: elementName (current custom element name), $element (current custom element), item (thumbnail object), data (public data)
+
+  
+##### Misc
+- image default swipe animation now with requestAnimationFrame
+- changed image counter layout on album thumbnail
+- added a workaround on jQuery JSONP error handling
+- devicePixelRatio now used to determine the size of the image to display (Flickr/Picasa)
+- bugfix label on bottom not displayed in grid layout
+- bugfix breadcrumb broken on navigation level 3
+- bugfix refresh issue in gallery rendering with webkit browser
+- bugfix API options imgtHeight/imgtWidth ignored
+- bugfix #51 - gallery not working after scrolling in mobile phones / swipe issue
+- bugfix sort option titleAsc/titleDesc based on original filename (Picasa/Google+)
+- bugfix scrollbar lost after using fullscreen mode on OS X Maverick
+- bugfix no thumbnail displayed because of conflict between thumbnailHoverEffect and thumbnailLabel.display=false
+
+
+v5.2.0
+------
+
+- Not released due to an incorrect tag previously used in Github
+
+
 v5.1.1
 ------
 

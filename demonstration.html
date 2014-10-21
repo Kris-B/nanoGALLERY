@@ -22,6 +22,7 @@
   <!-- jQuery                                                                                                               -->
   <!--                                                                                                                      -->
   <script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script>
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  -->
   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>  -->
   <!-- #################################################################################################################### -->
 
@@ -69,6 +70,14 @@
   <!-- #################################################################################################################### -->
 
   
+  <!-- #################################################################################################################### -->
+  <!-- fancyBox - Optionnal                                                                                                 -->
+  <!--                                                                                                                      -->
+  <!-- <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" /> -->
+  <!-- <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js?v=2.1.5"></script>  -->
+  <!-- #################################################################################################################### -->
+
+
   <!-- #################################################################################################################### -->
   <!-- velocity animation engine - optionnal - JUST FOR TEST PURPOSES / PLEASE DO NOT USE!!!                                -->
   <!--                                                                                                                      -->
@@ -152,7 +161,7 @@
         alert('Image URL: '+ item.thumbsrc);
       }
 
-			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
+			var t=jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 			items: [
 				{
 					src: 'demonstration/image_01.jpg',		// image url
@@ -187,8 +196,19 @@
         //fnThumbnailHover:myThumbnailHover,
         //fnThumbnailHoverOut:myThumbnailHoverOut,
         theme:'light',
-        fnViewerInfo:myViewerInfo
+        fnViewerInfo:myViewerInfo,
+        viewerToolbar: { standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label,custom1' },
+        fnImgToolbarCustInit: function(elementName) { return('<div>build</div>'); },
+        fnImgToolbarCustDisplay: function($elements, item, data) {
+          $elements.eq(0).html('photo ID: '+item.GetID());
+        },
+        fnImgToolbarCustClick: function(elementName, $element, item, data) {
+          alert(elementName);
+        },
+        viewer:'fancybox'
 			});
+      //t.nanoGallery.TEST();
+      ///console.dir(t.nanoGallery);
 
       
       // ##################################################################################################################
@@ -240,10 +260,10 @@
 			// ##### Sample3 - Picasa/Google+ #####
       // ##################################################################################################################
 			jQuery("#nanoGallery3").nanoGallery({
-        //thumbnailWidth:'auto', thumbnailHeight:200,
+        thumbnailWidth:200, thumbnailHeight:200,
 
-        thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
-        thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
+//        thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
+//        thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
 
         userID: '111186676244625461692',
         //userID:'103482106723589181634', // --> Cyrilic
@@ -256,9 +276,9 @@
         albumSorting: 'random',
         colorScheme: myColorScheme,
         galleryFullpageButton: true,
-        //thumbnailLabel:{title:'%filenameNoExt', itemsCount:'title'},
+        thumbnailLabel:{title:'%filenameNoExt', itemsCount:'title'},
         viewerDisplayLogo: true,
-        photoSorting: 'titleAsc',
+        photoSorting: 'titleDesc',
   			thumbnailHoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
 				//thumbnailHoverEffect: [{'name':'imageScaleIn80','duration':300},{'name':'borderLighter'}]
 			});
@@ -268,7 +288,7 @@
 			// ##### Sample3a - Picasa/Google+ #####
       // ##################################################################################################################
       jQuery("#nanoGallery3a").nanoGallery({
-        thumbnailWidth:200, thumbnailHeight:100,
+        thumbnailWidth:200, thumbnailHeight:150,
         userID:'111186676244625461692',
         kind:'picasa',
 				//maxItemsPerLine:3,
@@ -344,75 +364,102 @@
 					src: 'demonstration/image_01.jpg',		// image url
 					srct: 'demonstration/image_01ts.jpg',	// thumbnail url
 					title: 'image 01', 						        // thumbnail title
-					ID:101
+					ID:2
 				},
 				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 02',
-					ID:102 },
+					ID:3 },
 				{ src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 1',
 					ID:103,	kind:'album' },
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 2',
 					ID:104,	kind:'album' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 03' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 04' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 05' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 06' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 07' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 08' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 09' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 10' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 10' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 11' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 12' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 13' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 14' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 15' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 16' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 17' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 18' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 19' },
-				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 20' },
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'album 3',
+					ID:105, albumID:103,	kind:'album' },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 03',
+          ID:4 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 04',
+          ID:5 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 05',
+          ID:6 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 06',
+          ID:7 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 07',
+          ID:8 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 08',
+          ID:9 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 09',
+          ID:10 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 10',
+          ID:11 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 10',
+          ID:12 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 11',
+          ID:13 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 12',
+          ID:14 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 13',
+          ID:15 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 14',
+          ID:16 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 15',
+          ID:17 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 16',
+          ID:18 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 17',
+          ID:19 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 18',
+          ID:20 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 19',
+          ID:21 },
+				{ src: 'demonstration/image_02.jpg', srct: 'demonstration/image_02ts.jpg', title: 'image 20',
+          ID:22 },
 				{ src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1a',
-					albumID:103	},
+					ID:23, albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1b',
-					albumID:103	},
+					ID:24, albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1c',
-					albumID:103	},
+					ID:25, albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1d',
-					albumID:103	},
+					ID:26, albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1e',
-					albumID:103 },
+					ID:27, albumID:103 },
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 1f',
-					albumID:103	},
+					ID:28, albumID:103	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2a',
-					albumID:104	},
+					ID:29, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2b',
-					albumID:104	},
+					ID:30, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2c',
-					albumID:104	},
+					ID:31, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2d',
-					albumID:104	},
+					ID:32, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2e',
-					albumID:104	},
+					ID:33, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2f',
-					albumID:104	},
+					ID:34, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2g',
-					albumID:104	},
+					ID:35, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2h',
-					albumID:104	},
+					ID:36, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2i',
-					albumID:104	},
+					ID:37, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2j',
-					albumID:104	},
+					ID:38, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2k',
-					albumID:104	},
+					ID:39, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2l',
-					albumID:104	},
+					ID:40, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2m',
-					albumID:104	},
+					ID:41, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2n',
-					albumID:104	},
+					ID:42, albumID:104	},
 				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2o',
-					albumID:104	}
+					ID:43, albumID:104	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2n',
+					ID:44, albumID:105	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2n',
+					ID:45, albumID:105	},
+				{	src: 'demonstration/image_03.jpg', srct: 'demonstration/image_03ts.jpg', title: 'image 2o',
+					ID:46, albumID:105	}
         ];
 			
 			jQuery("#nanoGalleryMLN").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
