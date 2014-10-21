@@ -73,7 +73,7 @@ $(document).ready(function () {
 ### License
 
 nanoGALLERY is licensed under [CC BY-NC 3.0](http://creativecommons.org/licenses/by-nc/3.0/).  
-Only for personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.
+Only for personal, non-profit organizations, or open source projects (without any kind of fee), you may use nanoGALLERY for free.
 
 
 
