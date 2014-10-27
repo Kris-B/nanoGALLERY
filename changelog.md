@@ -4,6 +4,16 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.2.2
+------
+
+- bugfix thumbnails not displayed when thumbnailWidth='auto' and gallery is outside the viewport
+- bugfix #53 scrollbar not enabled back after closing image in some cases
+- bugfix image toolbar - info button not displayed when fnViewerInfo defined
+- bugfix incorrect image position after swipe when imageTransition='slideAppear'
+
+
+
 v5.2.1
 ------
 

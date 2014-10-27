@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.2.1
+ * @preserve nanoGALLERY v5.2.2
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -20,53 +20,13 @@
  
 /*
 
-nanoGALLERY v5.2.1 release notes.
+nanoGALLERY v5.2.2 release notes.
 
-##### New features
-- support right-to-Left display direction (RTL)
-- customize image toolbar (content and order)
-- added partial support for IE8 (update warning displayed on IE7/6)
-- direct link to the Flickr/Google+ image page
-- fancyBox custom settings
-- CSS files: additional versions with embedded WOFF icons font (to avoid same origin policy issues)
-
-
-##### New options
-- **RTL**: display direction from right to left.  
-  *boolean; Default: false*  
-- **viewerToolbar**: new display options for the image toolbar:  
-  `display` (*boolean; Default: `false`*): display or hide the toolbar.  
-
-  `standard` (*string;*): list of items to display in the standard toolbar (comma separated). The order is taken into account.
-    Default value: `'minimizeButton,previousButton,pageCounter,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label'`
-    Possible values: `minimizeButton`, `previousButton`, `pageCounter`, `nextButton`, `playPauseButton`, `fullscreenButton`, `infoButton`, `linkOriginalButton`, `closeButton`, `label`, `customN`  
-
-  `minimized` (*string*): list of items to display in the minimized toolbar (comma separated). The order is taken into account.
-    Default value: `'minimizeButton,label'`
-    Possible values: `minimizeButton`, `previousButton`, `pageCounter`, `nextButton`, `playPauseButton`, `fullscreenButton`, `infoButton`, `linkOriginalButton`, `closeButton`, `label`, `customN`
-- **fancyBoxOptions**: options for fancyBox. This will overwrite the default settings.  
-  *object; Default: null*  
-- **fnImgToolbarCustInit**: called once on toolbar building to define the specified custom element.  
-  Parameters: elementName (current custom element name)
-- **fnImgToolbarCustDisplay**: called on each image display. Called once for all image toolbar custom elements.  
-  Parameters: $elements (custom elements), item (thumbnail object), data (public data)
-- **fnImgToolbarCustClick**: fired on click event on one image toolbar custom element.  
-  Parameters: elementName (current custom element name), $element (current custom element), item (thumbnail object), data (public data)
-
-  
 ##### Misc
-- image default swipe animation now with requestAnimationFrame
-- changed image counter layout on album thumbnail
-- added a workaround on jQuery JSONP error handling
-- devicePixelRatio now used to determine the size of the image to display (Flickr/Picasa)
-- bugfix label on bottom not displayed in grid layout
-- bugfix breadcrumb broken on navigation level 3
-- bugfix refresh issue in gallery rendering with webkit browser
-- bugfix API options imgtHeight/imgtWidth ignored
-- bugfix #51 - gallery not working after scrolling in mobile phones / swipe issue
-- bugfix sort option titleAsc/titleDesc based on original filename (Picasa/Google+)
-- bugfix scrollbar lost after using fullscreen mode on OS X Maverick
-- bugfix no thumbnail displayed because of conflict between thumbnailHoverEffect and thumbnailLabel.display=false
+- bugfix thumbnails not displayed when thumbnailWidth='auto' and gallery is outside the viewport
+- bugfix #53 scrollbar not enabled back after closing image in some cases
+- bugfix image toolbar - info button not displayed when fnViewerInfo defined
+- bugfix incorrect image position after swipe when imageTransition='slideAppear'
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
@@ -623,6 +583,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
     
     g_bodyOverflowInitial=jQuery('body').css('overflow');
 
+
     //    [TODO] deep linking support only once per page
     //    if( gO.locationHash ) {
     //      alert(location.hash);
@@ -1046,6 +1007,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
       $gE.conNavBFullpage.on('click', function(e){
         if( $gE.conNavBFullpage.hasClass('setFullPageButton') ) {
           // switch to fullpage display mode
+          if( g_containerViewerDisplayed ) { return; }
           if( gO.maxWidth > 0 ) { 
             jQuery($gE.base).css({'maxWidth':''});
           }
@@ -1057,6 +1019,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
         }
         else {
           // switch off fullpage mode
+          if( g_containerViewerDisplayed ) { return; }
           $gE.conNavBFullpage.removeClass('removeFullPageButton').addClass('setFullPageButton');
           if( gO.maxWidth > 0 ) {
             jQuery($gE.base).css({'maxWidth':gO.maxWidth});
@@ -4108,7 +4071,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
 
       if( idx < l ) {
         //setGalleryToolbarWidth(pageNumber);
-        setTimeout(arguments.callee,0);
+        setTimeout(arguments.callee,2);
       }
       else {
         onComplete(albumIdx, pageNumber);
@@ -4144,27 +4107,24 @@ this.thumbImgHeight = 0;           // thumbnail image height
     // newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer nanogalleryHideElement" style="display:inline-block,opacity:'+eltOpacity+'" ><div class="subcontainer" style="display: inline-block">';
     newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer'+ch+'" style="display:block;opacity:0;'+pos+'" ><div class="subcontainer" style="display:block;">';
     
-    var src=g_emptyGif;
-    if( !gO.thumbnailLazyLoad ) {
+    var checkImageSize=false,
+    src=g_emptyGif;
+    if( (SettingsGetTnHeight() == 'auto' && gI[idx].thumbImg().height == 0) || (SettingsGetTnWidth() == 'auto' && gI[idx].thumbImg().width == 0) ) { checkImageSize=true; }
+    if( !gO.thumbnailLazyLoad || checkImageSize) {
       src=item.thumbImg().src;
     }
-
+    
     var sTitle=getThumbnailTitle(item),
     sDesc=getTumbnailDescription(item);
     
-    var checkImageSize=false;
     if( SettingsGetTnHeight() == 'auto' ) {
       newElt[newEltIdx++]='<div class="imgContainer" style="width:'+SettingsGetTnWidth()+'px;"><img class="image" src='+src+' alt=" " style="max-width:'+SettingsGetTnWidth()+'px;"></div>';
-      if( gI[idx].thumbImg().height == 0 ) { checkImageSize=true; }
     }
     else if( SettingsGetTnWidth() == 'auto' ) {
-        // newElt[newEltIdx++]='<div class="imgContainer" style="height:'+gO.thumbnailHeight+'px;"><img class="image" src='+src+' alt=" " style="height:'+gO.thumbnailHeight+'px;" ></div>';
         newElt[newEltIdx++]='<div class="imgContainer" style="height:'+SettingsGetTnHeight()+'px;"><img class="image" src='+src+' alt=" " style="max-height:'+SettingsGetTnHeight()+'px;" ></div>';
-        if( gI[idx].thumbImg().width == 0 ) { checkImageSize=true; }
       }
       else {
         newElt[newEltIdx++]='<div class="imgContainer" style="width:'+SettingsGetTnWidth()+'px;height:'+SettingsGetTnHeight()+'px;"><img class="image" src='+src+' alt=" " style="max-width:'+SettingsGetTnWidth()+'px;max-height:'+SettingsGetTnHeight()+'px;" ></div>';
-//        newElt[newEltIdx++]='<div class="imgContainer" style="width:'+gO.thumbnailWidth+'px;height:'+gO.thumbnailHeight+'px;"><img class="image" src='+src+' alt=" " style="max-width:100%;max-height:100%;" ></div>';
       }
 
     if( item.kind == 'album' ) {
@@ -4214,7 +4174,8 @@ this.thumbImgHeight = 0;           // thumbnail image height
       gi_imgLoad.on( 'always', function( instance ) {
       //$newDiv.ngimagesLoaded().always( function( instance ) {
         var item=gI[jQuery(instance.images[0].img).data('index')];
-        if( item == undefined || jQuery(instance.images[0].img).attr('src') == g_emptyGif ) { return; }    // also fired for blank image --> ignore
+        // if( item == undefined || jQuery(instance.images[0].img).attr('src') == g_emptyGif ) { return; }    // also fired for blank image --> ignore
+        if( item == undefined || instance.images[0].img.src == g_emptyGif ) { return; }    // also fired for blank image --> ignore
         var b=false;
         if( item.thumbImg().height != instance.images[0].img.naturalHeight ) {
           item.thumbSetImgHeight(instance.images[0].img.naturalHeight);
@@ -6232,7 +6193,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
         }
         break;
       case 'infoButton':
-        if( gO.fnViewerInfo == 'function' ) {
+        if( typeof gO.fnViewerInfo == 'function' ) {
           r='<div class="ngbt infoButton"></div>';
         }
         break;
@@ -6472,14 +6433,13 @@ this.thumbImgHeight = 0;           // thumbnail image height
     this.removeEventListeners = function() {
       // we need to remove all the event listeners (becauase of an issue with the close button)
       if (window.navigator.msPointerEnabled) {
-        elementToSwipe.removeEventListener('MSPointerDown', this.handleGestureStart, true);
+        elementToSwipe.removeEventListener('MSPointerDown', handleGestureStart, true);
         document.removeEventListener('MSPointerMove', handleGestureMove, true);
         document.removeEventListener('MSPointerUp', handleGestureEnd, true);
       }
       else {
-        console.dir(this.handleGestureStart);
-      // Remove Touch Listeners
-        elementToSwipe.removeEventListener('touchstart', this.handleGestureStart, true);
+        // Remove Touch Listeners
+        elementToSwipe.removeEventListener('touchstart', handleGestureStart, true);
         document.removeEventListener('touchmove', handleGestureMove, true);
         document.removeEventListener('touchend', handleGestureEnd, true);
         document.removeEventListener('touchcancel', handleGestureEnd, true);
@@ -6692,9 +6652,11 @@ this.thumbImgHeight = 0;           // thumbnail image height
       // first image --> just appear / no animation
       $gE.vwImgC.css({ opacity:0, left:0, visibility: 'visible'}).attr('src',g_emptyGif).attr('src',gI[imageIdx].responsiveURL());
 
+      /*
       if( gO.enableElevatezoom && toType(jQuery().elevateZoom) == 'function' ) {
         $gE.vwImgC.attr('data-zoom-image',gI[imageIdx].responsiveURL());
       }
+      */
 
       jQuery.when(
         $gE.vwImgC.animate({ opacity: 1 }, 300)
@@ -6796,6 +6758,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
             $gE.vwImgC.animate({ left: dir, opacity: 0 }, 500), 
             $new.animate({ opacity: 1 }, 300)
           ).done(function () {
+            ImageSwipeTranslateX(0);
             DisplayInternalViewerComplete(imageIdx, displayType);
           });
           break;
@@ -7069,9 +7032,8 @@ this.thumbImgHeight = 0;           // thumbnail image height
       if( g_viewerIsFullscreen ) {
         ViewerFullscreenToggle();
       }
-      g_containerViewerDisplayed=false;
 
-      if( gO.galleryFullpageButton && !$gE.base.hasClass('fullpage') ) {      // avoid displaying scrollbar when gallery is in fullpage mode
+      if( !(gO.galleryFullpageButton && $gE.base.hasClass('fullpage')) ) {      // avoid displaying scrollbar when gallery is in fullpage mode
         ScrollbarSetVisible();
       }
       
@@ -7091,6 +7053,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
         ThumbnailHoverOutAll();
       }
       g_timeImgChanged=new Date().getTime();
+      g_containerViewerDisplayed=false;
     }
   };
   
