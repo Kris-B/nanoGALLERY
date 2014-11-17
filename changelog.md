@@ -4,6 +4,24 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.2.3
+------
+
+##### New options
+- **picasaUseUrlCrossDomain**: access Picasa/Google+ using the cross domain URL instead of the standard one.
+  *boolean; Default: true*  
+- **supportIE8**: enable IE8 support.
+  *boolean; Default: true*  
+
+##### Misc
+- bugfix #53 (Chrome browser) scrollbar not enabled back after closing an image displayed in fullscreen
+- bugfix hover out thumbnail animation not triggered
+- bugfix image URL with spaces not supported
+- bugfix imageTransition:'fade' not working
+- bugfix #58 pagination issue when only used on second level
+
+
+
 v5.2.2
 ------
 

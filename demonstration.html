@@ -10,6 +10,7 @@
 	</style>
 
   
+  
   <!-- nanoGALLERY                                                                                                          -->
   <!-- Plugin for jQuery by Christophe Brisbois                                                                             -->
   <!-- Demo & doc: http://nanogallery.brisbois.fr                                                                           -->
@@ -180,12 +181,9 @@
 					description_FR : 'description image 2 (fr)'
 				},
 				{
-					src: 'demonstration/image_03.jpg',
-					srct: 'demonstration/image_03t.jpg',
-					title: 'image 3' ,
-					//title: 'image 3 - The quick brown fox jumps over the lazy dog - The quick brown fox jumps over the lazy dog',
-					title_FR: 'image 3 (fr)',
-					description_FR : 'description image 3 (fr)'
+					src: 'demonstration//2_Lübeck_Holstentor.jpg',
+					srct: 'demonstration//2_Lübeck_Holstentor_t.jpg',
+					title: '2_Lübeck_Holstentor.jpg'
 				}
 				],
 				thumbnailHoverEffect:[{name:'imageScaleIn80'},{'name':'descriptionAppear','delay':300},{'name':'borderLighter'}],				
@@ -196,6 +194,7 @@
         //fnThumbnailHover:myThumbnailHover,
         //fnThumbnailHoverOut:myThumbnailHoverOut,
         theme:'light',
+        imageTransition: 'fade' ,
         fnViewerInfo:myViewerInfo,
         viewerToolbar: { standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label,custom1' },
         fnImgToolbarCustInit: function(elementName) { return('<div>build</div>'); },
@@ -236,7 +235,7 @@
 				theme:'clean',
 				thumbnailHoverEffect:{'name':'imageFlipHorizontal','duration':500},
 				useTags:false,
-        viewerDisplayLogo:true,
+        viewerDisplayLogo:false,
         theme:'clean',
         i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
 				thumbnailLabel:{display:true,position:'overImageOnMiddle', align:'center'},
@@ -260,10 +259,10 @@
 			// ##### Sample3 - Picasa/Google+ #####
       // ##################################################################################################################
 			jQuery("#nanoGallery3").nanoGallery({
-        thumbnailWidth:200, thumbnailHeight:200,
+//        thumbnailWidth:200, thumbnailHeight:200,
 
-//        thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
-//        thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
+        thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
+        thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
 
         userID: '111186676244625461692',
         //userID:'103482106723589181634', // --> Cyrilic

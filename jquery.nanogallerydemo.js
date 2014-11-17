@@ -10,7 +10,7 @@
 // ##### nanoGALLERY DEMO PANEL #####
 // ##################################
  
-  
+
 // jQuery plugin - nanoGALLERY DEMO PANEL
 (function( $ ) {
   jQuery.fn.nanoGalleryDemo = function(options) {
@@ -29,6 +29,7 @@
       whiteList : '',
       albumList : '',
       RTL : false,
+      picasaUseUrlCrossDomain : true,
       galleryToolbarWidthAligned : true,
       galleryToolbarHideIcons : false,
       galleryFullpageButton : false,
