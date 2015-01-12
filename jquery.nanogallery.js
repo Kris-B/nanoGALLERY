@@ -24,18 +24,18 @@
 nanoGALLERY v5.3.0 release notes.
 
 ##### New feature
-- PHP extension to publish dynamically self-hosted pictures to the gallery (see https://github.com/Kris-B/nanoPhotosProvider)
+- PHP extension to publish dynamically self-hosted pictures to the gallery (see https://github.com/Kris-B/nanoPhotosProvider)  
 
 ##### New options
-- **kind**: new possible value `json` for self-hosted photos (see https://github.com/Kris-B/nanoPhotosProvider)
-- **jsonProvider**: set URL to the nanoPhotosProvider extension (see https://github.com/Kris-B/nanoPhotosProvider)
+- **kind**: new possible value `json` for self-hosted photos (see https://github.com/Kris-B/nanoPhotosProvider)  
+- **jsonProvider**: set URL to the nanoPhotosProvider extension (see https://github.com/Kris-B/nanoPhotosProvider)  
   *string; Default: ''*  
-- **jsonCharset**: set the string charset for json data. Possible values: `Latin`, `UTF-8)
+- **jsonCharset**: set the string charset for json data. Possible values: `Latin`, `UTF-8`  
   *string; Default: 'Latin'*  
 
 ##### Misc
-- request #63: added Bower support
-- added npm support
+- request #63: added Bower support  
+- added npm support  
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
