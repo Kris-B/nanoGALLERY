@@ -28,7 +28,22 @@ Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nano
 <img src="/doc/nanogallery_screenshot.png?raw=true" alt="Screenshot1" style="max-width:400px;"/>
 <img src="/doc/nanoGALLERY4_screenshot7.png?raw=true" alt="Screenshot2" style="max-width:400px;"/>
 <img src="/doc/nanoGALLERY4_screenshot1a.png?raw=true" alt="Screenshot3" style="max-width:400px;"/>
-  
+
+### Bower
+
+You can install nanoGALLERY using the [Bower](http://bower.io) package manager.
+
+```sh
+$ bower install nanogallery
+```
+
+### npm
+
+You can also install nanoGALLERY with [npm](http://npmjs.org).
+
+```sh
+$ npm install nanogallery
+```  
   
 ### Usage example with images from a Flickr account
 
