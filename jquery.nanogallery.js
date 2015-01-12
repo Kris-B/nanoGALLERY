@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.2.3
+ * @preserve nanoGALLERY v5.3.0
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -21,20 +21,22 @@
 
 /*
 
-nanoGALLERY v5.2.3 release notes.
+nanoGALLERY v5.3.0 release notes.
 
-##### New features
-- **picasaUseUrlCrossDomain**: access Picasa/Google+ using the cross domain URL instead of the standard one.
-  *boolean; Default: true*  
-- **supportIE8**: enable IE8 support.
-  *boolean; Default: true*  
+##### New feature
+- PHP extension to publish dynamically self-hosted pictures to the gallery (see https://github.com/Kris-B/nanoPhotosProvider)
+
+##### New options
+- **kind**: new possible value `json` for self-hosted photos (see https://github.com/Kris-B/nanoPhotosProvider)
+- **jsonProvider**: set URL to the nanoPhotosProvider extension (see https://github.com/Kris-B/nanoPhotosProvider)
+  *string; Default: ''*  
+- **jsonCharset**: set the string charset for json data. Possible values: `Latin`, `UTF-8)
+  *string; Default: 'Latin'*  
 
 ##### Misc
-- bugfix #53 (Chrome browser) scrollbar not enabled back after closing an image displayed in fullscreen
-- bugfix hover out thumbnail animation not triggered
-- bugfix image URL with spaces not supported
-- bugfix imageTransition:'fade' not working
-- bugfix #58 pagination issue when only used on second level
+- request #63: added Bower support
+- added npm support
+
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -72,6 +74,8 @@ nanoGALLERY v5.2.3 release notes.
       colorSchemeViewer : 'default',
       items : null,
       itemsBaseURL : '',
+      jsonCharset: 'Latin',
+      jsonProvider: '',
       paginationMaxLinesPerPage : 0,
       maxWidth : 0,
       viewer : 'internal',
@@ -959,7 +963,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
       // CUSTOM STORAGE
       case 'json':
         NGAddItem(g_i18nTranslations.breadcrumbHome, '', '', '', '', 'album', '', '0', '-1' );
-        CustomProcessItems(0,true,-1,false);
+        JsonProcessItems(0,true,-1,false);
         break;
 
 
@@ -2270,7 +2274,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
   // ##### CUSTOM STORAGE #####
   // ##########################
 
-  function CustomProcessItems( albumIdx, processLocationHash, imageID, setLocationHash) {
+  function JsonProcessItems( albumIdx, processLocationHash, imageID, setLocationHash) {
 
     manageGalleryToolbar(albumIdx);
   
@@ -2279,7 +2283,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
       return;
     }
 
-    var url = gO.customSourceProvider + '?albumID='+encodeURIComponent(gI[albumIdx].GetID());
+    var url = gO.jsonProvider + '?albumID='+encodeURIComponent(gI[albumIdx].GetID());
     PreloaderShow();
 
     jQuery.ajaxSetup({ cache: false });
@@ -2294,7 +2298,8 @@ this.thumbImgHeight = 0;           // thumbnail image height
       clearTimeout(tId);
       PreloaderHide();
 
-      CustomParseData(albumIdx, data);
+      JsonParseData(albumIdx, data);
+
       if( processLocationHash ) {
         if( !ProcessLocationHash(false) ) {
           DisplayAlbum(albumIdx,setLocationHash);
@@ -2321,34 +2326,41 @@ this.thumbImgHeight = 0;           // thumbnail image height
       clearTimeout(tId);
       PreloaderHide();
       var err = textStatus + ', ' + error;
-      nanoAlert("Could not retrieve Custom items list (jQuery): " + err);
+      nanoAlert("Could not retrieve JSON items list (jQuery): " + err);
     });
   
   }
 
-  function CustomParseData(albumIdx, data) {
+  function JsonConvertCharset( str ) {
+    // Pb %C3%A9 --> %E9
+    // in UTF-8: \u00e9=\xe9 (e9 = hex value)
+    switch( gO.jsonCharset.toUpperCase() ) {
+      case 'UTF-8':     // Apache Windows
+        return decodeURI(str);      // do not use decodeURIComponent (would convert slash also)
+        break;
+      case 'Latin':     // Apache Linux
+      default :
+        return escape(str);
+        break;
+    }
+  }
+  
+  function JsonParseData(albumIdx, data) {
     var foundAlbumID=false;
-   
     var nb=0;
     jQuery.each(data, function(i,item){
       
       var title='';
       title=GetI18nItem(item,'title');
       if( title === undefined ) { title=''; }
-//      title=decodeURIComponent(title);
+
+      var baseURL=gO.jsonProvider.substring(0, gO.jsonProvider.indexOf('nanoPhotosProvider.php'));
       
-      var src=gO.itemsBaseURL+item.src;
-      src=src.replaceAll('%2F', '/');
-      // var thumbsrc=decodeURIComponent(gO.itemsBaseURL+item.srct);
-      // var thumbsrc=gO.itemsBaseURL+decodeURIComponent(item.srct);
-      // var thumbsrc=decodeURI(gO.itemsBaseURL+item.srct);
-      var thumbsrc=gO.itemsBaseURL+item.srct;
-       // thumbsrc=thumbsrc.replaceAll('é', '%E9');
-       // thumbsrc=thumbsrc.replaceAll('%C3%A9', '%E9');
-      // thumbsrc=thumbsrc.replaceAll('+', '%20');
-      thumbsrc=thumbsrc.replaceAll('%2F', '/');
+      var src=baseURL+JsonConvertCharset(item.src);
+      var thumbsrc=baseURL+JsonConvertCharset(item.srct);
+
       if( gO.thumbnailLabel.title != '' ) {
-        title=GetImageTitle(src);
+        title=GetImageTitle((item.src));
       }
 
       var description='';     //'&nbsp;';
@@ -2356,18 +2368,15 @@ this.thumbImgHeight = 0;           // thumbnail image height
       if( description === undefined ) { description=''; }
 
       var destinationURL='';
-      if( item.destURL !== undefined && item.destURL.length>0 ) {
-        destinationURL=item.destURL;
-      }
 
       var albumID=0;
       if( item.albumID !== undefined  ) {
-        albumID=item.albumID;
+        albumID=(item.albumID);
         foundAlbumID=true;
       }
       var ID=null;
       if( item.ID !== undefined ) {
-        ID=item.ID;
+        ID=(item.ID);
       }
       
       var kind='image';
@@ -3388,7 +3397,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
         FlickrProcessItems(albumIdx, processLocationHash, imageID, setLocationHash);
         break;
       case 'json':
-        CustomProcessItems(albumIdx, processLocationHash, imageID, setLocationHash);
+        JsonProcessItems(albumIdx, processLocationHash, imageID, setLocationHash);
         break;
       case 'picasa':
       default:
@@ -6750,7 +6759,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
           var $new=(displayType == 'nextImage' ? $gE.vwImgN : $gE.vwImgP);
           $new.css({ opacity:0, left:0, visibility:'visible'});
           jQuery.when(
-            $gE.vwImgC.animate({ opacity: 0 }, 500), 
+            $gE.vwImgC.animate({ opacity: 0 }, 300), 
             $new.animate({ opacity: 1 }, 300)
           ).done(function () {
             DisplayInternalViewerComplete(imageIdx, displayType);
@@ -6869,10 +6878,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
     $gE.vwImgC.addClass('imgCurrent');
     
     $gE.vwImgN.css({ opacity:0, left:0, visibility:'hidden' }).attr('src',g_emptyGif).attr('src',gI[GetNextImageIdx(imageIdx)].responsiveURL());
-    //$gE.vwImgN.css({'opacity':0, 'right':'0', 'left':'0', visibility: 'hidden'}).attr('src',gI[GetNextImageIdx(imageIdx)].responsiveURL());
     $gE.vwImgP.css({ opacity:0, left:0, visibility:'hidden'}).attr('src',g_emptyGif).attr('src',gI[GetPreviousImageIdx(imageIdx)].responsiveURL());
-    //$gE.vwImgP.css({'opacity':0, 'right':'0', 'left':'0', visibility: 'hidden'}).attr('src',gI[GetPreviousImageIdx(imageIdx)].responsiveURL());
-
 
     $gE.vwImgC.on("click",function(e){
       e.stopPropagation();
@@ -9266,20 +9272,6 @@ function makeArray( obj ) {
 		window.ngscreenfull = ngscreenfull;
 	}
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //}( jQuery ));

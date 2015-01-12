@@ -1,0 +1,29 @@
+{
+  "name": "nanogallery",
+  "version": "5.3.0",
+  "description": "image gallery simplified - jQuery plugin",
+  "main": "jquery.nanogallery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Kris-B/nanoGALLERY.git"
+  },
+  "keywords": [
+    "image",
+    "gallery",
+    "photo",
+    "photoset",
+    "slideshow",
+    "flickr",
+    "googleplus",
+    "picasa",
+    "swipe",
+    "responsive",
+    "RTL",
+    "jquery-plugin"
+  ],
+  "author": "Christophe Brisbois",
+  "license": "CC BY-NC 3.0"
+}
