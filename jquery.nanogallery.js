@@ -50,120 +50,128 @@ nanoGALLERY v5.3.0 release notes.
 ;(function ($) {
   var nO=null;
 
-  jQuery.fn.nanoGallery = function (options) {
-    var settings = $.extend(true, {
-      // default settings
-      userID : '',
-      kind : '',
-      album : '',
-      photoset : '',
-      blackList : 'scrapbook|profil',
-      whiteList : '',
-      albumList : '',
-      RTL : false,
-      picasaUseUrlCrossDomain : true,
-      galleryToolbarWidthAligned : true,
-      galleryToolbarHideIcons : false,
-      galleryFullpageButton : false,
-      galleryFullpageBgColor : '#111',
-      galleryRenderStep : 10,
-      breadcrumbAutoHideTopLevel : false,
-      displayBreadcrumb : false,
-      theme : 'default',
-      colorScheme : 'none',
-      colorSchemeViewer : 'default',
-      items : null,
-      itemsBaseURL : '',
-      jsonCharset: 'Latin',
-      jsonProvider: '',
-      paginationMaxLinesPerPage : 0,
-      maxWidth : 0,
-      viewer : 'internal',
-      fancyBoxOptions : null,
-      viewerDisplayLogo : false,
-      imageTransition : 'slide',
-      viewerToolbar : { display:true, position : 'bottom', style : 'innerImage', autoMinimize:800,
-          standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label',
-          minimized:'minimizeButton,label'  
-        },
-      thumbnailAlignment : 'center',
-      thumbnailWidth : 230,
-      thumbnailHeight : 154,
-      thumbnailGutterWidth : 2,
-      thumbnailGutterHeight : 2,
-      thumbnailAdjustLastRowHeight : true,
-      thumbnailFeatured : false,
-      thumbnailHoverEffect : null,
-      thumbnailLabel : {position : 'overImageOnBottom', display : true, displayDescription : true, titleMaxLength : 0, descriptionMaxLength : 0, hideIcons : false, title : '', itemsCount : '' },
-      thumbnailDisplayInterval : 30,
-      thumbnailDisplayTransition : true,
-      thumbnailLazyLoad : false,
-      thumbnailLazyLoadTreshold : 100,
-      thumbnailGlobalImageTitle : '',
-      thumbnailGlobalAlbumTitle : '',
-      thumbnailSizeSM : 480,
-      thumbnailSizeME : 992,
-      thumbnailSizeLA : 1200,
-      thumbnailSizeXL : 1800,
-      fnThumbnailInit : null,
-      fnThumbnailHoverInit : null,
-      fnThumbnailHoverResize : null,
-      fnThumbnailHover : null,
-      fnThumbnailHoverOut : null,
-      fnThumbnailDisplayEffect : null,
-      fnViewerInfo : null,
-      fnImgToolbarCustInit : null,
-      fnImgToolbarCustDisplay : null,
-      fnImgToolbarCustClick : null,
-      fnProcessData : null,
-      touchAnimation : true,
-      touchAutoOpenDelay : 0,
-      useTags : false,
-      preset : 'none',
-      locationHash : false,
-      slideshowDelay : 3000,
-      slideshowAutoStart : false,
-      photoSorting : '',
-      albumSorting : '',
-      dataSorting : '',
-      lazyBuild : 'none',
-      lazyBuildTreshold : 150,
-      flickrSkipOriginal : true,
-      i18n : {
-        'breadcrumbHome' : 'Galleries', 'breadcrumbHome_FR' : 'Galeries',
-        'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',
-        'paginationNext' : 'Next', 'paginationNext_FR' : 'Suivant', 'paginationNext_DE' : 'Weiter', 'paginationNext_IT' : 'Avanti',
-        'thumbnailLabelItemsCountPart1' : '', //'| ',
-        'thumbnailLabelItemsCountPart2' : '', //' photos', 'thumbnailLabelItemsCountPart2_DE' : ' Fotos',
-        'thumbnailImageTitle' : '',
-        'thumbnailAlbumTitle' : '',
-        'thumbnailImageDescription' : '',
-        'thumbnailAlbumDescription' : '',
-        'infoBoxPhoto' : 'Photo',
-        'infoBoxDate' : 'Date',
-        'infoBoxAlbum' : 'Album',
-        'infoBoxDimensions' : 'Dimensions',
-        'infoBoxFilename' : 'Filename',
-        'infoBoxFileSize' : 'File size',
-        'infoBoxCamera' : 'Camera',
-        'infoBoxFocalLength' : 'Focal length',
-        'infoBoxExposure' : 'Exposure',
-        'infoBoxFNumber' : 'F Number',
-        'infoBoxISO' : 'ISO',
-        'infoBoxMake' : 'Make',
-        'infoBoxFlash' : 'Flash',
-        'infoBoxViews' : 'Views',
-        'infoBoxComments' : 'Comments'
-      }
-    }, options );
-
-
-    return this.each( function () {
-      // var nanoGALLERY_obj = new nanoGALLERY();
-      nO = new nanoGALLERY();
-      nO.Initiate(this, settings );
-    });
-  };
+  jQuery.fn.nanoGallery = function (args) {
+    if(typeof $(this).data('nanoGallery') === 'undefined'){
+      var settings = $.extend(true, {
+        // default settings
+        userID : '',
+        kind : '',
+        album : '',
+        photoset : '',
+        blackList : 'scrapbook|profil',
+        whiteList : '',
+        albumList : '',
+        RTL : false,
+        picasaUseUrlCrossDomain : true,
+        galleryToolbarWidthAligned : true,
+        galleryToolbarHideIcons : false,
+        galleryFullpageButton : false,
+        galleryFullpageBgColor : '#111',
+        galleryRenderStep : 10,
+        breadcrumbAutoHideTopLevel : false,
+        displayBreadcrumb : false,
+        theme : 'default',
+        colorScheme : 'none',
+        colorSchemeViewer : 'default',
+        items : null,
+        itemsBaseURL : '',
+        jsonCharset: 'Latin',
+        jsonProvider: '',
+        paginationMaxLinesPerPage : 0,
+        maxWidth : 0,
+        viewer : 'internal',
+        fancyBoxOptions : null,
+        viewerDisplayLogo : false,
+        imageTransition : 'slide',
+        viewerToolbar : { display:true, position : 'bottom', style : 'innerImage', autoMinimize:800,
+            standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label',
+            minimized:'minimizeButton,label'  
+          },
+        thumbnailAlignment : 'center',
+        thumbnailWidth : 230,
+        thumbnailHeight : 154,
+        thumbnailGutterWidth : 2,
+        thumbnailGutterHeight : 2,
+        thumbnailAdjustLastRowHeight : true,
+        thumbnailFeatured : false,
+        thumbnailHoverEffect : null,
+        thumbnailLabel : {position : 'overImageOnBottom', display : true, displayDescription : true, titleMaxLength : 0, descriptionMaxLength : 0, hideIcons : false, title : '', itemsCount : '' },
+        thumbnailDisplayInterval : 30,
+        thumbnailDisplayTransition : true,
+        thumbnailLazyLoad : false,
+        thumbnailLazyLoadTreshold : 100,
+        thumbnailGlobalImageTitle : '',
+        thumbnailGlobalAlbumTitle : '',
+        thumbnailSizeSM : 480,
+        thumbnailSizeME : 992,
+        thumbnailSizeLA : 1200,
+        thumbnailSizeXL : 1800,
+        fnThumbnailInit : null,
+        fnThumbnailHoverInit : null,
+        fnThumbnailHoverResize : null,
+        fnThumbnailHover : null,
+        fnThumbnailHoverOut : null,
+        fnThumbnailDisplayEffect : null,
+        fnViewerInfo : null,
+        fnImgToolbarCustInit : null,
+        fnImgToolbarCustDisplay : null,
+        fnImgToolbarCustClick : null,
+        fnProcessData : null,
+        touchAnimation : true,
+        touchAutoOpenDelay : 0,
+        useTags : false,
+        preset : 'none',
+        locationHash : false,
+        slideshowDelay : 3000,
+        slideshowAutoStart : false,
+        photoSorting : '',
+        albumSorting : '',
+        dataSorting : '',
+        lazyBuild : 'none',
+        lazyBuildTreshold : 150,
+        flickrSkipOriginal : true,
+        i18n : {
+          'breadcrumbHome' : 'Galleries', 'breadcrumbHome_FR' : 'Galeries',
+          'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',
+          'paginationNext' : 'Next', 'paginationNext_FR' : 'Suivant', 'paginationNext_DE' : 'Weiter', 'paginationNext_IT' : 'Avanti',
+          'thumbnailLabelItemsCountPart1' : '', //'| ',
+          'thumbnailLabelItemsCountPart2' : '', //' photos', 'thumbnailLabelItemsCountPart2_DE' : ' Fotos',
+          'thumbnailImageTitle' : '',
+          'thumbnailAlbumTitle' : '',
+          'thumbnailImageDescription' : '',
+          'thumbnailAlbumDescription' : '',
+          'infoBoxPhoto' : 'Photo',
+          'infoBoxDate' : 'Date',
+          'infoBoxAlbum' : 'Album',
+          'infoBoxDimensions' : 'Dimensions',
+          'infoBoxFilename' : 'Filename',
+          'infoBoxFileSize' : 'File size',
+          'infoBoxCamera' : 'Camera',
+          'infoBoxFocalLength' : 'Focal length',
+          'infoBoxExposure' : 'Exposure',
+          'infoBoxFNumber' : 'F Number',
+          'infoBoxISO' : 'ISO',
+          'infoBoxMake' : 'Make',
+          'infoBoxFlash' : 'Flash',
+          'infoBoxViews' : 'Views',
+          'infoBoxComments' : 'Comments'
+        }
+      }, args );
+  
+  
+      return this.each( function () {
+        // var nanoGALLERY_obj = new nanoGALLERY();
+        $(this).data('nanoGallery',new nanoGALLERY());
+        $(this).data('nanoGallery').Initiate(this, settings );
+      });
+    }else{
+     switch(args){
+       case 'refresh':
+         return $(this).data('nanoGallery').RefreshJson();
+         break;
+     }
+    } 
+    };
 
   jQuery.fn.nanoGallery.TEST = function() {
     console.dir(nO);
@@ -578,7 +586,15 @@ this.thumbImgHeight = 0;           // thumbnail image height
     return NGItems;
   })();
 
+  // ##########################
+  // #### PUBLIC FUNCTIONS ####
+  // ##########################
   
+  this.RefreshJson = function(){
+    var albumIdx = g_lastOpenAlbumID;
+    g_lastOpenAlbumID = -1;
+    return JsonProcessItems(albumIdx, false, -1, false, true);
+  };
     
   // ##########################
   // ##### INITIALIZATION #####
@@ -2274,11 +2290,11 @@ this.thumbImgHeight = 0;           // thumbnail image height
   // ##### CUSTOM STORAGE #####
   // ##########################
 
-  function JsonProcessItems( albumIdx, processLocationHash, imageID, setLocationHash) {
+  function JsonProcessItems( albumIdx, processLocationHash, imageID, setLocationHash, forceReload) {
 
     manageGalleryToolbar(albumIdx);
   
-    if( gI[albumIdx].contentIsLoaded ) {    // already loaded?
+    if(forceReload !== true && gI[albumIdx].contentIsLoaded ) {    // already loaded?
       DisplayAlbum(albumIdx,setLocationHash);
       return;
     }
@@ -3137,21 +3153,26 @@ this.thumbImgHeight = 0;           // thumbnail image height
   // ################################
   
   function NGAddItem(title, thumbSrc, imageSrc, description, destinationURL, kind, tags, ID, albumID ) {
-    var newObj=new NGItems(title,ID);
-    newObj.thumbsrc=thumbSrc;
-    newObj.src=imageSrc;
-    newObj.description=description;
-    newObj.destinationURL=destinationURL;
-    newObj.kind=kind;
-    newObj.albumID=albumID;
-    if( tags.length == 0 ) {
-      newObj.tags=null;
+    if(GetNGItem(ID) === null){
+      var newObj=new NGItems(title,ID);
+      newObj.thumbsrc=thumbSrc;
+      newObj.src=imageSrc;
+      newObj.description=description;
+      newObj.destinationURL=destinationURL;
+      newObj.kind=kind;
+      newObj.albumID=albumID;
+      if( tags.length == 0 ) {
+        newObj.tags=null;
+      }
+      else {
+        newObj.tags=tags.split(' ');
+      }
+      gI.push(newObj);
+      return newObj;
     }
-    else {
-      newObj.tags=tags.split(' ');
+    else{
+      return GetNGItem(ID);
     }
-    gI.push(newObj);
-    return newObj;
   }
 
   function GetNGItem( ID ) {
