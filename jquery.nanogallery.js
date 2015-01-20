@@ -50,7 +50,38 @@ nanoGALLERY v5.3.0 release notes.
 ;(function ($) {
   var nO=null;
 
-  jQuery.fn.nanoGallery = function (args) {
+/**
+ * Usage
+ * 
+ * Initialization : 
+ * $("#yourElement").nanoGallery({...});
+ * 
+ * Set an option :
+ * $("#yourElement").nanoGallery("option",option_name,new_value);
+ * 
+ * Get an option :
+ * $("#yourElement").nanoGallery("option",option_name);
+ * 
+ * Get an item :
+ * $("#yourElement").nanoGallery("getItem",item_index);
+ * 
+ * Get every items :
+ * $("#yourElement").nanoGallery("getItems");
+ * 
+ * Get the indexes of some items :
+ * $("#yourElement").nanoGallery("getItemsIndex",[item1, item2, item3, ...]);
+ * 
+ * Select some items : 
+ * $("#yourElement").nanoGallery("selectItems",[item1, item2, item3, ...]);
+ * 
+ * Unselect some items : 
+ * $("#yourElement").nanoGallery("unselectItems",[item1, item2, item3, ...]);
+ * 
+ * List selected items : 
+ * $("#yourElement").nanoGallery("getSelectedItems");
+ * 
+ */
+  jQuery.fn.nanoGallery = function (args, option, value) {
     if(typeof $(this).data('nanoGallery') === 'undefined'){
       var settings = $.extend(true, {
         // default settings
@@ -75,6 +106,7 @@ nanoGALLERY v5.3.0 release notes.
         colorSchemeViewer : 'default',
         items : null,
         itemsBaseURL : '',
+        itemsSelectable : false,
         jsonCharset: 'Latin',
         jsonProvider: '',
         paginationMaxLinesPerPage : 0,
@@ -111,6 +143,7 @@ nanoGALLERY v5.3.0 release notes.
         fnThumbnailHoverResize : null,
         fnThumbnailHover : null,
         fnThumbnailHoverOut : null,
+        fnThumbnailSelection : null,
         fnThumbnailDisplayEffect : null,
         fnViewerInfo : null,
         fnImgToolbarCustInit : null,
@@ -159,19 +192,42 @@ nanoGALLERY v5.3.0 release notes.
       }, args );
   
   
-      return this.each( function () {
+      this.each( function () {
         // var nanoGALLERY_obj = new nanoGALLERY();
         $(this).data('nanoGallery',new nanoGALLERY());
         $(this).data('nanoGallery').Initiate(this, settings );
       });
+      return $(this);
     }else{
-     switch(args){
-       case 'refresh':
-         return $(this).data('nanoGallery').RefreshJson();
-         break;
-     }
+      switch(args){
+        case 'reload':
+          $(this).data('nanoGallery').ReloadJson();
+          return $(this);
+        case 'getSelectedItems':
+          return $(this).data('nanoGallery').GetSelectedItems();
+        case 'selectItems':
+          $(this).data('nanoGallery').SetSelectedItems(option);
+          break;
+        case 'unselectItems':
+          $(this).data('nanoGallery').SetUnselectedItems(option);
+          break;
+        case 'getItem':
+          return $(this).data('nanoGallery').GetItem(option);
+        case 'getItems':
+          return $(this).data('nanoGallery').GetItems();
+        case 'getItemsIndex':
+          return $(this).data('nanoGallery').GetItemsIndex(option);
+        case 'option':
+          if(typeof value === 'undefined'){
+            return $(this).data('nanoGallery').Get(option);
+          }else{
+            $(this).data('nanoGallery').Set(option,value);
+          }
+          break;
+      }
+      return $(this);
     } 
-    };
+  };
 
   jQuery.fn.nanoGallery.TEST = function() {
     console.dir(nO);
@@ -284,6 +340,11 @@ function nanoGALLERY() {
     g_curAlbumIdx = -1,
     g_delayedSetLocationHash = false,
     g_viewerSwipe = null,
+    g_isShiftPressed = false,
+    g_isAltPressed = false,
+    g_isCtrlPressed = false,
+    g_isMetaPressed = false,
+    g_selectedItems = [],
     g_aengine = 'animate',
     g_scrollTimeOut = 0,
     g_scrollTimeOut2 = 0,
@@ -480,10 +541,10 @@ function nanoGALLERY() {
       this.destinationURL = '';       // thumbnail destination URL --> open URL instead of displaying image
       this.kind = '';                 // 'image' or 'album'
       this.author = '';               // image author
-this.thumbsrc = '';             // thumbnail image URL
-this.thumbX2src = '';           // double sized thumbnail image URL (featured image)
-this.thumbImgWidth = 0;            // thumbnail image width
-this.thumbImgHeight = 0;           // thumbnail image height
+      this.thumbsrc = '';             // thumbnail image URL
+      this.thumbX2src = '';           // double sized thumbnail image URL (featured image)
+      this.thumbImgWidth = 0;            // thumbnail image width
+      this.thumbImgHeight = 0;           // thumbnail image height
       this.thumbFullWidth = 0;        // thumbnail full width
       this.thumbFullHeight = 0;       // thumbnail full height
       this.thumbLabelWidth = 0;
@@ -590,10 +651,109 @@ this.thumbImgHeight = 0;           // thumbnail image height
   // #### PUBLIC FUNCTIONS ####
   // ##########################
   
-  this.RefreshJson = function(){
-    var albumIdx = g_lastOpenAlbumID;
-    g_lastOpenAlbumID = -1;
-    return JsonProcessItems(albumIdx, false, -1, false, true);
+  /**
+   * Force reload the current album, if provided by Json
+   */
+  this.ReloadJson = function(){
+    if(gO.kind === 'json'){
+      var albumIdx = g_lastOpenAlbumID;
+      g_lastOpenAlbumID = -1;
+      JsonProcessItems(albumIdx, false, -1, false, true);
+    }
+  };
+  
+  /**
+   * Get an item by its index 
+   * @param {int} index
+   * @returns {object}
+   */
+  this.GetItem = function(index){
+    if(isNaN(index)){
+      throw 'index must be a number';
+    }
+    return gI[index];  
+  };
+  
+  /**
+   * Get an array of every items handled by nanoGallery
+   * @returns {nanoGALLERY.gI|Array}
+   */
+  this.GetItems = function(){
+    return gI;
+  };
+  
+  /**
+   * Get the index of an item in the gI array
+   * @param {object} items
+   * @returns {array}
+   */
+  this.GetItemsIndex = function(items){
+    var indexes = [];
+    items.forEach(function(it){
+      if(isNaN(it)){
+        index = gI.indexOf(it)
+      }else{
+        index = it;
+      }
+      if(isNaN(index)){
+        throw 'this item does not exists';
+      }
+      indexes.push(index);
+    });
+    return indexes;
+  };
+  
+  /**
+   * Set one or several items selected
+   * @param {array} items
+   */
+  this.SetSelectedItems = function(items){
+    indexes = this.GetItemsIndex(items);
+    indexes.forEach(function(it){
+      if(gI[it].$elt !== null){
+        gI[it].selected = true;
+        thumbnailSelection(gI[it].$elt,gI[it],gI[it].selected);
+      }
+    });
+  };
+  
+  /**
+   * Set one or several items unselected
+   * @param {array} items
+   */
+  this.SetUnselectedItems = function(items){
+    indexes = this.GetItemsIndex(items);
+    indexes.forEach(function(it){
+      if(gI[it].$elt !== null){
+        gI[it].selected = false;
+        thumbnailSelection(gI[it].$elt,gI[it],gI[it].selected);
+      }
+    });
+  };
+  
+  /**
+   * Returns an array of selected items
+   * @returns {Array}
+   */
+  this.GetSelectedItems = function(){
+    return g_selectedItems;
+  };
+  
+  /**
+   * Returns the value of an option
+   * @param {string} option
+   * @returns {nanoGALLERY.gO}
+   */
+  this.Get = function(option){
+      return gO[option];
+  };
+  
+  /**
+   * Set a new value for a defined option
+   * @param {string} option
+   */
+  this.Set = function(option,value){
+      gO[option] = value;
   };
     
   // ##########################
@@ -875,6 +1035,12 @@ this.thumbImgHeight = 0;           // thumbnail image height
 
   }
   
+  function getSpecialKeysPressed(e){
+    g_isShiftPressed = e.shiftKey;
+    g_isAltPressed = e.altKey;
+    g_isCtrlPressed = e.ctrlKey;
+    g_isMetaPressed = e.metaKey;
+  }
 
   
   function ExposedObjects() {
@@ -1013,6 +1179,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
 
     // Keyboard management --> Image Viewer
     jQuery(document).keyup(function(e) {
+      getSpecialKeysPressed(e);
       if( g_containerViewerDisplayed ) {
         switch( e.keyCode) {
           case 27:    // Esc key
@@ -1037,6 +1204,9 @@ this.thumbImgHeight = 0;           // thumbnail image height
         }
       }
     });
+    
+    jQuery(window).click(getSpecialKeysPressed);
+    jQuery(window).mousemove(getSpecialKeysPressed);
 
     // browser back-button to close the image currently displayed
     jQuery(window).bind( 'hashchange', function( event ) {
@@ -1144,7 +1314,6 @@ this.thumbImgHeight = 0;           // thumbnail image height
         DisplayImage(n,false);
       }
     }
-
     
     // Handle the start of gestures -->  click event
     this.handleGestureStartNoDelay = function(e) {
@@ -1154,7 +1323,12 @@ this.thumbImgHeight = 0;           // thumbnail image height
         e.eventDefault();
         return false;
       }
-      if( (new Date().getTime()) - g_timeLastTouchStart < 400 ) { return; }
+      getSpecialKeysPressed(e);
+      
+      // if items are selectable, cannot limit on user speed
+      if( (new Date().getTime()) - g_timeLastTouchStart < 400 && gO.itemsSelectable !== true  ) { 
+          return; 
+      }
       g_openNoDelay=true;
       this.handleGestureStart(e);
     }.bind(this);
@@ -1167,10 +1341,14 @@ this.thumbImgHeight = 0;           // thumbnail image height
         return false;
       }
 
-      if( (new Date().getTime()) - g_timeImgChanged < 400 ) { return; }     // [TODO] --> remove!!!
+      if( (new Date().getTime()) - g_timeImgChanged < 400 && gO.itemsSelectable !== true ) { 
+        return; 
+      }     // [TODO] --> remove!!!
       //e.preventDefault();
       
-      if( (new Date().getTime()) - g_timeLastTouchStart < 400 ) { return; }
+      if( (new Date().getTime()) - g_timeLastTouchStart < 400 && gO.itemsSelectable !== true  ) { 
+        return; 
+      }
       g_timeLastTouchStart=new Date().getTime();
       
       var target = e.target || e.srcElement;
@@ -1188,6 +1366,14 @@ this.thumbImgHeight = 0;           // thumbnail image height
       }
       
       if( !found ) { return; }
+      
+      // handle selection
+      if(gO.itemsSelectable === true){
+        if(g_isShiftPressed || g_isCtrlPressed || g_isMetaPressed || e.target.nodeName.toLowerCase() === 'input'){
+          thumbnailSelection($currentTouchedThumbnail,gI[$currentTouchedThumbnail.data('index')]);
+          return false;
+        }
+      }
       
       initialViewport=getViewport();
       
@@ -3161,6 +3347,7 @@ this.thumbImgHeight = 0;           // thumbnail image height
       newObj.destinationURL=destinationURL;
       newObj.kind=kind;
       newObj.albumID=albumID;
+      newObj.selected=false;
       if( tags.length == 0 ) {
         newObj.tags=null;
       }
@@ -4292,7 +4479,6 @@ this.thumbImgHeight = 0;           // thumbnail image height
 
     
     // thumbnailPositionContent($newDiv, item);
-
     return { e$:$newDiv, cIS:checkImageSize };
   }
   
@@ -4398,8 +4584,53 @@ this.thumbImgHeight = 0;           // thumbnail image height
       }
   }
   
+  function thumbnailSelection($e,item,forceValue){
+    thumbnailCheckbox = $e.find('input[type=checkbox]');
+    if(typeof forceValue === 'undefined'){
+      thumbnailCheckbox.prop('checked', !thumbnailCheckbox.prop('checked'));
+    }else{
+      thumbnailCheckbox.prop('checked', forceValue);
+    }
+    if (thumbnailCheckbox.is(':checked')) {
+      thumbnailCheckbox.css({'opacity':1});
+      $e.find('img').css({'opacity': 0.7});
+      $e.find('.imgContainer, .labelImage').css({'background':'#069'});
+      $e.data('selected',true);
+      item.selected = true;
+    } else {
+      thumbnailCheckbox.css({'opacity':0});
+      $e.find('img').css({'opacity': 1});
+      $e.find('.imgContainer, .labelImage').css({'background':'#000'});
+      $e.data('selected',false);
+      item.selected = false;
+    }
+    g_selectedItems = [];
+    gI.forEach(function(it){
+      if(it.selected === true){
+        g_selectedItems.push(it);
+      }
+    });
+    if(typeof gO.fnThumbnailSelection === 'function'){
+        gO.fnThumbnailSelection(item);
+    }
+  }
   
   function thumbnailPositionContent( $e, item ) {
+    if(gO.itemsSelectable === true){
+      thumbnailCheckbox = $('<input>')
+        .attr('type', 'checkbox')
+        .css({
+          'position' : 'absolute',
+          'top' : '15px',
+          'left' : '15px',
+          'z-index' : 999,
+          'opacity' : 0
+        }).click(function(){
+          return false;
+        });
+      $e.append(thumbnailCheckbox);
+      $e.data('selected',false);
+    }
   
     if( typeof gO.fnThumbnailInit == 'function' ) { 
       gO.fnThumbnailInit($e, item, ExposedObjects());
