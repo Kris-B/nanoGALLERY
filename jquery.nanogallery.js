@@ -43,6 +43,7 @@ nanoGALLERY v5.3.1beta release notes.
 // ##### nanoGALLERY as a JQUERY PLUGIN #####
 // ##########################################
 ;(function ($) {
+<<<<<<< HEAD
 
   jQuery.nanoGallery = function(elt, options){
     // To avoid scope issues, use '_this' instead of 'this'
@@ -78,6 +79,188 @@ nanoGALLERY v5.3.1beta release notes.
         // return _this.$e.data('nanoGallery').RefreshJson();
         ReloadJson();
     }
+=======
+  var nO=null;
+
+/**
+ * Usage
+ * 
+ * Initialization : 
+ * $("#yourElement").nanoGallery({...});
+ * 
+ * Set an option :
+ * $("#yourElement").nanoGallery("option",option_name,new_value);
+ * 
+ * Get an option :
+ * $("#yourElement").nanoGallery("option",option_name);
+ * 
+ * Get an item :
+ * $("#yourElement").nanoGallery("getItem",item_index);
+ * 
+ * Get every items :
+ * $("#yourElement").nanoGallery("getItems");
+ * 
+ * Get the indexes of some items :
+ * $("#yourElement").nanoGallery("getItemsIndex",[item1, item2, item3, ...]);
+ * 
+ * Select some items : 
+ * $("#yourElement").nanoGallery("selectItems",[item1, item2, item3, ...]);
+ * 
+ * Unselect some items : 
+ * $("#yourElement").nanoGallery("unselectItems",[item1, item2, item3, ...]);
+ * 
+ * List selected items : 
+ * $("#yourElement").nanoGallery("getSelectedItems");
+ * 
+ */
+  jQuery.fn.nanoGallery = function (args, option, value) {
+    if(typeof $(this).data('nanoGallery') === 'undefined'){
+      var settings = $.extend(true, {
+        // default settings
+        userID : '',
+        kind : '',
+        album : '',
+        photoset : '',
+        blackList : 'scrapbook|profil',
+        whiteList : '',
+        albumList : '',
+        RTL : false,
+        picasaUseUrlCrossDomain : true,
+        galleryToolbarWidthAligned : true,
+        galleryToolbarHideIcons : false,
+        galleryFullpageButton : false,
+        galleryFullpageBgColor : '#111',
+        galleryRenderStep : 10,
+        breadcrumbAutoHideTopLevel : false,
+        displayBreadcrumb : false,
+        theme : 'default',
+        colorScheme : 'none',
+        colorSchemeViewer : 'default',
+        items : null,
+        itemsBaseURL : '',
+        itemsSelectable : false,
+        jsonCharset: 'Latin',
+        jsonProvider: '',
+        paginationMaxLinesPerPage : 0,
+        maxWidth : 0,
+        viewer : 'internal',
+        fancyBoxOptions : null,
+        viewerDisplayLogo : false,
+        imageTransition : 'slide',
+        viewerToolbar : { display:true, position : 'bottom', style : 'innerImage', autoMinimize:800,
+            standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label',
+            minimized:'minimizeButton,label'  
+          },
+        thumbnailAlignment : 'center',
+        thumbnailWidth : 230,
+        thumbnailHeight : 154,
+        thumbnailGutterWidth : 2,
+        thumbnailGutterHeight : 2,
+        thumbnailAdjustLastRowHeight : true,
+        thumbnailFeatured : false,
+        thumbnailHoverEffect : null,
+        thumbnailLabel : {position : 'overImageOnBottom', display : true, displayDescription : true, titleMaxLength : 0, descriptionMaxLength : 0, hideIcons : false, title : '', itemsCount : '' },
+        thumbnailDisplayInterval : 30,
+        thumbnailDisplayTransition : true,
+        thumbnailLazyLoad : false,
+        thumbnailLazyLoadTreshold : 100,
+        thumbnailGlobalImageTitle : '',
+        thumbnailGlobalAlbumTitle : '',
+        thumbnailSizeSM : 480,
+        thumbnailSizeME : 992,
+        thumbnailSizeLA : 1200,
+        thumbnailSizeXL : 1800,
+        fnThumbnailInit : null,
+        fnThumbnailHoverInit : null,
+        fnThumbnailHoverResize : null,
+        fnThumbnailHover : null,
+        fnThumbnailHoverOut : null,
+        fnThumbnailSelection : null,
+        fnThumbnailDisplayEffect : null,
+        fnViewerInfo : null,
+        fnImgToolbarCustInit : null,
+        fnImgToolbarCustDisplay : null,
+        fnImgToolbarCustClick : null,
+        fnProcessData : null,
+        touchAnimation : true,
+        touchAutoOpenDelay : 0,
+        useTags : false,
+        preset : 'none',
+        locationHash : false,
+        slideshowDelay : 3000,
+        slideshowAutoStart : false,
+        photoSorting : '',
+        albumSorting : '',
+        dataSorting : '',
+        lazyBuild : 'none',
+        lazyBuildTreshold : 150,
+        flickrSkipOriginal : true,
+        i18n : {
+          'breadcrumbHome' : 'Galleries', 'breadcrumbHome_FR' : 'Galeries',
+          'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',
+          'paginationNext' : 'Next', 'paginationNext_FR' : 'Suivant', 'paginationNext_DE' : 'Weiter', 'paginationNext_IT' : 'Avanti',
+          'thumbnailLabelItemsCountPart1' : '', //'| ',
+          'thumbnailLabelItemsCountPart2' : '', //' photos', 'thumbnailLabelItemsCountPart2_DE' : ' Fotos',
+          'thumbnailImageTitle' : '',
+          'thumbnailAlbumTitle' : '',
+          'thumbnailImageDescription' : '',
+          'thumbnailAlbumDescription' : '',
+          'infoBoxPhoto' : 'Photo',
+          'infoBoxDate' : 'Date',
+          'infoBoxAlbum' : 'Album',
+          'infoBoxDimensions' : 'Dimensions',
+          'infoBoxFilename' : 'Filename',
+          'infoBoxFileSize' : 'File size',
+          'infoBoxCamera' : 'Camera',
+          'infoBoxFocalLength' : 'Focal length',
+          'infoBoxExposure' : 'Exposure',
+          'infoBoxFNumber' : 'F Number',
+          'infoBoxISO' : 'ISO',
+          'infoBoxMake' : 'Make',
+          'infoBoxFlash' : 'Flash',
+          'infoBoxViews' : 'Views',
+          'infoBoxComments' : 'Comments'
+        }
+      }, args );
+  
+  
+      this.each( function () {
+        // var nanoGALLERY_obj = new nanoGALLERY();
+        $(this).data('nanoGallery',new nanoGALLERY());
+        $(this).data('nanoGallery').Initiate(this, settings );
+      });
+      return $(this);
+    }else{
+      switch(args){
+        case 'reload':
+          $(this).data('nanoGallery').ReloadJson();
+          return $(this);
+        case 'getSelectedItems':
+          return $(this).data('nanoGallery').GetSelectedItems();
+        case 'selectItems':
+          $(this).data('nanoGallery').SetSelectedItems(option);
+          break;
+        case 'unselectItems':
+          $(this).data('nanoGallery').SetUnselectedItems(option);
+          break;
+        case 'getItem':
+          return $(this).data('nanoGallery').GetItem(option);
+        case 'getItems':
+          return $(this).data('nanoGallery').GetItems();
+        case 'getItemsIndex':
+          return $(this).data('nanoGallery').GetItemsIndex(option);
+        case 'option':
+          if(typeof value === 'undefined'){
+            return $(this).data('nanoGallery').Get(option);
+          }else{
+            $(this).data('nanoGallery').Set(option,value);
+          }
+          break;
+      }
+      return $(this);
+    } 
+  };
+>>>>>>> pr/65
 
    
     // Run initializer
@@ -245,6 +428,7 @@ nanoGALLERY v5.3.1beta release notes.
     G.tnHE = [];                      // Thumbnail hover effects
     G.L = {                           // Layout informations
       nbMaxTnPerRow: 0
+<<<<<<< HEAD
     };
     G.blackList = null;
     G.whiteList = null;
@@ -292,6 +476,59 @@ nanoGALLERY v5.3.1beta release notes.
     G.CSSbackfaceVisibilityName = FirstSupportedPropertyName(["backfaceVisibility", "msBackfaceVisibility", "MozBackfaceVisibility", "WebkitBackfaceVisibility", "OBackfaceVisibility"]);
     G.CSStransitionName = FirstSupportedPropertyName(["transition", "msTransition", "MozTransition", "WebkitTransition", "OTransition"]);
     G.CSSanimationName = FirstSupportedPropertyName(["animation", "msAnimation", "MozAnimation", "WebkitAnimation", "OAnimation"]);
+=======
+      
+    },
+    g_blackList = null,
+    g_whiteList = null,
+    g_albumList = null,
+    g_galleryItemsCount = 0,
+    g_toolbarMode = 'std',            // image toolbar display mode
+    g_playSlideshow = false,          // slideshow mode
+    g_playSlideshowTimerID = 0,       // slideshow mode timer ID
+    g_slideshowDelay = 3000,          // slideshow mode delay
+    g_touchAutoOpenDelayTimerID = 0,
+    g_supportFullscreenAPI = false,
+    g_viewerIsFullscreen = false,
+    g_bodyOverflowInitial = null,
+    g_i18nLang = '',
+    g_timeImgChanged = 0,
+    g_timeLastTouchStart = 0,
+    g_pgMaxNbThumbnailsPerRow = 1,
+    g_pgMaxLinesPerPage = 0,
+    g_lastOpenAlbumID = -1,
+    g_lastLocationHash = '',
+    g_viewerImageIsChanged = false,
+    g_viewerResizeTimerID = -1,
+    g_viewerCurrentItemIdx = -1,
+    g_imageSwipePosX = 0,
+    g_albumIdxToOpenOnViewerClose = -1,
+    g_custGlobals = {},
+    g_delayedAlbumIdx = -1,
+    g_curAlbumIdx = -1,
+    g_delayedSetLocationHash = false,
+    g_viewerSwipe = null,
+    g_isShiftPressed = false,
+    g_isAltPressed = false,
+    g_isCtrlPressed = false,
+    g_isMetaPressed = false,
+    g_selectedItems = [],
+    g_aengine = 'animate',
+    g_scrollTimeOut = 0,
+    g_scrollTimeOut2 = 0,
+    g_maxAlbums = 1000000,
+    g_maxPhotos = 1000000,
+    g_curNavLevel = 'l1',
+    g_curWidth = 'me',
+    g_gallerySwipeInitDone = false,
+    g_emptyGif = 'data:image/gif;base64,R0lGODlhEAAQAIAAAP///////yH5BAEKAAEALAAAAAAQABAAAAIOjI+py+0Po5y02ouzPgUAOw==',
+    g_CSStransformName = FirstSupportedPropertyName(["transform", "msTransform", "MozTransform", "WebkitTransform", "OTransform"]),
+    g_CSStransformStyle = FirstSupportedPropertyName(["transformStyle", "msTransformStyle", "MozTransformStyle", "WebkitTransformStyle", "OTransformStyle"]),
+    g_CSSperspective = FirstSupportedPropertyName(["perspective", "msPerspective", "MozPerspective", "WebkitPerspective", "OPerspective"]),
+    g_CSSbackfaceVisibilityName = FirstSupportedPropertyName(["backfaceVisibility", "msBackfaceVisibility", "MozBackfaceVisibility", "WebkitBackfaceVisibility", "OBackfaceVisibility"]),
+    g_CSStransitionName = FirstSupportedPropertyName(["transition", "msTransition", "MozTransition", "WebkitTransition", "OTransition"]),
+    g_CSSanimationName = FirstSupportedPropertyName(["animation", "msAnimation", "MozAnimation", "WebkitAnimation", "OAnimation"]);
+>>>>>>> pr/65
     /* IE detection. Copyright Julian Shapiro - Gist: https://gist.github.com/julianshapiro/9098609 */
     G.IE = (function() {
       if (document.documentMode) {
@@ -428,6 +665,7 @@ nanoGALLERY v5.3.1beta release notes.
     |+------------------------+|
     +--------------------------+
 
+<<<<<<< HEAD
     */
     // **************************************************************************************
     // Class to store one item (= one thumbnail)
@@ -467,6 +705,74 @@ nanoGALLERY v5.3.1beta release notes.
         this.thumbLabelHeight = 0;
         this.thumbSizes = {};           // store URLs for all available thumbnail sizes (flickr)
         this.thumbs = {                 // URLs and sizes for user defined
+=======
+  
+  /* ##### THUMBNAIL ELEMENT STRUCTURE #####
+   
+  +--------------------------+  -> g_tn.borderHeight/2        -+
+  |                          |                                 | g_tn.outerHeight
+  |+------------------------+|  -> =0 (always)            -+   | item.thumbFullHeight
+  || subcontainer           ||                             |   |
+  ||                        ||                             |   |
+  || +--------------------+ ||  -> g_tn.imgcBorderHeight/2
+  || | imgContainer       | ||
+  || |+-------------------+ ||
+  || || image             | ||
+  || |+-------------------+ ||
+  || +--------------------+ ||
+  ||                        ||
+  || +--------------------+ ||  -+ --> g_tn.labelBorderHeight
+  || | labelImage         | ||   | g_tn.labelHeight
+  || |+------------------+| ||   | (=0 --> overImage)
+  || || labelTitle       || ||   | item.thumbLabelHeight
+  || |+------------------+| ||   |
+  || || labelDescription || ||
+  || |+------------------+| ||
+  || +--------------------+ ||
+  ||                        ||
+  |+------------------------+|
+  +--------------------------+
+
+  */
+  // **************************************************************************************
+  // Class to store one item (= one thumbnail)
+  // **************************************************************************************
+  var NGItems = (function () {
+    var nextId = 1;                   // private static --> all instances
+
+    // constructor
+    function NGItems( paramTitle, paramID ) {
+      var ID = 0;                     // private
+
+      // public (this instance only)
+      if( paramID === undefined || paramID === null ) {
+        ID = nextId++;
+      }
+      else {
+        ID = paramID;
+      }
+      this.GetID = function () { return ID; };
+      
+      // public
+      this.title = paramTitle;        // image title
+      this.description = '';          // image description
+      this.src = '';                  // full sized image URL
+      this.width = 0;                 // image width
+      this.height = 0;                // image height
+      this.destinationURL = '';       // thumbnail destination URL --> open URL instead of displaying image
+      this.kind = '';                 // 'image' or 'album'
+      this.author = '';               // image author
+      this.thumbsrc = '';             // thumbnail image URL
+      this.thumbX2src = '';           // double sized thumbnail image URL (featured image)
+      this.thumbImgWidth = 0;            // thumbnail image width
+      this.thumbImgHeight = 0;           // thumbnail image height
+      this.thumbFullWidth = 0;        // thumbnail full width
+      this.thumbFullHeight = 0;       // thumbnail full height
+      this.thumbLabelWidth = 0;
+      this.thumbLabelHeight = 0;
+      this.thumbSizes = {};           // store URLs for all available thumbnail sizes (flickr)
+      this.thumbs = {                 // URLs and sizes for user defined
+>>>>>>> pr/65
           url: { l1 : { xs:'', sm:'', me:'', la:'', xl:'' }, lN : { xs:'', sm:'', me:'', la:'', xl:'' } },
           width: { l1 : { xs:0, sm:0, me:0, la:0, xl:0 }, lN : { xs:0, sm:0, me:0, la:0, xl:0 } },
           height: { l1 : { xs:0, sm:0, me:0, la:0, xl:0 }, lN : { xs:0, sm:0, me:0, la:0, xl:0 } }
@@ -554,6 +860,126 @@ nanoGALLERY v5.3.1beta release notes.
       return NGItems;
     })();
 
+<<<<<<< HEAD
+=======
+  // ##########################
+  // #### PUBLIC FUNCTIONS ####
+  // ##########################
+  
+  /**
+   * Force reload the current album, if provided by Json
+   */
+  this.ReloadJson = function(){
+    if(gO.kind === 'json'){
+      var albumIdx = g_lastOpenAlbumID;
+      g_lastOpenAlbumID = -1;
+      JsonProcessItems(albumIdx, false, -1, false, true);
+    }
+  };
+  
+  /**
+   * Get an item by its index 
+   * @param {int} index
+   * @returns {object}
+   */
+  this.GetItem = function(index){
+    if(isNaN(index)){
+      throw 'index must be a number';
+    }
+    return gI[index];  
+  };
+  
+  /**
+   * Get an array of every items handled by nanoGallery
+   * @returns {nanoGALLERY.gI|Array}
+   */
+  this.GetItems = function(){
+    return gI;
+  };
+  
+  /**
+   * Get the index of an item in the gI array
+   * @param {object} items
+   * @returns {array}
+   */
+  this.GetItemsIndex = function(items){
+    var indexes = [];
+    items.forEach(function(it){
+      if(isNaN(it)){
+        index = gI.indexOf(it)
+      }else{
+        index = it;
+      }
+      if(isNaN(index)){
+        throw 'this item does not exists';
+      }
+      indexes.push(index);
+    });
+    return indexes;
+  };
+  
+  /**
+   * Set one or several items selected
+   * @param {array} items
+   */
+  this.SetSelectedItems = function(items){
+    indexes = this.GetItemsIndex(items);
+    indexes.forEach(function(it){
+      if(gI[it].$elt !== null){
+        gI[it].selected = true;
+        thumbnailSelection(gI[it].$elt,gI[it],gI[it].selected);
+      }
+    });
+  };
+  
+  /**
+   * Set one or several items unselected
+   * @param {array} items
+   */
+  this.SetUnselectedItems = function(items){
+    indexes = this.GetItemsIndex(items);
+    indexes.forEach(function(it){
+      if(gI[it].$elt !== null){
+        gI[it].selected = false;
+        thumbnailSelection(gI[it].$elt,gI[it],gI[it].selected);
+      }
+    });
+  };
+  
+  /**
+   * Returns an array of selected items
+   * @returns {Array}
+   */
+  this.GetSelectedItems = function(){
+    return g_selectedItems;
+  };
+  
+  /**
+   * Returns the value of an option
+   * @param {string} option
+   * @returns {nanoGALLERY.gO}
+   */
+  this.Get = function(option){
+      return gO[option];
+  };
+  
+  /**
+   * Set a new value for a defined option
+   * @param {string} option
+   */
+  this.Set = function(option,value){
+      gO[option] = value;
+  };
+    
+  // ##########################
+  // ##### INITIALIZATION #####
+  // ##########################
+  
+  this.Initiate = function( element, params ) {
+    "use strict";
+    
+    //console.dir(N);
+>>>>>>> pr/65
     
     // ##########################
     // ##### INITIALIZATION #####
@@ -762,6 +1188,7 @@ nanoGALLERY v5.3.1beta release notes.
         nanoConsoleLog('Your browser does not support the fullscreen API. Fullscreen button will not be displayed.');
       }
       
+<<<<<<< HEAD
       // cache some elements sizes of the thumbnail
       retrieveThumbnailSizes();
       
@@ -779,6 +1206,106 @@ nanoGALLERY v5.3.1beta release notes.
         if(resizeTimeOut) clearTimeout(resizeTimeOut);
         if( G.containerViewerDisplayed ) {
             ResizeInternalViewer();
+=======
+        if( g_delayedAlbumIdx != -1 ) {
+          if( inViewportVert($gE.conTnParent,gO.lazyBuildTreshold) ){
+          DisplayAlbumFinalize( g_delayedAlbumIdx, g_delayedSetLocationHash );
+          }
+        }
+        
+        thumbnailsLazySetSrc();
+        return;
+      }, 200);
+    });
+    
+    // [TODO] : check if this is still necessary
+    $gE.base.on('scroll', function () {
+      if(g_scrollTimeOut2) clearTimeout(g_scrollTimeOut2);
+      g_scrollTimeOut2 = setTimeout(function () {
+        thumbnailsLazySetSrc();
+      }, 200);
+    });
+
+  }
+  
+  function getSpecialKeysPressed(e){
+    g_isShiftPressed = e.shiftKey;
+    g_isAltPressed = e.altKey;
+    g_isCtrlPressed = e.ctrlKey;
+    g_isMetaPressed = e.metaKey;
+  }
+
+  
+  function ExposedObjects() {
+    return {
+      animationEngine:g_aengine,
+      t:'test'
+    };
+  }
+  
+  function BrowserNotification() {
+    var m='Your browser version is not supported anymore. The image gallery cannot be displayed. <br><br>Please update to a more recent one. Download:<br>';
+    m+='&nbsp;&nbsp;&nbsp; <a href="http://www.google.com/chrome/?hl=en-US)">Chrome</a><br>';
+    m+='&nbsp;&nbsp;&nbsp; <a href="http://www.mozilla.com/firefox/)">Firefox</a><br>';
+    m+='&nbsp;&nbsp;&nbsp; <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Internet Explorer</a><br>';
+    m+='&nbsp;&nbsp;&nbsp; <a href="http://www.apple.com/safari/download/">Safari</a>';
+    nanoAlert(m, false);
+  }
+  
+  // Original author : John Hrvatin, Lead Program Manager, Internet Explorer - http://blogs.msdn.com/b/ie/archive/2011/10/28/a-best-practice-for-programming-with-vendor-prefixes.aspx
+  function FirstSupportedPropertyName(prefixedPropertyNames) {
+    var tempDiv = document.createElement("div");
+    for (var i = 0; i < prefixedPropertyNames.length; ++i) {
+      if (typeof tempDiv.style[prefixedPropertyNames[i]] != 'undefined')
+        return prefixedPropertyNames[i];
+    }
+    return null;
+  }
+
+  function NGFinalize() {
+  
+    var sizeImageMax=Math.max(window.screen.width, window.screen.height);
+    if( window.devicePixelRatio != undefined ) {
+      if( window.devicePixelRatio > 1 ) {
+        sizeImageMax=sizeImageMax*window.devicePixelRatio;
+      }
+    }
+
+		for( var j=0; j<g_tnHE.length; j++) {
+			switch(g_tnHE[j].name ) {
+				case 'imageScale150':
+				case 'imageScale150Outside':
+				case 'imageScaleIn80':
+				case 'imageSlide2Up':
+				case 'imageSlide2Down':
+				case 'imageSlide2Left':
+				case 'imageSlide2Right':
+				case 'imageSlide2UpRight':
+				case 'imageSlide2UpLeft':
+				case 'imageSlide2DownRight':
+				case 'imageSlide2DownLeft':
+				case 'imageSlide2Random':
+          g_tn.scale=Math.max(g_tn.scale, 1.5);
+					break;
+				case 'scale120':
+          g_tn.scale=Math.max(g_tn.scale, 1.2);
+					break;
+			}
+		}
+    var si=0;
+    if( gO.itemsBaseURL.length >0 ) {gO.itemsBaseURL+='/';}
+    
+    switch(gO.kind) {
+      // MARKUP / API
+      case '':
+        NGAddItem(g_i18nTranslations.breadcrumbHome, '', '', '', '', 'album', '', '0', '-1' );
+        
+        if( gO.items !== undefined && gO.items !== null ) {
+          ProcessItemOption();
+          if( !ProcessLocationHash(false) ) {
+            DisplayAlbum(0,false);
+          }
+>>>>>>> pr/65
         }
         else {
           resizeTimeOut = setTimeout(function () {
@@ -833,6 +1360,7 @@ nanoGALLERY v5.3.1beta release notes.
     }
     
 
+<<<<<<< HEAD
     // exposed objects for callbacks
     function ExposedObjects() {
       return {
@@ -860,6 +1388,38 @@ nanoGALLERY v5.3.1beta release notes.
       }
       return null;
     }
+=======
+    // Keyboard management --> Image Viewer
+    jQuery(document).keyup(function(e) {
+      getSpecialKeysPressed(e);
+      if( g_containerViewerDisplayed ) {
+        switch( e.keyCode) {
+          case 27:    // Esc key
+            CloseInternalViewer(true);
+            break;
+          case 32:    // SPACE
+          case 13:    // ENTER
+            SlideshowToggle();
+            break;
+          case 38:    // UP
+          case 39:    // RIGHT
+          case 33:    // PAGE UP
+            DisplayNextImagePart1();
+            break;
+          case 40:    // DOWN
+          case 37:    // LEFT
+          case 34:    // PAGE DOWN
+            DisplayPreviousImage();
+            break;
+          case 35:    // END
+          case 36:    // BEGIN
+        }
+      }
+    });
+    
+    jQuery(window).click(getSpecialKeysPressed);
+    jQuery(window).mousemove(getSpecialKeysPressed);
+>>>>>>> pr/65
 
     // #####
     // Finalize initialization
@@ -1058,6 +1618,7 @@ nanoGALLERY v5.3.1beta release notes.
         jQuery('body').css({overflow:'auto'});
       }
     }
+<<<<<<< HEAD
   
   
     function ElementTranslateX( element, posX ) {
@@ -1121,6 +1682,44 @@ nanoGALLERY v5.3.1beta release notes.
         G.openNoDelay=true;
         this.handleGestureStart(e);
       }.bind(this);
+=======
+    
+    // Handle the start of gestures -->  click event
+    this.handleGestureStartNoDelay = function(e) {
+      // delay to ignore click event after touchstart event
+      if( g_containerViewerDisplayed ) { 
+        e.stopPropagation();
+        e.eventDefault();
+        return false;
+      }
+      getSpecialKeysPressed(e);
+      
+      // if items are selectable, cannot limit on user speed
+      if( (new Date().getTime()) - g_timeLastTouchStart < 400 && gO.itemsSelectable !== true  ) { 
+          return; 
+      }
+      g_openNoDelay=true;
+      this.handleGestureStart(e);
+    }.bind(this);
+    
+    // Handle the start of gestures
+    this.handleGestureStart = function(e) {
+      if( g_containerViewerDisplayed ) { 
+        e.stopPropagation();
+        e.eventDefault();
+        return false;
+      }
+
+      if( (new Date().getTime()) - g_timeImgChanged < 400 && gO.itemsSelectable !== true ) { 
+        return; 
+      }     // [TODO] --> remove!!!
+      //e.preventDefault();
+      
+      if( (new Date().getTime()) - g_timeLastTouchStart < 400 && gO.itemsSelectable !== true  ) { 
+        return; 
+      }
+      g_timeLastTouchStart=new Date().getTime();
+>>>>>>> pr/65
       
       // Handle the start of gestures
       this.handleGestureStart = function(e) {
@@ -1149,6 +1748,7 @@ nanoGALLERY v5.3.1beta release notes.
           }
           target = target.parentNode;
         }
+<<<<<<< HEAD
         
         if( !found ) { return; }
         
@@ -1156,6 +1756,25 @@ nanoGALLERY v5.3.1beta release notes.
         
         //if(e.touches && e.touches.length > 1) { return; }
         initialTouchPos = getGesturePointFromEvent(e);
+=======
+        target = target.parentNode;
+      }
+      
+      if( !found ) { return; }
+      
+      // handle selection
+      if(gO.itemsSelectable === true){
+        if(g_isShiftPressed || g_isCtrlPressed || g_isMetaPressed || e.target.nodeName.toLowerCase() === 'input'){
+          thumbnailSelection($currentTouchedThumbnail,gI[$currentTouchedThumbnail.data('index')]);
+          return false;
+        }
+      }
+      
+      initialViewport=getViewport();
+      
+      //if(e.touches && e.touches.length > 1) { return; }
+      initialTouchPos = getGesturePointFromEvent(e);
+>>>>>>> pr/65
 
         initialOffsetTop=getViewport().t;
 
@@ -3142,8 +3761,37 @@ nanoGALLERY v5.3.1beta release notes.
         G.I.push(newObj);
         return newObj;
       }
+<<<<<<< HEAD
       else{
         return GetNGItem(ID);
+=======
+      // if( kind == 'image' || g_tn.settings.width.l1[sizes[i]] != 'auto' ) { tn.width.l1[sizes[i]]=data.media$group.media$thumbnail[i].width; }
+      // if( kind == 'image' || g_tn.settings.height.l1[sizes[i]] != 'auto' ) { tn.height.l1[sizes[i]]=data.media$group.media$thumbnail[i].height; }
+    }
+    return tn;
+  }
+  
+  
+  // ################################
+  // ##### NGITEMS MANIPULATION #####
+  // ################################
+  
+  function NGAddItem(title, thumbSrc, imageSrc, description, destinationURL, kind, tags, ID, albumID ) {
+    if(GetNGItem(ID) === null){
+      var newObj=new NGItems(title,ID);
+      newObj.thumbsrc=thumbSrc;
+      newObj.src=imageSrc;
+      newObj.description=description;
+      newObj.destinationURL=destinationURL;
+      newObj.kind=kind;
+      newObj.albumID=albumID;
+      newObj.selected=false;
+      if( tags.length == 0 ) {
+        newObj.tags=null;
+      }
+      else {
+        newObj.tags=tags.split(' ');
+>>>>>>> pr/65
       }
     }
 
@@ -4145,6 +4793,7 @@ nanoGALLERY v5.3.1beta release notes.
       })();
     }
     
+<<<<<<< HEAD
     function renderGallery2Complete( albumIdx, pageNumber ) {
     
       //if( G.O.thumbnailHeight == 'auto' || G.O.thumbnailWidth == 'auto' || G.O.thumbnailWidth == 'autoUpScale' ) {
@@ -4158,6 +4807,16 @@ nanoGALLERY v5.3.1beta release notes.
       G.curAlbumIdx=albumIdx;
 
     }
+=======
+    // thumbnailPositionContent($newDiv, item);
+    return { e$:$newDiv, cIS:checkImageSize };
+  }
+  
+  function getThumbnailTitle( item ) {
+    var sTitle=item.title;
+    if( gO.thumbnailLabel.display == true ) {
+      if( sTitle === undefined || sTitle.length == 0 ) { sTitle='&nbsp;'; }
+>>>>>>> pr/65
 
 
     function thumbnailBuild( item, idx, foundDesc ) {
@@ -4310,9 +4969,66 @@ nanoGALLERY v5.3.1beta release notes.
           sDesc=sDesc.substring(0,G.O.thumbnailLabel.descriptionMaxLength)+'...';
         }
       }
+<<<<<<< HEAD
       
       return sDesc;
     }
+=======
+  }
+  
+  function thumbnailSelection($e,item,forceValue){
+    thumbnailCheckbox = $e.find('input[type=checkbox]');
+    if(typeof forceValue === 'undefined'){
+      thumbnailCheckbox.prop('checked', !thumbnailCheckbox.prop('checked'));
+    }else{
+      thumbnailCheckbox.prop('checked', forceValue);
+    }
+    if (thumbnailCheckbox.is(':checked')) {
+      thumbnailCheckbox.css({'opacity':1});
+      $e.find('img').css({'opacity': 0.7});
+      $e.find('.imgContainer, .labelImage').css({'background':'#069'});
+      $e.data('selected',true);
+      item.selected = true;
+    } else {
+      thumbnailCheckbox.css({'opacity':0});
+      $e.find('img').css({'opacity': 1});
+      $e.find('.imgContainer, .labelImage').css({'background':'#000'});
+      $e.data('selected',false);
+      item.selected = false;
+    }
+    g_selectedItems = [];
+    gI.forEach(function(it){
+      if(it.selected === true){
+        g_selectedItems.push(it);
+      }
+    });
+    if(typeof gO.fnThumbnailSelection === 'function'){
+        gO.fnThumbnailSelection(item);
+    }
+  }
+  
+  function thumbnailPositionContent( $e, item ) {
+    if(gO.itemsSelectable === true){
+      thumbnailCheckbox = $('<input>')
+        .attr('type', 'checkbox')
+        .css({
+          'position' : 'absolute',
+          'top' : '15px',
+          'left' : '15px',
+          'z-index' : 999,
+          'opacity' : 0
+        }).click(function(){
+          return false;
+        });
+      $e.append(thumbnailCheckbox);
+      $e.data('selected',false);
+    }
+  
+    if( typeof gO.fnThumbnailInit == 'function' ) { 
+      gO.fnThumbnailInit($e, item, ExposedObjects());
+      return;
+    }    
+>>>>>>> pr/65
     
     
     function setThumbnailSize( $elt, item ) {
