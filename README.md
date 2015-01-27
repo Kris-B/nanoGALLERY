@@ -31,8 +31,8 @@ Visit the nanoGALLERY homepage: [http://nanogallery.brisbois.fr](http://www.nano
 
 ### Package managers
 
-Bower: `$ bower install nanogallery`  
-npm: `$ npm install nanogallery`
+Bower: `bower install nanogallery`  
+npm: `npm install nanogallery`
   
     
 ### Usage example with images from a Flickr account
