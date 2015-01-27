@@ -26,8 +26,8 @@ TODO :
   fnThumbnailOpen
   fnImgDisplayed / myImgToolbarCustDisplay
   My idea is to add via the API 'itemL:' (Large) and 'itemS:' (small)
-Now i like to have if resolution is smaller than 800 to display the itemS. if resolution is between 800 and 1800 display item and if resolution is greater than 1800 display itemL in the gallery.
-
+  Now i like to have if resolution is smaller than 800 to display the itemS. if resolution is between 800 and 1800 display item and if resolution is greater than 1800 display itemL in the gallery.
+  thumbnails: html click
 
 nanoGALLERY v5.3.1beta release notes.
 
@@ -149,7 +149,7 @@ nanoGALLERY v5.3.1beta release notes.
     jsonCharset: 'Latin',
     jsonProvider: '',
     paginationMaxLinesPerPage : 0,
-    paginationDot : true,
+    paginationDot : false,
     maxWidth : 0,
     viewer : 'internal',
     fancyBoxOptions : null,
