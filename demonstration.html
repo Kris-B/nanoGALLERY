@@ -55,7 +55,7 @@
   
   <!-- #################################################################################################################### -->
 	<!-- nanoGALLERY DEMO PANEL javascript - NOT NEEDED TO USE THE PLUGIN                                                     -->
-	<script type="text/javascript" src="jquery.nanogallerydemo.js"></script> 
+	<script type="text/javascript" src="jquery.nanogallerydemo.js"></script>
   <!-- #################################################################################################################### -->
 
 
@@ -145,7 +145,7 @@
         var w=$elt.find('.imgContainer').outerWidth(true)/10;
         $elt.find('.imgContainer').each(function( index ) {
           $(this)[data.animationEngine]({ 'left':(-w*10)+w*index*3, 'scale':2},20000);
-          console.log( index*w + ' ' + index+ '-'+w );
+          //console.log( index*w + ' ' + index+ '-'+w );
         });
       }
       function myThumbnailHoverOut($elt, item, data) {
@@ -162,7 +162,7 @@
         alert('Image URL: '+ item.thumbsrc);
       }
 
-			var t=jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
+			jQuery("#nanoGallery1").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 			items: [
 				{
 					src: 'demonstration/image_01.jpg',		// image url
@@ -181,9 +181,9 @@
 					description_FR : 'description image 2 (fr)'
 				},
 				{
-					src: 'demonstration//2_Lübeck_Holstentor.jpg',
-					srct: 'demonstration//2_Lübeck_Holstentor_t.jpg',
-					title: '2_Lübeck_Holstentor.jpg'
+					src: 'demonstration/image_03.jpg',
+					srct: 'demonstration/image_03t.jpg',
+					title: 'image 3'
 				}
 				],
 				thumbnailHoverEffect:[{name:'imageScaleIn80'},{'name':'descriptionAppear','delay':300},{'name':'borderLighter'}],				
@@ -206,10 +206,8 @@
         },
         viewer:'fancybox'
 			});
-      //t.nanoGallery.TEST();
-      ///console.dir(t.nanoGallery);
-
       
+
       // ##################################################################################################################
 			// ##### Sample1a - API method #####
       // ##################################################################################################################
@@ -242,6 +240,8 @@
         colorSchemeViewer:'default'
 			});
 
+//      jQuery("#nanoGallery1a").nanoGallery().test();
+
      
       // ##################################################################################################################
 			// ##### Sample2 - inline elements / HREF #####
@@ -259,8 +259,6 @@
 			// ##### Sample3 - Picasa/Google+ #####
       // ##################################################################################################################
 			jQuery("#nanoGallery3").nanoGallery({
-//        thumbnailWidth:200, thumbnailHeight:200,
-
         thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
         thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
 
@@ -307,14 +305,16 @@
         colorSchemeViewer:'default',
         imageTransition:'slideAppear',
         fnProcessData: fnDemopProcessData,    // javascript custom extension
-        fnViewerInfo: fnDemoViewerInfo        // javascript custom extension
+        fnViewerInfo: fnDemoViewerInfo,      // javascript custom extension
+        itemsSelectable:true
 			});
       
       
 
+
       function fnDemopProcessData(item, kind, sourceData) {
         if( kind == 'picasa' && item.kind == 'image' ) {
-          console.dir(sourceData);
+          //console.dir(sourceData);
           item.customData.imgOriginalWidth = sourceData.gphoto$width.$t;
           item.customData.imgOriginalHeight = sourceData.gphoto$height.$t;
           var ex = { model: 'na', iso: 'na' }
@@ -331,7 +331,12 @@
         var s= 'camera: '+item.customData.exif.model + ' / width: '+item.customData.imgOriginalWidth+' / height: '+item.customData.imgOriginalHeight;
         alert(s);
       }
-
+      
+      
+      jQuery('#btnReload').on('click', function() {
+        jQuery("#nanoGallery3a").nanoGallery('reload');
+      });
+      
       // ##################################################################################################################
 			// ##### Sample4 - Flickr #####
       // ##################################################################################################################
@@ -488,6 +493,7 @@
 
 </head>
 
+<!-- <body style="background-color:#fff;"> -->
 <body>
 
 	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
@@ -522,6 +528,9 @@
 	</div>
   <br><br><br>
 	<div style="margin:auto;max-width:960px;background:#fff;color:#f00;padding:1px;">
+    <div style="margin:10px;">
+      <button id="btnReload" "type="button" style="color:#000;padding:4px;">&nbsp; reload() &nbsp;</button>
+    </div>
 		<br><br><br>
     <div id="nanoGallery3a"></div>
     <br><br><br>
