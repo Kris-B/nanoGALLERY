@@ -384,7 +384,9 @@
 	-o-box-sizing: content-box;
 	overflow:hidden;
 }
-
+.nanogallery_theme_default .nanoGalleryContainer  .nanoGalleryThumbnailContainer .selected{
+  opacity: 0.5;
+}
 .nanogallery_theme_default .nanoGalleryContainer .nanoGalleryThumbnailContainer .subcontainer{
 	/* no border or padding allowed here */
   box-sizing: content-box;

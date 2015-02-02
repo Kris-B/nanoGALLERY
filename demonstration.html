@@ -167,9 +167,9 @@
 				{
 					src: 'demonstration/image_01.jpg',		// image url
 					srct: 'demonstration/image_01t.jpg',	// thumbnail url
-					title: 'image 1', 						        // thumbnail title
+					title: '<a href="#">Test</a>image 1', 						        // thumbnail title
 					description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-					title_FR: 'image 1 (fr)',
+					title_FREEEEEEE: 'image 1 (fr)',
 					description_FR : 'description image 1 (fr)'
 				},
 				{
@@ -196,10 +196,11 @@
         theme:'light',
         imageTransition: 'fade' ,
         fnViewerInfo:myViewerInfo,
+        locationHash: false,
         viewerToolbar: { standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label,custom1' },
         fnImgToolbarCustInit: function(elementName) { return('<div>build</div>'); },
         fnImgToolbarCustDisplay: function($elements, item, data) {
-          $elements.eq(0).html('photo ID: '+item.GetID());
+          $elements.eq(0).html('photo ID: '+item.GetID() +'<a href="http://google.fr">Test</a>');
         },
         fnImgToolbarCustClick: function(elementName, $element, item, data) {
           alert(elementName);
@@ -231,6 +232,7 @@
 			jQuery("#nanoGallery1a").nanoGallery({thumbnailWidth:120,thumbnailHeight:120,
 				items:contentGallery1a,
 				theme:'clean',
+        locationHash: false,
 				thumbnailHoverEffect:{'name':'imageFlipHorizontal','duration':500},
 				useTags:false,
         viewerDisplayLogo:false,
@@ -250,6 +252,7 @@
 				itemsBaseURL:'demonstration',
 				thumbnailHoverEffect:[{'name':'scaleLabelOverImage','duration':300},{'name':'borderLighter'}],				
 				colorScheme:'clean',
+        locationHash: false,
 				thumbnailLabel:{display:true,position:'overImageOnTop', align:'center'},
         viewerDisplayLogo:true
 			});
@@ -270,13 +273,16 @@
 				//album: '5851968929721015169&authkey=Gv1sRgCJSlhdKSgoiXtgE',
         //album:'5856259539659194001',
         photoSorting: 'random',
+        locationHash: false,
         albumSorting: 'random',
         colorScheme: myColorScheme,
         galleryFullpageButton: true,
-        thumbnailLabel:{title:'%filenameNoExt', itemsCount:'title'},
+        thumbnailLabel:{ display:false},
+        thumbnailL1Label:{title:'%filenameNoExt', itemsCount:'title', display:true},
         viewerDisplayLogo: true,
         photoSorting: 'titleDesc',
-  			thumbnailHoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
+  			thumbnailHoverEffect:[{'name':'imageScale150', 'duration':500}],
+  			thumbnailL1HoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
 				//thumbnailHoverEffect: [{'name':'imageScaleIn80','duration':300},{'name':'borderLighter'}]
 			});
 
@@ -306,6 +312,8 @@
         imageTransition:'slideAppear',
         fnProcessData: fnDemopProcessData,    // javascript custom extension
         fnViewerInfo: fnDemoViewerInfo,      // javascript custom extension
+        fnThumbnailSelection : fnDemoThumbnailSelection,
+        fnThumbnailInit : fnDemoThumbnailInit,
         itemsSelectable:true
 			});
       
@@ -331,10 +339,41 @@
         var s= 'camera: '+item.customData.exif.model + ' / width: '+item.customData.imgOriginalWidth+' / height: '+item.customData.imgOriginalHeight;
         alert(s);
       }
+
+      function fnDemoThumbnailInit( $elt, item ) {
+        // add checkbox over thumbnail
+        thumbnailCheckbox = $('<input>')
+          .attr('type', 'checkbox')
+          .css({
+            'position' : 'absolute',
+            'top' : '15px',
+            'left' : '15px',
+            'opacity' : 0
+          }).click(function(){
+            return false;
+          });
+        $elt.append(thumbnailCheckbox);
+      }
       
+      function fnDemoThumbnailSelection( $elt, item, data ) {
+        var $thumbnailCheckbox = $elt.find('input[type=checkbox]');
+        $thumbnailCheckbox.prop('checked', item.selected);
+        if( item.selected ) {
+          $thumbnailCheckbox.css({'opacity':1});
+          $elt.find('.imgContainer, .labelImage').css({'background':'#069'});
+        }
+        else {
+          $thumbnailCheckbox.css({'opacity':0});
+          $elt.find('.imgContainer, .labelImage').css({'background':'#000'});
+        }
+      }
+  
       
       jQuery('#btnReload').on('click', function() {
-        jQuery("#nanoGallery3a").nanoGallery('reload');
+        jQuery('#nanoGallery3a').nanoGallery('reload');
+      });
+      jQuery('#btnCountSelected').on('click', function() {
+        alert(jQuery('#nanoGallery3a').nanoGallery('getSelectedItems').length);
       });
       
       // ##################################################################################################################
@@ -357,6 +396,7 @@
         thumbnailLazyLoad:true,
         theme:'clean',
         colorScheme:'light',
+        locationHash: false,
         level1: { thumbnailWidth: 200, thumbnailHeight: 120 }
 			});
 
@@ -476,7 +516,9 @@
 				useTags:false,
         locationHash:false,
         breadcrumbAutoHideTopLevel:true,
-        maxItemsPerLine:5
+        maxItemsPerLine:5,
+        locationHash: false,
+        paginationDots : true
 			});
 			
 
@@ -498,7 +540,7 @@
 
 	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
 	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
-	<div style="color:#eee;text-align:center;font-size:.9em;"><br>more about nanoGALLERY for jQuery : <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
+	<div style="color:#eee;text-align:center;font-size:.9em;"><br>Full nanoGALLERY documentation: <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
 	<br><br><br><br>
 	<div style="color:#eee;text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
 	
@@ -529,7 +571,8 @@
   <br><br><br>
 	<div style="margin:auto;max-width:960px;background:#fff;color:#f00;padding:1px;">
     <div style="margin:10px;">
-      <button id="btnReload" "type="button" style="color:#000;padding:4px;">&nbsp; reload() &nbsp;</button>
+      <button id="btnReload" "type="button" style="color:#000;padding:4px;">&nbsp; reload &nbsp;</button>
+      <button id="btnCountSelected" "type="button" style="color:#000;padding:4px;">&nbsp; count selected items &nbsp;</button>
     </div>
 		<br><br><br>
     <div id="nanoGallery3a"></div>
