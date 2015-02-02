@@ -28,7 +28,7 @@ nanoGALLERY v5.4.0 release notes.
 - Settings specific to first navigation level: extended to thumbnailL1Label (#53), thumbnailL1HoverEffect , touchAnimationL1
 - Responsive image sizes now supported by API and inline methods
 - Better support of custom HTML elements in thumbnails
-- Selectable thumbnails (beta)
+- Selectable thumbnails 
 - New API methods (beta)
   
 ##### New options
