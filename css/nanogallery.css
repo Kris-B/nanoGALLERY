@@ -384,7 +384,9 @@
 	-o-box-sizing: content-box;
 	overflow:hidden;
 }
-
+.nanogallery_theme_default .nanoGalleryContainer  .nanoGalleryThumbnailContainer .selected{
+  opacity: 0.5;
+}
 .nanogallery_theme_default .nanoGalleryContainer .nanoGalleryThumbnailContainer .subcontainer{
 	/* no border or padding allowed here */
   box-sizing: content-box;
@@ -540,7 +542,8 @@
 /* THUMBNAIL PAGINATION               */
 /**************************************/
 
-.nanogallery_theme_default .nanoGalleryContainerParent .nanoGalleryPagination{
+.nanogallery_theme_default .nanoGalleryContainerParent .nanoGalleryPagination,
+.nanogallery_theme_default .nanoGalleryContainerParent .nanoGalleryPaginationDot {
 	/*color:#eee;*/
   margin: 10px auto 5px auto;
 	padding: 4px;
@@ -579,6 +582,24 @@
 	display: inline-block;
 }
 
+.nanogallery_theme_default .nanoGalleryContainerParent .nanoGalleryPaginationDot .paginationItem{
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  background: #444;
+  border-radius: 50%;
+	margin: 0px 5px;
+	white-space: nowrap;
+	cursor:pointer;
+	vertical-align: middle;
+	display: inline-block;
+  opacity: 0.50;
+}
+.nanogallery_theme_default .nanoGalleryContainerParent .nanoGalleryPaginationDot .currentPage{
+  background: #fff;
+  opacity: 1;
+}
+
 
 /**************************************/
 /* INTERNAL VIEWER                    */
@@ -611,9 +632,9 @@
 }
 
 .nanogallery_theme_default .nanoGalleryViewer .closeButtonFloating {
-	cursor:pointer;
-	right:0px;
-	top:0px;
+	cursor: pointer;
+	right: 0px;
+	top: 0px;
 	padding: 5px 5px 25px 25px;
 	position:absolute;
 	opacity:1;

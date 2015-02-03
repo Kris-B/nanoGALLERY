@@ -4,6 +4,60 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.4.0
+------
+
+##### New features
+- Pagination with dots (additionally to page numbers)
+- Settings specific to first navigation level: extended to thumbnailL1Label (#53), thumbnailL1HoverEffect , touchAnimationL1
+- Responsive image sizes now supported by API and inline methods
+- Better support of custom HTML elements in thumbnails
+- Selectable thumbnails
+- New API methods (beta)
+  
+##### New options
+- **paginationDots**: display dots for thumbnail pagination  
+  *boolean; Default: false*  
+- **thumbnailL1Label**: set thumbnail's label options for first navigation level  
+- **thumbnailL1HoverEffect**: set thumbnail's hover effects options for first navigation level  
+- **touchAnimationL1**: enable touch animation on first navigation level
+- inline method: new properties to define responsive image sources `data-ngSrcXS`, `data-ngSrcSM`, `data-ngSrcME`, `data-ngSrcLA`, `data-ngSrcXL`  
+- API method: new properties to define responsive image sources: `srcXS`, `srcSM`, `srcME`, `srcLA`, `srcXL`  
+- **breakpointSizeSM**, **breakpointSizeME**, **breakpointSizeLA**, **breakpointSizeXL**: new syntax to define resolution breakpoints  
+- **itemsSelectable**: enable thumbnail selection  
+  *boolean; Default: false*  
+
+##### New callbacks
+- **fnThumbnailClicked($elt, item)**: fired on click/touch event on thumbnail. Open is cancelled if function returns false.  
+- **fnImgDisplayed($elt, item)**: fired after an image is displayed.  
+- **fnThumbnailSelection($elt, item)**: fired when a thumbnail is selected.  
+  
+##### New API methods (beta)
+- Reload current album: `$('#yourElement').nanoGallery('reload');`  
+- Get an option: `$('#yourElement').nanoGallery('option', option_name);`  
+- Set an option: `$('#yourElement').nanoGallery('option', option_name, new_value);` (note: only some options are supported)  
+- Get an item: `$('#yourElement').nanoGallery('getItem', item_index);`  
+- Get every items: `$('#yourElement').nanoGallery('getItems');`  
+- Get the indexes of some items: `$('#yourElement').nanoGallery('getItemsIndex', [item1, item2, item3, ...]);`  
+- List selected items: `$('#yourElement').nanoGallery('getSelectedItems');`  
+- Select some items: `$('#yourElement').nanoGallery('selectItems', [item1, item2, item3, ...]);`  
+- Unselect some items: `$('#yourElement').nanoGallery('unselectItems', [item1, item2, item3, ...]);`  
+
+##### Misc
+- Option locationHash: default value changed from false to true
+- Some code redesign
+- bugfix: click/touch handling on custom HTML elements on thumbnails (specify class 'customEventHandler' to force custom click/touch event handling)  
+- bugfix: cascading layout/thumbnails invisible in some cases  
+
+##### Depreciated options
+- `thumbnailSizeSM` -> replaced by `breakpointSizeSM`, but still supported  
+- `thumbnailSizeME` -> replaced by `breakpointSizeME`, but still supported  
+- `thumbnailSizeLA` -> replaced by `breakpointSizeLA`, but still supported  
+- `thumbnailSizeXL` -> replaced by `breakpointSizeXL`, but still supported  
+  
+**Many thanks to Raphaël Renaudon (https://github.com/sevarg) for his contribution.**  
+
+
 v5.3.0
 ------
 

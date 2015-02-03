@@ -25,11 +25,10 @@
       kind : '',
       album : '',
       photoset : '',
-      blackList : 'scrapbook|profil',
-      whiteList : '',
-      albumList : '',
+      blackList : 'scrapbook|profil', whiteList : '', albumList : '',
       RTL : false,
       picasaUseUrlCrossDomain : true,
+      flickrSkipOriginal : true,
       galleryToolbarWidthAligned : true,
       galleryToolbarHideIcons : false,
       galleryFullpageButton : false,
@@ -38,10 +37,11 @@
       breadcrumbAutoHideTopLevel : false,
       displayBreadcrumb : false,
       theme : 'default',
-      colorScheme : 'none',
-      colorSchemeViewer : 'default',
+      colorScheme : 'none', colorSchemeViewer : 'default',
       items : null,
       itemsBaseURL : '',
+      jsonCharset: 'Latin',
+      jsonProvider: '',
       paginationMaxLinesPerPage : 0,
       maxWidth : 0,
       viewer : 'internal',
@@ -53,10 +53,8 @@
           minimized:'minimizeButton,label'  
         },
       thumbnailAlignment : 'center',
-      thumbnailWidth : 230,
-      thumbnailHeight : 154,
-      thumbnailGutterWidth : 2,
-      thumbnailGutterHeight : 2,
+      thumbnailWidth : 230, thumbnailHeight : 154,
+      thumbnailGutterWidth : 2, thumbnailGutterHeight : 2,
       thumbnailAdjustLastRowHeight : true,
       thumbnailFeatured : false,
       thumbnailHoverEffect : null,
@@ -67,10 +65,7 @@
       thumbnailLazyLoadTreshold : 100,
       thumbnailGlobalImageTitle : '',
       thumbnailGlobalAlbumTitle : '',
-      thumbnailSizeSM : 480,
-      thumbnailSizeME : 992,
-      thumbnailSizeLA : 1200,
-      thumbnailSizeXL : 1800,
+      thumbnailSizeSM : 480, thumbnailSizeME : 992, thumbnailSizeLA : 1200, thumbnailSizeXL : 1800,
       fnThumbnailInit : null,
       fnThumbnailHoverInit : null,
       fnThumbnailHoverResize : null,
@@ -82,19 +77,13 @@
       fnImgToolbarCustDisplay : null,
       fnImgToolbarCustClick : null,
       fnProcessData : null,
-      touchAnimation : true,
-      touchAutoOpenDelay : 0,
+      touchAnimation : true, touchAutoOpenDelay : 0,
       useTags : false,
       preset : 'none',
       locationHash : false,
-      slideshowDelay : 3000,
-      slideshowAutoStart : false,
-      photoSorting : '',
-      albumSorting : '',
-      dataSorting : '',
-      lazyBuild : 'none',
-      lazyBuildTreshold : 150,
-      flickrSkipOriginal : true,
+      slideshowDelay : 3000, slideshowAutoStart : false,
+      photoSorting : '', albumSorting : '', dataSorting : '',
+      lazyBuild : 'none', lazyBuildTreshold : 150,
       i18n : {
         'breadcrumbHome' : 'Galleries', 'breadcrumbHome_FR' : 'Galeries',
         'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',
@@ -105,21 +94,7 @@
         'thumbnailAlbumTitle' : '',
         'thumbnailImageDescription' : '',
         'thumbnailAlbumDescription' : '',
-        'infoBoxPhoto' : 'Photo',
-        'infoBoxDate' : 'Date',
-        'infoBoxAlbum' : 'Album',
-        'infoBoxDimensions' : 'Dimensions',
-        'infoBoxFilename' : 'Filename',
-        'infoBoxFileSize' : 'File size',
-        'infoBoxCamera' : 'Camera',
-        'infoBoxFocalLength' : 'Focal length',
-        'infoBoxExposure' : 'Exposure',
-        'infoBoxFNumber' : 'F Number',
-        'infoBoxISO' : 'ISO',
-        'infoBoxMake' : 'Make',
-        'infoBoxFlash' : 'Flash',
-        'infoBoxViews' : 'Views',
-        'infoBoxComments' : 'Comments'
+        'infoBoxPhoto' : 'Photo', 'infoBoxDate' : 'Date', 'infoBoxAlbum' : 'Album', 'infoBoxDimensions' : 'Dimensions', 'infoBoxFilename' : 'Filename', 'infoBoxFileSize' : 'File size', 'infoBoxCamera' : 'Camera', 'infoBoxFocalLength' : 'Focal length', 'infoBoxExposure' : 'Exposure', 'infoBoxFNumber' : 'F Number', 'infoBoxISO' : 'ISO', 'infoBoxMake' : 'Make', 'infoBoxFlash' : 'Flash', 'infoBoxViews' : 'Views', 'infoBoxComments' : 'Comments'
       }
     }, options );
 
@@ -271,9 +246,8 @@
       jQuery(g_containerDemoPanel).find('[name=lHoverEffect1]').val('labelAppear75');
 
 
-      var nanoGALLERY_obj = new nanoGALLERY();
-      settings.thumbnailHoverEffect='labelAppear75',
-      nanoGALLERY_obj.Initiate(g_containerNew,settings);
+      settings.thumbnailHoverEffect='labelAppear75';
+      var nanoGALLERY_obj = jQuery(g_containerNew).nanoGallery(settings);
 
       jQuery(g_containerDemoPanel).find('button[name=bGo]').on("click",function(){
         runDemo();
@@ -369,9 +343,8 @@
       jQuery(g_containerNew).animate({opacity: 0,height:0},200).promise().done(function(){
       jQuery(g_containerNew).remove();
         g_containerNew=jQuery(g_save).appendTo(g_containerDemo);
-        var nanoGALLERY_obj = new nanoGALLERY();
-        nanoGALLERY_obj.Initiate(g_containerNew,settings);
-        //jQuery(elt).css('opacity','1');
+        var nanoGALLERY_obj = jQuery(g_containerNew).nanoGallery(settings);
+
       });
     }
   };
