@@ -277,6 +277,9 @@ nanoGALLERY v5.4.0 release notes.
       if( albumIdx == -1 ) {
         throw ('Current album not found.');
       }
+      G.I.forEach(function(item){
+          item.fresh = false;
+      });
       
       // TODO : remove content of the current album
 
@@ -350,11 +353,9 @@ nanoGALLERY v5.4.0 release notes.
      * @param {array} items
      */
     this.SetSelectedItems = function(items){
-      indexes = this.GetItemsIndex(items);
-      indexes.forEach(function(it){
-        if(G.I[it].$elt !== null){
-          // thumbnailSelection(G.I[it].$elt, G.I[it], G.I[it].selected);
-          thumbnailSelection(G.I[it], true);
+      items.forEach(function(it){
+        if(it.$elt !== null){
+          thumbnailSelection(it, true);
         }
       });
     };
@@ -2595,6 +2596,7 @@ nanoGALLERY v5.4.0 release notes.
         nbImages=0;
         for( var j=0; j<l; j++ ){
           if( i!=j && G.I[i].GetID() == G.I[j].albumID ) {
+            G.I[i].fresh = true;
             nb++;
             if( G.I[j].kind == 'image' ) {
               G.I[j].imageNumber=nbImages++;
@@ -2880,7 +2882,6 @@ nanoGALLERY v5.4.0 release notes.
           width: { l1 : { xs:tw, sm:tw, me:tw, la:tw, xl:tw }, lN : { xs:tw, sm:tw, me:tw, la:tw, xl:tw } },
           height: { l1 : { xs:th, sm:th, me:th, la:th, xl:th }, lN : { xs:th, sm:th, me:th, la:th, xl:th } }
         };
-
         if( typeof G.O.fnProcessData == 'function' ) {
           G.O.fnProcessData(newItem, 'api', null);
         }
@@ -3625,7 +3626,8 @@ nanoGALLERY v5.4.0 release notes.
     // ################################
     
     function NGAddItem(title, thumbSrc, imageSrc, description, destinationURL, kind, tags, ID, albumID ) {
-      if(GetNGItem(ID) === null){
+      itemIndex = GetNGItemIndex(ID);
+      if(itemIndex === null){
         var newObj=new NGItems(title,ID);
         newObj.thumbsrc=thumbSrc;
         newObj.src=imageSrc;
@@ -3633,6 +3635,7 @@ nanoGALLERY v5.4.0 release notes.
         newObj.destinationURL=destinationURL;
         newObj.kind=kind;
         newObj.albumID=albumID;
+        newObj.fresh=true;
         if( tags.length == 0 ) {
           newObj.tags=null;
         }
@@ -3643,7 +3646,8 @@ nanoGALLERY v5.4.0 release notes.
         return newObj;
       }
       else{
-        return GetNGItem(ID);
+        G.I[itemIndex].fresh=true;
+        return G.I[itemIndex];
       }
     }
 
@@ -3652,6 +3656,16 @@ nanoGALLERY v5.4.0 release notes.
       for( var i=0; i<l; i++ ) {
         if( G.I[i].GetID() == ID ) {
           return G.I[i];
+        }
+      }
+      return null;
+    }
+    
+    function GetNGItemIndex( ID ) {
+      var l=G.I.length;
+      for( var i=0; i<l; i++ ) {
+        if( G.I[i].GetID() == ID ) {
+          return i;
         }
       }
       return null;
@@ -4583,16 +4597,9 @@ nanoGALLERY v5.4.0 release notes.
       G.I[albumIdx].paginationLastPage=pageNumber;
       G.I[albumIdx].paginationLastWidth=G.$E.conTnParent.width();
 
-
       var l=G.I.length;
       // if one description is defined then put a value to those without
       var foundDesc=false;
-      /*if( G.O.thumbnailLabel.get('position') == 'onBottom'  ) {
-        for(var i=0; i<l; i++ ) {
-          if( G.I[i].albumID == G.I[albumIdx].albumID && G.I[i].description.length > 0 ) { foundDesc=true; }
-        }
-      }*/
-      // var G.galleryItemsCount=0;
       G.galleryItemsCount=0;
       var currentCounter=0,
       firstCounter=0,
@@ -4631,20 +4638,23 @@ nanoGALLERY v5.4.0 release notes.
             if( currentCounter > firstCounter ) {
               G.galleryItemsCount++;
               
-              var r=thumbnailBuild(item, idx, foundDesc);
-              var $newDiv=r.e$;
-
-              // image lazy load
-              // if( G.O.thumbnailLazyLoad  ) {
-              if( G.O.thumbnailLazyLoad && !r.cIS ) {
-                if( !endInViewportTest ) {
-                  if( inViewport($newDiv, G.tn.lazyLoadTreshold) ) {
-                    $newDiv.find('img').attr('src','');   // firefox bug workaround
-                    $newDiv.find('img').attr('src',item.thumbImg().src);
-                    startInViewportTest=true;
-                  }
-                  else {
-                    if( startInViewportTest ) { endInViewportTest=true; }
+              // If the item is does not exists anymore
+              if(item.fresh === true){
+              
+                var r=thumbnailBuild(item, idx, foundDesc);
+                var $newDiv=r.e$;
+                
+                // image lazy load
+                if( G.O.thumbnailLazyLoad && !r.cIS ) {
+                  if( !endInViewportTest ) {
+                    if( inViewport($newDiv, G.tn.lazyLoadTreshold) ) {
+                      $newDiv.find('img').attr('src','');   // firefox bug workaround
+                      $newDiv.find('img').attr('src',item.thumbImg().src);
+                      startInViewportTest=true;
+                    }
+                    else {
+                      if( startInViewportTest ) { endInViewportTest=true; }
+                    }
                   }
                 }
               }
@@ -4686,6 +4696,7 @@ nanoGALLERY v5.4.0 release notes.
       
       var pos='';
       var ch=' nanogalleryHideElement'
+      
       if( G.O.thumbnailLazyLoad && G.tn.settings.getW() == 'auto' ) {
         pos='top:0px;left:0px;';
         ch='';
@@ -6263,10 +6274,10 @@ nanoGALLERY v5.4.0 release notes.
                     item.eltTransform[this.eltClass][this.tf]=this.to;
                     SetCSSTransform(this.item, this.eltClass);
                   // transformElt[this.tf]=this.to;
-               // console.clear();
-               // console.log(this.to);
+                // console.clear();
+                // console.log(this.to);
                   // SetCSSTransform(this.$e, this.transformElt);
-                } 
+                }
               });
             }
             delete anime[tf];
