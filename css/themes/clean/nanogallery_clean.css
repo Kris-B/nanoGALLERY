@@ -15,8 +15,9 @@
 	-o-box-sizing: content-box;
 	overflow: hidden;
   visibility: visible;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 
@@ -315,6 +316,7 @@
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer .selected{
   opacity: 0.5;
 }
+
 .nanogallery_theme_clean .nanoGalleryContainer .nanoGalleryThumbnailContainer .selected + input{
   opacity: 1; 
 }

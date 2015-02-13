@@ -15,8 +15,9 @@
 	-o-box-sizing: content-box;
 	overflow: hidden;
   visibility: visible;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 
