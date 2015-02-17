@@ -356,6 +356,7 @@
       }
       
       function fnDemoThumbnailSelection( $elt, item, data ) {
+        return;
         var $thumbnailCheckbox = $elt.find('input[type=checkbox]');
         $thumbnailCheckbox.prop('checked', item.selected);
         if( item.selected ) {
@@ -374,6 +375,10 @@
       });
       jQuery('#btnCountSelected').on('click', function() {
         alert(jQuery('#nanoGallery3a').nanoGallery('getSelectedItems').length);
+      });
+      jQuery('#btnUnselect').on('click', function() {
+        var items=jQuery('#nanoGallery3a').nanoGallery('getSelectedItems');
+        jQuery('#nanoGallery3a').nanoGallery('unselectItems', items)
       });
       
       // ##################################################################################################################
@@ -560,7 +565,7 @@
 	<div id="nanoGallery2">
 		<a href="image_01.jpg" data-ngthumb="image_01ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet interdum magna. Nunc luctus leo ut blandit tempor. Suspendisse at auctor lorem, sed hendrerit arcu.">Thailand</a>
 		<a href="image_02.jpg" data-ngthumb="image_02ts.jpg" data-ngdesc="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">Vietnam</a>
-		<a href="image_03.jpg" data-ngthumb="image_03ts.jpg" data-ngdesc="">India</a>
+		<a href="image_03.jpg" data-ngthumb="image_03ts.jpg" data-ngdesc="" data-customdata='{"a":"1", "b":"2"}'>India</a>
 	</div>
 
 	<br><br><h2>Sample #3: Picasa/Google+</h2>
@@ -573,6 +578,7 @@
     <div style="margin:10px;">
       <button id="btnReload" "type="button" style="color:#000;padding:4px;">&nbsp; reload &nbsp;</button>
       <button id="btnCountSelected" "type="button" style="color:#000;padding:4px;">&nbsp; count selected items &nbsp;</button>
+      <button id="btnUnselect" "type="button" style="color:#000;padding:4px;">&nbsp; Unselect selected items &nbsp;</button>
     </div>
 		<br><br><br>
     <div id="nanoGallery3a"></div>

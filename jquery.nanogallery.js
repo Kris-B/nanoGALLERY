@@ -23,7 +23,6 @@
 
 nanoGALLERY v5.5.0beta release notes.
 
-Add: showCheckboxes option
 Add: fnInitGallery callback (called after each gallery construction)
 Add: fnChangeSelectMode callback (called when entering or leaving selection mode)
 Add: setSelectMode (enter/leave selection mode)
@@ -31,15 +30,20 @@ Add: getSelectMode (is the viewer in selection mode)
 Add: selection on long touch
 Add: selectable class when entering in selection mode
 
+
+
 ##### New features
   
 ##### New options
 - **showCheckboxes**: displays a checkbox over selected thumbnails.
   *boolean; Default: true*  
-- **checkboxPosition.left** : Left position of the thumbnail's checkbox.
-  *string, Default: '15px'*
-- **checkboxPosition.top** : Top position of the thumbnail's checkbox.
-  *string, Default: '15px'*
+- **checkboxStyle** : inline style for selection checkbox.
+  *string, Default: 'left:15px; top:15px;'*
+- inline method: new data attribute to store custom data: `customdata`  
+  Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`
+- API method: new properties to store custom data: `customData`  
+  Usage example: `src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`
+
 
 ##### New callbacks
   
@@ -118,7 +122,7 @@ Add: selectable class when entering in selection mode
     itemsBaseURL : '',
     itemsSelectable : false,
     showCheckboxes: true,
-    checkboxPosition : { left: '15px', top: '15px' },
+    checkboxStyle : 'left:15px; top:15px;',
     jsonCharset: 'Latin',
     jsonProvider: '',
     paginationMaxLinesPerPage : 0,
@@ -249,24 +253,21 @@ Add: selectable class when entering in selection mode
       for( var j=0; j<l ; j++) {
         if( G.lastOpenAlbumID == G.I[j].GetID() ) {
           albumIdx=j;
+          break;
         }
-        item.fresh = false;
       }
       if( albumIdx == -1 ) {
         throw ('Current album not found.');
       }
 
-      // TODO : remove content of the current album
-
-      // unselect everything
-      if( G.O.itemsSelectable ) {
-        G.selectedItems=[];
-        var l=G.I.length;
-        for( var i=0; i < l ; i++ ) {
-          G.I[i].selected=false;
+      // unselect everything & remove link to album (=logical delete)
+      G.selectedItems=[];
+      for( var i=0; i < l ; i++ ) {
+        G.I[i].selected = false;
+        if( G.I[i].albumID == albumIdx ) {
+          G.I[i].albumID = -1;    // remove link to parent album
         }
       }
-
       G.I[albumIdx].contentIsLoaded = false;
       
       G.lastOpenAlbumID = -1;
@@ -461,10 +462,14 @@ Add: selectable class when entering in selection mode
           return G.tnL1HE;
         }
         return G.tnHE;
-      }
+      },
+      styleFtitle: '',
+      styleITitle: '',
+      styleDesc: '',
+      styleLabelImage: ''
     };
     G.tnHE = [];                      // Thumbnail hover effects
-    G.tnL1HE = [];                      // Thumbnail hover effects - Level 1
+    G.tnL1HE = [];                    // Thumbnail hover effects - Level 1
     G.L = {                           // Layout informations
       nbMaxTnPerRow: 0
     };
@@ -547,7 +552,7 @@ Add: selectable class when entering in selection mode
     G.isIOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
     G.isGingerbread =/Android 2\.3\.[3-7]/i.test(navigator.userAgent),
     G.openNoDelay=false;
-
+    
     
     // ### Picasa/Google+
     // square format : 32, 48, 64, 72, 104, 144, 150, 160 (cropped)
@@ -698,7 +703,6 @@ Add: selectable class when entering in selection mode
         this.picasaThumbs = null;         // store URLs and sizes
         this.hovered = false;           // is the thumbnail currently hovered?
         this.hoverInitDone = false;
-        this.$elt = null;               // pointer to the corresponding DOM element
         this.contentIsLoaded = false;   // album: are items already loaded?
         this.contentLength = 0;         // album: number of items
         this.imageNumber = 0;           // image number in the album
@@ -708,6 +712,8 @@ Add: selectable class when entering in selection mode
         this.paginationLastWidth = 0;
         this.customData = {};
         this.selected = false;
+        this.$elt = null;               // pointer to the corresponding DOM element
+        this.$Elts = [];                // cached pointers to the thumbnail content -> to avoid jQuery().find()
       }
 
       // public static
@@ -717,7 +723,20 @@ Add: selectable class when entering in selection mode
 
       // public (shared across instances)
       NGItems.prototype = {
-        thumbSetImgHeight: function(h) {              // set thumbnail image real height for current level/resolution, and for all others level/resolutions having the same settings
+      
+        // cached sub elements
+        $getElt: function( elt, forceRefresh ) {
+          if( this.$Elts[elt] !== undefined && !forceRefresh == true ) {
+            return this.$Elts[elt];
+          }
+          else {
+          this.$Elts[elt]=this.$elt.find(elt);
+            return this.$Elts[elt];
+          }
+        },
+
+        // set thumbnail image real height for current level/resolution, and for all others level/resolutions having the same settings
+        thumbSetImgHeight: function(h) {              
           var lst=['xs','sm','me','la','xl'];
           for( var i=0; i< lst.length; i++ ) {
             if( G.tn.settings.height.l1[lst[i]] == G.tn.settings.getH() && G.tn.settings.width.l1[lst[i]] == G.tn.settings.getW() ) {
@@ -730,8 +749,9 @@ Add: selectable class when entering in selection mode
             }
           }
         },
-        
-        thumbSetImgWidth: function(w) {              // set thumbnail image real width for current level/resolution, and for all others level/resolutions having the same settings
+
+        // set thumbnail image real width for current level/resolution, and for all others level/resolutions having the same settings
+        thumbSetImgWidth: function(w) {              
           var lst=['xs','sm','me','la','xl'];
           for( var i=0; i< lst.length; i++ ) {
             if( G.tn.settings.height.l1[lst[i]] == G.tn.settings.getH() && G.tn.settings.width.l1[lst[i]] == G.tn.settings.getW() ) {
@@ -745,7 +765,8 @@ Add: selectable class when entering in selection mode
           }
         },
       
-        thumbImg: function () {   //G.thumbSize
+        // Returns Thumbnail image
+        thumbImg: function () {   
           var tnImg = { src:'', width:0, height:0 };
 
           if( this.title == 'dummydummydummy' ) {
@@ -1006,15 +1027,13 @@ Add: selectable class when entering in selection mode
         nanoConsoleLog('Your browser does not support the fullscreen API. Fullscreen button will not be displayed.');
       }
       
-      // cache some elements sizes of the thumbnail
-      retrieveThumbnailSizes();
+      // cache some thumbnails data (sizes, styles...)
+      ThumbnailDefCaches();
       
       G.L.nbMaxTnPerRow=NbThumbnailsPerRow();
       
       // lazy build the gallery
       if( G.O.lazyBuild != 'loadData' ) { NGFinalize(); }
-      
-      
       
       // GLOBAL EVENT MANAGEMENT
       // Page resize
@@ -1376,6 +1395,13 @@ Add: selectable class when entering in selection mode
         var eType=(jQuery(e.target).get(0).tagName).toUpperCase();
         // class customEventHandler --> disable standard event handler
         if( G.containerViewerDisplayed || eType == 'A' || eType == 'INPUT' || jQuery(e.target).hasClass('customEventHandler') ) {     // detect click on custom element
+          // selection checkbox clicked
+          if( jQuery(e.target).hasClass('ngChekbox') ) {
+            var n=jQuery(e.target).parent().data('index');
+            if( n != undefined ) {
+              thumbnailSelection(G.I[n], undefined, false);
+            }
+          }
           e.stopPropagation();
           //e.eventDefault();
           return false;
@@ -1401,11 +1427,9 @@ Add: selectable class when entering in selection mode
           return false;
         }
 
-
         if( (new Date().getTime()) - G.timeImgChanged < 400 && G.O.itemsSelectable !== true ) { 
           return;
-        }     // [TODO] --> remove!!!
-        //e.preventDefault();
+        }     
         
         if( (new Date().getTime()) - G.timeLastTouchStart < 400 && G.O.itemsSelectable !== true ) {
           return;
@@ -1431,8 +1455,6 @@ Add: selectable class when entering in selection mode
         // handle thumbnail selection
         if(G.O.itemsSelectable === true){
           if(G.isShiftPressed || G.isCtrlPressed || G.isMetaPressed || e.target.nodeName.toLowerCase() === 'input'){
-          
-            // thumbnailSelection(G.$currentTouchedThumbnail, G.I[G.$currentTouchedThumbnail.data('index')]);
             thumbnailSelection( G.I[G.$currentTouchedThumbnail.data('index')] );
             return false;
           }
@@ -1700,9 +1722,9 @@ Add: selectable class when entering in selection mode
       }
 
       
-      // Check if pointer events are supported.
+      // Check if MS pointer events are supported.
       if (window.navigator.msPointerEnabled) {
-      // Add Pointer Event Listener
+        // Add Pointer Event Listener
         elementToSwipe.addEventListener('MSPointerDown', this.handleGestureStartNoDelay, true);
       }
       else {
@@ -2234,7 +2256,7 @@ Add: selectable class when entering in selection mode
 
     
     // build a dummy thumbnail to get different sizes and to cache them
-    function retrieveThumbnailSizes() {
+    function ThumbnailDefCaches() {
       G.I=[];
 
       // var desc='';
@@ -2402,9 +2424,6 @@ Add: selectable class when entering in selection mode
       }
       
       
-      
-      
-      
       // pagination
       G.pgMaxNbThumbnailsPerRow=NbThumbnailsPerRow();
       
@@ -2418,6 +2437,42 @@ Add: selectable class when entering in selection mode
       G.custGlobals.oldLabelBlue=c.blue();
 
       G.I=[];
+      
+      // thumbnail content CSS styles
+      if( G.O.thumbnailLabel.get('display') ) {
+        switch( G.O.thumbnailLabel.get('position') ){
+          case 'onBottom':
+            G.tn.styleLabelImage='top:0; position:relative; left:0; right:0;';
+            if( G.tn.settings.getH() == 'auto' ) {
+              // line break
+              G.tn.styleFtitle='white-space:normal;';
+              G.tn.styleITitle='white-space:normal;';
+              G.tn.styleDesc='white-space:normal;';
+            }
+            else {
+              // no line break
+              G.tn.styleFtitle='white-space:nowrap;';
+              G.tn.styleITitle='white-space:nowrap;';
+              G.tn.styleDesc='white-space:nowrap;';
+            }
+            break;
+          case 'overImageOnTop':
+            G.tn.styleLabelImage='top:0; bottom:0; left:0; right:0;';
+            break;
+          case 'overImageOnMiddle':
+            G.tn.styleLabelImage='top:0; bottom:0; left:0; right:0;';
+            G.tn.styleFtitle='left:0; right:0; position:absolute; bottom:50%;';
+            G.tn.styleITitle='left:0; right:0; position:absolute; bottom:50%;';
+            G.tn.styleDesc='left:0; right:0; position:absolute; top:50%;';
+            break;
+          case 'overImageOnBottom':
+          default :
+            G.O.thumbnailLabel.set('position', 'overImageOnBottom');
+            G.tn.styleLabelImage='bottom:0; left:0; right:0;';
+            break;
+        }
+      }
+      
     }
 
     function GetI18nItem( item, property ) {
@@ -2554,6 +2609,10 @@ Add: selectable class when entering in selection mode
           height: { l1 : { xs:th, sm:th, me:th, la:th, xl:th }, lN : { xs:th, sm:th, me:th, la:th, xl:th } }
         };
 
+        // custom data
+        if( item.customData !== null ) {
+          newItem.customData=cloneJSObject(item.customData);
+        }
         
         if( typeof G.O.fnProcessData == 'function' ) {
           G.O.fnProcessData(newItem, 'api', null);
@@ -2573,7 +2632,6 @@ Add: selectable class when entering in selection mode
         nbImages=0;
         for( var j=0; j<l; j++ ){
           if( i!=j && G.I[i].GetID() == G.I[j].albumID ) {
-            G.I[i].fresh = true;
             nb++;
             if( G.I[j].kind == 'image' ) {
               G.I[j].imageNumber=nbImages++;
@@ -2585,7 +2643,19 @@ Add: selectable class when entering in selection mode
 
     }
 
+    function cloneJSObject( obj ) {
+      if (obj === null || typeof obj !== 'object') {
+        return obj;
+      }
 
+      var temp = obj.constructor(); // give temp the original obj's constructor
+      for (var key in obj) {
+          temp[key] = cloneJSObject(obj[key]);
+      }
+      return temp;
+    }
+
+      
     // ###################################
     // ##### LIST OF HREF ATTRIBUTES #####
     // ###################################
@@ -2680,7 +2750,6 @@ Add: selectable class when entering in selection mode
           title=GetImageTitle(src);
         }
 
-        //NGAddItem(jQuery(item).text(), thumbsrc, src, description, destURL, 'image', '' );
         var newItem=NGAddItem(title, thumbsrc, src, description, destURL, kind, '', ID, albumID );
         
         // thumbnail image size
@@ -2700,6 +2769,12 @@ Add: selectable class when entering in selection mode
           width: { l1 : { xs:tw, sm:tw, me:tw, la:tw, xl:tw }, lN : { xs:tw, sm:tw, me:tw, la:tw, xl:tw } },
           height: { l1 : { xs:th, sm:th, me:th, la:th, xl:th }, lN : { xs:th, sm:th, me:th, la:th, xl:th } }
         };
+        
+        // custom data
+        if( jQuery(item).data('customdata') !== undefined ) {
+          newItem.customData=cloneJSObject(jQuery(item).data('customdata'));
+        }
+
         
         if( typeof G.O.fnProcessData == 'function' ) {
           G.O.fnProcessData(newItem, 'markup', null);
@@ -2890,7 +2965,6 @@ Add: selectable class when entering in selection mode
 
       manageGalleryToolbar(albumIdx);
     
-      //if( G.I[albumIdx].contentLength != 0 ) {    // already loaded?
       if( G.I[albumIdx].contentIsLoaded ) {    // already loaded?
         DisplayAlbum(albumIdx,setLocationHash);
         return;
@@ -3246,7 +3320,6 @@ Add: selectable class when entering in selection mode
     }
     
     function PicasaProcessItems( albumIdx, processLocationHash, imageID, setLocationHash ) {
-
       manageGalleryToolbar(albumIdx);
     
       if( G.I[albumIdx].contentIsLoaded ) {    // already loaded?
@@ -3269,6 +3342,7 @@ Add: selectable class when entering in selection mode
       thumbSizes=AddOneThumbSize(thumbSizes, G.tn.settings.width.lN.me, G.tn.settings.height.lN.me, G.tn.settings.width.lN.mec, G.tn.settings.height.lN.mec );
       thumbSizes=AddOneThumbSize(thumbSizes, G.tn.settings.width.lN.la, G.tn.settings.height.lN.la, G.tn.settings.width.lN.lac, G.tn.settings.height.lN.lac );
       thumbSizes=AddOneThumbSize(thumbSizes, G.tn.settings.width.lN.xl, G.tn.settings.height.lN.xl, G.tn.settings.width.lN.xlc, G.tn.settings.height.lN.xlc );
+
       if( G.I[albumIdx].GetID() == 0 ) {
         // albums
         //url = G.picasa.url() + 'user/'+G.O.userID+'?alt=json&kind=album&imgmax=d&thumbsize='+G.picasa.thumbSize;
@@ -3604,30 +3678,30 @@ Add: selectable class when entering in selection mode
     
     function NGAddItem(title, thumbSrc, imageSrc, description, destinationURL, kind, tags, ID, albumID ) {
       var item=GetNGItem(ID);
-      if(item === null){
-        var newItm=new NGItems(title,ID);
-        //newObj.thumbsrc=thumbSrc;
-        newItm.src=imageSrc;
-        newItm.description=description;
-        newItm.destinationURL=destinationURL;
-        newItm.kind=kind;
-        newItm.albumID=albumID;
-        newItm.fresh=true;
-        if( tags.length == 0 ) {
-          newItm.tags=null;
-        }
-        else {
-          newItm.tags=tags.split(' ');
-        }
-        G.I.push(newItm);
-        return newItm;
+      var isNew=false;
+      if( item === null ){
+        item=new NGItems(title,ID);
+        isNew=true;
       }
-      else{
-        item.fresh=true;
-        return item;
+      item.src=imageSrc;
+      item.description=description;
+      item.destinationURL=destinationURL;
+      item.kind=kind;
+      item.albumID=albumID;
+      if( tags.length == 0 ) {
+        item.tags=null;
       }
-    }
+      else {
+        item.tags=tags.split(' ');
+      }
 
+      if( isNew ) {
+        item.title=title;
+        G.I.push(item);
+      }
+      return item;
+    }
+    
     function GetNGItem( ID ) {
       var l=G.I.length;
       for( var i=0; i<l; i++ ) {
@@ -3773,7 +3847,7 @@ Add: selectable class when entering in selection mode
         }
 
         displayToolbar=true;
-        
+      
         // G.$E.conBC.children().not(':first').remove();
         G.$E.conBC.children().remove();
         breadcrumbAdd(0);
@@ -3785,7 +3859,7 @@ Add: selectable class when entering in selection mode
           lstItems.push(albumIdx);
           var curIdx=albumIdx;
           
-          while ( G.I[curIdx].albumID != 0 ) {
+          while( G.I[curIdx].albumID != 0 && G.I[curIdx].albumID != -1) {
             for(i=1; i < l; i++ ) {
               if( G.I[i].GetID() == G.I[curIdx].albumID ) {
                 curIdx=i;
@@ -3803,7 +3877,6 @@ Add: selectable class when entering in selection mode
             }
           }
         }
-        
         
         var bcItems=G.$E.conBC.children(),
         l1=bcItems.length;
@@ -3830,9 +3903,7 @@ Add: selectable class when entering in selection mode
           }
           //G.$E.conBC.children().not(':first').remove();
         }
-
         G.pgMaxNbThumbnailsPerRow=NbThumbnailsPerRow();
-
       }
       
       // Tag-bar
@@ -3849,7 +3920,6 @@ Add: selectable class when entering in selection mode
         G.containerNavigationbarContDisplayed=true;
         G.$E.conNavBCon.show();
       }
-
       
     }
 
@@ -3897,6 +3967,7 @@ Add: selectable class when entering in selection mode
     
     // ##### REPOSITION THUMBNAILS ON SCREEN RESIZE EVENT
     function ResizeGallery() {
+
       if( G.tn.settings.getH() == 'auto' ) {
         ResizeGalleryHeightAuto();
       }
@@ -4174,7 +4245,7 @@ Add: selectable class when entering in selection mode
             rh=parseInt(rh);
             w=parseInt(w);
             $this.width(w+G.tn.imgcBorderWidth).height(rh+G.tn.imgcBorderHeight+G.tn.labelHeight);
-            $this.find('.imgContainer').height(rh).width(w);
+            item.$getElt('.imgContainer').height(rh).width(w);
             $this.find('img').css({'max-height':rh+2, 'max-width':w+2});
             $this.find('.subcontainer').width(w+G.tn.imgcBorderWidth).height(rh+G.tn.imgcBorderHeight+G.tn.labelHeight);
             //$this.find('.labelImage').css({left:0, right:0});
@@ -4385,13 +4456,13 @@ Add: selectable class when entering in selection mode
       });
 
       jQuery($eltInViewport).each(function(){
-          var $image=jQuery(this).find('img');
-          if( jQuery($image).attr('src') == G.emptyGif ) {
-            var idx=jQuery(this).data('index');
-            if( idx == undefined || G.I[idx] == undefined ) { return; }
-            jQuery($image).attr('src','');
-            jQuery($image).attr('src',G.I[idx].thumbImg().src);
-          }
+        var $image=jQuery(this).find('img');
+        if( jQuery($image).attr('src') == G.emptyGif ) {
+          var idx=jQuery(this).data('index');
+          if( idx == undefined || G.I[idx] == undefined ) { return; }
+          jQuery($image).attr('src','');
+          jQuery($image).attr('src',G.I[idx].thumbImg().src);
+        }
       });
     }
 
@@ -4496,7 +4567,7 @@ Add: selectable class when entering in selection mode
       
       // pagination - max lines per page mode
       if( G.pgMaxLinesPerPage > 0 ) {
-        n1=G.I[aIdx].contentLength/(G.pgMaxLinesPerPage*G.pgMaxNbThumbnailsPerRow);
+        n1=G.I[aIdx].contentLength / (G.pgMaxLinesPerPage * G.pgMaxNbThumbnailsPerRow);
       }
       n2=Math.ceil(n1);
       
@@ -4521,7 +4592,7 @@ Add: selectable class when entering in selection mode
       
       // pagination - max lines per page mode
       if( G.pgMaxLinesPerPage > 0 ) {
-        n1=G.I[aIdx].contentLength/(G.pgMaxLinesPerPage*G.pgMaxNbThumbnailsPerRow);
+        n1=G.I[aIdx].contentLength / (G.pgMaxLinesPerPage * G.pgMaxNbThumbnailsPerRow);
       }
       n2=Math.ceil(n1);
       
@@ -4556,6 +4627,7 @@ Add: selectable class when entering in selection mode
 
         G.$E.conTnParent.css({ left:0, opacity:1 });
         ElementTranslateX(G.$E.conTn[0],0);
+
         renderGallery2(albumIdx, pageNumber, renderGallery2Complete);
       });
     }
@@ -4599,7 +4671,6 @@ Add: selectable class when entering in selection mode
             onComplete(albumIdx, pageNumber);
             return;
           }
-
           var item=G.I[idx];
           if( item.albumID == G.I[albumIdx].GetID() ) {
             currentCounter++;
@@ -4616,21 +4687,19 @@ Add: selectable class when entering in selection mode
               G.galleryItemsCount++;
               
               // If the item is does not exists anymore
-              if(item.fresh === true){
-                var r=thumbnailBuild(item, idx, foundDesc);
-                var $newDiv=r.e$;
+              var r=thumbnailBuild(item, idx, foundDesc);
+              var $newDiv=r.e$;
 
-                // image lazy load
-                if( G.O.thumbnailLazyLoad && !r.cIS ) {
-                  if( !endInViewportTest ) {
-                    if( inViewport($newDiv, G.tn.lazyLoadTreshold) ) {
-                      $newDiv.find('img').attr('src','');   // firefox bug workaround
-                      $newDiv.find('img').attr('src',item.thumbImg().src);
-                      startInViewportTest=true;
-                    }
-                    else {
-                      if( startInViewportTest ) { endInViewportTest=true; }
-                    }
+              // image lazy load
+              if( G.O.thumbnailLazyLoad && !r.cIS ) {
+                if( !endInViewportTest ) {
+                  if( inViewport($newDiv, G.tn.lazyLoadTreshold) ) {
+                    item.$getElt('img').attr('src','');   // firefox bug workaround
+                    item.$getElt('img').attr('src',item.thumbImg().src);
+                    startInViewportTest=true;
+                  }
+                  else {
+                    if( startInViewportTest ) { endInViewportTest=true; }
                   }
                 }
               }
@@ -4650,7 +4719,8 @@ Add: selectable class when entering in selection mode
     }
     
     function renderGallery2Complete( albumIdx, pageNumber ) {
-    
+
+
       //if( G.O.thumbnailHeight == 'auto' || G.O.thumbnailWidth == 'auto' || G.O.thumbnailWidth == 'autoUpScale' ) {
         ResizeGallery();
       //}
@@ -4671,13 +4741,14 @@ Add: selectable class when entering in selection mode
       var newElt=[],
       newEltIdx=0;
       
+      item.$Elts=[];
+      
       var pos='';
       var ch=' nanogalleryHideElement'
       if( G.O.thumbnailLazyLoad && G.tn.settings.getW() == 'auto' ) {
         pos='top:0px;left:0px;';
         ch='';
       }
-      // newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer nanogalleryHideElement" style="display:inline-block,opacity:'+eltOpacity+'" ><div class="subcontainer" style="display: inline-block">';
       newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer'+ch+' nGEvent" style="display:block;opacity:0;'+pos+'" ><div class="subcontainer nGEvent" style="display:block;">';
       
       var checkImageSize=false,
@@ -4707,46 +4778,57 @@ Add: selectable class when entering in selection mode
             // display content counter
             switch( G.O.thumbnailLabel.get('itemsCount') ) {
               case 'title':
-                //sTitle += ' <span>' + G.i18nTranslations.thumbnailLabelItemsCountPart1 + item.contentLength + G.i18nTranslations.thumbnailLabelItemsCountPart2 + '</span>';
                 sTitle +=  ' ' + G.i18nTranslations.thumbnailLabelItemsCountPart1 + '<span class="nGEvent">' +item.contentLength + '</span>' +G.i18nTranslations.thumbnailLabelItemsCountPart2;
                 break;
               case 'description':
                 sDesc += ' ' + G.i18nTranslations.thumbnailLabelItemsCountPart1 + '<span class="nGEvent">' + item.contentLength + '</span>' + G.i18nTranslations.thumbnailLabelItemsCountPart2;
                 break;
-              }
             }
-          //newElt[newEltIdx++]='<div class="labelImage" style="width:'+G.O.thumbnailWidth+'px;max-height:'+G.O.thumbnailHeight+'px;"><div class="labelFolderTitle labelTitle" >'+sTitle+'</div><div class="labelDescription" >'+sDesc+'</div></div>';
-          newElt[newEltIdx++]='<div class="labelImage nGEvent" style="width:'+G.tn.settings.getW()+'px;'+(G.O.RTL ? "direction:RTL;" :"")+'"><div class="labelFolderTitle labelTitle nGEvent" >'+sTitle+'</div><div class="labelDescription nGEvent" >'+sDesc+'</div></div>';
+          }
+          newElt[newEltIdx++]='<div class="labelImage nGEvent" style="width:'+G.tn.settings.getW()+'px;'+(G.O.RTL ? "direction:RTL;" :"")+G.tn.styleLabelImage+'"><div class="labelFolderTitle labelTitle nGEvent" style="'+G.tn.styleFTitle+'">'+sTitle+'</div><div class="labelDescription nGEvent" style="'+G.tn.styleDesc+'">'+sDesc+'</div></div>';
         }
       }
       else {
         // IMAGE
         if( G.O.thumbnailLabel.get('display') == true ) {
           if( foundDesc && sDesc.length == 0 && G.O.thumbnailLabel.get('position') == 'onBottom' ) { sDesc='&nbsp;'; }
-          //newElt[newEltIdx++]='<div class="labelImage" style="width:'+G.O.thumbnailWidth+'px;max-height:'+G.O.thumbnailHeight+'px;"><div class="labelImageTitle labelTitle" >'+sTitle+'</div><div class="labelDescription" >'+sDesc+'</div></div>';
-          newElt[newEltIdx++]='<div class="labelImage nGEvent" style="width:'+G.tn.settings.getW()+'px;'+(G.O.RTL ? "direction:RTL;" :"")+'"><div class="labelImageTitle labelTitle nGEvent" >'+sTitle+'</div><div class="labelDescription nGEvent" >'+sDesc+'</div></div>';
+          newElt[newEltIdx++]='<div class="labelImage nGEvent" style="width:'+G.tn.settings.getW()+'px;'+(G.O.RTL ? "direction:RTL;" :"")+G.tn.styleLabelImage+'"><div class="labelImageTitle labelTitle nGEvent" style="'+G.tn.styleITitle+'">'+sTitle+'</div><div class="labelDescription nGEvent" style="'+G.tn.styleDesc+'">'+sDesc+'</div></div>';
         }
       }
-      newElt[newEltIdx++]='</div></div>';
+      
+      
+      newElt[newEltIdx++]='</div>';
+      
+      // checkbox for selection
+      if( G.O.itemsSelectable && G.O.showCheckboxes ) {
+        newElt[newEltIdx++]='<input class="ngChekbox" type="checkbox" style="position:absolute;z-index:999;'+G.O.checkboxStyle+'">';
+      }
+      
+      newElt[newEltIdx++]='</div>';
       
       var $newDiv =jQuery(newElt.join('')).appendTo(G.$E.conTnHid); //.animate({ opacity: 1},1000, 'swing');  //.show('slow'); //.fadeIn('slow').slideDown('slow');
+
       item.$elt=$newDiv;
       $newDiv.data('index',idx);
-      $newDiv.find('img').data('index',idx);
+      item.$getElt('img').data('index',idx);
 
-      thumbnailPositionContent($newDiv, item);
+      
+      // Custom init function
+      if( typeof G.O.fnThumbnailInit == 'function' ) { 
+        G.O.fnThumbnailInit($newDiv, item, ExposedObjects());
+      }
+
       var $p=$newDiv.detach();
       $p.appendTo( G.$E.conTn );
 
-      ThumbnailInit($newDiv);
+      ThumbnailOverInit($newDiv);     // init hover effects
 
       if( checkImageSize ) {
         var gi_imgLoad = ngimagesLoaded( $newDiv );
-        gi_imgLoad.on( 'always', function( instance ) {
         //$newDiv.ngimagesLoaded().always( function( instance ) {
+        gi_imgLoad.on( 'always', function( instance ) {
           var item=G.I[jQuery(instance.images[0].img).data('index')];
-          // if( item == undefined || jQuery(instance.images[0].img).attr('src') == G.emptyGif ) { return; }    // also fired for blank image --> ignore
-          if( item == undefined || instance.images[0].img.src == G.emptyGif ) { return; }    // also fired for blank image --> ignore
+          if( item == undefined || instance.images[0].img.src == G.emptyGif ) { return; }    // warning: also fired for blank image --> ignore
           var b=false;
           if( item.thumbImg().height != instance.images[0].img.naturalHeight ) {
             item.thumbSetImgHeight(instance.images[0].img.naturalHeight);
@@ -4770,8 +4852,6 @@ Add: selectable class when entering in selection mode
         setThumbnailSize($newDiv, item);
         ThumbnailOverResize($newDiv);
       }
-
-      // thumbnailPositionContent($newDiv, item);
 
       return { e$:$newDiv, cIS:checkImageSize };
     }
@@ -4821,7 +4901,7 @@ Add: selectable class when entering in selection mode
     }
     
 
-    function thumbnailSelection(item, forceValue){
+    function thumbnailSelection(item, forceValue, refrehElt){
       var $e=item.$elt;
       var thumbnailCheckbox = $e.find('input[type=checkbox]');
       if( typeof forceValue === 'undefined' ){
@@ -4829,11 +4909,13 @@ Add: selectable class when entering in selection mode
       }else{
         item.selected = forceValue;
       }
-      thumbnailCheckbox.prop('checked',item.selected );
+      if( refrehElt !== false ) {
+        thumbnailCheckbox.prop('checked',item.selected );
+      }
       if( item.selected ) {
-        $e.find('.subcontainer').addClass('selected');
+        item.$getElt('.subcontainer').addClass('selected');
       } else {
-        $e.find('.subcontainer').removeClass('selected');
+        item.$getElt('.subcontainer').removeClass('selected');
       }
       thumbnailSelectionEnd();
       if(typeof G.O.fnThumbnailSelection === 'function'){
@@ -4871,19 +4953,18 @@ Add: selectable class when entering in selection mode
       }
     }
   
-   
     function setThumbnailSize( $elt, item ) {
 
       if( G.tn.settings.getH() == 'auto' ) {
         // CASCADING LAYOUT
         if( item.thumbImg().height > 0 ) {
           var ratio=item.thumbImg().height/item.thumbImg().width;
-          $elt.find('.imgContainer').height(G.tn.settings.getW()*ratio); //.css({'overflow':'hidden'});
+          item.$getElt('.imgContainer').height(G.tn.settings.getW()*ratio); //.css({'overflow':'hidden'});
           if( G.O.thumbnailLabel.get('position') == 'onBottom' ) {
-            item.thumbLabelHeight=$elt.find('.labelImage').outerHeight(true);
+            item.thumbLabelHeight=item.$getElt('.labelImage').outerHeight(true);
             item.thumbFullHeight=G.tn.settings.getW()*ratio + item.thumbLabelHeight + G.tn.borderHeight+G.tn.imgcBorderHeight;
             $elt.width(G.tn.outerWidth.get()-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight);
-            $elt.find('.labelImage').css({'position':'absolute', 'top':'', 'bottom':'0px'});
+            item.$getElt('.labelImage').css({'position':'absolute', 'top':'', 'bottom':'0px'});
           }
           else {
             item.thumbFullHeight=G.tn.settings.getW()*ratio + item.thumbLabelHeight + G.tn.borderHeight+G.tn.imgcBorderHeight;
@@ -4891,7 +4972,7 @@ Add: selectable class when entering in selection mode
           }
         }
         item.thumbFullWidth=G.tn.outerWidth.get();
-        $elt.find('.subcontainer').width(G.tn.outerWidth.get()-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight); //.css({'overflow':'hidden'});
+        item.$getElt('.subcontainer').width(G.tn.outerWidth.get()-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight); //.css({'overflow':'hidden'});
       }
       else
 
@@ -4903,7 +4984,7 @@ Add: selectable class when entering in selection mode
           if( item.thumbImg().width > 0 ) {
             // var ratio=item.thumbImg().height/item.thumbImg().width;
             var ratio=item.thumbImg().width/item.thumbImg().height;
-            $elt.find('.imgContainer').width(G.tn.settings.getH()*ratio).css({overflow:'hidden'});
+            item.$getElt('.imgContainer').width(G.tn.settings.getH()*ratio).css({overflow:'hidden'});
             if( G.O.thumbnailLabel.get('position') == 'onBottom' ) {
               item.thumbFullWidth=G.tn.settings.getH()*ratio + G.tn.borderWidth+G.tn.imgcBorderWidth ;
               $elt.width(item.thumbFullWidth).height(G.tn.outerHeight.get()+G.tn.labelHeight-G.tn.outerHeight.get());
@@ -4921,17 +5002,18 @@ Add: selectable class when entering in selection mode
           item.thumbFullWidth=G.tn.outerWidth.get();   //G.tn.defaultFullWidth;
           if( G.O.thumbnailLabel.get('position') == 'onBottom' ) {
             $elt.width(item.thumbFullWidth-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight);
-            //$elt.find('.labelImage').height(G.tn.labelHeight-G.tn.labelBorderHeight).css({overflow:'hidden'});
+            //item.$getElt('.labelImage').height(G.tn.labelHeight-G.tn.labelBorderHeight).css({overflow:'hidden'});
           }
           else {
             $elt.width(item.thumbFullWidth-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight);
           }
-          $elt.find('.subcontainer').width(item.thumbFullWidth-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight); //.css({'overflow':'hidden'});
+          item.$getElt('.subcontainer').width(item.thumbFullWidth-G.tn.borderWidth).height(item.thumbFullHeight-G.tn.borderHeight); //.css({'overflow':'hidden'});
         }
     }
     
     
-    function thumbnailPositionContent( $e, item ) {
+    // TODO --> REMOVE
+    function thumbnailPositionContentOLD( $e, item ) {
  
       if(G.O.itemsSelectable === true && G.O.showCheckboxes === true){
         thumbnailCheckbox = $('<input>')
@@ -4947,47 +5029,58 @@ Add: selectable class when entering in selection mode
         $e.append(thumbnailCheckbox);
         $e.data('selected',false);
       }
+      
       if( typeof G.O.fnThumbnailInit == 'function' ) { 
         G.O.fnThumbnailInit($e, item, ExposedObjects());
         return;
       }    
       
+      return;
+
       if( !G.O.thumbnailLabel.get('display') ) { return; }
 
+      
       switch( G.O.thumbnailLabel.get('position') ){
         case 'onBottom':
-          // $e.find('.labelImage').css({'top':'0', 'position':'relative', 'width':'100%'});
-          $e.find('.labelImage').css({top:0, position:'relative', left:0, right:0});
+          item.$getElt('.labelImage').css({top:0, position:'relative', left:0, right:0});
           if( G.tn.settings.getH() == 'auto' ) {
-            $e.find('.labelImageTitle').css({'white-space':'normal'});    // line break
-            $e.find('.labelFolderTitle').css({'white-space':'normal'});
-            $e.find('.labelDescription').css({'white-space':'normal'});
+            // line break
+            if( item.kind == 'album' ) {
+              item.$getElt('.labelFolderTitle').css({'white-space':'normal'});
+            }
+            else {
+              item.$getElt('.labelImageTitle').css({'white-space':'normal'});    
+            }
+            item.$getElt('.labelDescription').css({'white-space':'normal'});
           }
           else {
-            $e.find('.labelImageTitle').css({'white-space':'nowrap'});    // no line break
-            $e.find('.labelFolderTitle').css({'white-space':'nowrap'});
-            $e.find('.labelDescription').css({'white-space':'nowrap'});
+            // no line break
+            if( item.kind == 'album' ) {
+              item.$getElt('.labelFolderTitle').css({'white-space':'nowrap'});
+            }
+            else {
+              item.$getElt('.labelImageTitle').css({'white-space':'nowrap'});
+            }
+            item.$getElt('.labelDescription').css({'white-space':'nowrap'});
           }
           break;
         case 'overImageOnTop':
-          // $e.find('.labelImage').css({'top':'0', 'height':'100%', 'width':'100%'});
-          // $e.find('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0 });
-          $e.find('.labelImage').css({top:0, bottom:0, left:0, right:0 });
+          item.$getElt('.labelImage').css({top:0, bottom:0, left:0, right:0 });
           break;
         case 'overImageOnMiddle':
-          // $e.find('.labelImage').css({'top':'0', 'height':'100%', 'width':'100%'});
-          // $e.find('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
-          $e.find('.labelImage').css({top:0, bottom:0, left:0, right:0});
-          $e.find('.labelFolderTitle').css({left:0, right:0, position:'absolute', bottom:'50%'});
-          $e.find('.labelImageTitle').css({left:0, right:0, position:'absolute', bottom:'50%'});
-          $e.find('.labelDescription').css({left:0, right:0, position:'absolute', top:'50%'});
+          item.$getElt('.labelImage').css({top:0, bottom:0, left:0, right:0});
+          if( item.kind == 'album' ) {
+            item.$getElt('.labelFolderTitle').css({left:0, right:0, position:'absolute', bottom:'50%'});
+          }
+          else {
+            item.$getElt('.labelImageTitle').css({left:0, right:0, position:'absolute', bottom:'50%'});
+          }
+          item.$getElt('.labelDescription').css({left:0, right:0, position:'absolute', top:'50%'});
           break;
         case 'overImageOnBottom':
         default :
           G.O.thumbnailLabel.set('position', 'overImageOnBottom');
-          // $e.find('.labelImage').css({'bottom':'0', 'width':'100%'});
-          // $e.find('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
-          $e.find('.labelImage').css({bottom:0, left:0, right:0});
+          item.$getElt('.labelImage').css({bottom:0, left:0, right:0});
           break;
       }
     }
@@ -5002,7 +5095,8 @@ Add: selectable class when entering in selection mode
       }
     }
     
-    function ThumbnailInit( $e ) {
+    // init hover effects
+    function ThumbnailOverInit( $e ) {
       var n=$e.data("index");
       if( n == undefined ) { return; }    // required because can be fired on ghost elements
       var item=G.I[n];
@@ -5015,14 +5109,14 @@ Add: selectable class when entering in selection mode
         switch( G.tn.getHE()[j].name ) {
 
           case 'imageSplit4':
-            var $subCon=$e.find('.subcontainer'),
-            $lI=$e.find('.labelImage'),
-            $iC=$e.find('.imgContainer');
-            $e.find('.imgContainer').css({position:'absolute'});
+            var $subCon=item.$getElt('.subcontainer'),
+            $lI=item.$getElt('.labelImage'),
+            $iC=item.$getElt('.imgContainer');
+            $iC.css({position:'absolute'});
             $subCon.css({overflow:'hidden', position:'relative', width:'100%', height:'100%'});
             $subCon.prepend($iC.clone());
-            $subCon.prepend($e.find('.imgContainer').clone());
-            $iC=$e.find('.imgContainer');
+            $subCon.prepend(item.$getElt('.imgContainer', true).clone());
+            $iC=item.$getElt('.imgContainer', true);
             setElementOnTop('', $iC);
             
             newCSSTransform(item, 'imgContainer0', $iC.eq(0));
@@ -5036,12 +5130,12 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'imageSplitVert':
-            var $subCon=$e.find('.subcontainer'),
-            $iC=$e.find('.imgContainer');
+            var $subCon=item.$getElt('.subcontainer'),
+            $iC=item.$getElt('.imgContainer');
             $iC.css({position:'absolute'});
             $subCon.css({overflow:'hidden', position:'relative'});  //, width:'100%', height:'100%'});
             $subCon.prepend($iC.clone());
-            $iC=$e.find('.imgContainer');
+            $iC=item.$getElt('.imgContainer', true);
             setElementOnTop('', $iC);
 
             newCSSTransform(item, 'imgContainer0', $iC.eq(0));
@@ -5051,12 +5145,12 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'labelSplit4':
-            var $subCon=$e.find('.subcontainer'),
-            $lI=$e.find('.labelImage').css({top:0, bottom:0});
+            var $subCon=item.$getElt('.subcontainer'),
+            $lI=item.$getElt('.labelImage').css({top:0, bottom:0});
             $subCon.css({overflow:'hidden', position:'relative'});
             $lI.clone().appendTo($subCon);
-            $e.find('.labelImage').clone().appendTo($subCon);
-            $lI=$e.find('.labelImage');
+            item.$getElt('.labelImage',true).clone().appendTo($subCon);
+            $lI=item.$getElt('.labelImage',true);
             
             newCSSTransform(item, 'labelImage0', $lI.eq(0));
             SetCSSTransform(item, 'labelImage0');
@@ -5070,11 +5164,11 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'labelSplitVert':
-            var $subCon=$e.find('.subcontainer'),
-            $lI=$e.find('.labelImage');
+            var $subCon=item.$getElt('.subcontainer'),
+            $lI=item.$getElt('.labelImage');
             $subCon.css({overflow:'hidden', position:'relative'});
             $lI.clone().appendTo($subCon);
-            $lI=$e.find('.labelImage');
+            $lI=item.$getElt('.labelImage',true);
             
             newCSSTransform(item, 'labelImage0', $lI.eq(0));
             SetCSSTransform(item, 'labelImage0');
@@ -5083,13 +5177,13 @@ Add: selectable class when entering in selection mode
             break;
 
           case 'labelAppearSplit4':
-            var $subCon=$e.find('.subcontainer');
-            $lI=$e.find('.labelImage'),
+            var $subCon=item.$getElt('.subcontainer');
+            $lI=item.$getElt('.labelImage'),
             $lI.css({left:0, top:0, right:0, bottom:0});
             $subCon.css({overflow:'hidden', position:'relative'});
             $lI.clone().appendTo($subCon);
-            $e.find('.labelImage').clone().appendTo($subCon);
-            $lI=$e.find('.labelImage');
+            item.$getElt('.labelImage',true).clone().appendTo($subCon);
+            $lI=item.$getElt('.labelImage',true);
 
             var o=newCSSTransform(item, 'labelImage0', $lI.eq(0));
             o.translateX=-item.thumbFullWidth/2;
@@ -5111,11 +5205,11 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'labelAppearSplitVert':
-            var $subCon=$e.find('.subcontainer'),
-            $lI=$e.find('.labelImage');
+            var $subCon=item.$getElt('.subcontainer'),
+            $lI=item.$getElt('.labelImage');
             $subCon.css({overflow:'hidden', position:'relative'});
             $lI.clone().appendTo($subCon);
-            $lI=$e.find('.labelImage');
+            $lI=item.$getElt('.labelImage',true);
 
             newCSSTransform(item, 'labelImage0', $lI.eq(0)).translateX=-item.thumbFullWidth/2;
             SetCSSTransform(item, 'labelImage0');
@@ -5127,11 +5221,11 @@ Add: selectable class when entering in selection mode
             G.$E.base.css({overflow: 'visible'});
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
-            $e.find('.subcontainer').css({overflow: 'visible'});
-            $e.find('.imgContainer').css({overflow: 'visible'});
-            newCSSTransform(item, 'img0', $e.find('img'));
+            item.$getElt('.subcontainer').css({overflow: 'visible'});
+            item.$getElt('.imgContainer').css({overflow: 'visible'});
+            newCSSTransform(item, 'img0', item.$getElt('img'));
             SetCSSTransform(item, 'img0');
-            setElementOnTop($e.find('.imgContainer'), $e.find('.labelImage'));
+            setElementOnTop(item.$getElt('.imgContainer'), item.$getElt('.labelImage'));
             break;
             
           case 'scale120':
@@ -5142,10 +5236,10 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'scaleLabelOverImage':
-            var $t=$e.find('.imgContainer');
-            var $l=$e.find('.labelImage');
+            var $t=item.$getElt('.imgContainer');
+            var $l=item.$getElt('.labelImage');
             setElementOnTop($t, $l);
-            $e.find('.labelImage').css({opacity:0});
+            $l.css({opacity:0});
 
             newCSSTransform(item, 'labelImage0', $l).scale=50;
             SetCSSTransform(item, 'labelImage0');
@@ -5155,8 +5249,8 @@ Add: selectable class when entering in selection mode
             
           case 'overScale':
             $e.css({overflow: 'hidden'});
-            var $t=$e.find('.imgContainer');
-            var $l=$e.find('.labelImage');
+            var $t=item.$getElt('.imgContainer');
+            var $l=item.$getElt('.labelImage');
             setElementOnTop('', $l);
             $l.css({opacity:0});
             $t.css({ opacity: 1});
@@ -5171,8 +5265,8 @@ Add: selectable class when entering in selection mode
             G.$E.base.css({overflow: 'visible'});
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
-            var $t=$e.find('.imgContainer');
-            var $l=$e.find('.labelImage');
+            var $t=item.$getElt('.imgContainer');
+            var $l=item.$getElt('.labelImage');
             setElementOnTop('', $l);
             $l.css({opacity:0 });
             $t.css({ opacity: 1});
@@ -5185,12 +5279,12 @@ Add: selectable class when entering in selection mode
             
           case 'rotateCornerBL':
             $e.css({overflow: 'hidden'});
-            var $t=$e.find('.labelImage');
+            var $t=item.$getElt('.labelImage');
             $t.css({opacity:1});
             $t[0].style[G.CSStransformName+'Origin'] = '100% 100%';
             newCSSTransform(item, 'labelImage0', $t).rotateZ=-90;
             SetCSSTransform(item, 'labelImage0');
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t[0].style[G.CSStransformName+'Origin'] = '100% 100%';;
             newCSSTransform(item, 'imgContainer0', $t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5198,32 +5292,32 @@ Add: selectable class when entering in selection mode
             
           case 'rotateCornerBR':
             $e.css({overflow: 'hidden'});
-            var $t=$e.find('.labelImage');
+            var $t=item.$getElt('.labelImage');
             $t.css({opacity:1});
             $t[0].style[G.CSStransformName+'Origin'] = '0% 100%';
             newCSSTransform(item, 'labelImage0', $t).rotateZ=90;
             SetCSSTransform(item, 'labelImage0');
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t[0].style[G.CSStransformName+'Origin'] = '0 100%';
             newCSSTransform(item, 'imgContainer0', $t);
             SetCSSTransform(item, 'imgContainer0');
             break;
             
           case 'imageRotateCornerBL':
-            var $t=$e.find('.imgContainer');
+            var $t=item.$getElt('.imgContainer');
             setElementOnTop($e, $t);
             $e.css({overflow: 'hidden'});
-            $e.find('.labelImage').css({opacity: 1});
+            item.$getElt('.labelImage').css({opacity: 1});
             $t[0].style[G.CSStransformName+'Origin'] = 'bottom right';
             newCSSTransform(item, 'imgContainer0', $t);
             SetCSSTransform(item, 'imgContainer0');
             break;
             
           case 'imageRotateCornerBR':
-            var $t=$e.find('.imgContainer');
+            var $t=item.$getElt('.imgContainer');
             setElementOnTop($e, $t);
             $e.css({overflow: 'hidden'});
-            $e.find('.labelImage').css({opacity: 1});
+            item.$getElt('.labelImage').css({opacity: 1});
             $t[0].style[G.CSStransformName+'Origin'] = '0 100%';
             newCSSTransform(item, 'imgContainer0', $t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5231,11 +5325,11 @@ Add: selectable class when entering in selection mode
             
           case 'slideUp':
             $e.css({overflow: 'hidden'});
-            $t=$e.find('.labelImage');
+            $t=item.$getElt('.labelImage');
             $t.css({opacity:1, top:0});
             newCSSTransform(item, 'labelImage0',$t).translateY=item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t.css({left:0, top:0});
             newCSSTransform(item, 'imgContainer0',$t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5243,11 +5337,11 @@ Add: selectable class when entering in selection mode
             
           case 'slideDown':
             $e.css({overflow: 'hidden'});
-            $t=$e.find('.labelImage');
+            $t=item.$getElt('.labelImage');
             $t.css({opacity:1, top:0});
             newCSSTransform(item, 'labelImage0',$t).translateY=-item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t.css({left:0, top:0});
             newCSSTransform(item, 'imgContainer0',$t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5255,11 +5349,11 @@ Add: selectable class when entering in selection mode
             
           case 'slideRight':
             $e.css({overflow: 'hidden'});
-            $t=$e.find('.labelImage');
+            $t=item.$getElt('.labelImage');
             $t.css({opacity:1, top:0});
             newCSSTransform(item, 'labelImage0',$t).translateX=-item.thumbFullWidth;
             SetCSSTransform(item, 'labelImage0');
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t.css({left:0, top:0});
             newCSSTransform(item, 'imgContainer0',$t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5267,11 +5361,11 @@ Add: selectable class when entering in selection mode
             
           case 'slideLeft':
             $e.css({overflow: 'hidden'});
-            $t=$e.find('.labelImage');
+            $t=item.$getElt('.labelImage');
             $t.css({opacity:1, top:0});
             newCSSTransform(item, 'labelImage0',$t).translateX=item.thumbFullWidth;
             SetCSSTransform(item, 'labelImage0');
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t.css({left:0, top:0});
             newCSSTransform(item, 'imgContainer0',$t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5281,10 +5375,10 @@ Add: selectable class when entering in selection mode
           case 'imageSlideDown':
           case 'imageSlideRight':
           case 'imageSlideLeft':
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             setElementOnTop($e, $t);
             $e.css({overflow: 'visible'});
-            $e.find('.labelImage').css({opacity: 1});
+            item.$getElt('.labelImage').css({opacity: 1});
             $t.css({left:0, top:0});
             newCSSTransform(item, 'imgContainer0',$t);
             SetCSSTransform(item, 'imgContainer0');
@@ -5293,42 +5387,46 @@ Add: selectable class when entering in selection mode
           case 'labelAppear':
           case 'labelAppear75':
             var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0)';
-            $e.find('.labelImage').css({backgroundColor: c});
-            //$e.find('.labelImage')[0].style.setProperty( 'backgroundColor',c, 'important' );
-            $e.find('.labelImageTitle').css({opacity: 0});
-            $e.find('.labelFolderTitle').css({opacity: 0});
-            $e.find('.labelDescription').css({opacity: 0});
+            item.$getElt('.labelImage').css({backgroundColor: c});
+            //item.$getElt('.labelImage')[0].style.setProperty( 'backgroundColor',c, 'important' );
+            if( item.kind == 'album' ) {
+              item.$getElt('.labelFolderTitle').css({opacity: 0});
+            }
+            else {
+              item.$getElt('.labelImageTitle').css({opacity: 0});
+            }
+            item.$getElt('.labelDescription').css({opacity: 0});
             break;
 
           case 'descriptionAppear':
-            $e.find('.labelDescription').css({opacity: 0});
+            item.$getElt('.labelDescription').css({opacity: 0});
             break;
             
           case 'labelSlideUpTop':
             $e.css({overflow: 'hidden'});
-            $e.find('.labelImage').css({top:0, bottom:0});
-            newCSSTransform(item, 'labelImage0',$e.find('.labelImage')).translateY=item.thumbFullHeight;
+            item.$getElt('.labelImage').css({top:0, bottom:0});
+            newCSSTransform(item, 'labelImage0',item.$getElt('.labelImage')).translateY=item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
             break;
             
           case 'labelSlideUp':
             $e.css({overflow: 'hidden'});
-            newCSSTransform(item, 'labelImage0',$e.find('.labelImage')).translateY=item.thumbFullHeight;
+            newCSSTransform(item, 'labelImage0',item.$getElt('.labelImage')).translateY=item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
             break;
             
           case 'labelSlideDown':
             $e.css({overflow: 'hidden'});
-            newCSSTransform(item, 'labelImage0',$e.find('.labelImage')).translateY=-item.thumbFullHeight;
+            newCSSTransform(item, 'labelImage0',item.$getElt('.labelImage')).translateY=-item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
             break;
 
           case 'descriptionSlideUp':
             $e.css({overflow: 'hidden'});
-            var lh=(item.kind == 'album' ? $e.find('.labelFolderTitle').outerHeight(true) : $e.find('.labelImageTitle').outerHeight(true));
-            $e.find('.labelDescription').css({opacity:0});
-            $e.find('.labelImage').css({height:lh});
-            newCSSTransform(item, 'labelImage0',$e.find('.labelImage'));//.translateY=-lh;
+            var lh=(item.kind == 'album' ? item.$getElt('.labelFolderTitle').outerHeight(true) : item.$getElt('.labelImageTitle').outerHeight(true));
+            item.$getElt('.labelDescription').css({opacity:0});
+            item.$getElt('.labelImage').css({height:lh});
+            newCSSTransform(item, 'labelImage0',item.$getElt('.labelImage'));//.translateY=-lh;
             SetCSSTransform(item, 'labelImage0');
             break;
 
@@ -5338,11 +5436,11 @@ Add: selectable class when entering in selection mode
             // $e.css('overflow', 'visible');
             
             setElementOnTop( '', $e);
-            setElementOnTop( $e.find('.labelImage'), $e.find('.imgContainer'));
-            var $subCon=$e.find('.subcontainer'),
+            setElementOnTop( item.$getElt('.labelImage'), item.$getElt('.imgContainer'));
+            var $subCon=item.$getElt('.subcontainer'),
             n=7,
             th=item.thumbFullHeight,      //$e.outerHeight(true);
-            $iC=$e.find('.imgContainer'),
+            $iC=item.$getElt('.imgContainer'),
             w=$iC.outerWidth(true)/n,
             h=$iC.outerHeight(true),
             h=$iC.outerHeight(true)/n;
@@ -5358,30 +5456,30 @@ Add: selectable class when entering in selection mode
           case 'imageFlipHorizontal':
             switch( G.O.thumbnailLabel.get('position') ){
               case 'overImageOnTop':
-                $e.find('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0 });
+                item.$getElt('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0 });
                 break;
               case 'overImageOnMiddle':
-                $e.find('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
+                item.$getElt('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
                 break;
               case 'overImageOnBottom':
               default :
-                $e.find('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
+                item.$getElt('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
                 break;
             }
             G.$E.base.css({overflow: 'visible'});
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
             setElementOnTop( '', $e);
-            setElementOnTop( $e.find('.labelImage'), $e.find('.imgContainer'));
-            var $t=$e.find('.subcontainer');
+            setElementOnTop( item.$getElt('.labelImage'), item.$getElt('.imgContainer'));
+            var $t=item.$getElt('.subcontainer');
             $t.css({overflow: 'visible'});
             $t[0].style[G.CSStransformStyle] = 'preserve-3d'
             var n= Math.round(item.thumbFullHeight*1.2) + 'px';
             $t[0].style[G.CSSperspective] = n;
 
             
-            // $e.find('.imgContainer').data('ngRotateX','0');
-            $t=$e.find('.imgContainer');
+            // item.$getElt('.imgContainer').data('ngRotateX','0');
+            $t=item.$getElt('.imgContainer');
             $t[0].style[G.CSSbackfaceVisibilityName]= 'hidden';
             // $t[0].style[G.CSStransformName]= 'rotateX:(0deg)';
             newCSSTransform(item, 'imgContainer0', $t);
@@ -5389,8 +5487,8 @@ Add: selectable class when entering in selection mode
             
             $e.find('.image')[0].style[G.CSSbackfaceVisibilityName] = 'hidden';
             
-            // $e.find('.labelImage').data('ngRotateX','180');
-            $t=$e.find('.labelImage');
+            // item.$getElt('.labelImage').data('ngRotateX','180');
+            $t=item.$getElt('.labelImage');
             $t[0].style[G.CSSbackfaceVisibilityName] = 'hidden';
             // $t[0].style[G.CSStransformName] = 'rotateX(180deg)';
             newCSSTransform(item, 'labelImage0',$t).rotateX=180;
@@ -5400,35 +5498,35 @@ Add: selectable class when entering in selection mode
           case 'imageFlipVertical':
             switch( G.O.thumbnailLabel.get('position') ){
               case 'overImageOnTop':
-                $e.find('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0 });
+                item.$getElt('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0 });
                 break;
               case 'overImageOnMiddle':
-                $e.find('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
+                item.$getElt('.labelImage').css({top:-G.tn.imgcBorderHeight/2, bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
                 break;
               case 'overImageOnBottom':
               default :
-                $e.find('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
+                item.$getElt('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
                 break;
             }
             G.$E.base.css({overflow: 'visible'});
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
             setElementOnTop( '', $e);
-            setElementOnTop( $e.find('.labelImage'), $e.find('.imgContainer'));
-            var $t=$e.find('.subcontainer');
+            setElementOnTop( item.$getElt('.labelImage'), item.$getElt('.imgContainer'));
+            var $t=item.$getElt('.subcontainer');
             $t.css({overflow: 'visible'});
             $t[0].style[G.CSStransformStyle] = 'preserve-3d'
             var n= Math.round(item.thumbFullWidth*1.2) + 'px';
             $t[0].style[G.CSSperspective] = n;
 
-            $t=$e.find('.imgContainer');
+            $t=item.$getElt('.imgContainer');
             $t[0].style[G.CSSbackfaceVisibilityName]= 'hidden';
             newCSSTransform(item, 'imgContainer0', $t);
             SetCSSTransform(item, 'imgContainer0');
             
             $e.find('.image')[0].style[G.CSSbackfaceVisibilityName] = 'hidden';
             
-            $t=$e.find('.labelImage');
+            $t=item.$getElt('.labelImage');
             $t[0].style[G.CSSbackfaceVisibilityName] = 'hidden';
             newCSSTransform(item, 'labelImage0',$t).rotateY=180;
             SetCSSTransform(item, 'labelImage0');
@@ -5437,24 +5535,24 @@ Add: selectable class when entering in selection mode
             
           // case 'flipHorizontal':  // ONLY TO TEST --> hover issue
             // var n= Math.round(item.thumbFullHeight*1.2) + 'px';
-            // $e.find('.labelImage').css({ perspective: n, rotateX: '180deg', 'backface-visibility': 'hidden', 'opacity':'1', 'height':'100%' });
+            // item.$getElt('.labelImage').css({ perspective: n, rotateX: '180deg', 'backface-visibility': 'hidden', 'opacity':'1', 'height':'100%' });
             // break;
             
           // case 'flipVertical':  // OONLY TO TEST --> hover issue
             // var n= Math.round(item.thumbFullWidth*1.2) + 'px';
-            // $e.find('.subcontainer').css({ perspective: n, rotateY: '0deg'});
-            // $e.find('.labelImage').css({ perspective: n, rotateY: '180deg', 'backface-visibility': 'hidden', 'opacity':'1', 'height':'100%' });
+            // item.$getElt('.subcontainer').css({ perspective: n, rotateY: '0deg'});
+            // item.$getElt('.labelImage').css({ perspective: n, rotateY: '180deg', 'backface-visibility': 'hidden', 'opacity':'1', 'height':'100%' });
             // break;
             
           case 'imageScale150':
             $e.css({overflow: 'hidden'});
-            newCSSTransform(item, 'img0', $e.find('img'));
+            newCSSTransform(item, 'img0', item.$getElt('img'));
             SetCSSTransform(item, 'img0');
             break;
             
           case 'imageScaleIn80':
             $e.css({overflow: 'hidden'});
-            newCSSTransform(item, 'img0', $e.find('img')).scale=120;
+            newCSSTransform(item, 'img0', item.$getElt('img')).scale=120;
             SetCSSTransform(item, 'img0');
             break;
 
@@ -5489,7 +5587,7 @@ Add: selectable class when entering in selection mode
       var w=item.thumbFullWidth,    //$e.outerWidth(true),
       h=item.thumbFullHeight,       //$e.outerHeight(true);
       c=null;
-      var t=newCSSTransform(item, 'img0', $e.find('img'));
+      var t=newCSSTransform(item, 'img0', item.$getElt('img'));
       t.scale=140;
       switch( item.customData.hoverEffectRDir ){
         case 'imageSlide2Up':
@@ -5540,11 +5638,11 @@ Add: selectable class when entering in selection mode
           break;
       }
       SetCSSTransform(item, 'img0');
-      //$e.find('.subcontainer').width(w).height(h);
+      //item.$getElt('.subcontainer').width(w).height(h);
       // $e.find('img').css({'max-width':w*1.5, 'max-height':h*1.5});
       // $e.find('img')[0].style[G.CSStransformName] = 'scale(1.4)';
       // $e.find('img').css(c);  //.css({'width':w*1.5, 'height':h*1.5});
-      //$e.find('.imgContainer').css(c).css({'width':w*1.5, 'height':h*1.5});
+      //item.$getElt('.imgContainer').css(c).css({'width':w*1.5, 'height':h*1.5});
     }
   
 
@@ -5553,7 +5651,7 @@ Add: selectable class when entering in selection mode
       if( n == undefined ) { return; }    // required because can be fired on ghost elements
       var item=G.I[n];
       if( !item.hoverInitDone ) {
-        ThumbnailInit($e);
+        ThumbnailOverInit($e);
         return;
       }
       if( typeof G.O.fnThumbnailHoverResize == 'function' ) {
@@ -5564,7 +5662,7 @@ Add: selectable class when entering in selection mode
           case 'imageSplit4':
             var w=item.thumbFullWidth-G.tn.borderWidth-G.tn.imgcBorderWidth,
             h=item.thumbFullHeight-G.tn.borderHeight-G.tn.imgcBorderHeight,
-            $iC=$e.find('.imgContainer'),
+            $iC=item.$getElt('.imgContainer'),
             s='rect(0px, '+Math.ceil(w/2)+'px, '+Math.ceil(h/2)+'px, 0px)';
             $iC.eq(0).css({ clip:s});
             s='rect(0px, '+w+'px, '+Math.ceil(h/2)+'px, '+Math.ceil(w/2)+'px)';
@@ -5576,7 +5674,7 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'imageSplitVert':
-            var $iC=$e.find('.imgContainer'),
+            var $iC=item.$getElt('.imgContainer'),
             w=item.thumbFullWidth-G.tn.borderWidth-G.tn.imgcBorderWidth,
             h=item.thumbFullHeight-G.tn.borderHeight-G.tn.imgcBorderHeight,
             s='rect(0px, '+Math.ceil(w/2)+'px, '+h+'px, 0px)';
@@ -5588,7 +5686,7 @@ Add: selectable class when entering in selection mode
           case 'labelSplit4':
             var w=item.thumbFullWidth-G.tn.borderWidth-G.tn.imgcBorderWidth,
             h=item.thumbFullHeight-G.tn.borderHeight-G.tn.imgcBorderHeight,
-            $lI=$e.find('.labelImage');
+            $lI=item.$getElt('.labelImage');
             s='rect(0px, '+Math.ceil(w/2)+'px, '+Math.ceil(h/2)+'px, 0px)',
             $lI.eq(0).css({ clip:s });
             s='rect(0px, '+w+'px, '+Math.ceil(h/2)+'px, '+Math.ceil(w/2)+'px)';
@@ -5602,7 +5700,7 @@ Add: selectable class when entering in selection mode
           case 'labelSplitVert':
             var w=item.thumbFullWidth-G.tn.borderWidth-G.tn.imgcBorderWidth,
             h=item.thumbFullHeight-G.tn.borderHeight-G.tn.imgcBorderHeight,
-            $lI=$e.find('.labelImage');
+            $lI=item.$getElt('.labelImage');
             var s='rect(0px, '+Math.ceil(w/2)+'px, '+h+'px, 0px)';
             $lI.eq(0).css({ clip:s});
             s='rect(0px, '+w+'px, '+h+'px, '+Math.ceil(w/2)+'px)';
@@ -5612,7 +5710,7 @@ Add: selectable class when entering in selection mode
           case 'labelAppearSplit4':
             var w=item.thumbFullWidth-G.tn.borderWidth-G.tn.imgcBorderWidth,
             h=item.thumbFullHeight-G.tn.borderHeight-G.tn.imgcBorderHeight;
-            $lI=$e.find('.labelImage');
+            $lI=item.$getElt('.labelImage');
             var s='rect(0px, '+Math.ceil(w/2)+'px, '+Math.ceil(h/2)+'px, 0px)';
             $lI.eq(0).css({ clip:s });
             s='rect(0px, '+w+'px, '+Math.ceil(h/2)+'px, '+Math.ceil(w/2)+'px)';
@@ -5640,7 +5738,7 @@ Add: selectable class when entering in selection mode
           case 'labelAppearSplitVert':
             var w=item.thumbFullWidth-G.tn.borderWidth-G.tn.imgcBorderWidth,
             h=item.thumbFullHeight-G.tn.borderHeight-G.tn.imgcBorderHeight;
-            $lI=$e.find('.labelImage');
+            $lI=item.$getElt('.labelImage');
             var s='rect(0px, '+Math.ceil(w/2)+'px, '+h+'px, 0px)';
             $lI.eq(0).css({ clip:s});
             s='rect(0px, '+w+'px, '+h+'px, '+Math.ceil(w/2)+'px)';
@@ -5658,32 +5756,32 @@ Add: selectable class when entering in selection mode
             break;
           
           case 'slideUp':
-            // $e.find('.labelImage').css({top:item.thumbFullHeight});
+            // item.$getElt('.labelImage').css({top:item.thumbFullHeight});
             item.eltTransform['labelImage0'].translateY=item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
             break;
             
           case 'slideDown':
-            // $e.find('.labelImage').css({bottom:item.thumbFullHeight});  //, 'background':'none'});
+            // item.$getElt('.labelImage').css({bottom:item.thumbFullHeight});  //, 'background':'none'});
             item.eltTransform['labelImage0'].translateY=-item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
             break;
             
           case 'slideRight':
-            // $e.find('.labelImage').css({left:-item.thumbFullWidth});
+            // item.$getElt('.labelImage').css({left:-item.thumbFullWidth});
             item.eltTransform['labelImage0'].translateX=-item.thumbFullWidth;
             SetCSSTransform(item, 'labelImage0');
             break;
             
           case 'slideLeft':
-            // $e.find('.labelImage').css({left:item.thumbFullWidth});
+            // item.$getElt('.labelImage').css({left:item.thumbFullWidth});
             item.eltTransform['labelImage0'].translateX=item.thumbFullWidth;
             SetCSSTransform(item, 'labelImage0');
             break;
             
           case 'imageExplode':
-            var $subCon=$e.find('.subcontainer'),
-            $iC=$e.find('.imgContainer'),
+            var $subCon=item.$getElt('.subcontainer'),
+            $iC=item.$getElt('.imgContainer'),
             n=Math.sqrt($iC.length),
             w=$iC.eq(0).outerWidth(true)/n,
             h=$iC.eq(0).outerHeight(true)/n,
@@ -5697,19 +5795,19 @@ Add: selectable class when entering in selection mode
             break;
             
           case 'imageFlipHorizontal':
-            var $t=$e.find('.subcontainer');
+            var $t=item.$getElt('.subcontainer');
             var n= Math.round(item.thumbFullHeight*1.2) + 'px';
             $t[0].style[G.CSSperspective] = n;
-            // $e.find('.imgContainer').css({perspective: n, rotateX: '0deg', 'backface-visibility': 'hidden'});
-            // $e.find('.labelImage').css({ perspective: n, rotateX: '180deg', 'backface-visibility': 'hidden','height':item.thumbFullHeight,'opacity':'1' });
+            // item.$getElt('.imgContainer').css({perspective: n, rotateX: '0deg', 'backface-visibility': 'hidden'});
+            // item.$getElt('.labelImage').css({ perspective: n, rotateX: '180deg', 'backface-visibility': 'hidden','height':item.thumbFullHeight,'opacity':'1' });
             break;
             
           case 'imageFlipVertical':
-            var $t=$e.find('.subcontainer');
+            var $t=item.$getElt('.subcontainer');
             var n= Math.round(item.thumbFullWidth*1.2) + 'px';
             $t[0].style[G.CSSperspective] = n;
-            //$e.find('.imgContainer').css({perspective: n, rotateY: '0deg', 'backface-visibility': 'hidden'});
-            //$e.find('.labelImage').css({ perspective: n, rotateY: '180deg', 'backface-visibility': 'hidden','height':item.thumbFullHeight,'opacity':'1' });
+            //item.$getElt('.imgContainer').css({perspective: n, rotateY: '0deg', 'backface-visibility': 'hidden'});
+            //item.$getElt('.labelImage').css({ perspective: n, rotateY: '180deg', 'backface-visibility': 'hidden','height':item.thumbFullHeight,'opacity':'1' });
             break;
             
           case 'imageSlide2Up':
@@ -5749,15 +5847,15 @@ Add: selectable class when entering in selection mode
             
           case 'labelSlideDown':
             $e.css({overflow: 'hidden'});
-            // $e.find('.labelImage').css({top:-item.thumbFullHeight, bottom:''});
+            // item.$getElt('.labelImage').css({top:-item.thumbFullHeight, bottom:''});
             item.eltTransform['labelImage0'].translateY=-item.thumbFullHeight;
             SetCSSTransform(item, 'labelImage0');
             break;
 
           case 'descriptionSlideUp':
-            // var lh=(item.kind == 'album' ? $e.find('.labelFolderTitle').outerHeight(true) : $e.find('.labelImageTitle').outerHeight(true));
+            // var lh=(item.kind == 'album' ? item.$getElt('.labelFolderTitle').outerHeight(true) : item.$getElt('.labelImageTitle').outerHeight(true));
             // var p=item.thumbFullHeight - lh -G.tn.borderHeight-G.tn.imgcBorderHeight;
-            // var lh2=$e.find('.labelDescription').outerHeight(true);
+            // var lh2=item.$getElt('.labelDescription').outerHeight(true);
             //item.eltTransform['labelImage0'].translateY=lh2;
             //SetCSSTransform(item, 'labelImage0');
 
@@ -5804,12 +5902,13 @@ Add: selectable class when entering in selection mode
     }
     
 
+    // ANIMATION OF ONE THUMBNAIL ELEMENT
     function TnAni( $e, n, anime, item, eltClass) {
 
       var transform=['translateX','translateY', 'scale', 'rotateX', 'rotateY', 'rotateZ'];
 
+      // internal implemetation for CSS transform (not natively supported by jQuery)
       if( G.aengine == 'animate' ) {
-        // internal support for CCS transform (not supported by jQuery)
         for( var i=0; i<transform.length; i++ ) {
         var tf=transform[i];
           if( anime[tf] !== undefined ) {
@@ -5831,9 +5930,6 @@ Add: selectable class when entering in selection mode
             }
             else {
               jQuery(from).animate(to, { duration:G.tn.getHE()[n].duration, easing:G.tn.getHE()[n].easing, queue:false, step: function(currentValue) {
-                // var i = Math.round(this.v);
-                // this.curr || (this.curr = i);
-                // if (!this.curr || this.curr != i) { 
                   if( this.item.hovered ) {
                     item.eltTransform[this.eltClass][this.tf]=currentValue;
                     SetCSSTransform(this.item, this.eltClass);
@@ -5848,17 +5944,13 @@ Add: selectable class when entering in selection mode
             }
             delete anime[tf];
           }
-        
         }
-      
-      
       }
 
+      // is there something else to animate?
       if( anime.length == 0 ) { return; }
-   
-      //$e.find('.imgContainer').eq(0).delay(G.tn.getHE()[n].delay)[G.aengine]({'right':'50%', 'top':'-50%'},G.tn.getHE()[n].duration, G.tn.getHE()[n].easing);
+ 
       if( G.tn.getHE()[n].delay > 0 ) {
-        // $e.delay(G.tn.getHE()[n].delay)[G.aengine](anime, G.tn.getHE()[n].duration, G.tn.getHE()[n].easing);
         if( G.aengine == 'transition' ) {
           // transit has a bug on queue --> we do not use it
           $e.delay(G.tn.getHE()[n].delay)[G.aengine](anime, G.tn.getHE()[n].duration , G.tn.getHE()[n].easing );
@@ -5868,7 +5960,6 @@ Add: selectable class when entering in selection mode
         }
       }
       else {
-        // $e[G.aengine](anime, G.tn.getHE()[n].duration, G.tn.getHE()[n].easing);
         if( G.aengine == 'transition' ) {
           // transit has a bug on queue --> we do not use it
           //anime.queue=false;
@@ -5904,7 +5995,7 @@ Add: selectable class when entering in selection mode
         for( j=0; j<G.tn.getHE().length; j++) {
           switch(G.tn.getHE()[j].name ) {
             case 'imageSplit4':
-              var $t=$e.find('.imgContainer');
+              var $t=item.$getElt('.imgContainer');
               TnAni($t.eq(0), j, {translateX:-item.thumbFullWidth/2, translateY:-item.thumbFullHeight/2}, item, 'imgContainer0' );
               TnAni($t.eq(1), j, {translateX:item.thumbFullWidth/2, translateY:-item.thumbFullHeight/2}, item, 'imgContainer1' );
               TnAni($t.eq(2), j, {translateX:item.thumbFullWidth/2, translateY:item.thumbFullHeight/2}, item, 'imgContainer2' );
@@ -5912,13 +6003,13 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'imageSplitVert':
-              var $t=$e.find('.imgContainer');
+              var $t=item.$getElt('.imgContainer');
               TnAni($t.eq(0), j, {translateX:-item.thumbFullWidth/2}, item, 'imgContainer0' );
               TnAni($t.eq(1), j, {translateX:item.thumbFullWidth/2}, item, 'imgContainer1' );
               break;
               
             case 'labelSplit4':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAni($t.eq(0), j, {translateX:-item.thumbFullWidth/2, translateY:-item.thumbFullHeight/2}, item, 'labelImage0' );
               TnAni($t.eq(1), j, {translateX:item.thumbFullWidth/2, translateY:-item.thumbFullHeight/2}, item, 'labelImage1' );
               TnAni($t.eq(2), j, {translateX:item.thumbFullWidth/2, translateY:item.thumbFullHeight/2}, item, 'labelImage2' );
@@ -5926,13 +6017,13 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'labelSplitVert':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAni($t.eq(0), j, {translateX:-item.thumbFullWidth/2}, item, 'labelImage0' );
               TnAni($t.eq(1), j, {translateX:item.thumbFullWidth/2}, item, 'labelImage1' );
               break;
               
             case 'labelAppearSplit4':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAni($t.eq(0), j, {translateX:0, translateY:0}, item, 'labelImage0' );
               TnAni($t.eq(1), j, {translateX:0, translateY:0}, item, 'labelImage1' );
               TnAni($t.eq(2), j, {translateX:0, translateY:0}, item, 'labelImage2' );
@@ -5940,141 +6031,148 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'labelAppearSplitVert':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAni($t.eq(0), j, {translateX:0}, item, 'labelImage0' );
               TnAni($t.eq(1), j, {translateX:0}, item, 'labelImage1' );
               break;
               
             case 'scaleLabelOverImage':
-              TnAni($e.find('.labelImage'), j, { scale:100/dscale, opacity: 1}, item, 'labelImage0' );
-              TnAni($e.find('.imgContainer'), j, { scale:50/dscale}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { scale:100/dscale, opacity: 1}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { scale:50/dscale}, item, 'imgContainer0' );
               break;
               
             case 'overScale':
             case 'overScaleOutside':
-              TnAni($e.find('.labelImage'), j, { opacity: 1, scale:100/dscale}, item, 'labelImage0' );
-              TnAni($e.find('.imgContainer'), j, { opacity: 0, scale:50/dscale}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { opacity: 1, scale:100/dscale}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { opacity: 0, scale:50/dscale}, item, 'imgContainer0' );
               break;
               
             case 'imageInvisible':
-              TnAni($e.find('.imgContainer'), j, { opacity: 0}, item );
+              TnAni(item.$getElt('.imgContainer'), j, { opacity: 0}, item );
               break;
 
             case 'rotateCornerBL':
               var r=(G.aengine=='transition'?{rotate:'0deg'}:{rotateZ:'0'});
-              TnAni($e.find('.labelImage'), j, r, item, 'labelImage0' );
+              TnAni(item.$getElt('.labelImage'), j, r, item, 'labelImage0' );
               r=(G.aengine=='transition'?{rotate:'90deg'}:{rotateZ:'90'});
-              TnAni($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'rotateCornerBR':
               var r=(G.aengine=='transition'?{rotate:'0deg'}:{rotateZ:'0'});
-              TnAni($e.find('.labelImage'), j, r, item, 'labelImage0' );
+              TnAni(item.$getElt('.labelImage'), j, r, item, 'labelImage0' );
               r=(G.aengine=='transition'?{rotate:'-90deg'}:{rotateZ:'-90'});
-              TnAni($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'imageRotateCornerBL':
               var r=(G.aengine=='transition'?{rotate:'90deg'}:{rotateZ:'90'});
-              TnAni($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'imageRotateCornerBR':
               var r=(G.aengine=='transition'?{rotate:'-90deg'}:{rotateZ:'-90'});
-              TnAni($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'slideUp':
-              TnAni($e.find('.imgContainer'), j, { translateY: -item.thumbFullHeight}, item, 'imgContainer0' );
-              TnAni($e.find('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateY: -item.thumbFullHeight}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
               break;
               
             case 'slideDown':
-              TnAni($e.find('.imgContainer'), j, { translateY: item.thumbFullHeight}, item, 'imgContainer0' );
-              TnAni($e.find('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateY: item.thumbFullHeight}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
               break;
               
             case 'slideRight':
-              TnAni($e.find('.imgContainer'), j, { translateX: item.thumbFullWidth}, item, 'imgContainer0' );
-              TnAni($e.find('.labelImage'), j, { translateX: 0}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateX: item.thumbFullWidth}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { translateX: 0}, item, 'labelImage0' );
               break;
               
             case 'slideLeft':
-              TnAni($e.find('.imgContainer'), j, { translateX: -item.thumbFullWidth}, item, 'imgContainer0' );
-              TnAni($e.find('.labelImage'), j, { translateX: 0}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateX: -item.thumbFullWidth}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { translateX: 0}, item, 'labelImage0' );
               break;
               
             case 'imageSlideUp':
-              TnAni($e.find('.imgContainer'), j, { translateY: -item.thumbFullHeight }, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateY: -item.thumbFullHeight }, item, 'imgContainer0' );
               break;
               
             case 'imageSlideDown':
-              TnAni($e.find('.imgContainer'), j, { translateY: item.thumbFullHeight }, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateY: item.thumbFullHeight }, item, 'imgContainer0' );
               break;
               
             case 'imageSlideLeft':
-              TnAni($e.find('.imgContainer'), j, { translateX: -item.thumbFullWidth }, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateX: -item.thumbFullWidth }, item, 'imgContainer0' );
               break;
               
             case 'imageSlideRight':
-              TnAni($e.find('.imgContainer'), j, { translateX: item.thumbFullWidth }, item, 'imgContainer0' );
+              TnAni(item.$getElt('.imgContainer'), j, { translateX: item.thumbFullWidth }, item, 'imgContainer0' );
               break;
               
             case 'labelAppear':
               if( G.aengine == 'velocity' ) {
-                TnAni($e.find('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:1 }, item );
+                TnAni(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:1 }, item );
               }
               else {
                 var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',1)';
-                TnAni($e.find('.labelImage'), j, { backgroundColor: c}, item );
+                TnAni(item.$getElt('.labelImage'), j, { backgroundColor: c}, item );
               }
-              TnAni($e.find('.labelImageTitle'), j, { opacity: 1}, item );
-              TnAni($e.find('.labelFolderTitle'), j, { opacity: 1}, item );
-              TnAni($e.find('.labelDescription'), j, { opacity: 1}, item );
+              if( item.kind == 'album' ) {
+                TnAni(item.$getElt('.labelFolderTitle'), j, { opacity: 1}, item );
+              }
+              else {
+                TnAni(item.$getElt('.labelImageTitle'), j, { opacity: 1}, item );
+              }
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
               break;
               
             case 'labelAppear75':
               if( G.aengine == 'velocity' ) {
-                TnAni($e.find('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0.75 }, item );
+                TnAni(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0.75 }, item );
               }
               else {
                 var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.75)';
-                TnAni($e.find('.labelImage'), j, { backgroundColor: c}, item );
+                TnAni(item.$getElt('.labelImage'), j, { backgroundColor: c}, item );
               }
-              TnAni($e.find('.labelImageTitle'), j, { opacity: 1}, item );
-              TnAni($e.find('.labelFolderTitle'), j, { opacity: 1}, item );
-              TnAni($e.find('.labelDescription'), j, { opacity: 1}, item );
+              if( item.kind == 'album' ) {
+                TnAni(item.$getElt('.labelFolderTitle'), j, { opacity: 1}, item );
+              }
+              else {
+                TnAni(item.$getElt('.labelImageTitle'), j, { opacity: 1}, item );
+              }
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
               break;
               
             case 'descriptionAppear':
-              TnAni($e.find('.labelDescription'), j, { opacity: 1}, item );
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
               break;
               
             case 'labelSlideDown':
-              TnAni($e.find('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
-              // TnAni($e.find('.labelImage'), j, { top: 0}, item );
+              TnAni(item.$getElt('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
               break;
               
             case 'labelSlideUpTop':
             case 'labelSlideUp':
-              TnAni($e.find('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
+              TnAni(item.$getElt('.labelImage'), j, { translateY: 0}, item, 'labelImage0' );
               break;
               
             case 'descriptionSlideUp':
-              var lh=(item.kind == 'album' ? $e.find('.labelFolderTitle').outerHeight(true) : $e.find('.labelImageTitle').outerHeight(true));
-              var lh2=$e.find('.labelDescription').outerHeight(true);
+              var lh=(item.kind == 'album' ? item.$getElt('.labelFolderTitle').outerHeight(true) : item.$getElt('.labelImageTitle').outerHeight(true));
+              var lh2=item.$getElt('.labelDescription').outerHeight(true);
               var p=item.thumbFullHeight - lh -lh2;
               if( p<0 ) { p=0; }
-              TnAni($e.find('.labelImage'), j, { translateY:0, height:lh+lh2 }, item, 'labelImage0' );
-              TnAni($e.find('.labelDescription'), j, { opacity: 1}, item );
+              TnAni(item.$getElt('.labelImage'), j, { translateY:0, height:lh+lh2 }, item, 'labelImage0' );
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
               break;
               
             case 'labelOpacity50':
-              TnAni($e.find('.labelImage'), j, { opacity: 0.5 }, item );
+              TnAni(item.$getElt('.labelImage'), j, { opacity: 0.5 }, item );
               break;
               
             case 'imageOpacity50':
-              TnAni($e.find('.imgContainer'), j, { opacity: 0.5 }, item );
+              TnAni(item.$getElt('.imgContainer'), j, { opacity: 0.5 }, item );
               break;
               
             case 'borderLighter':
@@ -6100,11 +6198,11 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'imageScale150':
-              TnAni($e.find('img'), j, { scale: 150/dscale }, item, 'img0' );
+              TnAni(item.$getElt('img'), j, { scale: 150/dscale }, item, 'img0' );
               break;
 
             case 'imageScaleIn80':
-              TnAni($e.find('img'), j, { scale: 100/dscale }, item, 'img0' );
+              TnAni(item.$getElt('img'), j, { scale: 100/dscale }, item, 'img0' );
               break;
               
             case 'imageSlide2Up':
@@ -6119,37 +6217,37 @@ Add: selectable class when entering in selection mode
               switch(item.customData.hoverEffectRDir) {
                 case 'imageSlide2Up':
                   var tY=item.thumbFullHeight < (item.imgHeight*1.4) ? ((item.imgHeight*1.4)-item.thumbFullHeight)/2 : 0;
-                  TnAni($e.find('img'), j, { translateY: -tY }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateY: -tY }, item, 'img0' );
                   break;
                 case 'imageSlide2Down':
                   var tY=item.thumbFullHeight < (item.imgHeight*1.4) ? ((item.imgHeight*1.4)-item.thumbFullHeight)/2 : 0;
-                  TnAni($e.find('img'), j, { translateY: tY }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateY: tY }, item, 'img0' );
                   break;
                 case 'imageSlide2Left':
-                  TnAni($e.find('img'), j, { translateX: -item.thumbFullWidth*.1 }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateX: -item.thumbFullWidth*.1 }, item, 'img0' );
                   break;
                 case 'imageSlide2Right':
-                  TnAni($e.find('img'), j, { translateX: item.thumbFullWidth*.1 }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateX: item.thumbFullWidth*.1 }, item, 'img0' );
                   break;
                   
                 case 'imageSlide2UpRight':
-                  TnAni($e.find('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
                 case 'imageSlide2UpLeft':
-                  TnAni($e.find('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
                 case 'imageSlide2DownRight':
-                  TnAni($e.find('img'), j, { translateY: item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateY: item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
                 case 'imageSlide2DownLeft':
-                  TnAni($e.find('img'), j, { translateY: item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAni(item.$getElt('img'), j, { translateY: item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
               }
               break;
               
             case 'imageScale150Outside':
               setElementOnTop('', $e);
-              TnAni($e.find('img'), j, { scale: 150/dscale }, item, 'img0');
+              TnAni(item.$getElt('img'), j, { scale: 150/dscale }, item, 'img0');
               break;
               
             case 'scale120':
@@ -6159,7 +6257,7 @@ Add: selectable class when entering in selection mode
 
             case 'imageExplode':
               setElementOnTop('', $e);
-              var $iC=$e.find('.imgContainer');
+              var $iC=item.$getElt('.imgContainer');
               n=Math.sqrt($iC.length);
               var l = [];
               for(var i=0; i<=Math.PI; i+=Math.PI/(n-1) ){
@@ -6177,14 +6275,14 @@ Add: selectable class when entering in selection mode
               
             case 'imageFlipHorizontal':
               setElementOnTop('', $e);
-              TnAni($e.find('.imgContainer'), j, { rotateX: 180}, item, 'imgContainer0' );
-              TnAni($e.find('.labelImage'), j, { rotateX: 360}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { rotateX: 180}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { rotateX: 360}, item, 'labelImage0' );
               break;
               
             case 'imageFlipVertical':
               setElementOnTop('', $e);
-              TnAni($e.find('.imgContainer'), j, { rotateY: 180}, item, 'imgContainer0' );
-              TnAni($e.find('.labelImage'), j, { rotateY: 360}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { rotateY: 180}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { rotateY: 360}, item, 'labelImage0' );
               break;
               
             // case 'flipHorizontal':
@@ -6200,8 +6298,8 @@ Add: selectable class when entering in selection mode
               // break;
               
             case 'TEST':
-              //$e.find('img').stop(true, true);
-              // TnAni($e.find('.subcontainer'), j, { scale: 80//dscale }, item );
+              //item.$getElt('img').stop(true, true);
+              // TnAni(item.$getElt('.subcontainer'), j, { scale: 80//dscale }, item );
               break;
           }
         }
@@ -6265,7 +6363,7 @@ Add: selectable class when entering in selection mode
 
       if( anime.length == 0 ) { return; }
     
-      //$e.find('.imgContainer').eq(0).delay(G.tn.getHE()[j].delay)[G.aengine]({'right':'50%', 'top':'-50%'},G.tn.getHE()[j].duration, G.tn.getHE()[j].easing);
+      //item.$getElt('.imgContainer').eq(0).delay(G.tn.getHE()[j].delay)[G.aengine]({'right':'50%', 'top':'-50%'},G.tn.getHE()[j].duration, G.tn.getHE()[j].easing);
       if( G.tn.getHE()[n].delay > 0 ) {
         if( G.aengine == 'transition' ) {
           // transit has a bug on queue --> we do not use it
@@ -6312,7 +6410,7 @@ Add: selectable class when entering in selection mode
         for( j=0; j<G.tn.getHE().length; j++) {
           switch(G.tn.getHE()[j].name ) {
             case 'imageSplit4':
-              var $t=$e.find('.imgContainer');
+              var $t=item.$getElt('.imgContainer');
               TnAniO($t.eq(0), j, {translateX:0, translateY:0}, item, 'imgContainer0' );
               TnAniO($t.eq(1), j, {translateX:0, translateY:0}, item, 'imgContainer1' );
               TnAniO($t.eq(2), j, {translateX:0, translateY:0}, item, 'imgContainer2' );
@@ -6325,13 +6423,13 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'imageSplitVert':
-              var $t=$e.find('.imgContainer');
+              var $t=item.$getElt('.imgContainer');
               TnAniO($t.eq(0), j, {translateX:0}, item, 'imgContainer0' );
               TnAniO($t.eq(1), j, {translateX:0}, item, 'imgContainer1' );
               break;
               
             case 'labelSplit4':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAniO($t.eq(0), j, {translateX:0, translateY:0}, item, 'labelImage0' );
               TnAniO($t.eq(1), j, {translateX:0, translateY:0}, item, 'labelImage1' );
               TnAniO($t.eq(2), j, {translateX:0, translateY:0}, item, 'labelImage2' );
@@ -6339,13 +6437,13 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'labelSplitVert':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAniO($t.eq(0), j, {translateX:0}, item, 'labelImage0' );
               TnAniO($t.eq(1), j, {translateX:0}, item, 'labelImage1' );
               break;
               
             case 'labelAppearSplit4':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAniO($t.eq(0), j, {translateX:-item.thumbFullWidth/2, translateY:-item.thumbFullHeight/2}, item, 'labelImage0' );
               TnAniO($t.eq(1), j, {translateX:item.thumbFullWidth/2, translateY:-item.thumbFullHeight/2}, item, 'labelImage1' );
               TnAniO($t.eq(2), j, {translateX:item.thumbFullWidth/2, translateY:item.thumbFullHeight/2}, item, 'labelImage2' );
@@ -6353,116 +6451,120 @@ Add: selectable class when entering in selection mode
               break;
               
             case 'labelAppearSplitVert':
-              var $t=$e.find('.labelImage');
+              var $t=item.$getElt('.labelImage');
               TnAniO($t.eq(0), j, {translateX:-item.thumbFullWidth/2}, item, 'labelImage0' );
               TnAniO($t.eq(1), j, {translateX:item.thumbFullWidth/2}, item, 'labelImage1' );
               break;
 
             case 'scaleLabelOverImage':
-              TnAniO($e.find('.labelImage'), j, { opacity: 0, scale: 50/dscale}, item, 'labelImage0' );
-              TnAniO($e.find('.imgContainer'), j, { scale: 100/dscale }, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { opacity: 0, scale: 50/dscale}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { scale: 100/dscale }, item, 'imgContainer0' );
               break;
               
             case 'overScale':
             case 'overScaleOutside':
-              TnAniO($e.find('.labelImage'), j, { opacity: 0, scale:150/dscale}, item, 'labelImage0' );
-              TnAniO($e.find('.imgContainer'), j, { opacity: 1, scale:100/dscale}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { opacity: 0, scale:150/dscale}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { opacity: 1, scale:100/dscale}, item, 'imgContainer0' );
               break;
               
             case 'imageInvisible':
-              TnAniO($e.find('.imgContainer'), j, { opacity: 1} );
+              TnAniO(item.$getElt('.imgContainer'), j, { opacity: 1} );
               break;
               
             case 'rotateCornerBL':
               var r=(G.aengine=='transition'?{rotate:'-90deg'}:{rotateZ:'-90'});
-              TnAniO($e.find('.labelImage'), j, r, item, 'labelImage0' );
+              TnAniO(item.$getElt('.labelImage'), j, r, item, 'labelImage0' );
               r=(G.aengine=='transition'?{rotate:'0deg'}:{rotateZ:'0'});
-              TnAniO($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'rotateCornerBR':
               var r=(G.aengine=='transition'?{rotate:'90deg'}:{rotateZ:'90'});
-              TnAniO($e.find('.labelImage'), j, r, item, 'labelImage0' );
+              TnAniO(item.$getElt('.labelImage'), j, r, item, 'labelImage0' );
               r=(G.aengine=='transition'?{rotate:'0deg'}:{rotateZ:'0'});
-              TnAniO($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'imageRotateCornerBL':
             case 'imageRotateCornerBR':
               var r=(G.aengine=='transition'?{rotate:'0deg'}:{rotateZ:'0'});
-              TnAniO($e.find('.imgContainer'), j, r, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.imgContainer'), j, r, item, 'imgContainer0' );
               break;
               
             case 'slideUp':
-              TnAniO($e.find('.imgContainer'), j, { translateY: 0}, item, 'imgContainer0' );
-              TnAniO($e.find('.labelImage'), j, { translateY: item.thumbFullHeight}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { translateY: 0}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { translateY: item.thumbFullHeight}, item, 'labelImage0' );
               break;
               
             case 'slideDown':
-              TnAniO($e.find('.imgContainer'), j, { translateY: 0}, item, 'imgContainer0' );
-              TnAniO($e.find('.labelImage'), j, { translateY: -item.thumbFullHeight}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { translateY: 0}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { translateY: -item.thumbFullHeight}, item, 'labelImage0' );
               break;
               
             case 'slideRight':
-              TnAniO($e.find('.imgContainer'), j, { translateX: 0}, item, 'imgContainer0' );
-              TnAniO($e.find('.labelImage'), j, { translateX: -item.thumbFullWidth}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { translateX: 0}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { translateX: -item.thumbFullWidth}, item, 'labelImage0' );
               break;
               
             case 'slideLeft':
-              TnAniO($e.find('.imgContainer'), j, { translateX: 0}, item, 'imgContainer0' );
-              TnAniO($e.find('.labelImage'), j, { translateX: item.thumbFullWidth}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { translateX: 0}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { translateX: item.thumbFullWidth}, item, 'labelImage0' );
               break;
               
             case 'imageSlideUp':
             case 'imageSlideDown':
-              TnAniO($e.find('.imgContainer'), j, { translateY: 0 }, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { translateY: 0 }, item, 'imgContainer0' );
               break;
               
             case 'imageSlideLeft':
             case 'imageSlideRight':
-              TnAniO($e.find('.imgContainer'), j, { translateX: 0 }, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { translateX: 0 }, item, 'imgContainer0' );
               break;
               
             case 'labelAppear':
             case 'labelAppear75':
               if( G.aengine == 'velocity' ) {
-                TnAniO($e.find('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0 } );
+                TnAniO(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0 } );
               }
               else {
                 var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0)';
-                TnAniO($e.find('.labelImage'), j, { backgroundColor: c} );
+                TnAniO(item.$getElt('.labelImage'), j, { backgroundColor: c} );
               }
-              TnAniO($e.find('.labelImageTitle'), j, { opacity: 0 } );
-              TnAniO($e.find('.labelFolderTitle'), j, { opacity: 0 } );
-              TnAniO($e.find('.labelDescription'), j, { opacity: 0 } );
+              if( item.kind == 'album' ) {
+                TnAniO(item.$getElt('.labelFolderTitle'), j, { opacity: 0 } );
+              }
+              else {
+                TnAniO(item.$getElt('.labelImageTitle'), j, { opacity: 0 } );
+              }
+              TnAniO(item.$getElt('.labelDescription'), j, { opacity: 0 } );
               break;
 
             case 'descriptionAppear':
-              TnAniO($e.find('.labelDescription'), j, { opacity: 0 } );
+              TnAniO(item.$getElt('.labelDescription'), j, { opacity: 0 } );
               break;
               
             case 'labelSlideDown':
-              TnAniO($e.find('.labelImage'), j, { translateY:-item.thumbFullHeight}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.labelImage'), j, { translateY:-item.thumbFullHeight}, item, 'labelImage0' );
               break;
               
             case 'labelSlideUpTop':
             case 'labelSlideUp':
-              TnAniO($e.find('.labelImage'), j, { translateY: item.thumbFullHeight}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.labelImage'), j, { translateY: item.thumbFullHeight}, item, 'labelImage0' );
               break;
 
             case 'descriptionSlideUp':
-              var lh=(item.kind == 'album' ? $e.find('.labelFolderTitle').outerHeight(true) : $e.find('.labelImageTitle').outerHeight(true));
+              var lh=(item.kind == 'album' ? item.$getElt('.labelFolderTitle').outerHeight(true) : item.$getElt('.labelImageTitle').outerHeight(true));
               var p=item.thumbFullHeight - lh -G.tn.borderHeight-G.tn.imgcBorderHeight;
-              TnAniO($e.find('.labelImage'), j, {translateY:0, height:lh}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.labelImage'), j, {translateY:0, height:lh}, item, 'labelImage0' );
               break;
               
               
             case 'labelOpacity50':
-              TnAniO($e.find('.labelImage'), j, { opacity: G.custGlobals.oldLabelOpacity } );
+              TnAniO(item.$getElt('.labelImage'), j, { opacity: G.custGlobals.oldLabelOpacity } );
               break;
               
             case 'imageOpacity50':
-              TnAniO($e.find('.imgContainer'), j, { opacity: 1 } );
+              TnAniO(item.$getElt('.imgContainer'), j, { opacity: 1 } );
               break;
               
             case 'borderLighter':
@@ -6479,11 +6581,11 @@ Add: selectable class when entering in selection mode
               
             case 'imageScale150':
             case 'imageScale150Outside':
-              TnAniO($e.find('img'), j, { scale: 100/dscale }, item, 'img0');
+              TnAniO(item.$getElt('img'), j, { scale: 100/dscale }, item, 'img0');
               break;
 
             case 'imageScaleIn80':
-              TnAniO($e.find('img'), j, { scale: 120/dscale }, item, 'img0');
+              TnAniO(item.$getElt('img'), j, { scale: 120/dscale }, item, 'img0');
               break;
 
             case 'imageSlide2Up':
@@ -6498,30 +6600,30 @@ Add: selectable class when entering in selection mode
               switch(item.customData.hoverEffectRDir) {
                 case 'imageSlide2Up':
                   var tY=item.thumbFullHeight < (item.imgHeight*1.4) ? ((item.imgHeight*1.4)-item.thumbFullHeight)/2 : 0;
-                  TnAniO($e.find('img'), j, { translateY: tY }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateY: tY }, item, 'img0' );
                   break;
                 case 'imageSlide2Down':
                   var tY=item.thumbFullHeight < (item.imgHeight*1.4) ? ((item.imgHeight*1.4)-item.thumbFullHeight)/2 : 0;
-                  TnAniO($e.find('img'), j, { translateY: -tY }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateY: -tY }, item, 'img0' );
                   break;
                 case 'imageSlide2Left':
-                  TnAniO($e.find('img'), j, { translateX: item.thumbFullWidth*.1 }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateX: item.thumbFullWidth*.1 }, item, 'img0' );
                   break;
                 case 'imageSlide2Right':
-                  TnAniO($e.find('img'), j, { translateX: -item.thumbFullWidth*.1 }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateX: -item.thumbFullWidth*.1 }, item, 'img0' );
                   break;
                   
                 case 'imageSlide2UpRight':
-                  TnAniO($e.find('img'), j, { translateY: item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateY: item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
                 case 'imageSlide2UpLeft':
-                  TnAniO($e.find('img'), j, { translateY: item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateY: item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
                 case 'imageSlide2DownRight':
-                  TnAniO($e.find('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: -item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
                 case 'imageSlide2DownLeft':
-                  TnAniO($e.find('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
+                  TnAniO(item.$getElt('img'), j, { translateY: -item.thumbFullHeight*.05, translateX: item.thumbFullWidth*.05 }, item, 'img0' );
                   break;
               }
               break;
@@ -6533,7 +6635,7 @@ Add: selectable class when entering in selection mode
               break;
 
             case 'imageExplode':
-              var $iC=$e.find('.imgContainer');
+              var $iC=item.$getElt('.imgContainer');
               n=Math.sqrt($iC.length);
               var i=0;
               for(var r=0; r<n; r++ ) {
@@ -6546,14 +6648,14 @@ Add: selectable class when entering in selection mode
               
             case 'imageFlipHorizontal':
               // var n= Math.round(item.thumbFullHeight*1.2) + 'px';
-              TnAniO($e.find('.imgContainer'), j, { rotateX: 0}, item, 'imgContainer0' );
-              TnAniO($e.find('.labelImage'), j, { rotateX: 180}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { rotateX: 0}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { rotateX: 180}, item, 'labelImage0' );
               break;
               
             case 'imageFlipVertical':
               // var n= Math.round(item.thumbFullWidth*1.2) + 'px';
-              TnAniO($e.find('.imgContainer'), j, { rotateY: 0}, item, 'imgContainer0' );
-              TnAniO($e.find('.labelImage'), j, { rotateY: 180}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { rotateY: 0}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { rotateY: 180}, item, 'labelImage0' );
               break;
               
             // case 'flipHorizontal':
@@ -6567,7 +6669,7 @@ Add: selectable class when entering in selection mode
               // break;
               
             case 'TEST':
-              // TnAniO($e.find('.subcontainer'), j, { scale: 0.85 } );
+              // TnAniO(item.$getElt('.subcontainer'), j, { scale: 0.85 } );
               break;
           }
         }
@@ -7392,7 +7494,7 @@ Add: selectable class when entering in selection mode
       ResizeInternalViewer();
 
       // TODO: this code does not work
-      //jQuery(G.containerViewerContent).find('img').on('resize', function(){ 
+      //jQuery(G.containerViewerContent).item.$getElt('img').on('resize', function(){ 
       //  ResizeInternalViewer('.imgCurrent');
       //  console.log('resized');
       //});
