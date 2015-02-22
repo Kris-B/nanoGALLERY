@@ -205,7 +205,8 @@
         fnImgToolbarCustClick: function(elementName, $element, item, data) {
           alert(elementName);
         },
-        viewer:'fancybox'
+        viewer:'fancybox',
+        debugMode:true
 			});
       
 
@@ -312,14 +313,9 @@
         imageTransition:'slideAppear',
         fnProcessData: fnDemopProcessData,    // javascript custom extension
         fnViewerInfo: fnDemoViewerInfo,      // javascript custom extension
-        fnThumbnailSelection : fnDemoThumbnailSelection,
-        fnThumbnailInit : fnDemoThumbnailInit,
         itemsSelectable:true
 			});
       
-      
-
-
       function fnDemopProcessData(item, kind, sourceData) {
         if( kind == 'picasa' && item.kind == 'image' ) {
           //console.dir(sourceData);
@@ -340,35 +336,6 @@
         alert(s);
       }
 
-      function fnDemoThumbnailInit( $elt, item ) {
-        // add checkbox over thumbnail
-        thumbnailCheckbox = $('<input>')
-          .attr('type', 'checkbox')
-          .css({
-            'position' : 'absolute',
-            'top' : '15px',
-            'left' : '15px',
-            'opacity' : 0
-          }).click(function(){
-            return false;
-          });
-        $elt.append(thumbnailCheckbox);
-      }
-      
-      function fnDemoThumbnailSelection( $elt, item, data ) {
-        return;
-        var $thumbnailCheckbox = $elt.find('input[type=checkbox]');
-        $thumbnailCheckbox.prop('checked', item.selected);
-        if( item.selected ) {
-          $thumbnailCheckbox.css({'opacity':1});
-          $elt.find('.imgContainer, .labelImage').css({'background':'#069'});
-        }
-        else {
-          $thumbnailCheckbox.css({'opacity':0});
-          $elt.find('.imgContainer, .labelImage').css({'background':'#000'});
-        }
-      }
-  
       
       jQuery('#btnReload').on('click', function() {
         jQuery('#nanoGallery3a').nanoGallery('reload');
@@ -392,11 +359,7 @@
 			jQuery("#nanoGallery4").nanoGallery({userID:'34858669@N00',kind:'flickr',thumbnailWidth:'auto',thumbnailHeight:160,  //110,
         viewerDisplayLogo:true,
         locationHash:false,
-        //photoset:'none',//'72157594299597591',
-				//thumbnailDisplayInterval:0,
-				//thumbnailDisplayTransition:false,
 				thumbnailHoverEffect:[{'name':'labelSlideUp','duration':300},{'name':'borderDarker'}],
-				//thumbnailLabel:{display:true,position:'onBottom',descriptionMaxLength:200},
 				thumbnailLabel:{display:true,position:'overImageOnBottom',descriptionMaxLength:50},
         thumbnailLazyLoad:true,
         theme:'clean',
