@@ -2492,6 +2492,8 @@ TODO:
             G.tn.styleDesc='left:0; right:0; position:absolute; top:50%;';
             G.tn.styleL1Desc='left:0; right:0; position:absolute; top:50%;';
             break;
+          case 'custom':
+            break;
           case 'overImageOnBottom':
           default :
             G.O.thumbnailLabel.position='overImageOnBottom';
@@ -2526,6 +2528,9 @@ TODO:
             G.tn.styleL1ITitle='left:0; right:0; position:absolute; bottom:50%;';
             G.tn.styleL1Desc='left:0; right:0; position:absolute; top:50%;';
             break;
+	  case 'custom':
+            G.tn.styleL1LabelImage='';
+	    break;
           case 'overImageOnBottom':
           default :
             G.O.thumbnailL1Label.position='overImageOnBottom';
@@ -3742,6 +3747,8 @@ TODO:
       if( item === null ){
         item=new NGItems(title,ID);
         isNew=true;
+      }else{
+          item.title = title;
       }
       item.src=imageSrc;
       item.description=description;
@@ -5201,6 +5208,9 @@ TODO:
             item.$getElt('.labelImageTitle').css({left:0, right:0, position:'absolute', bottom:'50%'});
           }
           item.$getElt('.labelDescription').css({left:0, right:0, position:'absolute', top:'50%'});
+          break;
+        case 'custom':
+          // Don't apply any style
           break;
         case 'overImageOnBottom':
         default :
