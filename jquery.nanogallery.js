@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.5.0beta3
+ * @preserve nanoGALLERY v5.5.0beta4
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,14 +22,14 @@
 
 /*
 
-nanoGALLERY v5.5.0beta3 release notes.
+nanoGALLERY v5.5.0beta4 release notes.
 
 TODO:
   - timer slideshow
   - multi-instance - options lost
 
 ##### New features
-- Gallery rendering: significant performance improvement
+- Gallery rendering: significant performance improvements
 - Thumbnail selection on long touch
   
 ##### New options
@@ -41,13 +41,15 @@ TODO:
   Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`
 - API method: new properties to store custom data: `customData`  
   Usage example: `{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`
+- **viewerFullscreen**: displays images in fullscreen (on supported browser).
+  *boolean; Default: false*
 
 
 ##### New callbacks
 - **fnInitGallery(albumIdx, pageNumber)**: called after each gallery construction.
 - **fnChangeSelectMode(currSelectionMode)**: called when entering or leaving selection mode.
   
-##### New API methods (beta)
+##### New API methods
 - **destroy**: remove the gallery.
   `$('#yourElement').nanoGallery('destroy');`
 - **setSelectMode**: enter/leave selection mode.
@@ -58,6 +60,7 @@ TODO:
 ##### Misc
 - bugfix location hash not working on web page with frames (SecurityError: Blocked a frame with origin)
 - bugfix deeplinking to image didn't display the gallery on close
+- bugfix fullscreen mode not correctly disabled after closing an image with ESC key
 - minor bugfixes
 
 **Many thanks to Raphaël Renaudon (https://github.com/sevarg) for his contribution.**
@@ -135,6 +138,7 @@ TODO:
     paginationDots : false,
     maxWidth : 0,
     viewer : 'internal',
+    viewerFullscreen: false,
     fancyBoxOptions : null,
     viewerDisplayLogo : false,
     imageTransition : 'slideNEW',
@@ -1101,7 +1105,7 @@ TODO:
             thumbnailsLazySetSrc();
             return;
           }
-        }, 200);
+        }, 100);
       });
     }
     
@@ -2503,7 +2507,7 @@ TODO:
         }
       }
       if( G.O.thumbnailL1Label && G.O.thumbnailL1Label.display ) {
-      switch( G.O.thumbnailL1Label.position ){
+        switch( G.O.thumbnailL1Label.position ){
           case 'onBottom':
             G.tn.styleL1LabelImage='top:0; position:relative; left:0; right:0;';
             if( G.tn.settings.getH() == 'auto' ) {
@@ -2528,9 +2532,9 @@ TODO:
             G.tn.styleL1ITitle='left:0; right:0; position:absolute; bottom:50%;';
             G.tn.styleL1Desc='left:0; right:0; position:absolute; top:50%;';
             break;
-	  case 'custom':
+          case 'custom':
             G.tn.styleL1LabelImage='';
-	    break;
+            break;
           case 'overImageOnBottom':
           default :
             G.O.thumbnailL1Label.position='overImageOnBottom';
@@ -6921,6 +6925,12 @@ TODO:
         ToolbarVisibilityStd();
       }
 
+      if( G.O.viewerFullscreen ) {
+        G.viewerIsFullscreen=true;
+        G.$E.conVwTb.find('.fullscreenButton').removeClass('setFullscreenButton').addClass('removeFullscreenButton');
+        ngscreenfull.request();
+      }
+
 
       if( G.O.viewerDisplayLogo ) {
         G.$E.vwLogo=jQuery('<div class="nanoLogo"></div>').appendTo(G.$E.conVw);
@@ -7790,8 +7800,10 @@ TODO:
         if( !(G.O.galleryFullpageButton && G.$E.base.hasClass('fullpage')) ) {      // avoid displaying scrollbar when gallery is in fullpage mode
           ScrollbarSetVisible();
         }
+
         if( G.viewerIsFullscreen ) {
-          ViewerFullscreenToggle();
+          G.viewerIsFullscreen=false;
+          ngscreenfull.exit();
         }
         
         G.$E.conVwCon.hide(0).off().show(0).html('').remove();
