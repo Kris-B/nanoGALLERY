@@ -4,6 +4,46 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.5.0
+------
+
+##### New features
+- Gallery rendering: significant performance improvements (new tween engine)  
+- Thumbnail selection on long touch  
+  
+##### New options
+- **showCheckboxes**: displays a checkbox over selected thumbnails.  
+  *boolean; Default: true*  
+- **checkboxStyle** : inline style for selection checkbox.  
+  *string, Default: 'left:15px; top:15px;'*  
+- inline method: new data attribute to store custom data: `customdata`  
+  Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`  
+- API method: new properties to store custom data: `customData`  
+  Usage example: `{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`  
+- **viewerFullscreen**: displays images in fullscreen (on supported browser).  
+  *boolean; Default: false*  
+
+##### New callbacks
+- **fnInitGallery(albumIdx, pageNumber)**: called after each gallery construction.
+- **fnChangeSelectMode(currSelectionMode)**: called when entering or leaving selection mode.
+  
+##### New API methods
+- **destroy**: remove the gallery.  
+  `$('#yourElement').nanoGallery('destroy');`  
+- **setSelectMode**: enter/leave selection mode.  
+  `$('#yourElement').nanoGallery('setSelectMode', true|false);`  
+- **getSelectMode**: is the viewer in selection mode.  
+  `$('#yourElement').nanoGallery('getSelectMode');`  
+
+##### Misc
+- bugfix location hash not working on web page with frames (SecurityError: Blocked a frame with origin)  
+- bugfix deeplinking to image didn't display the gallery on close  
+- bugfix fullscreen mode not correctly disabled after closing an image with ESC key  
+- minor bugfixes  
+
+**Many thanks to Raphaël Renaudon (https://github.com/sevarg) for his contribution.**
+
+
 v5.4.0
 ------
 

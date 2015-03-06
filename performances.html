@@ -107,23 +107,25 @@
           contentGallery[i].ID=i+1;
         }
 
-        jQuery("#nanoGallery").nanoGallery({ thumbnailWidth:120, thumbnailHeight:120,
+        jQuery("#nanoGallery").nanoGallery({ thumbnailWidth:'auto', thumbnailHeight:120,
           items:contentGallery,
           //paginationMaxItemsPerPage:3,
           //paginationMaxLinesPerPage:1,
-          thumbnailHoverEffect:'imageInvisible,imageScale150',
+          thumbnailHoverEffect:'imageInvisible,imageScale150,borderLighter',
+          //thumbnailHoverEffect:'labelAppear75',
           //thumbnailHoverEffect:'imageScale150',
           viewerDisplayLogo:true,
           locationHash:false,
           thumbnailDisplayInterval: 5,
+          //imageTransition: 'fade',
           thumbnailDisplayTransition: true,
           thumbnailLabel : { position : 'overImageOnBottom', display : true, displayDescription : true, titleMaxLength : 0, descriptionMaxLength : 0, hideIcons : false, title : '', itemsCount : '' },
           //breadcrumbAutoHideTopLevel:true,
           //maxItemsPerLine:5,
           //itemsSelectable:true,
           //showCheckboxes: true,
-          galleryRenderStep: 500,
-          debugMode: true,
+          galleryRenderStep: 50,
+          //debugMode: true,
           paginationDots : true
         });
       }
