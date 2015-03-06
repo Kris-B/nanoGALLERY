@@ -25,7 +25,7 @@
 nanoGALLERY v5.5.0 release notes.
 
 ##### New features
-- Gallery rendering: significant performance improvements (new tween engine)  
+- Gallery rendering: significant performance improvements  
 - Thumbnail selection on long touch  
   
 ##### New options
@@ -35,7 +35,7 @@ nanoGALLERY v5.5.0 release notes.
   *string, Default: 'left:15px; top:15px;'*  
 - inline method: new data attribute to store custom data: `customdata`  
   Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`  
-- API method: new properties to store custom data: `customData`  
+- API method: new property to store custom data: `customData`  
   Usage example: `{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`  
 - **viewerFullscreen**: displays images in fullscreen (on supported browser).  
   *boolean; Default: false*  
@@ -49,7 +49,7 @@ nanoGALLERY v5.5.0 release notes.
   `$('#yourElement').nanoGallery('destroy');`  
 - **setSelectMode**: enter/leave selection mode.  
   `$('#yourElement').nanoGallery('setSelectMode', true|false);`  
-- **getSelectMode**: is the viewer in selection mode.  
+- **getSelectMode**: is the gallery in selection mode.  
   `$('#yourElement').nanoGallery('getSelectMode');`  
 
 ##### Misc
