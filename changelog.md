@@ -4,6 +4,12 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.5.1
+------
+
+- bugfix thumbnail effects 'labelAppear' and 'labelAppear' crashing on some browser
+
+
 v5.5.0
 ------
 

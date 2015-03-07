@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.5.0
+ * @preserve nanoGALLERY v5.5.1
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,43 +22,10 @@
 
 /*
 
-nanoGALLERY v5.5.0 release notes.
-
-##### New features
-- Gallery rendering: significant performance improvements  
-- Thumbnail selection on long touch  
-  
-##### New options
-- **showCheckboxes**: displays a checkbox over selected thumbnails.  
-  *boolean; Default: true*  
-- **checkboxStyle** : inline style for selection checkbox.  
-  *string, Default: 'left:15px; top:15px;'*  
-- inline method: new data attribute to store custom data: `customdata`  
-  Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`  
-- API method: new property to store custom data: `customData`  
-  Usage example: `{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`  
-- **viewerFullscreen**: displays images in fullscreen (on supported browser).  
-  *boolean; Default: false*  
-
-##### New callbacks
-- **fnInitGallery(albumIdx, pageNumber)**: called after each gallery construction.
-- **fnChangeSelectMode(currSelectionMode)**: called when entering or leaving selection mode.
-  
-##### New API methods
-- **destroy**: remove the gallery.  
-  `$('#yourElement').nanoGallery('destroy');`  
-- **setSelectMode**: enter/leave selection mode.  
-  `$('#yourElement').nanoGallery('setSelectMode', true|false);`  
-- **getSelectMode**: is the gallery in selection mode.  
-  `$('#yourElement').nanoGallery('getSelectMode');`  
+nanoGALLERY v5.5.1 release notes.
 
 ##### Misc
-- bugfix location hash not working on web page with frames (SecurityError: Blocked a frame with origin)  
-- bugfix deeplinking to image didn't display the gallery on close  
-- bugfix fullscreen mode not correctly disabled after closing an image with ESC key  
-- minor bugfixes  
-
-**Many thanks to Raphaël Renaudon (https://github.com/sevarg) for his contribution.**
+- bugfix thumbnail effects 'labelAppear' and 'labelAppear' crashing on some browser
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
@@ -5582,7 +5549,7 @@ nanoGALLERY v5.5.0 release notes.
             
           case 'labelAppear':
           case 'labelAppear75':
-            var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0)';
+            var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.01)';
             item.$getElt('.labelImage').css({backgroundColor: c});
             //item.$getElt('.labelImage')[0].style.setProperty( 'backgroundColor',c, 'important' );
             if( item.kind == 'album' ) {
@@ -6132,7 +6099,7 @@ nanoGALLERY v5.5.0 release notes.
           }
         }
       }
-      
+
       // is there something else to animate?
       var l = 0;
       for( var key in anime ) {
@@ -6151,6 +6118,14 @@ nanoGALLERY v5.5.0 release notes.
         var fr={};
         for( var key in anime) {
           fr[key]=$e.css(key);
+          if( fr[key] == 'transparent' ) {  // some browser return "transparent" as rgba(0,0,0,0)
+            if( $e.hasClass('labelImage') ) {
+              fr[key]='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.01)';
+            }
+            else {
+              fr[key]='rgba(0,0,0,0)';
+            }
+          }
         }
         var tweenable = new NGTweenable();
         tweenable.tween({
@@ -6329,7 +6304,7 @@ nanoGALLERY v5.5.0 release notes.
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:1 }, item );
               }
               else {
-                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',"0.99")';    // use 0.99 instead of 1 for opacity because 1=no transparency so jQuery would return RGB instead of RGBA
+                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.99)';    // use 0.99 instead of 1 for opacity because 1=no transparency so jQuery would return RGB instead of RGBA
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColor: c}, item );
               }
               if( item.kind == 'album' ) {
@@ -6346,7 +6321,7 @@ nanoGALLERY v5.5.0 release notes.
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0.75 }, item );
               }
               else {
-                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',"0.75")';
+                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.75)';
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColor: c}, item );
               }
               if( item.kind == 'album' ) {
@@ -6572,7 +6547,10 @@ nanoGALLERY v5.5.0 release notes.
         var fr={};
         for( var key in anime) {
           fr[key]=$e.css(key);
+          if( fr[key] == 'transparent' ) {  // some browser return "transparent" as rgba(0,0,0,0)
+            fr[key]='rgba(0,0,0,0.01)';
           }
+        }
         var tweenable = new NGTweenable();
         tweenable.tween({
           attachment: { $e:$e, it:item, to:anime},
@@ -6745,7 +6723,7 @@ nanoGALLERY v5.5.0 release notes.
                 TnAniO(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0 } );
               }
               else {
-                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',"0.01")';
+                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.01)';
                 TnAniO(item.$getElt('.labelImage'), j, { backgroundColor: c} );
               }
               if( item.kind == 'album' ) {
