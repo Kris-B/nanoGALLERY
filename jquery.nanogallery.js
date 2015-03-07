@@ -25,7 +25,7 @@
 nanoGALLERY v5.5.1 release notes.
 
 ##### Misc
-- bugfix thumbnail effects 'labelAppear' and 'labelAppear' crashing on some browser
+- bugfix thumbnail effects 'labelAppear' and 'labelAppear75' crashing on some browser
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
