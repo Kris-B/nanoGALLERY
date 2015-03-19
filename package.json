@@ -1,6 +1,6 @@
 {
   "name": "nanogallery",
-  "version": "5.5.1",
+  "version": "5.5.2",
   "description": "image gallery simplified - jQuery plugin",
   "main": "dist/jquery.nanogallery.min.js",
   "scripts": {

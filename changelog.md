@@ -4,6 +4,26 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.5.2
+------
+
+##### New features  
+- Display directly an album or an image on plugin start  
+- Display the images instead of the thumbnails of the album's content  
+  
+##### New options  
+- **openOnStart**: opens an album or an image at start. Syntax: `albumID` or `albumID/imageID`.  
+  *string; Default: ''*  
+- **thumbnailAlbumDisplayImage**: on album's thumbnail click, displays the images instead of the thumbnails of the album's content.  
+  *boolean; Default: false*  
+
+
+##### Misc  
+- bugfix scrollbar not displayed in gallery fullpage mode for thumbnail effects `scale120, imageScale150Outside, overScaleOutside, imageFlipHorizontal, imageFlipVertical`  
+- bugfix lazy load not working in gallery fullpage mode  
+- bugfix thumbnail effects `borderLighter` and `borderDarker` not working on Firefox  
+
+
 v5.5.1
 ------
 
