@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.5.2
+ * @preserve nanoGALLERY v5.5.3
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,23 +22,10 @@
 
 /*
 
-nanoGALLERY v5.5.2 release notes.
-
-##### New features
-- Display directly an album or an image on plugin start  
-- Display the images instead of the thumbnails of the album's content  
-  
-##### New options
-- **openOnStart**: opens an album or an image at start. Syntax: `albumID` or `albumID/imageID`.  
-  *string; Default: ''*  
-- **thumbnailAlbumDisplayImage**: on album's thumbnail click, displays the images instead of the thumbnails of the album's content.  
-  *boolean; Default: false*  
-
+nanoGALLERY v5.5.3 release notes.
 
 ##### Misc
-- bugfix scrollbar not displayed in gallery fullpage mode for thumbnail effects `scale120, imageScale150Outside, overScaleOutside, imageFlipHorizontal, imageFlipVertical`  
-- bugfix lazy load not working in gallery fullpage mode  
-- bugfix thumbnail effects `borderLighter` and `borderDarker` not working on Firefox  
+- bugfix - Flickr image size L (1024 pixels) ignored  
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -3099,7 +3086,7 @@ nanoGALLERY v5.5.2 release notes.
       if( G.I[albumIdx].GetID() == 0 ) {
         // albums
         //url = G.flickr.url() + "?&method=flickr.photosets.getList&api_key=" + G.flickr.ApiKey + "&user_id="+G.O.userID+"&primary_photo_extras=url_"+G.flickr.thumbSize+"&format=json&jsoncallback=?";
-        url = G.flickr.url() + "?&method=flickr.photosets.getList&api_key=" + G.flickr.ApiKey + "&user_id="+G.O.userID+"&per_page=500&primary_photo_extras=url_o,url_sq,url_t,url_q,url_s,url_m,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
+        url = G.flickr.url() + "?&method=flickr.photosets.getList&api_key=" + G.flickr.ApiKey + "&user_id="+G.O.userID+"&per_page=500&primary_photo_extras=url_o,url_sq,url_t,url_q,url_s,url_m,url_l,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
       }
       else {
         // photos
@@ -3110,11 +3097,10 @@ nanoGALLERY v5.5.2 release notes.
         else {
           // photos from one specific photoset
           //url = G.flickr.url() + "?&method=flickr.photosets.getPhotos&api_key=" + G.flickr.ApiKey + "&photoset_id="+G.I[albumIdx].GetID()+"&extras=description,views,url_o,url_z,url_"+G.flickr.photoSize+",url_"+G.flickr.thumbSize+"&format=json&jsoncallback=?";
-          url = G.flickr.url() + "?&method=flickr.photosets.getPhotos&api_key=" + G.flickr.ApiKey + "&photoset_id="+G.I[albumIdx].GetID()+"&extras=description,views,url_o,url_sq,url_t,url_q,url_s,url_m,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
+          url = G.flickr.url() + "?&method=flickr.photosets.getPhotos&api_key=" + G.flickr.ApiKey + "&photoset_id="+G.I[albumIdx].GetID()+"&extras=description,views,url_o,url_sq,url_t,url_q,url_s,url_m,url_l,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
         }
         kind='image';
       }
-
       PreloaderShow();
 
       jQuery.ajaxSetup({ cache: false });

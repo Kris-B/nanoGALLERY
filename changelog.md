@@ -4,6 +4,12 @@ nanoGALLERY - jQuery plugin
 ChangeLog
 ------
 
+v5.5.3
+------
+
+- bugfix - Flickr image size L (1024 pixels) ignored  
+
+
 v5.5.2
 ------
 
