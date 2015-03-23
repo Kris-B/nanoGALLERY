@@ -263,35 +263,36 @@
       // ##################################################################################################################
 			// ##### Sample3 - Picasa/Google+ #####
       // ##################################################################################################################
-      jQuery('#btnPicasaOpen').on('click', function() {
-        jQuery("#nanoGallery3").nanoGallery({
-          thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
-          thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
+      jQuery("#nanoGallery3").nanoGallery({
+        thumbnailL1Width:'140C XS100 SM100', thumbnailL1Height:'140C XS100 SM100',
+        thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
 
-          userID: '111186676244625461692',
-          //userID:'103482106723589181634', // --> Cyrilic
-          kind: 'picasa',
-          //maxItemsPerLine:3,
-          //album: '5851968929721015169?authkey=CJSlhdKSgoiXtgE',
-          //album: '5851968929721015169&authkey=Gv1sRgCJSlhdKSgoiXtgE',
-          //album:'5856259539659194001',
-          //openOnStart : '5856259539659194001',
-          openOnStart : '5856259539659194001/5856259543749603346',
-          viewerFullscreen: true,
-          photoSorting: 'random',
-          locationHash: false,
-          blackList:'none',
-          albumSorting: 'random',
-          colorScheme: myColorScheme,
-          galleryFullpageButton: true,
-          thumbnailLabel:{ display:false},
-          thumbnailL1Label:{title:'%filenameNoExt', itemsCount:'title', display:true},
-          viewerDisplayLogo: true,
-          photoSorting: 'titleDesc',
-          thumbnailHoverEffect:[{'name':'imageScale150', 'duration':500}],
-          thumbnailL1HoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
-          //thumbnailHoverEffect: [{'name':'imageScaleIn80','duration':300},{'name':'borderLighter'}]
-        });
+        userID: '111186676244625461692',
+        //userID:'103482106723589181634', // --> Cyrilic
+        kind: 'picasa',
+        //maxItemsPerLine:3,
+        //album: '5851968929721015169?authkey=CJSlhdKSgoiXtgE',
+        //album: '5851968929721015169&authkey=Gv1sRgCJSlhdKSgoiXtgE',
+        //album:'5856259539659194001',
+        //openOnStart : '5856259539659194001',
+        //openOnStart : '5856259539659194001/5856259543749603346',
+        viewerFullscreen: true,
+        photoSorting: 'random',
+        locationHash: false,
+        blackList:'none',
+        albumSorting: 'random',
+        colorScheme: myColorScheme,
+        galleryFullpageButton: true,
+        thumbnailLabel:{ display:false},
+        thumbnailL1Label:{title:'%filenameNoExt', itemsCount:'title', display:true},
+        viewerDisplayLogo: true,
+        photoSorting: 'titleDesc',
+        thumbnailHoverEffect:[{'name':'imageScale150', 'duration':500}],
+        thumbnailL1HoverEffect:[{'name':'labelOpacity50','duration':300, 'delay':500},{'name':'imageScaleIn80', 'duration':500}]
+        //thumbnailHoverEffect: [{'name':'imageScaleIn80','duration':300},{'name':'borderLighter'}]
+      });
+      jQuery('#btnPicasaOpen').on('click', function() {
+        jQuery("#nanoGallery3").nanoGallery('displayItem','5856259539659194001/5856259543749603346');
       });
 
 

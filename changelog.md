@@ -1,8 +1,18 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-ChangeLog
+ChangeLog 
 ------
+
+v5.5.4
+------
+
+##### New API method  
+- **displayItem**: display an item (album or image).  
+  `$('#yourElement').nanoGallery('displayItem', 'itemID');`  
+  itemID syntax to display an album: 'albumID'  
+  itemID syntax to display an image: 'albumID/imageID'  
+
 
 v5.5.3
 ------

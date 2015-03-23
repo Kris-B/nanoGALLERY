@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.5.3
+ * @preserve nanoGALLERY v5.5.4
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,10 +22,13 @@
 
 /*
 
-nanoGALLERY v5.5.3 release notes.
+nanoGALLERY v5.5.4 release notes.
 
-##### Misc
-- bugfix - Flickr image size L (1024 pixels) ignored  
+##### New API method  
+- **displayItem**: display an item (album or image).  
+  `$('#yourElement').nanoGallery('displayItem', 'itemID');`  
+  itemID syntax to display an album: 'albumID'  
+  itemID syntax to display an image: 'albumID/imageID'  
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -53,9 +56,7 @@ nanoGALLERY v5.5.3 release notes.
     _this.init = function(){
       _this.options = $.extend(true, {},$.nanoGallery.defaultOptions, options);
       // Initialization code
-      //_this.$e.data('nanoGallery', new nanoGALLERY());
       _this.nG= new nanoGALLERY();
-      // _this.$e.data('nanoGallery').n().Initiate(_this.e, _this.options );
       _this.nG.Initiate(_this.e, _this.options );
     };
       
@@ -158,12 +159,12 @@ nanoGALLERY v5.5.3 release notes.
 
       switch(args){
         case 'reload':
-          //ReloadAlbum();
           $(this).data('nanoGallery').nG.ReloadAlbum();
-          // $(this).data('nanoGallery').ReloadJson();
           return $(this);
+          break;
         case 'getSelectedItems':
           return $(this).data('nanoGallery').nG.GetSelectedItems();
+          break;
         case 'selectItems':
           $(this).data('nanoGallery').nG.SetSelectedItems(option);
           break;
@@ -177,12 +178,16 @@ nanoGALLERY v5.5.3 release notes.
           break;
         case 'getSelectMode':
           return $(this).data('nanoGallery').nG.GetSelectMode();
+          break;
         case 'getItem':
           return $(this).data('nanoGallery').nG.GetItem(option);
+          break;
         case 'getItems':
           return $(this).data('nanoGallery').nG.GetItems();
+          break;
         case 'getItemsIndex':
           return $(this).data('nanoGallery').nG.GetItemsIndex(option);
+          break;
         case 'option':
           if(typeof value === 'undefined'){
             return $(this).data('nanoGallery').nG.Get(option);
@@ -193,6 +198,9 @@ nanoGALLERY v5.5.3 release notes.
         case 'destroy':
           $(this).data('nanoGallery').nG.$E.base.text('');
           $(this).removeData();
+          break;
+        case 'displayItem':
+          $(this).data('nanoGallery').nG.displayItem(option);
           break;
       }
       return $(this);
@@ -255,6 +263,14 @@ nanoGALLERY v5.5.3 release notes.
           return PicasaProcessItems(albumIdx, false, -1, false, true);
       }
 
+    };
+
+    // Display one item
+    // itemID syntax:
+    //    - albumID --> display one album
+    //    - albumID/imageID --> display one image
+    this.displayItem = function( itemID ){
+      return OpenItem( false, itemID, true );
     };
     
     /**
@@ -442,14 +458,8 @@ nanoGALLERY v5.5.3 release notes.
         }
         return G.tnHE;
       },
-      styleFTitle: '',
-      styleITitle: '',
-      styleDesc: '',
-      styleLabelImage: '',
-      styleL1FTitle: '',
-      styleL1ITitle: '',
-      styleL1Desc: '',
-      styleL1LabelImage: ''
+      styleFTitle: '', styleITitle: '', styleDesc: '', styleLabelImage: '',
+      styleL1FTitle: '', styleL1ITitle: '', styleL1Desc: '', styleL1LabelImage: ''
     };
     G.tnHE = [];                      // Thumbnail hover effects
     G.tnL1HE = [];                    // Thumbnail hover effects - Level 1
@@ -2178,62 +2188,12 @@ nanoGALLERY v5.5.3 release notes.
 
       // special use case -> openOnStart can be processed like location hash, only once (on start)
       if( G.O.openOnStart != '' ) {
-        var albumID=null,
-        imageID=null,
-        p=G.O.openOnStart.indexOf('/'),
-        albumIdx=-1,
-        imageIdx=-1,
-        l=G.I.length;
-        
-        if( p > 0 ) {
-          albumID=G.O.openOnStart.substring(0,p);
-          imageID=G.O.openOnStart.substring(p+1);
-          for(var i=0; i<l; i++ ) {
-            if( G.I[i].kind == 'image' && G.I[i].GetID() == imageID ) {
-              imageIdx=i;
-              break;
-            }
-          }
-        }
-        else {
-          albumID=G.O.openOnStart;
-        }
-        for(var i=0; i<l; i++ ) {
-          if( G.I[i].kind == 'album' && G.I[i].GetID() == albumID ) {
-            albumIdx=i;
-            break;
-          }
-        }
-
+        var ID=G.O.openOnStart;
         G.O.openOnStart='';
-        
-        if( imageID !== null ) {
-        // process IMAGE
-          G.albumIdxToOpenOnViewerClose=albumIdx;
-          if( G.O.kind == '' ) {
-            DisplayImage(imageIdx);
-          }
-          else {
-            if( imageIdx == -1 ) {
-              OpenAlbum(albumIdx,false,imageID,false);
-            }
-            else {
-              DisplayImage(imageIdx);
-            }
-          }
-          return true;
-
-        }
-        else {
-          // process ALBUM
-          OpenAlbum(albumIdx,false,-1,false);
-          return true;
-        }
+        return OpenItem( false, ID, true );
       }
     
-    
       // standard use case -> location hash processing
-    
       if( !G.O.locationHash ) { return false; }
 
       var albumID=null,
@@ -2253,60 +2213,77 @@ nanoGALLERY v5.5.3 release notes.
       }
       
       if( hash.indexOf(curGal) == 0 ) {
-        var s=hash.substring(curGal.length),
-        p=s.indexOf('/'),
-        albumIdx=-1,
-        imageIdx=-1,
-        l=G.I.length;
-        
-        if( p > 0 ) {
-          albumID=s.substring(0,p);
-          imageID=s.substring(p+1);
-          for(var i=0; i<l; i++ ) {
-            if( G.I[i].kind == 'image' && G.I[i].GetID() == imageID ) {
-              imageIdx=i;
-              break;
-            }
-          }
-        }
-        else {
-          albumID=s;
-        }
-        for(var i=0; i<l; i++ ) {
-          if( G.I[i].kind == 'album' && G.I[i].GetID() == albumID ) {
-            albumIdx=i;
-            break;
-          }
-        }
-
-        if( imageID !== null ) {
-          // process IMAGE
-          if( !isTriggeredByEvent ) {
-          G.albumIdxToOpenOnViewerClose=albumIdx;
-          }
-          if( G.O.kind == '' ) {
-            DisplayImage(imageIdx);
-          }
-          else {
-            if( imageIdx == -1 ) {
-              OpenAlbum(albumIdx,false,imageID,isTriggeredByEvent);
-            }
-            else {
-              DisplayImage(imageIdx);
-            }
-          }
-          return true;
-
-        }
-        else {
-          // process ALBUM
-          OpenAlbum(albumIdx,false,-1,isTriggeredByEvent);
-          return true;
-        }
+        var ID=hash.substring(curGal.length);
+        return OpenItem( isTriggeredByEvent, ID, !isTriggeredByEvent );
       }
     
       //return {albumID:albID, imageID:imgID};
     }
+    
+    function OpenItem( isTriggeredByEvent, ID, openAlbumOnViewerClose ) {
+      var albumID=null,
+      imageID=null,
+      p=ID.indexOf('/'),
+      albumIdx=-1,
+      imageIdx=-1,
+      l=G.I.length;
+      
+      if( p > 0 ) {
+        albumID=ID.substring(0,p);
+        imageID=ID.substring(p+1);
+        for(var i=0; i<l; i++ ) {
+          if( G.I[i].kind == 'image' && G.I[i].GetID() == imageID ) {
+            imageIdx=i;
+            break;
+          }
+        }
+      }
+      else {
+        albumID=ID;
+      }
+      for(var i=0; i<l; i++ ) {
+        if( G.I[i].kind == 'album' && G.I[i].GetID() == albumID ) {
+          albumIdx=i;
+          break;
+        }
+      }
+
+      if( imageID !== null ) {
+        // process IMAGE
+        // if( !isTriggeredByEvent ) {
+        if( openAlbumOnViewerClose ) {
+          G.albumIdxToOpenOnViewerClose=albumIdx;
+        }
+        if( G.O.kind == '' ) {
+          DisplayImage(imageIdx);
+        }
+        else {
+          if( imageIdx == -1 ) {
+            // first load the album
+            if( G.O.viewerFullscreen ) {
+              // activate fullscreen before ajax call, because it can be done only on user interaction
+              ngscreenfull.request();
+            }
+            OpenAlbum(albumIdx,false,imageID,isTriggeredByEvent);
+          }
+          else {
+            // album is already loaded
+            DisplayImage(imageIdx);
+          }
+        }
+        return true;
+
+      }
+      else {
+        // process ALBUM
+        OpenAlbum(albumIdx,false,-1,isTriggeredByEvent);
+        return true;
+      }
+    
+    }
+    
+    
+    
 
     
     // build a dummy thumbnail to get different sizes and to cache them
