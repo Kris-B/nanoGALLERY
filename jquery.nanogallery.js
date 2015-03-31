@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.5.0beta3
+ * @preserve nanoGALLERY v5.5.4
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,46 +22,13 @@
 
 /*
 
-nanoGALLERY v5.5.0beta3 release notes.
+nanoGALLERY v5.5.4 release notes.
 
-TODO:
-  - timer slideshow
-  - multi-instance - options lost
-
-##### New features
-- Gallery rendering: significant performance improvement
-- Thumbnail selection on long touch
-  
-##### New options
-- **showCheckboxes**: displays a checkbox over selected thumbnails.
-  *boolean; Default: true*  
-- **checkboxStyle** : inline style for selection checkbox.
-  *string, Default: 'left:15px; top:15px;'*
-- inline method: new data attribute to store custom data: `customdata`  
-  Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`
-- API method: new properties to store custom data: `customData`  
-  Usage example: `{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`
-
-
-##### New callbacks
-- **fnInitGallery(albumIdx, pageNumber)**: called after each gallery construction.
-- **fnChangeSelectMode(currSelectionMode)**: called when entering or leaving selection mode.
-  
-##### New API methods (beta)
-- **destroy**: remove the gallery.
-  `$('#yourElement').nanoGallery('destroy');`
-- **setSelectMode**: enter/leave selection mode.
-  `$('#yourElement').nanoGallery('setSelectMode', true|false);`
-- **getSelectMode**: is the viewer in selection mode.
-  `$('#yourElement').nanoGallery('getSelectMode');`
-
-##### Misc
-- bugfix location hash not working on web page with frames (SecurityError: Blocked a frame with origin)
-- bugfix deeplinking to image didn't display the gallery on close
-- minor bugfixes
-
-**Many thanks to Raphaël Renaudon (https://github.com/sevarg) for his contribution.**
-
+##### New API method  
+- **displayItem**: display an item (album or image).  
+  `$('#yourElement').nanoGallery('displayItem', 'itemID');`  
+  itemID syntax to display an album: 'albumID'  
+  itemID syntax to display an image: 'albumID/imageID'  
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -89,9 +56,7 @@ TODO:
     _this.init = function(){
       _this.options = $.extend(true, {},$.nanoGallery.defaultOptions, options);
       // Initialization code
-      //_this.$e.data('nanoGallery', new nanoGALLERY());
       _this.nG= new nanoGALLERY();
-      // _this.$e.data('nanoGallery').n().Initiate(_this.e, _this.options );
       _this.nG.Initiate(_this.e, _this.options );
     };
       
@@ -119,25 +84,23 @@ TODO:
     flickrSkipOriginal : true,
     galleryToolbarWidthAligned : true, galleryToolbarHideIcons : false,
     galleryFullpageButton : false, galleryFullpageBgColor : '#111',
-    galleryRenderStep : 200,
+    galleryRenderStep : 10,
     breadcrumbAutoHideTopLevel : false,
     displayBreadcrumb : false,
     theme : 'default',
     colorScheme : 'none', colorSchemeViewer : 'default',
     items : null,
     itemsBaseURL : '',
-    itemsSelectable : false,
-    showCheckboxes: true,
-    checkboxStyle : 'left:15px; top:15px;',
-    jsonCharset: 'Latin',
-    jsonProvider: '',
-    paginationMaxLinesPerPage : 0,
-    paginationDots : false,
+    itemsSelectable : false, showCheckboxes: true, checkboxStyle : 'left:15px; top:15px;',
+    jsonCharset: 'Latin', jsonProvider: '',
+    paginationMaxLinesPerPage : 0, paginationDots : false,
     maxWidth : 0,
     viewer : 'internal',
-    fancyBoxOptions : null,
+    viewerFullscreen: false,
     viewerDisplayLogo : false,
-    imageTransition : 'slideNEW',
+    fancyBoxOptions : null,
+    imageTransition : 'slide',
+    openOnStart : '',
     viewerToolbar : { 
       display:true, position : 'bottom', style : 'innerImage', autoMinimize:800,
       standard:'minimizeButton , previousButton, pageCounter ,nextButton,playPauseButton,fullscreenButton,infoButton,linkOriginalButton,closeButton,label',
@@ -148,9 +111,10 @@ TODO:
     thumbnailGutterWidth : 2, thumbnailGutterHeight : 2,
     thumbnailAdjustLastRowHeight : true,
     thumbnailFeatured : false,
+    thumbnailAlbumDisplayImage : false,
     thumbnailHoverEffect : null,
     thumbnailLabel : { position : 'overImageOnBottom', display : true, displayDescription : true, titleMaxLength : 0, descriptionMaxLength : 0, hideIcons : false, title : '', itemsCount : '' },
-    thumbnailDisplayInterval : 10, thumbnailDisplayTransition : true,
+    thumbnailDisplayInterval : 5, thumbnailDisplayTransition : true,
     thumbnailLazyLoad : false, thumbnailLazyLoadTreshold : 100,
     thumbnailGlobalImageTitle : '', thumbnailGlobalAlbumTitle : '',
     //thumbnailSizeSM : 480, thumbnailSizeME : 992, thumbnailSizeLA : 1200, thumbnailSizeXL : 1800,
@@ -195,12 +159,12 @@ TODO:
 
       switch(args){
         case 'reload':
-          //ReloadAlbum();
           $(this).data('nanoGallery').nG.ReloadAlbum();
-          // $(this).data('nanoGallery').ReloadJson();
           return $(this);
+          break;
         case 'getSelectedItems':
           return $(this).data('nanoGallery').nG.GetSelectedItems();
+          break;
         case 'selectItems':
           $(this).data('nanoGallery').nG.SetSelectedItems(option);
           break;
@@ -214,12 +178,16 @@ TODO:
           break;
         case 'getSelectMode':
           return $(this).data('nanoGallery').nG.GetSelectMode();
+          break;
         case 'getItem':
           return $(this).data('nanoGallery').nG.GetItem(option);
+          break;
         case 'getItems':
           return $(this).data('nanoGallery').nG.GetItems();
+          break;
         case 'getItemsIndex':
           return $(this).data('nanoGallery').nG.GetItemsIndex(option);
+          break;
         case 'option':
           if(typeof value === 'undefined'){
             return $(this).data('nanoGallery').nG.Get(option);
@@ -230,6 +198,9 @@ TODO:
         case 'destroy':
           $(this).data('nanoGallery').nG.$E.base.text('');
           $(this).removeData();
+          break;
+        case 'displayItem':
+          $(this).data('nanoGallery').nG.displayItem(option);
           break;
       }
       return $(this);
@@ -292,6 +263,14 @@ TODO:
           return PicasaProcessItems(albumIdx, false, -1, false, true);
       }
 
+    };
+
+    // Display one item
+    // itemID syntax:
+    //    - albumID --> display one album
+    //    - albumID/imageID --> display one image
+    this.displayItem = function( itemID ){
+      return OpenItem( false, itemID, true );
     };
     
     /**
@@ -479,14 +458,8 @@ TODO:
         }
         return G.tnHE;
       },
-      styleFTitle: '',
-      styleITitle: '',
-      styleDesc: '',
-      styleLabelImage: '',
-      styleL1FTitle: '',
-      styleL1ITitle: '',
-      styleL1Desc: '',
-      styleL1LabelImage: ''
+      styleFTitle: '', styleITitle: '', styleDesc: '', styleLabelImage: '',
+      styleL1FTitle: '', styleL1ITitle: '', styleL1Desc: '', styleL1LabelImage: ''
     };
     G.tnHE = [];                      // Thumbnail hover effects
     G.tnL1HE = [];                    // Thumbnail hover effects - Level 1
@@ -1050,6 +1023,11 @@ TODO:
       ThumbnailDefCaches();
       
       G.L.nbMaxTnPerRow=NbThumbnailsPerRow();
+
+      // display an image on start and in fullscreen
+      if( G.O.viewerFullscreen && G.O.openOnStart.indexOf('/') > 0 ) {
+        ngscreenfull.request();
+      }
       
       // lazy build the gallery
       if( G.O.lazyBuild != 'loadData' ) { NGFinalize(); }
@@ -1082,27 +1060,34 @@ TODO:
       });
       
       // Event page scrolled
-      jQuery(window).on('scroll', function () {
-        if( G.scrollTimeOut ) clearTimeout(G.scrollTimeOut);
-        G.scrollTimeOut = setTimeout(function () {
-
-          if( !G.containerViewerDisplayed ) {
-            if( G.O.lazyBuild == 'loadData' ) {
-              if( inViewportVert(G.$E.conTnParent,G.O.lazyBuildTreshold) ){
-                G.O.lazyBuild='none';
-                NGFinalize();
-              }
-            }
-          
-            if( G.delayedAlbumIdx != -1 && inViewportVert(G.$E.conTnParent,G.O.lazyBuildTreshold) ){
-              DisplayAlbumFinalize( G.delayedAlbumIdx, G.delayedSetLocationHash );
-            }
-            
-            thumbnailsLazySetSrc();
-            return;
-          }
-        }, 200);
+      G.$E.base.on('scroll', function () {
+        OnScroll();
       });
+      jQuery(window).on('scroll', function () {
+        OnScroll();
+      });
+    }
+    
+    function OnScroll() {
+      if( G.scrollTimeOut ) clearTimeout(G.scrollTimeOut);
+      G.scrollTimeOut = setTimeout(function () {
+
+        if( !G.containerViewerDisplayed ) {
+          if( G.O.lazyBuild == 'loadData' ) {
+            if( inViewportVert(G.$E.conTnParent,G.O.lazyBuildTreshold) ){
+              G.O.lazyBuild='none';
+              NGFinalize();
+            }
+          }
+        
+          if( G.delayedAlbumIdx != -1 && inViewportVert(G.$E.conTnParent,G.O.lazyBuildTreshold) ){
+            DisplayAlbumFinalize( G.delayedAlbumIdx, G.delayedSetLocationHash );
+          }
+          
+          thumbnailsLazySetSrc();
+          return;
+        }
+      }, 100);
     }
     
     function getSpecialKeysPressed(e){
@@ -1308,6 +1293,13 @@ TODO:
             }
             G.$E.conNavBFullpage.removeClass('setFullPageButton').addClass('removeFullPageButton');
             setElementOnTop('', G.$E.base);
+
+            for( j=0; j<G.tn.getHE().length; j++) {
+              if( /scale120|imageScale150Outside|overScaleOutside|imageFlipHorizontal|imageFlipVertical/i.test(G.tn.getHE()[j].name) ) {
+                G.$E.base.css({overflow: 'auto'});
+              }
+            }
+
             G.$E.base.addClass('fullpage');
             jQuery('body').css({overflow:'hidden'});
             ResizeGallery();
@@ -1320,6 +1312,11 @@ TODO:
               jQuery(G.$E.base).css({'maxWidth':G.O.maxWidth});
             }
             G.$E.base.removeClass('fullpage');
+            for( j=0; j<G.tn.getHE().length; j++) {
+              if( /scale120|imageScale150Outside|overScaleOutside|imageFlipHorizontal|imageFlipVertical/i.test(G.tn.getHE()[j].name) ) {
+                G.$E.base.css({overflow: 'visible'});
+              }
+            }
             ScrollbarSetVisible();
             ResizeGallery();
           }
@@ -2189,6 +2186,14 @@ TODO:
     // Location Hash
     function ProcessLocationHash(isTriggeredByEvent) {
 
+      // special use case -> openOnStart can be processed like location hash, only once (on start)
+      if( G.O.openOnStart != '' ) {
+        var ID=G.O.openOnStart;
+        G.O.openOnStart='';
+        return OpenItem( false, ID, true );
+      }
+    
+      // standard use case -> location hash processing
       if( !G.O.locationHash ) { return false; }
 
       var albumID=null,
@@ -2203,64 +2208,82 @@ TODO:
           // back button and no hash --> display first album
           G.lastLocationHash='';
           OpenAlbum(0,false,-1,false);
+          return true;
         }
       }
       
       if( hash.indexOf(curGal) == 0 ) {
-        var s=hash.substring(curGal.length),
-        p=s.indexOf('/'),
-        albumIdx=-1,
-        imageIdx=-1,
-        l=G.I.length;
-        
-        if( p > 0 ) {
-          albumID=s.substring(0,p);
-          imageID=s.substring(p+1);
-          for(var i=0; i<l; i++ ) {
-            if( G.I[i].kind == 'image' && G.I[i].GetID() == imageID ) {
-              imageIdx=i;
-              break;
-            }
-          }
-        }
-        else {
-          albumID=s;
-        }
-        for(var i=0; i<l; i++ ) {
-          if( G.I[i].kind == 'album' && G.I[i].GetID() == albumID ) {
-            albumIdx=i;
-            break;
-          }
-        }
-
-        if( imageID !== null ) {
-          // process IMAGE
-          if( !isTriggeredByEvent ) {
-          G.albumIdxToOpenOnViewerClose=albumIdx;
-          }
-          if( G.O.kind == '' ) {
-            DisplayImage(imageIdx);
-          }
-          else {
-            if( imageIdx == -1 ) {
-              OpenAlbum(albumIdx,false,imageID,isTriggeredByEvent);
-            }
-            else {
-              DisplayImage(imageIdx);
-            }
-          }
-          return true;
-
-        }
-        else {
-          // process ALBUM
-          OpenAlbum(albumIdx,false,-1,isTriggeredByEvent);
-          return true;
-        }
+        var ID=hash.substring(curGal.length);
+        return OpenItem( isTriggeredByEvent, ID, !isTriggeredByEvent );
       }
     
       //return {albumID:albID, imageID:imgID};
     }
+    
+    function OpenItem( isTriggeredByEvent, ID, openAlbumOnViewerClose ) {
+      var albumID=null,
+      imageID=null,
+      p=ID.indexOf('/'),
+      albumIdx=-1,
+      imageIdx=-1,
+      l=G.I.length;
+      
+      if( p > 0 ) {
+        albumID=ID.substring(0,p);
+        imageID=ID.substring(p+1);
+        for(var i=0; i<l; i++ ) {
+          if( G.I[i].kind == 'image' && G.I[i].GetID() == imageID ) {
+            imageIdx=i;
+            break;
+          }
+        }
+      }
+      else {
+        albumID=ID;
+      }
+      for(var i=0; i<l; i++ ) {
+        if( G.I[i].kind == 'album' && G.I[i].GetID() == albumID ) {
+          albumIdx=i;
+          break;
+        }
+      }
+
+      if( imageID !== null ) {
+        // process IMAGE
+        // if( !isTriggeredByEvent ) {
+        if( openAlbumOnViewerClose ) {
+          G.albumIdxToOpenOnViewerClose=albumIdx;
+        }
+        if( G.O.kind == '' ) {
+          DisplayImage(imageIdx);
+        }
+        else {
+          if( imageIdx == -1 ) {
+            // first load the album
+            if( G.O.viewerFullscreen ) {
+              // activate fullscreen before ajax call, because it can be done only on user interaction
+              ngscreenfull.request();
+            }
+            OpenAlbum(albumIdx,false,imageID,isTriggeredByEvent);
+          }
+          else {
+            // album is already loaded
+            DisplayImage(imageIdx);
+          }
+        }
+        return true;
+
+      }
+      else {
+        // process ALBUM
+        OpenAlbum(albumIdx,false,-1,isTriggeredByEvent);
+        return true;
+      }
+    
+    }
+    
+    
+    
 
     
     // build a dummy thumbnail to get different sizes and to cache them
@@ -2443,7 +2466,7 @@ TODO:
       G.pgMaxNbThumbnailsPerRow=NbThumbnailsPerRow();
       
       // backup values used in animations/transitions
-      G.custGlobals.oldBorderColor=$newDiv.css('border-color');
+      G.custGlobals.oldBorderColor=$newDiv.css('border-color-top');
       if( G.custGlobals.oldBorderColor == '' || G.custGlobals.oldBorderColor == null || G.custGlobals.oldBorderColor == undefined ) { G.custGlobals.oldBorderColor='#000'; }
       G.custGlobals.oldLabelOpacity=$newDiv.find('.labelImage').css('opacity');
       var c=jQuery.Color($newDiv.find('.labelImage'),'backgroundColor');
@@ -2503,7 +2526,7 @@ TODO:
         }
       }
       if( G.O.thumbnailL1Label && G.O.thumbnailL1Label.display ) {
-      switch( G.O.thumbnailL1Label.position ){
+        switch( G.O.thumbnailL1Label.position ){
           case 'onBottom':
             G.tn.styleL1LabelImage='top:0; position:relative; left:0; right:0;';
             if( G.tn.settings.getH() == 'auto' ) {
@@ -2528,9 +2551,9 @@ TODO:
             G.tn.styleL1ITitle='left:0; right:0; position:absolute; bottom:50%;';
             G.tn.styleL1Desc='left:0; right:0; position:absolute; top:50%;';
             break;
-	  case 'custom':
+          case 'custom':
             G.tn.styleL1LabelImage='';
-	    break;
+            break;
           case 'overImageOnBottom':
           default :
             G.O.thumbnailL1Label.position='overImageOnBottom';
@@ -2904,7 +2927,7 @@ TODO:
 
         JsonParseData(albumIdx, data);
 
-        if( processLocationHash ) {
+        if( processLocationHash || G.O.openOnStart != '') {
           if( !ProcessLocationHash(false) ) {
             DisplayAlbum(albumIdx,setLocationHash);
           }
@@ -3040,7 +3063,7 @@ TODO:
       if( G.I[albumIdx].GetID() == 0 ) {
         // albums
         //url = G.flickr.url() + "?&method=flickr.photosets.getList&api_key=" + G.flickr.ApiKey + "&user_id="+G.O.userID+"&primary_photo_extras=url_"+G.flickr.thumbSize+"&format=json&jsoncallback=?";
-        url = G.flickr.url() + "?&method=flickr.photosets.getList&api_key=" + G.flickr.ApiKey + "&user_id="+G.O.userID+"&per_page=500&primary_photo_extras=url_o,url_sq,url_t,url_q,url_s,url_m,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
+        url = G.flickr.url() + "?&method=flickr.photosets.getList&api_key=" + G.flickr.ApiKey + "&user_id="+G.O.userID+"&per_page=500&primary_photo_extras=url_o,url_sq,url_t,url_q,url_s,url_m,url_l,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
       }
       else {
         // photos
@@ -3051,11 +3074,10 @@ TODO:
         else {
           // photos from one specific photoset
           //url = G.flickr.url() + "?&method=flickr.photosets.getPhotos&api_key=" + G.flickr.ApiKey + "&photoset_id="+G.I[albumIdx].GetID()+"&extras=description,views,url_o,url_z,url_"+G.flickr.photoSize+",url_"+G.flickr.thumbSize+"&format=json&jsoncallback=?";
-          url = G.flickr.url() + "?&method=flickr.photosets.getPhotos&api_key=" + G.flickr.ApiKey + "&photoset_id="+G.I[albumIdx].GetID()+"&extras=description,views,url_o,url_sq,url_t,url_q,url_s,url_m,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
+          url = G.flickr.url() + "?&method=flickr.photosets.getPhotos&api_key=" + G.flickr.ApiKey + "&photoset_id="+G.I[albumIdx].GetID()+"&extras=description,views,url_o,url_sq,url_t,url_q,url_s,url_m,url_l,url_z,url_b,url_h,url_k&format=json&jsoncallback=?";
         }
         kind='image';
       }
-
       PreloaderShow();
 
       jQuery.ajaxSetup({ cache: false });
@@ -3075,7 +3097,7 @@ TODO:
         else {
           FlickrParsePhotos(albumIdx, data);
         }
-        if( processLocationHash ) {
+        if( processLocationHash || G.O.openOnStart != '' ) {
           if( !ProcessLocationHash(false) ) {
             DisplayAlbum(albumIdx,setLocationHash);
           }
@@ -3425,7 +3447,7 @@ TODO:
         // url = G.picasa.url() + 'user/'+G.O.userID+'/albumid/'+G.I[albumIdx].GetID()+'?alt=json&kind=photo'+opt+'&thumbsize=320&imgmax=d';
         kind='image';
       }
-  //A    url = url + "&callback=?";
+      //A    url = url + "&callback=?";
       PreloaderShow();
 
       // get the content and display it
@@ -3442,7 +3464,7 @@ TODO:
         PreloaderHide();
         PicasaParseData(albumIdx,data,kind);
         //renderGallery(albumIdx,0);
-        if( processLocationHash ) {
+        if( processLocationHash || G.O.openOnStart != '' ) {
           if( !ProcessLocationHash(false) ) {
             DisplayAlbum(albumIdx,setLocationHash);
           }
@@ -3841,6 +3863,18 @@ TODO:
       G.delayedAlbumIdx=-1;
       G.albumIdxToOpenOnViewerClose=-1;
 
+      if( G.O.thumbnailAlbumDisplayImage && albumIdx != 0 ) {
+        // find first image of the album
+        var l=G.I.length;
+        for( var i=0; i<l; i++ ) {
+          if( G.I[i].albumID == G.I[albumIdx].GetID() ) {
+            DisplayImage( i );
+            break;
+          }
+        }
+        return;
+      }
+      
       if( G.containerViewerDisplayed ) {
         CloseInternalViewer(false);
       }
@@ -3880,9 +3914,9 @@ TODO:
       if(albumIdx == 0 ) {
         cl="folderHome";
       }
-      var newDiv =jQuery('<div class="'+cl+' oneFolder">'+G.I[albumIdx].title+'</div>').appendTo(G.$E.conBC);
-      jQuery(newDiv).data('albumIdx',albumIdx);
-      newDiv.click(function() {
+      var $newDiv =jQuery('<div class="'+cl+' oneFolder">'+G.I[albumIdx].title+'</div>').appendTo(G.$E.conBC);
+      jQuery($newDiv).data('albumIdx',albumIdx);
+      $newDiv.click(function() {
         var cAlbumIdx=jQuery(this).data('albumIdx');
         jQuery(this).nextAll().remove();
         OpenAlbum(cAlbumIdx, false, -1, true);
@@ -3892,9 +3926,9 @@ TODO:
 
     // add separator to breadcrumb
     function breadcrumbAddSeparator( lastAlbumID ) {
-      var newSep=jQuery('<div class="separator'+(G.O.RTL ? 'RTL' : '')+'"></div>').appendTo(G.$E.conBC);
-      jQuery(newSep).data('albumIdx',lastAlbumID);
-      newSep.click(function() {
+      var $newSep=jQuery('<div class="separator'+(G.O.RTL ? 'RTL' : '')+'"></div>').appendTo(G.$E.conBC);
+      jQuery($newSep).data('albumIdx',lastAlbumID);
+      $newSep.click(function() {
         var sepAlbumIdx=jQuery(this).data('albumIdx');
         jQuery(this).nextAll().remove();
         jQuery(this).remove();
@@ -3906,11 +3940,11 @@ TODO:
     
     function manageGalleryToolbar( albumIdx ) {
       var displayToolbar=false;
-    
+
       // Breadcrumb
-      if( G.O.displayBreadcrumb == true ) {
+      if( G.O.displayBreadcrumb == true && !G.O.thumbnailAlbumDisplayImage ) {
         if( G.$E.conBC.children().length == 0 ) {
-            G.$E.conNavBCon.css({opacity:0, 'max-height':'0px'});
+          G.$E.conNavBCon.css({opacity:0, 'max-height':'0px'});
         }
 
         displayToolbar=true;
@@ -3963,12 +3997,43 @@ TODO:
             G.curNavLevel='lN';
           }
           if( l1 == 1 && G.O.breadcrumbAutoHideTopLevel ) {
-            G.$E.conNavBCon.animate({'opacity':'0','max-height':'0px'});
+            //G.$E.conNavBCon.animate({'opacity':'0','max-height':'0px'});
+            var tweenable = new NGTweenable();
+            tweenable.tween({
+              from: {'opacity':G.$E.conNavBCon.css('opacity'),'max-height':G.$E.conNavBCon.css('max-height')},
+              to: {'opacity':'0','max-height':'0px'},
+              attachment: { $e:G.$E.conNavBCon },
+              duration: 200,
+              step: function (state, att) {
+                att.$e.css(state);
+              },
+              finish: function (state, att) {
+                att.$e.css({'opacity':'0','max-height':'0px'});
+              }
+            });
           }
           else {
-            G.$E.conNavBCon.animate({'opacity':'1','max-height':'50px'});
+            //G.$E.conNavBCon.animate({'opacity':'1','max-height':'50px'});
+            if( G.O.breadcrumbAutoHideTopLevel ) {
+              var tweenable = new NGTweenable();
+              tweenable.tween({
+                from: {'opacity':G.$E.conNavBCon.css('opacity'),'max-height':G.$E.conNavBCon.css('max-height')},
+                to: {'opacity':'1','max-height':'50px'},
+                attachment: { $e:G.$E.conNavBCon },
+                duration: 200,
+                step: function (state, att) {
+                  att.$e.css(state);
+                },
+                finish: function (state, att) {
+                  att.$e.css({'opacity':'1','max-height':'50px'});
+                }
+              });
+            }
+            else {
+              G.$E.conNavBCon.css({opacity:1, 'max-height':'50px'});
+            }
+            //G.$E.conBC.children().not(':first').remove();
           }
-          //G.$E.conBC.children().not(':first').remove();
         }
         G.pgMaxNbThumbnailsPerRow=NbThumbnailsPerRow();
       }
@@ -4563,11 +4628,11 @@ TODO:
 
       jQuery($eltInViewport).each(function(){
         var $image=jQuery(this).find('img');
-        if( jQuery($image).attr('src') == G.emptyGif ) {
+        if( $image.attr('src') == G.emptyGif ) {
           var idx=jQuery(this).data('index');
           if( idx == undefined || G.I[idx] == undefined ) { return; }
-          jQuery($image).attr('src','');
-          jQuery($image).attr('src',G.I[idx].thumbImg().src);
+          $image.attr('src','');
+          $image.attr('src',G.I[idx].thumbImg().src);
         }
       });
     }
@@ -4725,6 +4790,37 @@ TODO:
       }
 
       var $elt=G.$E.conTn.parent();
+
+      var tweenable = new NGTweenable();
+      tweenable.tween({
+        to:     {'opacity': 0 },
+        from:       {'opacity': 1 },
+        attachment: { $e:$elt },
+        duration: 150,
+        step: function (state, att) {
+          att.$e.css(state);
+        },
+        finish: function (state, att) {
+          att.$e.css({'opacity': 0 });
+          G.containerThumbnailsDisplayed=false;
+          //      G.$E.conTn.off().empty();
+          G.$E.conTn.hide(0).off().show(0).html('');
+          var l=G.I.length;
+          for( var i=0; i < l ; i++ ) {
+            G.I[i].hovered=false;
+          }
+
+          G.$E.conTnParent.css({ left:0, opacity:1 });
+          ElementTranslateX(G.$E.conTn[0],0);
+
+          renderGallery2(albumIdx, pageNumber, renderGallery2Complete);
+        }
+      });
+
+      return;
+      
+      
+      // TODO: remove following
       $elt.animate({opacity: 0}, 100).promise().done(function(){
 
         // remove gallery elements
@@ -5364,7 +5460,9 @@ TODO:
             break;
             
           case 'scale120':
-            G.$E.base.css({overflow: 'visible'});
+            if( !G.$E.base.hasClass('fullpage') ) {
+              G.$E.base.css({overflow: 'visible'});
+            }
             G.$E.conTn.css({overflow: 'visible'});
             newCSSTransform(item, 'base', $e);
             SetCSSTransform(item, 'base');
@@ -5397,7 +5495,9 @@ TODO:
             break;
             
           case 'overScaleOutside':
-            G.$E.base.css({overflow: 'visible'});
+            if( !G.$E.base.hasClass('fullpage') ) {
+              G.$E.base.css({overflow: 'visible'});
+            }
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
             var $t=item.$getElt('.imgContainer');
@@ -5521,7 +5621,7 @@ TODO:
             
           case 'labelAppear':
           case 'labelAppear75':
-            var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0)';
+            var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.01)';
             item.$getElt('.labelImage').css({backgroundColor: c});
             //item.$getElt('.labelImage')[0].style.setProperty( 'backgroundColor',c, 'important' );
             if( item.kind == 'album' ) {
@@ -5601,7 +5701,9 @@ TODO:
                 item.$getElt('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
                 break;
             }
-            G.$E.base.css({overflow: 'visible'});
+            if( !G.$E.base.hasClass('fullpage') ) {
+              G.$E.base.css({overflow: 'visible'});
+            }
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
             setElementOnTop( '', $e);
@@ -5643,7 +5745,9 @@ TODO:
                 item.$getElt('.labelImage').css({bottom:G.tn.imgcBorderWidth/2, left:0, right:0});
                 break;
             }
-            G.$E.base.css({overflow: 'visible'});
+            if( !G.$E.base.hasClass('fullpage') ) {
+              G.$E.base.css({overflow: 'visible'});
+            }
             G.$E.conTn.css({overflow: 'visible'});
             $e.css({overflow: 'visible'});
             setElementOnTop( '', $e);
@@ -6039,70 +6143,101 @@ TODO:
 
     // ANIMATION OF ONE THUMBNAIL ELEMENT
     function TnAni( $e, n, anime, item, eltClass) {
-
+    
+      // STEP 1: animate CSS transform
       var transform=['translateX','translateY', 'scale', 'rotateX', 'rotateY', 'rotateZ'];
-
-      // internal implemetation for CSS transform (not natively supported by jQuery)
       if( G.aengine == 'animate' ) {
         for( var i=0; i<transform.length; i++ ) {
-        var tf=transform[i];
-          if( anime[tf] !== undefined ) {
-            var from = {v: parseInt(item.eltTransform[eltClass][tf]), item:item, tf:tf, eltClass:eltClass, to:parseInt(anime[tf]) };
-            var to = {v: parseInt(anime[tf])};
-            if( G.tn.getHE()[n].delay > 0 ) {
-              jQuery(from).delay(G.tn.getHE()[n].delay).animate(to, { duration:G.tn.getHE()[n].duration, easing:G.tn.getHE()[n].easing, queue:false, step: function(currentValue) {
-              if( this.item.hovered ) {
-                    item.eltTransform[this.eltClass][this.tf]=currentValue;
-                    SetCSSTransform(this.item, this.eltClass);
-                  }
-                }, complete: function() {
-                  if( this.item.hovered ) {
-                    item.eltTransform[this.eltClass][this.tf]=this.to;
-                    SetCSSTransform(this.item, this.eltClass);
-                  }
+          var tf=transform[i];
+          if( typeof  anime[tf] !== 'undefined' ) {
+            var tweenable = new NGTweenable();
+            var to=parseInt(anime[tf]);
+            tweenable.tween({
+              attachment: { it: item, eC: eltClass, t:tf, f:to},
+              from: { 'v': parseInt(item.eltTransform[eltClass][tf])  },
+              to: { 'v': to },
+              duration: G.tn.getHE()[n].duration,
+              delay: G.tn.getHE()[n].delay,
+              step: function (state, att) {
+                if( att.it.hovered ) {
+                  att.it.eltTransform[att.eC][att.t]=state.v;
+                  SetCSSTransform(att.it, att.eC);
                 }
-              });
-            }
-            else {
-              jQuery(from).animate(to, { duration:G.tn.getHE()[n].duration, easing:G.tn.getHE()[n].easing, queue:false, step: function(currentValue) {
-                  if( this.item.hovered ) {
-                    item.eltTransform[this.eltClass][this.tf]=currentValue;
-                    SetCSSTransform(this.item, this.eltClass);
-                  }
-                }, complete: function() {
-                  if( this.item.hovered ) {
-                    item.eltTransform[this.eltClass][this.tf]=this.to;
-                    SetCSSTransform(this.item, this.eltClass);
-                  }
+              },
+              finish: function (state, att) {
+                if( att.it.hovered ) {
+                  att.it.eltTransform[att.eC][att.t]=att.f;
+                  SetCSSTransform(att.it, att.eC);
                 }
-              });
-            }
+              }
+            });
             delete anime[tf];
           }
         }
       }
 
       // is there something else to animate?
-      if( anime.length == 0 ) { return; }
+      var l = 0;
+      for( var key in anime ) {
+        if( anime.hasOwnProperty(key) ) {
+          l++;
+          break;
+        }
+      }      
+      if( l == 0 ) {
+        return;
+      }
  
-      if( G.tn.getHE()[n].delay > 0 ) {
-        if( G.aengine == 'transition' ) {
+      // STEP 2: remaining animations
+      if( G.aengine != 'transition' ) {
+        // retrieve the 'from' values
+        var fr={};
+        for( var key in anime) {
+          if( key == 'borderColor' ) {
+            // borderColor is not supported in Firefox
+            fr[key]=$e.css('borderTopColor');
+          }
+          else {
+            fr[key]=$e.css(key);
+          }
+          if( fr[key] == 'transparent' ) {  // some browser return "transparent" as rgba(0,0,0,0), 
+            if( $e.hasClass('labelImage') ) {
+              fr[key]='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.01)';
+            }
+            else {
+              fr[key]='rgba(0,0,0,0)';
+            }
+          }
+        }
+        var tweenable = new NGTweenable();
+        tweenable.tween({
+          attachment: { $e:$e, it:item, to:anime},
+          from: fr,
+          to: anime,
+          duration: G.tn.getHE()[n].duration,
+          delay: G.tn.getHE()[n].delay,
+          step: function (state, att) {
+            if( att.it.hovered ) {
+              att.$e.css(state);
+            }
+          },
+          finish: function (state, att) {
+            if( att.it.hovered ) {
+              att.$e.css(anime);
+            }
+          }
+        });
+      }
+      else {
+        if( G.tn.getHE()[n].delay > 0 ) {
           // transit has a bug on queue --> we do not use it
           $e.delay(G.tn.getHE()[n].delay)[G.aengine](anime, G.tn.getHE()[n].duration , G.tn.getHE()[n].easing );
         }
         else {
-          $e.delay(G.tn.getHE()[n].delay)[G.aengine](anime, {duration:G.tn.getHE()[n].duration , easing:G.tn.getHE()[n].easing, queue:false });
-        }
-      }
-      else {
-        if( G.aengine == 'transition' ) {
           // transit has a bug on queue --> we do not use it
           //anime.queue=false;
           //anime.duration=5000;
           $e[G.aengine](anime, G.tn.getHE()[n].duration, G.tn.getHE()[n].easing );
-        } 
-        else {
-          $e[G.aengine](anime, {duration:G.tn.getHE()[n].duration , easing:G.tn.getHE()[n].easing, queue:false});
         }
       }
     }
@@ -6172,18 +6307,18 @@ TODO:
               break;
               
             case 'scaleLabelOverImage':
-              TnAni(item.$getElt('.labelImage'), j, { scale:100/dscale, opacity: 1}, item, 'labelImage0' );
+              TnAni(item.$getElt('.labelImage'), j, { scale:100/dscale, opacity: '1'}, item, 'labelImage0' );
               TnAni(item.$getElt('.imgContainer'), j, { scale:50/dscale}, item, 'imgContainer0' );
               break;
               
             case 'overScale':
             case 'overScaleOutside':
-              TnAni(item.$getElt('.labelImage'), j, { opacity: 1, scale:100/dscale}, item, 'labelImage0' );
-              TnAni(item.$getElt('.imgContainer'), j, { opacity: 0, scale:50/dscale}, item, 'imgContainer0' );
+              TnAni(item.$getElt('.labelImage'), j, { opacity: '1', scale:100/dscale}, item, 'labelImage0' );
+              TnAni(item.$getElt('.imgContainer'), j, { opacity: '0', scale:50/dscale}, item, 'imgContainer0' );
               break;
               
             case 'imageInvisible':
-              TnAni(item.$getElt('.imgContainer'), j, { opacity: 0}, item );
+              TnAni(item.$getElt('.imgContainer'), j, { opacity: '0'}, item );
               break;
 
             case 'rotateCornerBL':
@@ -6251,16 +6386,16 @@ TODO:
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:1 }, item );
               }
               else {
-                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',1)';
+                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.99)';    // use 0.99 instead of 1 for opacity because 1=no transparency so jQuery would return RGB instead of RGBA
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColor: c}, item );
               }
               if( item.kind == 'album' ) {
-                TnAni(item.$getElt('.labelFolderTitle'), j, { opacity: 1}, item );
+                 TnAni(item.$getElt('.labelFolderTitle'), j, { opacity: '1'}, item );
               }
               else {
-                TnAni(item.$getElt('.labelImageTitle'), j, { opacity: 1}, item );
+                TnAni(item.$getElt('.labelImageTitle'), j, { opacity: '1'}, item );
               }
-              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: '1'}, item );
               break;
               
             case 'labelAppear75':
@@ -6272,16 +6407,16 @@ TODO:
                 TnAni(item.$getElt('.labelImage'), j, { backgroundColor: c}, item );
               }
               if( item.kind == 'album' ) {
-                TnAni(item.$getElt('.labelFolderTitle'), j, { opacity: 1}, item );
+                TnAni(item.$getElt('.labelFolderTitle'), j, { opacity: '1'}, item );
               }
               else {
-                TnAni(item.$getElt('.labelImageTitle'), j, { opacity: 1}, item );
+                TnAni(item.$getElt('.labelImageTitle'), j, { opacity: '1'}, item );
               }
-              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: '1'}, item );
               break;
               
             case 'descriptionAppear':
-              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: '1'}, item );
               break;
               
             case 'labelSlideDown':
@@ -6299,15 +6434,15 @@ TODO:
               var p=item.thumbFullHeight - lh -lh2;
               if( p<0 ) { p=0; }
               TnAni(item.$getElt('.labelImage'), j, { translateY:0, height:lh+lh2 }, item, 'labelImage0' );
-              TnAni(item.$getElt('.labelDescription'), j, { opacity: 1}, item );
+              TnAni(item.$getElt('.labelDescription'), j, { opacity: '1'}, item );
               break;
               
             case 'labelOpacity50':
-              TnAni(item.$getElt('.labelImage'), j, { opacity: 0.5 }, item );
+              TnAni(item.$getElt('.labelImage'), j, { opacity: '0.5' }, item );
               break;
               
             case 'imageOpacity50':
-              TnAni(item.$getElt('.imgContainer'), j, { opacity: 0.5 }, item );
+              TnAni(item.$getElt('.imgContainer'), j, { opacity: '0.5' }, item );
               break;
               
             case 'borderLighter':
@@ -6317,7 +6452,10 @@ TODO:
                 TnAni($e, j, { borderColorRed:co[0], borderColorGreen:co[1], borderColorBlue:co[2], colorAlpha:co[3] }, item );
               }
               else {
-                TnAni($e, j, { borderColor: lighterColor(G.custGlobals.oldBorderColor,0.5) }, item );
+                // TnAni($e, j, { borderColor: lighterColor(G.custGlobals.oldBorderColor,0.5) }, item );
+                var c=$e.css('borderTopColor');
+                $e.data('ngcache_borderColor',c);
+                TnAni($e, j, { borderColor: lighterColor(c,0.5) }, item );
               }
               break;
               
@@ -6328,7 +6466,10 @@ TODO:
                 TnAni($e, j, { borderColorRed:co[0], borderColorGreen:co[1], borderColorBlue:co[2], colorAlpha:co[3] }, item );
               }
               else {
-                TnAni($e, j, { borderColor: darkerColor(G.custGlobals.oldBorderColor,0.5) }, item );
+                // TnAni($e, j, { borderColor: darkerColor(G.custGlobals.oldBorderColor,0.5) }, item );
+                var c=$e.css('borderTopColor');
+                $e.data('ngcache_borderColor',c);
+                TnAni($e, j, { borderColor: darkerColor(c,0.5) }, item );
               }
               break;
               
@@ -6448,73 +6589,87 @@ TODO:
   
     function TnAniO( $e, n, anime, item, eltClass) {
       
+      // STEP 1: animate CSS transform
       var transform=['translateX', 'translateY', 'scale', 'rotateX', 'rotateY', 'rotateZ'];
-
       if( G.aengine == 'animate' ) {
         for( var i=0; i<transform.length; i++ ) {
           var tf=transform[i];
-          if( anime[tf] !== undefined ) {
-            var from = {v: parseInt(item.eltTransform[eltClass][tf]), item:item, tf:tf, eltClass:eltClass, to:parseInt(anime[tf]) };
-            var to = {v: parseInt(anime[tf])};
-            if( G.tn.getHE()[n].delayBack > 0 ) {
-              jQuery(from).delay(G.tn.getHE()[n].delayBack).animate(to, { duration:G.tn.getHE()[n].durationBack, easing:G.tn.getHE()[n].easingBack, queue:false, step: function(currentValue) {
-                  item.eltTransform[this.eltClass][this.tf]=currentValue;
-                  SetCSSTransform(this.item, this.eltClass);
-                  // transformElt[this.tf]=currentValue;
-                  // SetCSSTransform(this.$e, this.transformElt);
-                }, complete: function() {
-                  item.eltTransform[this.eltClass][this.tf]=this.to;
-                  SetCSSTransform(this.item, this.eltClass);
-                  // transformElt[this.tf]=this.to;
-                  // SetCSSTransform(this.$e, this.transformElt);
-                }
-              });
-            }
-            else {
-              jQuery(from).animate(to, { duration:G.tn.getHE()[n].durationBack, easing:G.tn.getHE()[n].easingBack, queue:false, step: function(currentValue) {
-                item.eltTransform[this.eltClass][this.tf]=currentValue;
-                SetCSSTransform(this.item, this.eltClass);
-                // var i = Math.round(this.v);
-                // this.curr || (this.curr = i);
-                // if (!this.curr || this.curr != i) { 
-                  // transformElt[this.tf]=currentValue;
-                  // transformElt[tf]=this.v;
-                  // SetCSSTransform(this.$e, this.transformElt);
-                }, complete: function() {
-                    item.eltTransform[this.eltClass][this.tf]=this.to;
-                    SetCSSTransform(this.item, this.eltClass);
-                  // transformElt[this.tf]=this.to;
-                  // console.clear();
-                  // console.log(this.to);
-                  // SetCSSTransform(this.$e, this.transformElt);
-                }
-              });
-            }
+          if( typeof  anime[tf] !== 'undefined' ) {
+            var tweenable = new NGTweenable();
+            var to=parseInt(anime[tf]);
+            tweenable.tween({
+              attachment: { it: item, eC: eltClass, t:tf, f:to},
+              from: { 'v': parseInt(item.eltTransform[eltClass][tf])  },
+              to: { 'v': to },
+              duration: G.tn.getHE()[n].durationBack,
+              delay: G.tn.getHE()[n].delayBack,
+              step: function (state, att) {
+                att.it.eltTransform[att.eC][att.t]=state.v;
+                SetCSSTransform(att.it, att.eC);
+              },
+              finish: function (state, att) {
+                att.it.eltTransform[att.eC][att.t]=att.f;
+                SetCSSTransform(att.it, att.eC);
+              }
+            });
             delete anime[tf];
           }
         }
       }
       
-
-      if( anime.length == 0 ) { return; }
-    
-      //item.$getElt('.imgContainer').eq(0).delay(G.tn.getHE()[j].delay)[G.aengine]({'right':'50%', 'top':'-50%'},G.tn.getHE()[j].duration, G.tn.getHE()[j].easing);
-      if( G.tn.getHE()[n].delay > 0 ) {
-        if( G.aengine == 'transition' ) {
-          // transit has a bug on queue --> we do not use it
-          $e.delay(G.tn.getHE()[n].delayBack)[G.aengine](anime, G.tn.getHE()[n].durationBack, G.tn.getHE()[n].easingBack);
+      // is there something else to animate?
+      var l = 0;
+      for( var key in anime ) {
+        if( anime.hasOwnProperty(key) ) {
+          l++;
+          break;
         }
-        else {
-          $e.delay(G.tn.getHE()[n].delayBack)[G.aengine](anime, {duration:G.tn.getHE()[n].durationBack , easing:G.tn.getHE()[n].easingBack, queue:false });
+      }      
+      if( l == 0 ) {
+        return;
+      }
+ 
+      // STEP 2: remaining animations
+       if( G.aengine != 'transition' ) {
+        // retrieve the 'from' values
+        var fr={};
+        for( var key in anime) {
+          if( key == 'borderColor' ) {
+            // borderColor is not supported in Firefox
+            fr[key]=$e.css('borderTopColor');
+          }
+          else {
+            fr[key]=$e.css(key);
+            if( fr[key] == 'transparent' ) {  // some browser return "transparent" as rgba(0,0,0,0)
+              fr[key]='rgba(0,0,0,0.01)';
+            }
+          }
         }
+        var tweenable = new NGTweenable();
+        tweenable.tween({
+          attachment: { $e:$e, it:item, to:anime},
+          from: fr,
+          to: anime,
+          duration: G.tn.getHE()[n].durationBack,
+          delay: G.tn.getHE()[n].delayBack,
+          step: function (state, att) {
+            att.$e.css(state);
+          },
+          finish: function (state, att) {
+            att.$e.css(att.to);
+          }
+        });
       }
       else {
-        if( G.aengine == 'transition' ) {
+        if( G.tn.getHE()[n].delay > 0 ) {
           // transit has a bug on queue --> we do not use it
-          $e[G.aengine](anime, G.tn.getHE()[n].durationBack, G.tn.getHE()[n].easingBack);
+          $e.delay(G.tn.getHE()[n].delay)[G.aengine](anime, G.tn.getHE()[n].durationBack , G.tn.getHE()[n].easingBack );
         }
         else {
-          $e[G.aengine](anime, {duration:G.tn.getHE()[n].durationBack , easing:G.tn.getHE()[n].easingBack, queue:false});
+          // transit has a bug on queue --> we do not use it
+          //anime.queue=false;
+          //anime.duration=5000;
+          $e[G.aengine](anime, G.tn.getHE()[n].durationBack, G.tn.getHE()[n].easingBack );
         }
       }
     }
@@ -6592,18 +6747,18 @@ TODO:
               break;
 
             case 'scaleLabelOverImage':
-              TnAniO(item.$getElt('.labelImage'), j, { opacity: 0, scale: 50/dscale}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.labelImage'), j, { opacity: '0', scale: 50/dscale}, item, 'labelImage0' );
               TnAniO(item.$getElt('.imgContainer'), j, { scale: 100/dscale }, item, 'imgContainer0' );
               break;
               
             case 'overScale':
             case 'overScaleOutside':
-              TnAniO(item.$getElt('.labelImage'), j, { opacity: 0, scale:150/dscale}, item, 'labelImage0' );
-              TnAniO(item.$getElt('.imgContainer'), j, { opacity: 1, scale:100/dscale}, item, 'imgContainer0' );
+              TnAniO(item.$getElt('.labelImage'), j, { opacity: '0', scale:150/dscale}, item, 'labelImage0' );
+              TnAniO(item.$getElt('.imgContainer'), j, { opacity: '1', scale:100/dscale}, item, 'imgContainer0' );
               break;
               
             case 'imageInvisible':
-              TnAniO(item.$getElt('.imgContainer'), j, { opacity: 1} );
+              TnAniO(item.$getElt('.imgContainer'), j, { opacity: '1'} );
               break;
               
             case 'rotateCornerBL':
@@ -6662,20 +6817,20 @@ TODO:
                 TnAniO(item.$getElt('.labelImage'), j, { backgroundColorRed:G.custGlobals.oldLabelRed, backgroundColorGreen:G.custGlobals.oldLabelGreen, backgroundColorBlue:G.custGlobals.oldLabelBlue, backgroundColorAlpha:0 } );
               }
               else {
-                var c='rgb('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0)';
+                var c='rgba('+G.custGlobals.oldLabelRed+','+G.custGlobals.oldLabelGreen+','+G.custGlobals.oldLabelBlue+',0.01)';
                 TnAniO(item.$getElt('.labelImage'), j, { backgroundColor: c} );
               }
               if( item.kind == 'album' ) {
-                TnAniO(item.$getElt('.labelFolderTitle'), j, { opacity: 0 } );
+                TnAniO(item.$getElt('.labelFolderTitle'), j, { opacity: '0' } );
               }
               else {
-                TnAniO(item.$getElt('.labelImageTitle'), j, { opacity: 0 } );
+                TnAniO(item.$getElt('.labelImageTitle'), j, { opacity: '0' } );
               }
-              TnAniO(item.$getElt('.labelDescription'), j, { opacity: 0 } );
+              TnAniO(item.$getElt('.labelDescription'), j, { opacity: '0' } );
               break;
 
             case 'descriptionAppear':
-              TnAniO(item.$getElt('.labelDescription'), j, { opacity: 0 } );
+              TnAniO(item.$getElt('.labelDescription'), j, { opacity: '0' } );
               break;
               
             case 'labelSlideDown':
@@ -6699,7 +6854,7 @@ TODO:
               break;
               
             case 'imageOpacity50':
-              TnAniO(item.$getElt('.imgContainer'), j, { opacity: 1 } );
+              TnAniO(item.$getElt('.imgContainer'), j, { opacity: '1' } );
               break;
               
             case 'borderLighter':
@@ -6710,7 +6865,8 @@ TODO:
                 TnAniO($e, j, { borderColorRed:co[0], borderColorGreen:co[1], borderColorBlue:co[2], colorAlpha:co[3] } );
               }
               else {
-                TnAniO($e, j, { borderColor: G.custGlobals.oldBorderColor } );
+                // TnAniO($e, j, { borderColor: G.custGlobals.oldBorderColor } );
+                TnAniO($e, j, { borderColor: $e.data('ngcache_borderColor') } );
               }
               break;
               
@@ -6775,7 +6931,7 @@ TODO:
               var i=0;
               for(var r=0; r<n; r++ ) {
                 for(var c=0; c<n; c++ ) {
-                  TnAniO($iC.eq(i++), j, { top:0, left:0, scale:1, opacity:1} );
+                  TnAniO($iC.eq(i++), j, { top:'0', left:'0', scale:'1', opacity:'1'} );
                 }
               }
               break;
@@ -6870,24 +7026,9 @@ TODO:
       G.$E.vwImgP=G.$E.conVw.find('.image').eq(0);
       G.$E.vwImgC=G.$E.conVw.find('.image').eq(1);
       G.$E.vwImgN=G.$E.conVw.find('.image').eq(2);
-
-      /*
-      if( G.O.enableElevatezoom && toType(jQuery().elevateZoom) == 'function' ) {
-        G.$E.vwImgP.elevateZoom({ zoomType : "lens", lensShape : "round", lensSize : 200, onZoomedImageLoaded: function(){
-          setElementOnTop('','.zoomContainer');
-        } });
-        G.$E.vwImgN.elevateZoom({ zoomType : "lens", lensShape : "round", lensSize : 200, onZoomedImageLoaded: function(){
-          setElementOnTop('','.zoomContainer');} 
-        });
-        G.$E.vwImgC.elevateZoom({ zoomType : "lens", lensShape : "round", lensSize : 200, onZoomedImageLoaded: function(){
-          setElementOnTop('','.zoomContainer');
-        } });
-      }
-      */
       
       // makes content unselectable --> avoid image drag effect during 'mouse swipe'
       G.$E.conVwCon.find('*').attr('draggable', 'false').attr('unselectable', 'on');
-
       
       var $closeB=jQuery('<div class="closeButtonFloating nGEvent"></div>').appendTo(G.$E.conVw);
       $closeB.on("touchstart click",function(e){
@@ -6919,6 +7060,12 @@ TODO:
       }
       else {
         ToolbarVisibilityStd();
+      }
+
+      if( G.O.viewerFullscreen ) {
+        G.viewerIsFullscreen=true;
+        G.$E.conVwTb.find('.fullscreenButton').removeClass('setFullscreenButton').addClass('removeFullscreenButton');
+        ngscreenfull.request();
       }
 
 
@@ -7293,21 +7440,6 @@ TODO:
     }
 
     
-    function ViewerFullscreenOff() {
-      if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-              document.msExitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen();
-            }
-
-      G.viewerIsFullscreen=false;
-      G.$E.conVwTb.find('.fullscreenButton').removeClass('removeFullscreenButton').addClass('setFullscreenButton');
-    }
-
     // toggle slideshow mode on/off
     function SlideshowToggle(){
       if( G.playSlideshow ) {
@@ -7443,19 +7575,21 @@ TODO:
       G.viewerCurrentItemIdx=imageIdx;
       
       if( displayType == '' ) {
-        // first image --> just appear / no animation
+        // first image --> just appear / no slide animation
         G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible'}).attr('src',G.emptyGif).attr('src',G.I[imageIdx].responsiveURL());
-
-        /*
-        if( G.O.enableElevatezoom && toType(jQuery().elevateZoom) == 'function' ) {
-          G.$E.vwImgC.attr('data-zoom-image',G.I[imageIdx].responsiveURL());
-        }
-        */
-
-        jQuery.when(
-          G.$E.vwImgC.animate({ opacity: 1 }, 300)
-        ).done(function () {
-          DisplayInternalViewerComplete(imageIdx, displayType);
+        var tweenable = new NGTweenable();
+        tweenable.tween({
+          from: { o: 0  },
+          to: { o: 1 },
+          attachment: { idx:imageIdx, dT:displayType },
+          duration: 400,
+          step: function (state, att) {
+            G.$E.vwImgC.css({ opacity: state.o });
+          },
+          finish: function (state, att) {
+            G.$E.vwImgC.css({ opacity: 1});
+            DisplayInternalViewerComplete(att.idx, att.dT);
+          }
         });
       }
       else {
@@ -7464,11 +7598,21 @@ TODO:
           case 'fade':
             var $new=(displayType == 'nextImage' ? G.$E.vwImgN : G.$E.vwImgP);
             $new.css({ opacity:0, left:0, visibility:'visible'});
-            jQuery.when(
-              G.$E.vwImgC.animate({ opacity: 0 }, 300), 
-              $new.animate({ opacity: 1 }, 300)
-            ).done(function () {
-              DisplayInternalViewerComplete(imageIdx, displayType);
+            var tweenable = new NGTweenable();
+            tweenable.tween({
+              from: { o: 0  },
+              to: { o: 1 },
+              attachment: { idx:imageIdx, dT:displayType, $e:$new },
+              duration: 300,
+              step: function (state, att) {
+                G.$E.vwImgC.css({ opacity: 1-state.o }); 
+                att.$e.css({ opacity: state.o });
+              },
+              finish: function (state, att) {
+                G.$E.vwImgC.css({ opacity: 0 });
+                att.$e.css({ opacity: 1 });
+                DisplayInternalViewerComplete(att.idx, att.dT);
+              }
             });
             break;
             
@@ -7503,7 +7647,7 @@ TODO:
             }
             break;
 
-          case 'slide':
+          case 'slideOLD':
             var $new=(displayType == 'nextImage' ? G.$E.vwImgN : G.$E.vwImgP);
             // if( G.CSStransformName == null || ( G.isIOS && G.IOSversion < 6 ) ) {
             if( G.CSStransformName == null  ) {
@@ -7540,14 +7684,14 @@ TODO:
             }
             break;
 
-          case 'slideNEW':
+          case 'slide':
             var $new=(displayType == 'nextImage' ? G.$E.vwImgN : G.$E.vwImgP);
             // if( G.CSStransformName == null || ( G.isIOS && G.IOSversion < 6 ) ) {
             if( G.CSStransformName == null  ) {
               // animate LEFT
               $new.css({ opacity:0, left:0, visibility:'visible'});
               jQuery.when(
-                G.$E.vwImgC.animate({ left: (displayType == 'nextImage' ? -getViewport().w : getViewport().w)+'px' }, 500), 
+                G.$E.vwImgC.animate({ left: ((displayType == 'nextImage' ? -getViewport().w : getViewport().w)*2)+'px' }, 500), 
                 $new.animate({ opacity: 1 }, 300)
               ).done(function () {
                 DisplayInternalViewerComplete(imageIdx, displayType);
@@ -7555,27 +7699,23 @@ TODO:
             }
             else {
               // animate using TRANSLATEX
-              $new.css({ opacity:1, left:0, visibility:'visible'});
               var dir=(displayType == 'nextImage' ? - getViewport().w : getViewport().w);
+              $new.css({ opacity:1, left:0, visibility:'visible'});
               $new[0].style[G.CSStransformName]= 'translateX('+(-dir)+'px) '
-              var fromX = {v: G.imageSwipePosX };
-              var toX = {v: (displayType == 'nextImage' ? - getViewport().w : getViewport().w)};
-
               var tweenable = new NGTweenable();
               tweenable.tween({
-                from:     { 'o': fromX.v  },
-                to:       { 'o': toX.v },
-                duration: 400,
-                step: function (state) {
-                  // console.log(state.o);
-                  G.$E.vwImgC[0].style[G.CSStransformName]= 'translateX('+state.o+'px)';
-                  $new[0].style[G.CSStransformName]= 'translateX('+(-dir+state.o)+'px) '
-                  // $elt.css({opacity: state.o});
+                from: { t: G.imageSwipePosX  },
+                to: { t: (displayType == 'nextImage' ? - getViewport().w : getViewport().w) },
+                attachment: { idx:imageIdx, dT:displayType, $e:$new, dir:dir },
+                duration: 300,
+                step: function (state, att) {
+                  G.$E.vwImgC[0].style[G.CSStransformName]= 'translateX('+state.t+'px)';
+                  att.$e[0].style[G.CSStransformName]= 'translateX('+(-att.dir+state.t)+'px) ';
                 },
-                finish: function (state) {
+                finish: function (state, att) {
                   G.$E.vwImgC[0].style[G.CSStransformName]= '';
-                  //G.$E.vwImgC.css({ opacity:0 });
-                  DisplayInternalViewerComplete(imageIdx, displayType);
+                  att.$e[0].style[G.CSStransformName]= '';
+                  DisplayInternalViewerComplete(att.idx, att.dT);
                 }
               });
             }
@@ -7644,18 +7784,6 @@ TODO:
         }
       });
 
-      /*
-      if( G.O.enableElevatezoom && toType(jQuery().elevateZoom) == 'function' ) {
-        G.$E.vwImgN.attr('data-zoom-image',G.I[GetNextImageIdx(imageIdx)].responsiveURL());
-        G.$E.vwImgP.attr('data-zoom-image',G.I[GetPreviousImageIdx(imageIdx)].responsiveURL());
-        jQuery('.zoomContainer').remove();
-        var ez = G.$E.vwImgC.data('elevateZoom');
-        ez.imageSrc=G.$E.vwImgC.attr('src');
-        ez.zoomImage=G.$E.vwImgC.attr('src');
-        ez.fetch(ez.imageSrc);
-      }
-      */
-    
       ResizeInternalViewer();
 
       // TODO: this code does not work
@@ -7663,7 +7791,6 @@ TODO:
       //  ResizeInternalViewer('.imgCurrent');
       //  console.log('resized');
       //});
-
 
       G.viewerImageIsChanged=false;
     }
@@ -7776,7 +7903,6 @@ TODO:
 
       if( G.containerViewerDisplayed ) {
 
-        G.viewerResizeTimerID=window.setInterval(function(){ ResizeInternalViewer() },200);
         window.clearInterval(G.viewerResizeTimerID);
         
         if( G.playSlideshow ) {
@@ -7790,8 +7916,10 @@ TODO:
         if( !(G.O.galleryFullpageButton && G.$E.base.hasClass('fullpage')) ) {      // avoid displaying scrollbar when gallery is in fullpage mode
           ScrollbarSetVisible();
         }
+
         if( G.viewerIsFullscreen ) {
-          ViewerFullscreenToggle();
+          G.viewerIsFullscreen=false;
+          ngscreenfull.exit();
         }
         
         G.$E.conVwCon.hide(0).off().show(0).html('').remove();
@@ -10058,548 +10186,13 @@ function makeArray( obj ) {
 
 
 /*!
- * Shifty Core
+ * Shifty
  * By Jeremy Kahn - jeremyckahn@gmail.com
  */
 
 // NG BUILD:
-// shifty.intro.js + shifty.core.js + shifty.outro.js
-// then replace "Tweenable" with "NGTweenable"
- 
-;(function () {
-  var root = this;
-var NGTweenable = (function () {
+// replace "Tweenable" with "NGTweenable"
+/*! shifty - v1.4.0 - 2015-02-28 - http://jeremyckahn.github.io/shifty */
+(function(){var t=this,n=function(){"use strict";function n(){}function e(t,n){var e;for(e in t)Object.hasOwnProperty.call(t,e)&&n(e)}function i(t,n){return e(n,function(e){t[e]=n[e]}),t}function r(t,n){e(n,function(e){t[e]===void 0&&(t[e]=n[e])})}function o(t,n,e,i,r,o,a){var s,c=(t-o)/r;for(s in n)n.hasOwnProperty(s)&&(n[s]=u(e[s],i[s],f[a[s]],c));return n}function u(t,n,e,i){return t+(n-t)*e(i)}function a(t,n){var i=h.prototype.filter,r=t._filterArgs;e(i,function(e){i[e][n]!==void 0&&i[e][n].apply(t,r)})}function s(t,n,e,i,r,u,s,c,h,f,p){g=n+e+i,v=Math.min(p||d(),g),y=v>=g,M=i-(g-v),t.isPlaying()&&!y?(t._scheduleId=f(t._timeoutHandler,m),a(t,"beforeTween"),n+e>v?o(1,r,u,s,1,1,c):o(v,r,u,s,i,n+e,c),a(t,"afterTween"),h(r,t._attachment,M)):y&&(h(s,t._attachment,M),t.stop(!0))}function c(t,n){var i={};return"string"==typeof n?e(t,function(t){i[t]=n}):e(t,function(t){i[t]||(i[t]=n[t]||l)}),i}function h(t,n){this._currentState=t||{},this._configured=!1,this._scheduleFunction=p,n!==void 0&&this.setConfig(n)}var f,p,l="linear",_=500,m=1e3/60,w=Date.now?Date.now:function(){return+new Date},d="undefined"!=typeof SHIFTY_DEBUG_NOW?SHIFTY_DEBUG_NOW:w;p="undefined"!=typeof window?window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||window.mozCancelRequestAnimationFrame&&window.mozRequestAnimationFrame||setTimeout:setTimeout;var g,v,y,M;return h.prototype.tween=function(t){return this._isTweening?this:(void 0===t&&this._configured||this.setConfig(t),this._timestamp=d(),this._start(this.get(),this._attachment),this.resume())},h.prototype.setConfig=function(t){t=t||{},this._configured=!0,this._attachment=t.attachment,this._pausedAtTime=null,this._scheduleId=null,this._delay=t.delay||0,this._start=t.start||n,this._step=t.step||n,this._finish=t.finish||n,this._duration=t.duration||_,this._currentState=i({},t.from)||this.get(),this._originalState=this.get(),this._targetState=i({},t.to)||this.get();var e=this;this._timeoutHandler=function(){s(e,e._timestamp,e._delay,e._duration,e._currentState,e._originalState,e._targetState,e._easing,e._step,e._scheduleFunction)};var o=this._currentState,u=this._targetState;return r(u,o),this._easing=c(o,t.easing||l),this._filterArgs=[o,this._originalState,u,this._easing],a(this,"tweenCreated"),this},h.prototype.get=function(){return i({},this._currentState)},h.prototype.set=function(t){this._currentState=t},h.prototype.pause=function(){return this._pausedAtTime=d(),this._isPaused=!0,this},h.prototype.resume=function(){return this._isPaused&&(this._timestamp+=d()-this._pausedAtTime),this._isPaused=!1,this._isTweening=!0,this._timeoutHandler(),this},h.prototype.seek=function(t){t=Math.max(t,0);var n=d();return 0===this._timestamp+t?this:(this._timestamp=n-t,this.isPlaying()||(this._isTweening=!0,this._isPaused=!1,s(this,this._timestamp,this._duration,this._delay,this._currentState,this._originalState,this._targetState,this._easing,this._step,this._scheduleFunction,n),this.pause()),this)},h.prototype.stop=function(e){return this._isTweening=!1,this._isPaused=!1,this._timeoutHandler=n,(t.cancelAnimationFrame||t.webkitCancelAnimationFrame||t.oCancelAnimationFrame||t.msCancelAnimationFrame||t.mozCancelRequestAnimationFrame||t.clearTimeout)(this._scheduleId),e&&(i(this._currentState,this._targetState),a(this,"afterTweenEnd"),this._finish.call(this,this._currentState,this._attachment)),this},h.prototype.isPlaying=function(){return this._isTweening&&!this._isPaused},h.prototype.setScheduleFunction=function(t){this._scheduleFunction=t},h.prototype.dispose=function(){var t;for(t in this)this.hasOwnProperty(t)&&delete this[t]},h.prototype.filter={},h.prototype.formula={linear:function(t){return t}},f=h.prototype.formula,i(h,{now:d,each:e,tweenProps:o,tweenProp:u,applyFilter:a,shallowCopy:i,defaults:r,composeEasingObject:c}),"function"==typeof SHIFTY_DEBUG_NOW&&(t.timeoutHandler=s),"object"==typeof exports?module.exports=h:"function"==typeof define&&define.amd?define(function(){return h}):t.NGTweenable===void 0&&(t.NGTweenable=h),h}();(function(){n.shallowCopy(n.prototype.formula,{easeInQuad:function(t){return Math.pow(t,2)},easeOutQuad:function(t){return-(Math.pow(t-1,2)-1)},easeInOutQuad:function(t){return 1>(t/=.5)?.5*Math.pow(t,2):-.5*((t-=2)*t-2)},easeInCubic:function(t){return Math.pow(t,3)},easeOutCubic:function(t){return Math.pow(t-1,3)+1},easeInOutCubic:function(t){return 1>(t/=.5)?.5*Math.pow(t,3):.5*(Math.pow(t-2,3)+2)},easeInQuart:function(t){return Math.pow(t,4)},easeOutQuart:function(t){return-(Math.pow(t-1,4)-1)},easeInOutQuart:function(t){return 1>(t/=.5)?.5*Math.pow(t,4):-.5*((t-=2)*Math.pow(t,3)-2)},easeInQuint:function(t){return Math.pow(t,5)},easeOutQuint:function(t){return Math.pow(t-1,5)+1},easeInOutQuint:function(t){return 1>(t/=.5)?.5*Math.pow(t,5):.5*(Math.pow(t-2,5)+2)},easeInSine:function(t){return-Math.cos(t*(Math.PI/2))+1},easeOutSine:function(t){return Math.sin(t*(Math.PI/2))},easeInOutSine:function(t){return-.5*(Math.cos(Math.PI*t)-1)},easeInExpo:function(t){return 0===t?0:Math.pow(2,10*(t-1))},easeOutExpo:function(t){return 1===t?1:-Math.pow(2,-10*t)+1},easeInOutExpo:function(t){return 0===t?0:1===t?1:1>(t/=.5)?.5*Math.pow(2,10*(t-1)):.5*(-Math.pow(2,-10*--t)+2)},easeInCirc:function(t){return-(Math.sqrt(1-t*t)-1)},easeOutCirc:function(t){return Math.sqrt(1-Math.pow(t-1,2))},easeInOutCirc:function(t){return 1>(t/=.5)?-.5*(Math.sqrt(1-t*t)-1):.5*(Math.sqrt(1-(t-=2)*t)+1)},easeOutBounce:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?7.5625*(t-=1.5/2.75)*t+.75:2.5/2.75>t?7.5625*(t-=2.25/2.75)*t+.9375:7.5625*(t-=2.625/2.75)*t+.984375},easeInBack:function(t){var n=1.70158;return t*t*((n+1)*t-n)},easeOutBack:function(t){var n=1.70158;return(t-=1)*t*((n+1)*t+n)+1},easeInOutBack:function(t){var n=1.70158;return 1>(t/=.5)?.5*t*t*(((n*=1.525)+1)*t-n):.5*((t-=2)*t*(((n*=1.525)+1)*t+n)+2)},elastic:function(t){return-1*Math.pow(4,-8*t)*Math.sin((6*t-1)*2*Math.PI/2)+1},swingFromTo:function(t){var n=1.70158;return 1>(t/=.5)?.5*t*t*(((n*=1.525)+1)*t-n):.5*((t-=2)*t*(((n*=1.525)+1)*t+n)+2)},swingFrom:function(t){var n=1.70158;return t*t*((n+1)*t-n)},swingTo:function(t){var n=1.70158;return(t-=1)*t*((n+1)*t+n)+1},bounce:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?7.5625*(t-=1.5/2.75)*t+.75:2.5/2.75>t?7.5625*(t-=2.25/2.75)*t+.9375:7.5625*(t-=2.625/2.75)*t+.984375},bouncePast:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?2-(7.5625*(t-=1.5/2.75)*t+.75):2.5/2.75>t?2-(7.5625*(t-=2.25/2.75)*t+.9375):2-(7.5625*(t-=2.625/2.75)*t+.984375)},easeFromTo:function(t){return 1>(t/=.5)?.5*Math.pow(t,4):-.5*((t-=2)*Math.pow(t,3)-2)},easeFrom:function(t){return Math.pow(t,4)},easeTo:function(t){return Math.pow(t,.25)}})})(),function(){function t(t,n,e,i,r,o){function u(t){return((l*t+_)*t+m)*t}function a(t){return((w*t+d)*t+g)*t}function s(t){return(3*l*t+2*_)*t+m}function c(t){return 1/(200*t)}function h(t,n){return a(p(t,n))}function f(t){return t>=0?t:0-t}function p(t,n){var e,i,r,o,a,c;for(r=t,c=0;8>c;c++){if(o=u(r)-t,n>f(o))return r;if(a=s(r),1e-6>f(a))break;r-=o/a}if(e=0,i=1,r=t,e>r)return e;if(r>i)return i;for(;i>e;){if(o=u(r),n>f(o-t))return r;t>o?e=r:i=r,r=.5*(i-e)+e}return r}var l=0,_=0,m=0,w=0,d=0,g=0;return m=3*n,_=3*(i-n)-m,l=1-m-_,g=3*e,d=3*(r-e)-g,w=1-g-d,h(t,c(o))}function e(n,e,i,r){return function(o){return t(o,n,e,i,r,1)}}n.setBezierFunction=function(t,i,r,o,u){var a=e(i,r,o,u);return a.x1=i,a.y1=r,a.x2=o,a.y2=u,n.prototype.formula[t]=a},n.unsetBezierFunction=function(t){delete n.prototype.formula[t]}}(),function(){function t(t,e,i,r,o){return n.tweenProps(r,e,t,i,1,0,o)}var e=new n;e._filterArgs=[],n.interpolate=function(i,r,o,u){var a=n.shallowCopy({},i),s=n.composeEasingObject(i,u||"linear");e.set({});var c=e._filterArgs;c.length=0,c[0]=a,c[1]=i,c[2]=r,c[3]=s,n.applyFilter(e,"tweenCreated"),n.applyFilter(e,"beforeTween");var h=t(i,a,r,o,s);return n.applyFilter(e,"afterTween"),h}}(),function(t){function n(t,n){var e,i=[],r=t.length;for(e=0;r>e;e++)i.push("_"+n+"_"+e);return i}function e(t){var n=t.match(M);return n?(1===n.length||t[0].match(y))&&n.unshift(""):n=["",""],n.join(O)}function i(n){t.each(n,function(t){var e=n[t];"string"==typeof e&&e.match(T)&&(n[t]=r(e))})}function r(t){return s(T,t,o)}function o(t){var n=u(t);return"rgb("+n[0]+","+n[1]+","+n[2]+")"}function u(t){return t=t.replace(/#/,""),3===t.length&&(t=t.split(""),t=t[0]+t[0]+t[1]+t[1]+t[2]+t[2]),b[0]=a(t.substr(0,2)),b[1]=a(t.substr(2,2)),b[2]=a(t.substr(4,2)),b}function a(t){return parseInt(t,16)}function s(t,n,e){var i=n.match(t),r=n.replace(t,O);if(i)for(var o,u=i.length,a=0;u>a;a++)o=i.shift(),r=r.replace(O,e(o));return r}function c(t){return s(I,t,h)}function h(t){for(var n=t.match(F),e=n.length,i=t.match(S)[0],r=0;e>r;r++)i+=parseInt(n[r],10)+",";return i=i.slice(0,-1)+")"}function f(i){var r={};return t.each(i,function(t){var o=i[t];if("string"==typeof o){var u=d(o);r[t]={formatString:e(o),chunkNames:n(u,t)}}}),r}function p(n,e){t.each(e,function(t){for(var i=n[t],r=d(i),o=r.length,u=0;o>u;u++)n[e[t].chunkNames[u]]=+r[u];delete n[t]})}function l(n,e){t.each(e,function(t){var i=n[t],r=_(n,e[t].chunkNames),o=m(r,e[t].chunkNames);i=w(e[t].formatString,o),n[t]=c(i)})}function _(t,n){for(var e,i={},r=n.length,o=0;r>o;o++)e=n[o],i[e]=t[e],delete t[e];return i}function m(t,n){k.length=0;for(var e=n.length,i=0;e>i;i++)k.push(t[n[i]]);return k}function w(t,n){for(var e=t,i=n.length,r=0;i>r;r++)e=e.replace(O,+n[r].toFixed(4));return e}function d(t){return t.match(F)}function g(n,e){t.each(e,function(t){for(var i=e[t],r=i.chunkNames,o=r.length,u=n[t].split(" "),a=u[u.length-1],s=0;o>s;s++)n[r[s]]=u[s]||a;delete n[t]})}function v(n,e){t.each(e,function(t){for(var i=e[t],r=i.chunkNames,o=r.length,u="",a=0;o>a;a++)u+=" "+n[r[a]],delete n[r[a]];n[t]=u.substr(1)})}var y=/(\d|\-|\.)/,M=/([^\-0-9\.]+)/g,F=/[0-9.\-]+/g,I=RegExp("rgb\\("+F.source+/,\s*/.source+F.source+/,\s*/.source+F.source+"\\)","g"),S=/^.*\(/,T=/#([0-9]|[a-f]){3,6}/gi,O="VAL",b=[],k=[];t.prototype.filter.token={tweenCreated:function(t,n,e){i(t),i(n),i(e),this._tokenData=f(t)},beforeTween:function(t,n,e,i){g(i,this._tokenData),p(t,this._tokenData),p(n,this._tokenData),p(e,this._tokenData)},afterTween:function(t,n,e,i){l(t,this._tokenData),l(n,this._tokenData),l(e,this._tokenData),v(i,this._tokenData)}}}(n)}).call(null);
 
-  'use strict';
 
-  // Aliases that get defined later in this function
-  var formula;
-
-  // CONSTANTS
-  var DEFAULT_SCHEDULE_FUNCTION;
-  var DEFAULT_EASING = 'linear';
-  var DEFAULT_DURATION = 500;
-  var UPDATE_TIME = 1000 / 60;
-
-  var _now = Date.now
-       ? Date.now
-       : function () {return +new Date();};
-
-  var now = typeof SHIFTY_DEBUG_NOW !== 'undefined' ? SHIFTY_DEBUG_NOW : _now;
-
-  if (typeof window !== 'undefined') {
-    // requestAnimationFrame() shim by Paul Irish (modified for Shifty)
-    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-    DEFAULT_SCHEDULE_FUNCTION = window.requestAnimationFrame
-       || window.webkitRequestAnimationFrame
-       || window.oRequestAnimationFrame
-       || window.msRequestAnimationFrame
-       || (window.mozCancelRequestAnimationFrame
-       && window.mozRequestAnimationFrame)
-       || setTimeout;
-  } else {
-    DEFAULT_SCHEDULE_FUNCTION = setTimeout;
-  }
-
-  function noop () {
-    // NOOP!
-  }
-
-  /*!
-   * Handy shortcut for doing a for-in loop. This is not a "normal" each
-   * function, it is optimized for Shifty.  The iterator function only receives
-   * the property name, not the value.
-   * @param {Object} obj
-   * @param {Function(string)} fn
-   */
-  function each (obj, fn) {
-    var key;
-    for (key in obj) {
-      if (Object.hasOwnProperty.call(obj, key)) {
-        fn(key);
-      }
-    }
-  }
-
-  /*!
-   * Perform a shallow copy of Object properties.
-   * @param {Object} targetObject The object to copy into
-   * @param {Object} srcObject The object to copy from
-   * @return {Object} A reference to the augmented `targetObj` Object
-   */
-  function shallowCopy (targetObj, srcObj) {
-    each(srcObj, function (prop) {
-      targetObj[prop] = srcObj[prop];
-    });
-
-    return targetObj;
-  }
-
-  /*!
-   * Copies each property from src onto target, but only if the property to
-   * copy to target is undefined.
-   * @param {Object} target Missing properties in this Object are filled in
-   * @param {Object} src
-   */
-  function defaults (target, src) {
-    each(src, function (prop) {
-      if (typeof target[prop] === 'undefined') {
-        target[prop] = src[prop];
-      }
-    });
-  }
-
-  /*!
-   * Calculates the interpolated tween values of an Object for a given
-   * timestamp.
-   * @param {Number} forPosition The position to compute the state for.
-   * @param {Object} currentState Current state properties.
-   * @param {Object} originalState: The original state properties the Object is
-   * tweening from.
-   * @param {Object} targetState: The destination state properties the Object
-   * is tweening to.
-   * @param {number} duration: The length of the tween in milliseconds.
-   * @param {number} timestamp: The UNIX epoch time at which the tween began.
-   * @param {Object} easing: This Object's keys must correspond to the keys in
-   * targetState.
-   */
-  function tweenProps (forPosition, currentState, originalState, targetState,
-    duration, timestamp, easing) {
-    var normalizedPosition = (forPosition - timestamp) / duration;
-
-    var prop;
-    for (prop in currentState) {
-      if (currentState.hasOwnProperty(prop)) {
-        currentState[prop] = tweenProp(originalState[prop],
-          targetState[prop], formula[easing[prop]], normalizedPosition);
-      }
-    }
-
-    return currentState;
-  }
-
-  /*!
-   * Tweens a single property.
-   * @param {number} start The value that the tween started from.
-   * @param {number} end The value that the tween should end at.
-   * @param {Function} easingFunc The easing curve to apply to the tween.
-   * @param {number} position The normalized position (between 0.0 and 1.0) to
-   * calculate the midpoint of 'start' and 'end' against.
-   * @return {number} The tweened value.
-   */
-  function tweenProp (start, end, easingFunc, position) {
-    return start + (end - start) * easingFunc(position);
-  }
-
-  /*!
-   * Applies a filter to NGTweenable instance.
-   * @param {NGTweenable} tweenable The `NGTweenable` instance to call the filter
-   * upon.
-   * @param {String} filterName The name of the filter to apply.
-   */
-  function applyFilter (tweenable, filterName) {
-    var filters = NGTweenable.prototype.filter;
-    var args = tweenable._filterArgs;
-
-    each(filters, function (name) {
-      if (typeof filters[name][filterName] !== 'undefined') {
-        filters[name][filterName].apply(tweenable, args);
-      }
-    });
-  }
-
-  var timeoutHandler_endTime;
-  var timeoutHandler_currentTime;
-  var timeoutHandler_isEnded;
-  var timeoutHandler_offset;
-  /*!
-   * Handles the update logic for one step of a tween.
-   * @param {NGTweenable} tweenable
-   * @param {number} timestamp
-   * @param {number} duration
-   * @param {Object} currentState
-   * @param {Object} originalState
-   * @param {Object} targetState
-   * @param {Object} easing
-   * @param {Function(Object, *, number)} step
-   * @param {Function(Function,number)}} schedule
-   * @param {number=} opt_currentTimeOverride Needed for accurate timestamp in
-   * NGTweenable#seek.
-   */
-  function timeoutHandler (tweenable, timestamp, duration, currentState,
-    originalState, targetState, easing, step, schedule,
-    opt_currentTimeOverride) {
-
-    timeoutHandler_endTime = timestamp + duration;
-
-    timeoutHandler_currentTime =
-      Math.min(opt_currentTimeOverride || now(), timeoutHandler_endTime);
-
-    timeoutHandler_isEnded =
-      timeoutHandler_currentTime >= timeoutHandler_endTime;
-
-    timeoutHandler_offset = duration - (
-        timeoutHandler_endTime - timeoutHandler_currentTime);
-
-    if (tweenable.isPlaying() && !timeoutHandler_isEnded) {
-      tweenable._scheduleId = schedule(tweenable._timeoutHandler, UPDATE_TIME);
-
-      applyFilter(tweenable, 'beforeTween');
-      tweenProps(timeoutHandler_currentTime, currentState, originalState,
-        targetState, duration, timestamp, easing);
-      applyFilter(tweenable, 'afterTween');
-
-      step(currentState, tweenable._attachment, timeoutHandler_offset);
-    } else if (timeoutHandler_isEnded) {
-      step(targetState, tweenable._attachment, timeoutHandler_offset);
-      tweenable.stop(true);
-    }
-  }
-
-
-  /*!
-   * Creates a usable easing Object from either a string or another easing
-   * Object.  If `easing` is an Object, then this function clones it and fills
-   * in the missing properties with "linear".
-   * @param {Object} fromTweenParams
-   * @param {Object|string} easing
-   */
-  function composeEasingObject (fromTweenParams, easing) {
-    var composedEasing = {};
-
-    if (typeof easing === 'string') {
-      each(fromTweenParams, function (prop) {
-        composedEasing[prop] = easing;
-      });
-    } else {
-      each(fromTweenParams, function (prop) {
-        if (!composedEasing[prop]) {
-          composedEasing[prop] = easing[prop] || DEFAULT_EASING;
-        }
-      });
-    }
-
-    return composedEasing;
-  }
-
-  /**
-   * NGTweenable constructor.
-   * @param {Object=} opt_initialState The values that the initial tween should
-   * start at if a `from` object is not provided to `{{#crossLink
-   * "NGTweenable/tween:method"}}{{/crossLink}}` or `{{#crossLink
-   * "NGTweenable/setConfig:method"}}{{/crossLink}}`.
-   * @param {Object=} opt_config Configuration object to be passed to
-   * `{{#crossLink "NGTweenable/setConfig:method"}}{{/crossLink}}`.
-   * @module NGTweenable
-   * @class NGTweenable
-   * @constructor
-   */
-  function NGTweenable (opt_initialState, opt_config) {
-    this._currentState = opt_initialState || {};
-    this._configured = false;
-    this._scheduleFunction = DEFAULT_SCHEDULE_FUNCTION;
-
-    // To prevent unnecessary calls to setConfig do not set default
-    // configuration here.  Only set default configuration immediately before
-    // tweening if none has been set.
-    if (typeof opt_config !== 'undefined') {
-      this.setConfig(opt_config);
-    }
-  }
-
-  /**
-   * Configure and start a tween.
-   * @method tween
-   * @param {Object=} opt_config Configuration object to be passed to
-   * `{{#crossLink "NGTweenable/setConfig:method"}}{{/crossLink}}`.
-   * @chainable
-   */
-  NGTweenable.prototype.tween = function (opt_config) {
-    if (this._isTweening) {
-      return this;
-    }
-
-    // Only set default config if no configuration has been set previously and
-    // none is provided now.
-    if (opt_config !== undefined || !this._configured) {
-      this.setConfig(opt_config);
-    }
-
-    this._timestamp = now();
-    this._start(this.get(), this._attachment);
-    return this.resume();
-  };
-
-  /**
-   * Configure a tween that will start at some point in the future.
-   *
-   * @method setConfig
-   * @param {Object} config The following values are valid:
-   * - __from__ (_Object=_): Starting position.  If omitted, `{{#crossLink
-   *   "NGTweenable/get:method"}}get(){{/crossLink}}` is used.
-   * - __to__ (_Object=_): Ending position.
-   * - __duration__ (_number=_): How many milliseconds to animate for.
-   * - __start__ (_Function(Object, *)_): Function to execute when the tween
-   *   begins.  Receives the state of the tween as the first parameter and
-   *   `attachment` as the second parameter.
-   * - __step__ (_Function(Object, *, number)_): Function to execute on every
-   *   tick.  Receives `{{#crossLink
-   *   "NGTweenable/get:method"}}get(){{/crossLink}}` as the first parameter,
-   *   `attachment` as the second parameter, and the time elapsed since the
-   *   start of the tween as the third. This function is not called on the
-   *   final step of the animation, but `finish` is.
-   * - __finish__ (_Function(Object, *)_): Function to execute upon tween
-   *   completion.  Receives the state of the tween as the first parameter and
-   *   `attachment` as the second parameter.
-   * - __easing__ (_Object|string=_): Easing curve name(s) to use for the
-   *   tween.
-   * - __attachment__ (_*_): Cached value that is passed to the
-   *   `step`/`start`/`finish` methods.
-   * @chainable
-   */
-  NGTweenable.prototype.setConfig = function (config) {
-    config = config || {};
-    this._configured = true;
-
-    // Attach something to this NGTweenable instance (e.g.: a DOM element, an
-    // object, a string, etc.);
-    this._attachment = config.attachment;
-
-    // Init the internal state
-    this._pausedAtTime = null;
-    this._scheduleId = null;
-    this._start = config.start || noop;
-    this._step = config.step || noop;
-    this._finish = config.finish || noop;
-    this._duration = config.duration || DEFAULT_DURATION;
-    this._currentState = shallowCopy({}, config.from) || this.get();
-    this._originalState = this.get();
-    this._targetState = shallowCopy({}, config.to) || this.get();
-
-    var self = this;
-    this._timeoutHandler = function () {
-      timeoutHandler(self, self._timestamp, self._duration, self._currentState,
-        self._originalState, self._targetState, self._easing, self._step,
-        self._scheduleFunction);
-    };
-
-    // Aliases used below
-    var currentState = this._currentState;
-    var targetState = this._targetState;
-
-    // Ensure that there is always something to tween to.
-    defaults(targetState, currentState);
-
-    this._easing = composeEasingObject(
-      currentState, config.easing || DEFAULT_EASING);
-
-    this._filterArgs =
-      [currentState, this._originalState, targetState, this._easing];
-
-    applyFilter(this, 'tweenCreated');
-    return this;
-  };
-
-  /**
-   * @method get
-   * @return {Object} The current state.
-   */
-  NGTweenable.prototype.get = function () {
-    return shallowCopy({}, this._currentState);
-  };
-
-  /**
-   * @method set
-   * @param {Object} state The current state.
-   */
-  NGTweenable.prototype.set = function (state) {
-    this._currentState = state;
-  };
-
-  /**
-   * Pause a tween.  Paused tweens can be resumed from the point at which they
-   * were paused.  This is different from `{{#crossLink
-   * "NGTweenable/stop:method"}}{{/crossLink}}`, as that method
-   * causes a tween to start over when it is resumed.
-   * @method pause
-   * @chainable
-   */
-  NGTweenable.prototype.pause = function () {
-    this._pausedAtTime = now();
-    this._isPaused = true;
-    return this;
-  };
-
-  /**
-   * Resume a paused tween.
-   * @method resume
-   * @chainable
-   */
-  NGTweenable.prototype.resume = function () {
-    if (this._isPaused) {
-      this._timestamp += now() - this._pausedAtTime;
-    }
-
-    this._isPaused = false;
-    this._isTweening = true;
-
-    this._timeoutHandler();
-
-    return this;
-  };
-
-  /**
-   * Move the state of the animation to a specific point in the tween's
-   * timeline.  If the animation is not running, this will cause the `step`
-   * handlers to be called.
-   * @method seek
-   * @param {millisecond} millisecond The millisecond of the animation to seek
-   * to.  This must not be less than `0`.
-   * @chainable
-   */
-  NGTweenable.prototype.seek = function (millisecond) {
-    millisecond = Math.max(millisecond, 0);
-    var currentTime = now();
-    this._timestamp = currentTime - millisecond;
-
-    if (!this.isPlaying()) {
-      this._isTweening = true;
-      this._isPaused = false;
-
-      // If the animation is not running, call timeoutHandler to make sure that
-      // any step handlers are run.
-      timeoutHandler(this, this._timestamp, this._duration, this._currentState,
-        this._originalState, this._targetState, this._easing, this._step,
-        this._scheduleFunction, currentTime);
-
-      this.pause();
-    }
-
-    return this;
-  };
-
-  /**
-   * Stops and cancels a tween.
-   * @param {boolean=} gotoEnd If `false` or omitted, the tween just stops at
-   * its current state, and the `finish` handler is not invoked.  If `true`,
-   * the tweened object's values are instantly set to the target values, and
-   * `finish` is invoked.
-   * @method stop
-   * @chainable
-   */
-  NGTweenable.prototype.stop = function (gotoEnd) {
-    this._isTweening = false;
-    this._isPaused = false;
-    this._timeoutHandler = noop;
-
-    (root.cancelAnimationFrame            ||
-      root.webkitCancelAnimationFrame     ||
-      root.oCancelAnimationFrame          ||
-      root.msCancelAnimationFrame         ||
-      root.mozCancelRequestAnimationFrame ||
-      root.clearTimeout)(this._scheduleId);
-
-    if (gotoEnd) {
-      shallowCopy(this._currentState, this._targetState);
-      applyFilter(this, 'afterTweenEnd');
-      this._finish.call(this, this._currentState, this._attachment);
-    }
-
-    return this;
-  };
-
-  /**
-   * @method isPlaying
-   * @return {boolean} Whether or not a tween is running.
-   */
-  NGTweenable.prototype.isPlaying = function () {
-    return this._isTweening && !this._isPaused;
-  };
-
-  /**
-   * Set a custom schedule function.
-   *
-   * If a custom function is not set,
-   * [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window.requestAnimationFrame)
-   * is used if available, otherwise
-   * [`setTimeout`](https://developer.mozilla.org/en-US/docs/Web/API/Window.setTimeout)
-   * is used.
-   * @method setScheduleFunction
-   * @param {Function(Function,number)} scheduleFunction The function to be
-   * used to schedule the next frame to be rendered.
-   */
-  NGTweenable.prototype.setScheduleFunction = function (scheduleFunction) {
-    this._scheduleFunction = scheduleFunction;
-  };
-
-  /**
-   * `delete` all "own" properties.  Call this when the `NGTweenable` instance
-   * is no longer needed to free memory.
-   * @method dispose
-   */
-  NGTweenable.prototype.dispose = function () {
-    var prop;
-    for (prop in this) {
-      if (this.hasOwnProperty(prop)) {
-        delete this[prop];
-      }
-    }
-  };
-
-  /*!
-   * Filters are used for transforming the properties of a tween at various
-   * points in a NGTweenable's life cycle.  See the README for more info on this.
-   */
-  NGTweenable.prototype.filter = {};
-
-  /**
-   * This object contains all of the tweens available to Shifty.  It is
-   * extensible - simply attach properties to the `NGTweenable.prototype.formula`
-   * Object following the same format as `linear`.
-   *
-   * `pos` should be a normalized `number` (between 0 and 1).
-   * @property formula
-   * @type {Object(function)}
-   */
-  NGTweenable.prototype.formula = {
-    linear: function (pos) {
-      return pos;
-    }
-  };
-
-  formula = NGTweenable.prototype.formula;
-
-  shallowCopy(NGTweenable, {
-    'now': now
-    ,'each': each
-    ,'tweenProps': tweenProps
-    ,'tweenProp': tweenProp
-    ,'applyFilter': applyFilter
-    ,'shallowCopy': shallowCopy
-    ,'defaults': defaults
-    ,'composeEasingObject': composeEasingObject
-  });
-
-  // `root` is provided in the intro/outro files.
-
-  // A hook used for unit testing.
-  if (typeof SHIFTY_DEBUG_NOW === 'function') {
-    root.timeoutHandler = timeoutHandler;
-  }
-
-  // Bootstrap NGTweenable appropriately for the environment.
-  if (typeof exports === 'object') {
-    // CommonJS
-    module.exports = NGTweenable;
-  } else if (typeof define === 'function' && define.amd) {
-    // AMD
-    define(function () {return NGTweenable;});
-  } else if (typeof root.NGTweenable === 'undefined') {
-    // Browser: Make `NGTweenable` globally accessible.
-    root.NGTweenable = NGTweenable;
-  }
-
-  return NGTweenable;
-
-} ());
-}).call(null);

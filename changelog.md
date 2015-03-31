@@ -1,8 +1,89 @@
 nanoGALLERY - jQuery plugin 
 ===========
 
-ChangeLog
+ChangeLog 
 ------
+
+v5.5.4
+------
+
+##### New API method  
+- **displayItem**: display an item (album or image).  
+  `$('#yourElement').nanoGallery('displayItem', 'itemID');`  
+  itemID syntax to display an album: 'albumID'  
+  itemID syntax to display an image: 'albumID/imageID'  
+
+
+v5.5.3
+------
+
+- bugfix - Flickr image size L (1024 pixels) ignored  
+
+
+v5.5.2
+------
+
+##### New features  
+- Display directly an album or an image on plugin start  
+- Display the images instead of the thumbnails of the album's content  
+  
+##### New options  
+- **openOnStart**: opens an album or an image at start. Syntax: `albumID` or `albumID/imageID`.  
+  *string; Default: ''*  
+- **thumbnailAlbumDisplayImage**: on album's thumbnail click, displays the images instead of the thumbnails of the album's content.  
+  *boolean; Default: false*  
+
+
+##### Misc  
+- bugfix scrollbar not displayed in gallery fullpage mode for thumbnail effects `scale120, imageScale150Outside, overScaleOutside, imageFlipHorizontal, imageFlipVertical`  
+- bugfix lazy load not working in gallery fullpage mode  
+- bugfix thumbnail effects `borderLighter` and `borderDarker` not working on Firefox  
+
+
+v5.5.1
+------
+
+- bugfix thumbnail effects 'labelAppear' and 'labelAppear75' crashing on some browser
+
+
+v5.5.0
+------
+
+##### New features
+- Gallery rendering: significant performance improvements  
+- Thumbnail selection on long touch  
+  
+##### New options
+- **showCheckboxes**: displays a checkbox over selected thumbnails.  
+  *boolean; Default: true*  
+- **checkboxStyle** : inline style for selection checkbox.  
+  *string, Default: 'left:15px; top:15px;'*  
+- inline method: new data attribute to store custom data: `customdata`  
+  Usage example: `<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>`  
+- API method: new property to store custom data: `customData`  
+  Usage example: `{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }`  
+- **viewerFullscreen**: displays images in fullscreen (on supported browser).  
+  *boolean; Default: false*  
+
+##### New callbacks
+- **fnInitGallery(albumIdx, pageNumber)**: called after each gallery construction.
+- **fnChangeSelectMode(currSelectionMode)**: called when entering or leaving selection mode.
+  
+##### New API methods
+- **destroy**: remove the gallery.  
+  `$('#yourElement').nanoGallery('destroy');`  
+- **setSelectMode**: enter/leave selection mode.  
+  `$('#yourElement').nanoGallery('setSelectMode', true|false);`  
+- **getSelectMode**: is the gallery in selection mode.  
+  `$('#yourElement').nanoGallery('getSelectMode');`  
+
+##### Misc
+- bugfix location hash not working on web page with frames (SecurityError: Blocked a frame with origin)  
+- bugfix deeplinking to image didn't display the gallery on close  
+- bugfix fullscreen mode not correctly disabled after closing an image with ESC key  
+- minor bugfixes  
+
+**Many thanks to Raphaël Renaudon (https://github.com/sevarg) for his contribution.**
 
 v5.4.0
 ------
