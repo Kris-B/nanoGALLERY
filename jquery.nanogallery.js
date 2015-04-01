@@ -32,6 +32,11 @@ nanoGALLERY v5.5.4 release notes.
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
+New option : 
+* keepSelection : do not drop selection on navigation
+* setSelectMode : can be true, false or can be a single kind : album or image
+
+
 */
 
 
@@ -92,6 +97,7 @@ nanoGALLERY v5.5.4 release notes.
     items : null,
     itemsBaseURL : '',
     itemsSelectable : false, showCheckboxes: true, checkboxStyle : 'left:15px; top:15px;',
+    keepSelection: false,
     jsonCharset: 'Latin', jsonProvider: '',
     paginationMaxLinesPerPage : 0, paginationDots : false,
     maxWidth : 0,
@@ -172,7 +178,7 @@ nanoGALLERY v5.5.4 release notes.
           $(this).data('nanoGallery').nG.SetUnselectedItems(option);
           break;
         case 'setSelectMode':
-          if(option === true || option === false){
+          if(option === true || option === false || option === 'image' || option === 'album'){
             $(this).data('nanoGallery').nG.SetSelectMode(option);
           }
           break;
@@ -243,13 +249,18 @@ nanoGALLERY v5.5.4 release notes.
       }
 
       // unselect everything & remove link to album (=logical delete)
-      G.selectedItems=[];
+      if(G.O.keepSelection === false){
+        G.selectedItems=[];
+      }
       for( var i=0; i < l ; i++ ) {
-        G.I[i].selected = false;
+        if(G.O.keepSelection === false){
+          G.I[i].selected = false;
+        }
         if( G.I[i].albumID == albumIdx ) {
           G.I[i].albumID = -1;    // remove link to parent album
         }
       }
+      
       G.I[albumIdx].contentIsLoaded = false;
       
       G.lastOpenAlbumID = -1;
@@ -368,18 +379,38 @@ nanoGALLERY v5.5.4 release notes.
     };
 
     this.SetSelectMode = function(value){
-      if(value === true || value === false){
-        G.selectModeForce = value;
+      if(typeof value == 'undefined'){
+        if(G.selectModeForce === true){
+          value = G.selectMode;
+        }
+      }
+      if(value === true || value === false || value === 'image' || 
+                  value === 'album'){
+        G.selectModeForce = (value!==false);
         G.selectMode = value;
-        this.SetUnselectedItems(G.I);
+        if(value === 'album' || value == 'image'){
+          G.$E.base.find('.nanoGalleryThumbnailContainer').each(function(){
+            if(($(this).hasClass('album') && value === 'image') || 
+                (!$(this).hasClass('album') && value === 'album')){
+              $(this).addClass('unselectable');
+            }else{
+              $(this).removeClass('unselectable');
+            }
+          });
+        }else{
+          G.$E.base.find('.nanoGalleryThumbnailContainer').removeClass('unselectable');
+        }
+        if(G.O.keepSelection === false || value === false){
+          this.SetUnselectedItems(G.I);
+        }
         if (typeof G.O.fnChangeSelectMode === 'function'){
-            G.O.fnChangeSelectMode(G.selectMode);
+          G.O.fnChangeSelectMode(G.selectMode);
         }
       }
     };
 
     this.GetSelectMode = function(){
-      return (G.selectMode===true);
+      return G.selectMode;
     };
 
     // Global data for this nanoGALLERY instance
@@ -1108,8 +1139,8 @@ nanoGALLERY v5.5.4 release notes.
     // Message for unsupported browser
     function BrowserNotification() {
       var m='Your browser version is not supported anymore. The image gallery cannot be displayed. <br><br>Please update to a more recent one. Download:<br>';
-      m+='&nbsp;&nbsp;&nbsp; <a href="http://www.google.com/chrome/?hl=en-US)">Chrome</a><br>';
-      m+='&nbsp;&nbsp;&nbsp; <a href="http://www.mozilla.com/firefox/)">Firefox</a><br>';
+      m+='&nbsp;&nbsp;&nbsp; <a href="http://www.google.com/chrome/">Chrome</a><br>';
+      m+='&nbsp;&nbsp;&nbsp; <a href="http://www.mozilla.com/firefox/">Firefox</a><br>';
       m+='&nbsp;&nbsp;&nbsp; <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Internet Explorer</a><br>';
       m+='&nbsp;&nbsp;&nbsp; <a href="http://www.apple.com/safari/download/">Safari</a>';
       nanoAlert(m, false);
@@ -1467,6 +1498,10 @@ nanoGALLERY v5.5.4 release notes.
             thumbnailSelection( G.I[G.$currentTouchedThumbnail.data('index')] );
             return false;
           }
+          if (G.I[G.$currentTouchedThumbnail.data('index')].kind === G.selectMode) {
+            thumbnailSelection( G.I[G.$currentTouchedThumbnail.data('index')] );
+            return false;
+          }
           var idxctt = G.$currentTouchedThumbnail.data('index');
           G.touchSelectTO = setTimeout(function(){
             thumbnailSelection( G.I[idxctt] );
@@ -1738,7 +1773,14 @@ nanoGALLERY v5.5.4 release notes.
         
         // Add Mouse Listener
         if( !G.isIOS ) {
-          elementToSwipe.addEventListener('mousedown', this.handleGestureStartNoDelay, true);
+          var thatObject = this;
+          elementToSwipe.addEventListener('mousedown', function(e){
+              // filter : if the user uses the right click, 
+              // do not do anything
+              if(e.button != 2){
+                thatObject.handleGestureStartNoDelay(e);
+            }
+          }, true);
         }
       }
       
@@ -4070,7 +4112,7 @@ nanoGALLERY v5.5.4 release notes.
     function OpenAlbum ( albumIdx, processLocationHash, imageID, setLocationHash ) {
 
       // unselect everything
-      if( G.O.itemsSelectable ) {
+      if( G.O.itemsSelectable && G.O.keepSelection === false ) {
         G.selectedItems=[];
         var l=G.I.length;
         for( var i=0; i < l ; i++ ) {
@@ -4959,6 +5001,9 @@ nanoGALLERY v5.5.4 release notes.
         console.log('End-render: ' + (new Date() - G.startDateTime));      
         console.timelineEnd('nanoGALLERY');
       }
+      
+      // Refresh select mode
+      G.SetSelectMode();
     }
 
 
@@ -5024,15 +5069,32 @@ nanoGALLERY v5.5.4 release notes.
       newElt[newEltIdx++]='</div>';
       
       // checkbox for selection
-      if( G.O.itemsSelectable && G.O.showCheckboxes ) {
-        newElt[newEltIdx++]='<input class="ngChekbox" type="checkbox" style="position:absolute;z-index:999;'+G.O.checkboxStyle+'">';
+      if( G.O.itemsSelectable){
+          
+        item.selected = false;
+        if(G.O.keepSelection === true){
+            for (it in G.selectedItems){
+                if(G.selectedItems[it].GetID() === item.GetID()){
+                  item.selected = true;
+                }
+            }
+        }
+        if(G.O.showCheckboxes){
+          checked = '';
+          if(item.selected){
+              checked = 'checked';
+          }
+          newElt[newEltIdx++]='<input class="ngChekbox" type="checkbox" '+checked+' style="position:absolute;z-index:999;'+G.O.checkboxStyle+'">';
+        }
       }
       
       newElt[newEltIdx++]='</div>';
       
       // var $newDiv =jQuery(newElt.join('')).appendTo(G.$E.conTnHid); //.animate({ opacity: 1},1000, 'swing');  //.show('slow'); //.fadeIn('slow').slideDown('slow');
       var $newDiv =jQuery(newElt.join('')).appendTo(G.$E.conTnHid); //.animate({ opacity: 1},1000, 'swing');  //.show('slow'); //.fadeIn('slow').slideDown('slow');
-
+      if(typeof item.selected !== 'undefined' && item.selected === true){
+          $newDiv.find('.subcontainer').addClass('selected');
+      }
       item.$elt=$newDiv;
       $newDiv.data('index',idx);
       item.$getElt('img').data('index',idx);
@@ -5132,18 +5194,25 @@ nanoGALLERY v5.5.4 release notes.
     function thumbnailSelection(item, forceValue, refrehElt){
       var $e=item.$elt;
       var thumbnailCheckbox = $e.find('input[type=checkbox]');
-      if( typeof forceValue === 'undefined' ){
-        item.selected=!item.selected;
+      
+      if((G.selectMode === 'image' || G.selectMode === 'album') && item.kind !== G.selectMode ){
+          item.selected = false;
+          thumbnailCheckbox.prop('checked',false );
+          item.$getElt('.subcontainer').removeClass('selected');
       }else{
-        item.selected = forceValue;
-      }
-      if( refrehElt !== false ) {
-        thumbnailCheckbox.prop('checked',item.selected );
-      }
-      if( item.selected ) {
-        item.$getElt('.subcontainer').addClass('selected');
-      } else {
-        item.$getElt('.subcontainer').removeClass('selected');
+        if( typeof forceValue === 'undefined' ){
+          item.selected=!item.selected;
+        }else{
+          item.selected = forceValue;
+        }
+        if( refrehElt !== false ) {
+          thumbnailCheckbox.prop('checked',item.selected );
+        }
+        if( item.selected ) {
+          item.$getElt('.subcontainer').addClass('selected');
+        } else {
+          item.$getElt('.subcontainer').removeClass('selected');
+        }
       }
       thumbnailSelectionEnd();
       if(typeof G.O.fnThumbnailSelection === 'function'){
@@ -5152,6 +5221,10 @@ nanoGALLERY v5.5.4 release notes.
     }
     
     function thumbnailSelectionEnd(){
+      var oldSelection;
+      if(G.O.keepSelection === true){
+        oldSelection = G.selectedItems.slice(0);
+      }
       G.selectedItems = [];
       var l=G.I.length;
       for( var j=0; j<l ; j++) {
@@ -5159,14 +5232,33 @@ nanoGALLERY v5.5.4 release notes.
           G.selectedItems.push(G.I[j]);
         }
       }
+      if(G.O.keepSelection === true){
+        for(j in oldSelection) {
+          alreadyExists = false;
+          for( var k=0; k<l ; k++) {
+            if(G.I[k].GetID() === oldSelection[j].GetID()) {
+              alreadyExists = true;
+            }
+          }
+          if(alreadyExists === false){
+            G.selectedItems.push(oldSelection[j]);
+          }
+        }
+        oldSelection = [];
+      }
 
-      if (G.selectedItems.length > 0 || G.selectModeForce === true) {
+      if (G.selectedItems.length > 0 || G.selectModeForce == true) {
         G.I.forEach(function (it) {
           if(it.$elt !== null && !it.$elt.hasClass('selectable')){
-            it.$elt.addClass('selectable');
+            if((G.selectModeForce == true && it.kind === G.selectMode) || G.selectMode == true){
+                it.$elt.addClass('selectable');
+            }
           }
         });
-        G.selectMode = true;
+        if(G.selectMode !== true && G.selectMode !== 'image' && 
+                G.selectMode !== 'album'){
+          G.selectMode = true;
+        }
       }else {
         G.I.forEach(function (it) {
           if(it.$elt !== null){
