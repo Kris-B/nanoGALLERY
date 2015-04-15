@@ -1,8 +1,6 @@
 {
   "name": "nanogallery",
-  "version": "5.6.0",
-  "homepage": "http://nanogallery.brisbois.fr",
-  "author": "Christophe Brisbois <chr@brisbois.fr>",
+  "version": "5.5.4",
   "description": "image gallery simplified - jQuery plugin",
   "main": "dist/jquery.nanogallery.min.js",
   "scripts": {
@@ -26,24 +24,7 @@
     "RTL",
     "jquery-plugin"
   ],
-  "contributors": [
-    {
-      "name": "Alessandro Rossi (AlexRed)",
-      "email": "alexred@alexred.com"
-    },
-    {
-      "name": "Giovanni Chiodi",
-      "email": "giovanni.chiodi@gmail.com"
-    },
-    {
-      "name": "antonio r. (grief-of-these-days)",
-      "email": ""
-    },
-    {
-      "name": "Raphaël Renaudon",
-      "email": ""
-    }
-  ],
+  "author": "Christophe Brisbois",
   "license": "CC BY-NC 3.0",
   "devDependencies": {
     "grunt": "^0.4.5",
