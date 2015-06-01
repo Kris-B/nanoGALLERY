@@ -4,6 +4,24 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.7.0
+------
+
+##### New callback  
+- **fnThumbnailOpen**: called after a thumbnail is clicked/touched to display the image.  
+  Can be used to replace the standard viewer/lightbox with an external lightbox.   
+
+##### New options
+- **thumbnailOpenImage**: enable the viewer/lightbox to display images after a thumbnail is clicked/touched.  
+  *boolean; Default: true*  
+- **paginationSwipe**: on the gallery, enable swipe to go to next/previous page.  
+  *boolean; Default: true*  
+  
+##### Misc
+- included new version of Shifty (v1.5)  
+- disabled AMD  
+
+
 v5.6.0
 ------
 
