@@ -877,10 +877,18 @@
 /**************************************/
 /* LOADING BAR                        */
 /**************************************/
+.nanogallery_theme_light .nanoGalleryLBarOff {
+	position:relative;
+  width:100%;
+  visibility: hidden;
+  height:2px;
+  margin:0 0 1px 0;
+  background-color:#555;
+}
 .nanogallery_theme_light .nanoGalleryLBar {
 	position:relative;
-  height:1px;
   width:100%;
+  visibility: visible;
   height:2px;
   margin:0 0 1px 0;
   background-color:#555;

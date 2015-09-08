@@ -1,6 +1,6 @@
 {
   "name": "nanogallery",
-  "version": "5.7.0",
+  "version": "5.8.0",
   "homepage": "http://nanogallery.brisbois.fr",
   "author": "Christophe Brisbois <chr@brisbois.fr>",
   "description": "image gallery simplified - jQuery plugin",
@@ -36,11 +36,19 @@
       "email": "giovanni.chiodi@gmail.com"
     },
     {
-      "name": "antonio r. (grief-of-these-days)",
+      "name": "antonio r. (grief-of-these-days https://github.com/grief-of-these-days)",
       "email": ""
     },
     {
-      "name": "Raphaël Renaudon",
+      "name": "Raphaël Renaudon (https://github.com/sevarg)",
+      "email": ""
+    },
+    {
+      "name": "Jeff Mills (https://github.com/jefftmills)",
+      "email": ""
+    },
+    {
+      "name": "Victor A. Banuelos (https://github.com/vbanuelos)",
       "email": ""
     }
   ],

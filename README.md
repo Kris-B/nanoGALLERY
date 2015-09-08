@@ -5,7 +5,7 @@
 
 Touch enabled, fully responsive, justified/cascading/grid layout and supporting cloud storage.
 
-Featuring multi-level navigation in albums, combinable hover effects on thumbnails, responsive thumbnail sizes, multiple layouts, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr, Picasa and Google+ photo albums among others.
+Featuring multi-level navigation in albums, combinable hover effects on thumbnails, responsive thumbnail sizes, multiple layouts, slideshow, fullscreen, pagination, image lazy load, themes, deep linking, customizable, i18n, and pulling in Flickr or Picasa/Google+/Google Photos photo albums among others.
 
 
 #### Usage can be as easy as: 
