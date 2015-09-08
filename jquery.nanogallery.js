@@ -178,6 +178,9 @@ nanoGALLERY v5.7.0 release notes.
         case 'getSelectedItems':
           return $(this).data('nanoGallery').nG.GetSelectedItems();
           break;
+        case 'getCurrentItem':
+          return $(this).data('nanoGallery').nG.GetCurrentItem();
+          break;
         case 'selectItems':
           $(this).data('nanoGallery').nG.SetSelectedItems(option);
           break;
@@ -380,7 +383,15 @@ nanoGALLERY v5.7.0 release notes.
     this.GetSelectedItems = function(){
       return G.selectedItems;
     };
-
+    
+     /**
+     * Returns current index of image in viewer
+     * @returns {int}
+     */
+    this.GetCurrentItem = function(){
+      return G.viewerCurrentItemIdx;
+    };
+    
     /**
      * Returns the value of an option
      * @param {string} option
