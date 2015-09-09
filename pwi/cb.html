@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>   
+    <title>PWI Demo 1 - Picassa Webalbum Integrator (PWI)</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+    <!-- These files are needed for FancyBox -->
+    <script src="js/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <!-- These files are needed to display the FancyBox buttons at the top, including slideshow control -->
+
+
+    <!-- These files are the PWI files -->
+    <link   href="css/pwi.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.pwi.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+      var $viewerSelected = "fancybox";
+      var $url=document.URL.split("?", 2);
+      if ($url.length == 2) {
+        var $queryParams = $url[1].split("&");
+        for ($queryParam in $queryParams) {
+          var $split = $queryParams[$queryParam].split("=", 2);
+          if ($split[0] === "viewer") {
+            $viewerSelected = $split[1];
+          }
+        }
+      }
+
+      $(document).ready(function() {
+        var $viewerShow, $viewerJs, $viewerName;
+        $('#FancyboxCode').hide();
+        switch($viewerSelected)
+        {
+        case "fancybox":
+          $viewerName = "FancyBox";
+          $viewerCss  = "js/jquery.fancybox/jquery.fancybox.css";
+          $viewerJs   = "js/jquery.fancybox/jquery.fancybox.pack.js";
+          $('#FancyboxCode').show();
+          break;
+        case "slimbox":
+          $viewerName = "SlimBox2";
+          $viewerCss  = "js/jquery.slimbox2/jquery.slimbox2.css";
+          $viewerJs   = "js/jquery.slimbox2/jquery.slimbox2.js";
+          break;
+        case "colorbox":
+          $viewerName = "ColorBox";
+          $viewerCss  = "js/jquery.colorbox/colorbox.css";
+          $viewerJs   = "js/jquery.colorbox/jquery.colorbox-min.js";
+          break;
+        default:
+          alert("Unknown viewer selected");
+          $viewerName = "unknown";
+          $viewerCss  = "unknown";
+          $viewerJs   = "unknown";
+          break;
+        }
+
+        $("#jqueryVersion").text($().jquery);
+        $("#viewername").text($viewerName);
+        $("#viewernameCss").text($viewerCss);
+        $("#viewernameJs").text($viewerJs);
+        $("a#inline").fancybox({closeClick: false});
+
+        var settings = {
+          //username: 'jdiderik',
+          username: '111186676244625461692',
+          popupPlugin: $viewerSelected
+          };
+        $("#container").pwi(settings);
+          
+      });
+    </script>
+  </head>
+  <body style="font-family:arial">
+    <h3><a href="index.html">PWI</a> Demo 1, Simple, all defaults</h3>
+
+    <form name="selector">
+      Select popup-viewer: 
+      <select name="viewerSelect" onChange="location=document.selector.viewerSelect.options[document.selector.viewerSelect.selectedIndex].value;">
+        <option selected disabled="disabled">Select viewer</option>
+        <option value="?viewer=fancybox">FancyBox</option>
+        <option value="?viewer=colorbox">ColorBox</option>
+        <option value="?viewer=slimbox">SlimBox2</option>
+      </select>
+    </form>
+    <br />
+    <hr />
+    <div id="container"> </div>
+    <hr />
+    Click <a id="inline" href="#data">here</a> to view the code for this example.
+    <div style="display:none">
+      <div id="data">
+        <pre>
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;PWI Demo 1 - Picassa Webalbum Integrator (PWI)&lt;/title&gt;
+    &lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/<span id="jqueryVersion"></span>/jquery.min.js"&gt;&lt;/script&gt;
+
+    &lt;!-- These files are needed for <span id="viewername"></span> --&gt;
+    &lt;link   href="<span id="viewernameCss"></span>" rel="stylesheet" type="text/css"/&gt;
+    &lt;script src="<span id="viewernameJs"></span>" type="text/javascript"&gt;&lt;/script&gt;
+    <div id="FancyboxCode" style="display:none">    &lt;!-- These files are needed to display the FancyBox buttons at the top, including slideshow control --&gt;
+    &lt;link   href="js/jquery.fancybox/helpers/jquery.fancybox-buttons.css?v=2.0.5"  rel="stylesheet" type="text/css"/&gt;
+    &lt;script type="text/javascript" src="js/jquery.fancybox/helpers/jquery.fancybox-buttons.js?v=2.0.5"&gt;&lt;/script&gt;</div>
+    &lt;script src="js/jquery.blockUI.js" type="text/javascript"&gt;&lt;/script&gt;
+
+    &lt;!-- These files are the PWI files --&gt;
+    &lt;link   href="css/pwi.css" rel="stylesheet" type="text/css"/&gt;
+    &lt;script src="js/jquery.pwi-min.js" type="text/javascript"&gt;&lt;/script&gt;
+
+    &lt;!-- Needed for the Google Maps overview map --&gt;
+    &lt;script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+
+      $(document).ready(function () {
+        var settings = {
+          username: '&lt;&lt;USERNAME&gt;&gt;'
+          };
+        $("#container").pwi(settings);
+      });
+
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="container"&gt; &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+      </div>
+    </div>
+
+  </body>
+</html>

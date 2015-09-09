@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTP_HOST} !^nanogallery.brisbois.fr$ [NC]
+RewriteRule ^(.*)$ http://nanogallery.brisbois.fr/$1 [L,R=301]
+
+Options All -Indexes

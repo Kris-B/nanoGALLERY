@@ -1,0 +1,204 @@
+<!doctype html>
+<html class="no-js" lang="en" itemscope itemtype="http://schema.org/Product">
+<head>
+	<meta charset="utf-8">
+
+	<!-- Use the .htaccess and remove these lines to avoid edge case issues.
+			 More info: h5bp.com/b/378 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>nanoGALLERY plugin for jQuery</title>   
+  <meta name="description" content="nanoGALLERY plugin for jQuery" /> 
+	<meta name="keywords" content="" />
+	<meta name="author" content="Christophe Brisbois">
+
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+
+	<!-- Google+ Metadata /-->
+  <meta itemprop="name" content="nanoGALLERY">
+  <meta itemprop="description" content="nanoGALLERY - image gallery simplified">
+  <meta itemprop="image" content="img/nano_logo.png">
+
+
+  <!--  nanoGALLERY -->
+  <style>
+    body { background: #2F3238; color:lightgrey; margin:30px;}
+    h1 { font-size:4.5rem; color:#fff; }
+    h2 { font-size:2.8rem; color:#6E6; }
+    h3 { font-size:1.8rem; color:#fff; }
+    h4 { font-size:1.6rem; color:#fff; }
+    h7 { font-size:0.8rem; }
+    a:link { color:#6e6; text-decoration:none; }
+    a:visited { color:#6e6; text-decoration:none;}
+    a:hover { color:#fff; text-decoration:none; }
+    p { font-size:1.2rem; }
+
+  </style>
+  <link href="css/prism.css" rel="stylesheet" />
+  
+</head>
+
+<body>
+
+	<!-- Grab Google CDN's jQuery, fall back to local if offline -->
+	<!-- 2.0 for modern browsers, 1.10 for .oldie -->
+	<script>
+	var oldieCheck = Boolean(document.getElementsByTagName('html')[0].className.match(/\soldie\s/g));
+/*	if(!oldieCheck) {
+	document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"><\/script>');
+	} else {
+	document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"><\/script>');
+	} */
+	</script>
+	<script>
+	if(!window.jQuery) {
+	if(!oldieCheck) {
+	  document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
+	} else {
+	  document.write('<script src="js/libs/jquery-1.10.1.min.js"><\/script>');
+	}
+	}
+	</script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39069349-7', 'brisbois.fr');
+  ga('send', 'pageview');
+</script>
+
+
+  <!-- nanoGALLERY -->
+  <link href="css/nanogallery.css" rel="stylesheet">
+  <link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet">
+  <script src="jquery.nanogallery.js"></script>
+  <script src="third.party/transit/jquery.transit.min.js"></script>
+  <!-- <script src="third.party/jquery-jsonp/jquery.jsonp.js"></script> -->
+  <script src="third.party/hammer.js/hammer.min.js"></script>
+  <script type="text/javascript" src="third.party/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
+  
+  	<script>
+		jQuery(document).ready(function () {
+			myColorScheme = {
+				breadcrumb : {
+					background : '#000',
+					border : '1px solid #555',
+					color : '#ccc',
+					colorHover:'#fff'
+				},
+				thumbnail2 : {
+					background:'#000',
+					border:'1px solid #000',
+					labelBackground:'transparent',
+					labelOpacity:'0.8',
+					titleColor:'#fff',
+					descriptionColor:'#eee'
+				}
+			};
+
+
+
+			jQuery("#nanoGalleryExample1").nanoGallery({
+				kind: 'flickr',
+				userID: '51035555243@N01',
+				thumbnailWidth: 100,
+				thumbnailHeight: 100,
+				thumbnailLabel: {
+					display: true,
+					position: 'overImageOnBottom'
+				},
+				thumbnailDisplayInterval:10,
+				thumbnailDisplayTransition:true,
+				paginationMaxLinesPerPage:5,
+				thumbnailHoverEffect:[{'name':'slideUp','duration':300},{'name':'borderLighter'}]
+			});
+
+      
+		});
+	</script>
+
+  
+  
+  <div class="row">
+    <div class="twelve columns special">
+      <h2>&nbsp;</h2>
+      <a href="http://nanogallery.brisbois.fr"><h1 style="text-align: center;">nano<span style="color:#6e6;">GALLERY</span></h1></a>
+      <h3 style="text-align: center;"><span style="color:#fff;">jQuery plugin</span></h3>
+      <p style="text-align: center; ">&nbsp;</p>
+      <p style="text-align: center; ">&nbsp;</p>
+    <h2 style="text-align: center; " class="title">Demo: use pagination to handle a large amount of albums and images.</h2>
+		<p style="text-align: center; ">&nbsp;</p>
+		<p style="text-align: center; ">This demo shows you how to improve perfomances to manage many data.</p>
+		<p style="text-align: center; ">A large Flickr account is used: Thomashawk, with about 1900 photosets.</p>
+		<p style="text-align: center; ">The display time of the first page is dependant of your internet connection speed.</p>
+      <h2>&nbsp;</h2>
+      <h2>&nbsp;</h2>
+      <h2>&nbsp;</h2>
+      <h2>&nbsp;</h2>
+    </div>
+  </div>
+
+  
+  
+<!-- ########## -->
+
+
+  <div class="row">
+    <div class="twelve columns">
+      <h3>Example: pagination.</h3>
+      <h3>&nbsp;</h3>
+    </div>
+  </div>  
+  <div class="row">
+    <div class="twelve columns">
+      <div id="nanoGalleryExample1"></div>
+    
+    
+    
+      <h4>Corresponding HTML:</h4>
+
+							<pre><code class="language-markup">
+&lt;div id="nanoGallery"&gt;&lt;/div&gt;
+								</code></pre>
+
+      <h4>Corresponding Javascript:</h4>
+							<pre><code  class="language-javascript">
+jQuery("#nanoGallery").nanoGallery({
+  kind: 'flickr',
+  userID: '51035555243@N01',
+  thumbnailWidth: 100,
+  thumbnailHeight: 100,
+  thumbnailLabel: {
+    display: true,
+    position: 'overImageOnBottom'
+  },
+  thumbnailDisplayInterval:10,
+  thumbnailDisplayTransition:true,
+  paginationMaxLinesPerPage:5,
+  thumbnailHoverEffect:[{'name':'slideUp','duration':300},{'name':'borderLighter'}]
+});
+								</code></pre>
+    </div>
+  </div>  
+  <br><br><br><br>
+  <br><br><br><br>
+  <br><br><br><br>
+  <br><br><br><br>
+  <br><br><br><br>
+  <br><br><br><br>
+ 
+
+<footer>
+	<p class="credits" style="text-align: center; "><a href="http://nanogallery.brisbois.fr" title="nanoGALLERY for jQuery">nanoGALLERY</a> by <a href="http://www.brisbois.fr" title="Christophe Brisbois">Christophe Brisbois</a></p>
+  <br>
+</footer>
+  
+  <script src="js/prism.js"></script>
+  
+  </body>
+</html>

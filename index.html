@@ -1,1 +1,3684 @@
-HELLO WORLD
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    -->
+
+    <title>nanoGALLERY - image gallery simplified</title>   
+    
+    <meta name="description" content="nanoGALLERY - image gallery simplified." /> 
+    <meta name="keywords" content="nanoGALLERY image gallery photo jquery plugin flickr picasa google+ selft-hosted responsive" />
+    <meta name="author" content="Christophe Brisbois">
+
+
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/css/foundation.min.css" />
+    <!-- <link rel="stylesheet" href="css/foundation.css" /> -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.min.js"></script>
+    <!-- <script src="js/vendor/modernizr.js"></script> -->
+<!--    <link href="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" rel="stylesheet" /> -->
+    <!-- <link href="css/prism.css" rel="stylesheet" /> -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<link href="./css/jquery.remodal.css" rel="stylesheet" />
+
+
+    <meta property="og:title" content="nanoGALLERY">
+    <meta property="og:url" content="http://nanogallery.brisbois.fr/">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content="nanoGALLERY - image gallery simplified." >
+    <meta property="og:image" content="http://nanogallery.brisbois.fr/nanogallery.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Kris_B70">
+    <meta name="twitter:title" content="nanoGALLERY">
+    <meta name="twitter:description" content="nanoGALLERY image gallery photo jquery plugin flickr picasa google+ selft-hosted responsive.">
+    <meta name="twitter:creator" content="@Kris_B70">
+    <meta name="twitter:image:src" content="http://nanogallery.brisbois.fr/nanogallery.png">
+    <meta name="twitter:domain" content="http://nanogallery.brisbois.fr">
+
+    <html itemscope itemtype="http://schema.org/Product">
+
+    <!-- Google+ Metadata /-->
+    <meta itemprop="name" content="nanoGALLERY">
+    <meta itemprop="description" content="nanoGALLERY - image gallery simplified.">
+    <meta itemprop="image" content="http://nanogallery.brisbois.fr/nanogallery.png">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Oswald&text=nanoGALLERY" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="css/flickity.css" media="screen">
+
+    <link rel="stylesheet" href="css/rangeslider.css" media="screen">
+
+    <script async src="http://assets.codepen.io/assets/embed/ei.js"></script>
+    
+  <!--  nanoGALLERY -->
+    <style>
+      .fullWidth {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        /*max-width: initial;*/
+        /*background-color:#2F3238;*/
+        background-color:#222;
+        position: relative;
+        margin-top:-10px;
+        margin-bottom:-10px;
+        padding:0px;
+        border-width:0px;
+      }
+
+      
+      /*h1 { font-size:4.0rem; color:#fff; font-family:"Oswald" }*/
+      h1 { font-size:2.0rem; color:#fff; font-family:'Oswald', sans-serif; }
+      *, h2, h3, h4, h5, h6, p, .remodal {font-family:'Droid Sans', sans-serif; }
+      p { font-size:.8rem;  }
+
+      h6 { font-size:0.8rem; }
+      footer a:link { color:#6e6; }
+      footer a:visited { color:#6e6; }
+      footer a:hover { color:#fff; }
+    
+      #main-content .centered-text {
+        text-align: center; }
+        
+      button:hover, button:focus, .button:hover, .button:focus {
+        background-color: #393;
+        color:#fff !important;
+      }
+      button, .button {
+        background-color: #5b5;
+        color:#fff !important;
+      }
+
+      buttonv2:hover, buttonv2:focus, .buttonv2:hover, .buttonv2:focus {
+        background-color: #5b5;
+        color:#444 !important;
+      }
+      buttonv2, .buttonv2 {
+        background-color: transparent;
+        color:#444 !important;
+        border: 1px solid #555;
+      }
+
+      buttonv3:hover, buttonv3:focus, .buttonv3:hover, .buttonv3:focus {
+        background-color: #666;
+        color:#eee !important;
+      }
+      buttonv3, .buttonv3 {
+        background-color: transparent;
+        color:#eee !important;
+        border: 1px solid #666;
+      }
+
+      a:focus  { color:#5b5; }
+      a:hover { color:#5b5; }
+      a:link { color:#393; }
+      a:visited { color:#393; }
+
+      .label {
+        background-color:#5b5;
+        white-space: normal;
+      }
+
+      table thead th, table thead tr th, table tbody td, table tr td, table tbody tr td {
+        color:#333;
+        font-size:0.8em;
+        line-height: 1.6em;
+        font-family: "Tahoma";
+        vertical-align: text-top;
+      }
+
+      
+    @media only screen and (max-width: 800px) {
+      table td:nth-child(4),
+      table th:nth-child(4) {display: none;}
+      table td:nth-child(3),
+      table th:nth-child(3) {display: none;}
+    }      
+      
+    pre {
+      overflow:auto;
+      background: #ddd;
+    }
+    code {
+      font-weight: normal;
+      font-size:0.8em;
+      line-height:1.4em;
+      /* color:#333; */
+      /* font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New; */
+      /* font-style:italic; */
+    }
+    
+    
+    .remodal {
+      max-width: 960px !important;
+      text-align: left;
+    }
+    .remodal-close {
+      text-align: center;
+    }
+    
+    html,body {
+      /* min-height:100%; */
+      /* overflow: auto !important; */
+      /* margin: 0; */
+    }
+    
+    /* DocNav */
+    #glossary {
+      position: fixed;
+      top: 70px;
+      left: 2px;
+      border: 5px solid #ddd;
+      overflow-x: hidden;
+      background:#eee;
+      visibility:hidden;
+    }
+    #glossary p {
+      font-size: 1rem;
+      margin:5px;
+    }
+    #glossary b {
+      display: inline-block;
+      margin-bottom: 0.1em;
+      font-size: 0.8em; 
+    }
+    #glossary ul {
+      margin-bottom: 0.45em;
+      margin-left: 2px;
+      font-size: 0.9rem;
+    }
+    #glossary a {
+      padding:2px;
+    }
+    #glossary a:hover {
+      background-color:#ddd;
+    }
+    
+    #glossary ul li {
+      font-size: 0.8rem;
+      list-style-type: none;
+      line-height: 1.4em;
+      margin-left: 10px;
+    }
+
+    
+/* position outside */
+.flickity-prev-next-button.previous {
+  left: -40px;
+  padding:0;
+}
+.flickity-prev-next-button.next {
+  right: -40px;
+  padding:0;
+}
+      
+      
+    </style>
+    
+
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-39069349-7', 'brisbois.fr');
+    ga('send', 'pageview');
+    </script>
+    
+  </head>
+  <body>
+    <span itemscope itemtype="http://schema.org/SoftwareApplication"> 
+
+
+    
+
+    <div class="rowAAA fullWidth" id="home">
+      <div class="largeAAA-12 columnsAAA">
+        <h3>&nbsp;</h3>
+        <h1 itemprop="name" style="text-align:center;color:#fff;font-family:Oswald;">nano<span style="color:#6e6;font-family:Oswald;">GALLERY</span>&nbsp;
+          <a href="#download" style="font-size:0.6rem;bottom:25px;left:-10px;border-radius:4px;padding:0.1rem 0.4rem 0.15rem;" class="radius button tiny" onclick="ga('send','event','goDownloadTop','nanoGALLERY')" href="#">
+            v5.8.0 / 09 Sep 2015
+          </a>
+        </h1>
+        <br><br><br><br>
+        <h3 style="text-align:center;font-size:1.8rem;"><span style="color:#fff;">image gallery simplified</span></h3>
+        <h2>&nbsp;</h2>
+        <p style="text-align: center;color:#fff;font-size:1.2rem;">
+        nanoGALLERY is a touch enabled and fully responsive image gallery with justified, cascading and grid layout.<br>
+        It supports self hosted images and pulling in Flickr, Picasa and Google+ photo albums.
+        </p>
+        <h2>&nbsp;</h2>
+        <h6 style="text-align: center;font-family:Oswald;color:#fff;"><br><br><div id="nanoGalleryHome"></div></h6>
+        <h2>&nbsp;</h2>
+        <p id="sliderGalleryWidthCont" style="text-align: center;color:#fff;font-size:1.2rem;visibility:hidden">
+          Simulate a smaller device/screen size:<br>
+          <input id="sliderGalleryWidth" type="range" min="480" style="width:250px;">
+        </p>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+        
+
+
+        <h5 style="text-align:center;color:#fff;"><i class="fa fa-info-circle"></i> &nbsp;Usage examples</h5>
+        <br><br><br><br>
+        <div class="medium-6 large-6 columns supporticons centered-text">
+          <div style="text-align: center;color:#fff;">
+            <p>With online photo sharing website:</p>
+            <a class="round button buttonv3"  data-remodal-target="myModalMethodFlickr"onclick="ga('send','event','methodFlickr','nanoGALLERY')" href="#myModalMethodFlickr"><i class="fa fa-file-code-o"></i> Flickr Storage</a>
+            <a class="round button buttonv3" data-remodal-target="myModalMethodPicasa" onclick="ga('send','event','methodPicasa','nanoGALLERY')" href="#myModalMethodPicasa"><i class="fa fa-file-code-o"></i> Picasa/Google+ Storage</a>
+            <!-- <a class="radius small button" data-reveal-id="myModalMethodSmugmug" onclick="ga('send','event','methodSmugmug','nanoGALLERY')" href="#">SmugMug Storage</a> -->
+          </div>
+        </div>
+        <div class="medium-6 large-6 columns supporticons centered-text">
+          <div style="text-align: center;color:#fff;">
+            <p>With self hosted images:</p>
+            <a class="round button buttonv3" data-remodal-target="myModalMethodJSON" onclick="ga('send','event','methodJSON','nanoGALLERY')"  href="#myModalMethodJSON"><i class="fa fa-file-code-o"></i> nanoPhotosProvider</a>
+            <a class="round button buttonv3" data-remodal-target="myModalMethodInline" onclick="ga('send','event','methodHREF','nanoGALLERY')"  href="#myModalMethodInline"><i class="fa fa-file-code-o"></i> Inline elements</a>
+            <a class="round button buttonv3" data-remodal-target="myModalMethodAPI" onclick="ga('send','event','methodAPI','nanoGALLERY')" href="#myModalMethodAPI"><i class="fa fa-file-code-o"></i> API</a>
+          </div>
+        </div>
+
+        
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+        <h2>&nbsp;</h2>
+      </div>
+    </div>
+
+    <div class="contain-to-grid sticky">
+      <nav class="top-bar sticky" data-topbar data-options="scrolltop: false">
+        <ul class="title-area">
+          <li class="name"><a href="#"><h2 style="text-align: center;color:#fff;font-size: 1.0625rem;line-height: 45px;margin:0;font-family:Oswald;">nano<span style="color:#6e6;font-family:Oswald;">GALLERY</span></h2></a></li>
+          <li class="toggle-topbar menu-icon">
+            <a href="#">Menu</a>
+          </li>
+        </ul>
+        <section class="top-bar-section">
+          <ul class="right">
+            <li><a href="#features" onclick="ga('send','event','goFeatures','nanoGALLERY')" >In action</a></li>
+            <li><a href="#examples" onclick="ga('send','event','goDemo','nanoGALLERY')" >Implementations</a></li>
+            <li><a href="#download" onclick="ga('send','event','goDownload','nanoGALLERY')" >Get it now</a></li>
+            <li><a href="#firstSteps" onclick="ga('send','event','goFirstSteps','nanoGALLERY')" >First steps</a></li>
+            <li><a href="#documentation" onclick="ga('send','event','goDoc','nanoGALLERY')" >Documentation</a></li>
+            <li><a href="#disqus" onclick="ga('send','event','goComments','nanoGALLERY')" >Comments</a></li>
+          </ul>
+
+        </section>
+      </nav>
+    </div>
+    
+<div id="glossary">
+  <p>Documentation glossary</p>
+</div>
+
+
+<section id="main-content" style="background:#F2F6F7;" >
+  <div id="features" class="row centered-text">
+      <div class="large-12 columns">
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <h2>nanoGALLERY in action</h2>
+
+        <h4 class="subheader">Managing your photo galleries has never been so simple.</h4>
+        <br><br>
+
+      </div>
+  </div>
+  <br><br><br><br><br><br>
+
+  <div class="gallery js-flickity" style="margin-left:auto;margin-right:auto;width:80%;" data-flickity-options='{ "cellAlign": "center", "contain": false, "wrapAround": true }'>
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-picture-o fa-4x"></i>
+            <h4 style="display:inline-block;">Image Gallery</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            nanoGALLERY is a full-featured image gallery plugin for jQuery.<br>
+            Display thumbnails with title and description.<br>
+            Choose between justified, cascading or grid layout.<br>
+            Responsive thumbnail sizes (device size dependant).<br>
+            Images are displayed in full view via a modal popup window.<br>
+            Support self-hosted images as well as online photo sharing website (Flickr, Picasa and Google+).<br>
+            Thumbnail selection mode with checkboxes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-cloud fa-4x"></i>
+            <h4 style="display:inline-block;">Flickr, Picasa, Google+</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            Any photo published to your online photo sharing site (e.g. from your mobile phone) is automatically added to your website.<br>
+            Display galleries on your website with your custom design.<br>
+            Automatic thumbnail generation in different resolutions.<br>
+            Huge bandwidth saving and fast photo downloading (photos are not store on your website).
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-mobile fa-4x"></i>
+            <h4 style="display:inline-block;">Mobile Friendly</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            The script is touchscreen enabled and responsive.<br>
+            Pagination and images support swipe gesture.<br>
+            Galleries and photos are automatically resized depending on the device resolution.<br>
+            Downloads small images on small display to save bandwidth.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-cogs fa-4x"></i>
+            <h4 style="display:inline-block;">Hover Effects</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            Spice up your Portfolio with eye-catching hover effects.<br>
+            Effects can be combined for more possibilities.<br>
+            2D/3D effects available.<br>
+            Build your own custom effects.<br>
+            Effects are touchscreen friendly.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-sitemap fa-4x"></i>
+            <h4 style="display:inline-block;">Sub Galleries / Albums</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            Support multi-level navigation.<br>
+            You can organize your images in albums.<br>
+            Use a breadcrumb to navigate in photo albums.<br>
+            Unlimited number of sub-levels.<br>
+            Support deep linking to albums.<br>
+            You can define thumbnail settings specific to the first navigation level.
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-code fa-4x"></i>
+            <h4 style="display:inline-block;">Highly customizable</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            A ton of options to personalize your galleries.<br>
+            Provides API methods and callbacks.<br>
+            Customizable image toolbar.<br>
+            Color schemes to change layout without editing any CSS file.<br>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-cell" style="width:100%;text-align:center;">
+      <div style="display:inline-block;margin-left:auto;margin-right:auto;">
+        <div class="supporticons" style="display:inline-block;text-align:left;">
+          <div class="centered-text" style="display:inline-block;vertical-align:top;padding-right:10px;">
+            <i style="color:#5b5;display:inline-block;" class="fa fa-rocket fa-4x"></i>
+            <h4 style="display:inline-block;">And more..</h4>
+          </div>
+          <p style="color:#6f6f6f;font-size:1.0rem;">
+            Support browser BACK/FORWARD navigation.<br>
+            Can be controlled using mouse, keyboard or touchscreen.<br>
+            RTL (Right To Left) and LTR (Left To Right) display.<br>
+            Thumbnails can redirect to an URL instead of an image.<br>
+            Support most browser versions, including IE9+ (and partial support for IE8).<br>
+            <!-- Front-end Frameworks: successfully tested with Boostrap, Foundation and Gumby.<br> -->
+            <!--Browser support: Chrome, Firefox, Safari, IE8+, Android, Windows Phone.<br>-->
+            Slideshow, fullscreen, pagination, image lazy load, themes, deep linking, data caching, image pre-loading, i18n...<br>
+            <!-- Need more? nanoGALLERY can be extended using Javascript Helpers.<br> -->
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+
+  <br><br><br><br><br><br>
+ </section>
+
+<!--
+<div id="myModalMoreFeatures" class="reveal-modal" data-reveal>
+  <h2>More Features...</h2>
+
+  <h4>User Friendly</h4>
+  <p>Easy to use. Support browser back/forward  navigation. Can be controlled using mouse, keyboard or touchscreen.</p>
+  <h4>Easy Setup and Highly Customizable</h4>
+  <p>Designed to be really as simple as possible to setup and to use. Many options are available to advanced users to tweak the gallery.</p>
+  <h4>Color Scheme</h4>
+  <p>Allows to change layout without editing any CCS file. Can be used with pre-defined or custom ones.</p>
+  <h4>Front-end Frameworks</h4>
+  <p>Successfully tested with Boostrap (Twitter), Foundation (Zurb) and Gumby.</p>
+  <h4>Link to URLs</h4>
+  <p>Thumbnails can be used to open an URL instead of displaying an image.</p>
+  <h4>Live Preview</h4>
+  <p>Easy and quick customization with the integrated demonstration panel. Define the settings and view the result directly on the screen.</p>
+  
+  <h4>Browser support</h4>
+  <p>Chrome, Firefox, Safari, IE8+, Android, Windows Phone.</p>
+  <h4>Slideshow, fullscreen, pagination, content lazy load, image lazy load, themes, deep linking, data caching, image pre-loading, i18n...</h4>
+  <h2>Need more?</h2>
+  <p>nanoGALLERY can be extended using Javascript Helpers.</p>
+  
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="myModalWhy" class="reveal-modal" data-reveal>
+  <h2>Why another jQuery Gallery?</h2>
+
+  <p>
+  There are many excellent galleries (for jQuery, or other frameworks), but for one my projects I couldn't find one that really fits my main requirements:
+  </p><p>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- responsive and mobile friendly,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- ability to easily and quickly publish new photos,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- organise photos in albums.<br>
+  </p><p>
+  I didn't want to spend time for rich publishing features. So I chose to use an online storage service like Flickr. Flickr has already great upload features on desktop and on mobile devices.
+  You can add titles, descriptions, tags and you can arrange photos in photosets. One part of the project was done...<br>
+  <p>
+  After this, I was able to focus on the other features. And so I developped this nanoGALLERY.
+  </p><p>
+  I thought that other people have the same needs as me, so I decided to share my work. If I could help you, please let me know.
+  
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+-->
+
+
+
+
+
+<section id="examples" >
+  <div id="main-content" >
+    <div class="row centered-text">
+        <div class="large-12 columns">
+          <br><br><br><br><br><br><br><br><br><br><br><br>
+          <h2>made with nanoGALLERY</h2>
+          <h4 class="subheader"></h4>
+          <br><br><br><br><br><br>
+        </div>
+    </div>
+  </div>
+  <br><br><br><br>
+  <div class="row centered-text">
+    <div class="large-2 columns">
+      <p>Select demonstration:</p>
+    </div>
+    <div class="large-8 columns">
+      <select id="selectBoxDemo">
+        <option value="0" selected>Justified layout</option>
+        <option value="2">Cascading grid layout</option>
+        <option value="11">Inline elements - basic sample</option>
+        <option value="12">Inline elements - organize images in albums</option>
+        <option value="13">Set images using API - basic sample</option>
+        <option value="14">Set images using API - organize images in albums</option>
+        <option value="3">Pagination 1 row</option>
+        <option value="4">Flickr - display full photostream / cropped square thumbnails</option>
+        <option value="8">Thumbnail sizes dependant of screen resolution</option>
+        <option value="9">Checkbox selection</option>
+        <option value="5">Custom icons with font Awesome / rename 'List of Albums' in breadcrumb</option>
+        <option value="1">Auto display breadcrumb for navigation</option>
+        <option value="7">Touch screen - touch twice to open thumbnail</option>
+        <option value="6">Display images with Lightbox</option>
+        <option value="10">Online test tool</option>
+      </select>
+    </div>
+    <div class="large-2 columns">
+      <a  class="radius tiny button" id="btnDemoSource"><i class="fa fa-file-code-o"></i> &nbsp; View Sources</a>
+    </div>
+  </div>
+  <div class="row centered-text">
+    <div class="large-12 columns">
+      <h6 style="text-align: center;"><div id="nanoGalleryDemos"><div id="nanoGalleryDemosCont"></div></div> </h6>
+      <br><br><br><br>
+    </div>
+  </div>
+
+
+
+    <br><br><br><br><br>
+
+    
+<div class="remodal" data-remodal-id="myModalDemoAutoBreadcrumb" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY Auto display breadcrumb for navigation<br><br></h2>
+  
+  <p>Use the parameter <b>breadcrumbAutoHideTopLevel</b> to display the breadcrumb only when an album is opened.</p>
+  
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      kind: 'picasa',
+      userID: '111186676244625461692',
+      thumbnailWidth: 190, thumbnailHeight: 126,
+      
+      <b>breadcrumbAutoHideTopLevel: true,</b>
+      
+      maxWidth: 948,
+      thumbnailHoverEffect: [{ name: 'slideRight', duration:500 }, { name: 'labelAppear75' }],
+      theme: 'clean',
+      i18n: { thumbnailImageDescription: 'View Photo', thumbnailAlbumDescription: 'Open Album' },
+      thumbnailLabel: { display: true, position: 'overImageOnMiddle', hideIcons: true, align: 'center' }
+      });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemoCascading" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY Cascading grid layout<br><br></h2>
+  <p>To display the gallery with a cascading layout, set <b>thumbnailHeight</b> to <b>'auto'</b> and set a width in pixel to <b>thumbnailWidth</b>.</p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+
+      <b>thumbnailWidth: 160,
+      thumbnailHeight: 'auto',</b>
+      
+      thumbnailGutterWidth: 10,
+      thumbnailGutterHeight: 10,
+      kind: 'picasa',
+      userID: '111186676244625461692',
+      album: '5911347863561293937',
+      maxItemsPerLine: 4,
+      thumbnailLabel:{ display: true, position: 'onBottom', titleMaxLength: 20, align: 'center'},
+      theme: 'light',
+      touchAnimation: false
+    });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemo1Row" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY Pagination 1 row<br><br></h2>
+  <p>Use the parameter <b>paginationMaxLinesPerPage</b>.
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      kind: 'picasa',
+      userID: '111186676244625461692',
+      album: '5911347863561293937',
+      thumbnailWidth: 165,
+      thumbnailHeight: 110,
+
+      <b>paginationMaxLinesPerPage: 1,</b>
+
+      thumbnailHoverEffect: 'labelSlideUp,borderLighter',
+      thumbnailLabel: {display: true, align: 'center'},
+      theme: 'clean',
+      i18n: { thumbnailImageDescription: 'view photo', thumbnailAlbumDescription: 'open album' }
+    });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemoJustified" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY Justified layout<br><br></h2>
+  <p>To display the gallery with a justified layout, set <b>thumbnailWidth</b> to <b>'auto'</b> and set a height in pixel to <b>thumbnailHeight</b>.</p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      
+      <b>thumbnailWidth: 'auto',
+      thumbnailHeight: 250,</b>
+      
+      userID: '111186676244625461692', kind:'picasa',
+      album: '5911347863561293937',
+      colorScheme: 'none',
+      thumbnailHoverEffect: [{ name: 'labelAppear75', duration: 300 }],
+      theme: 'light',
+      thumbnailGutterWidth : 0,
+      thumbnailGutterHeight : 0,
+      i18n: { thumbnailImageDescription: 'View Photo', thumbnailAlbumDescription: 'Open Album' },
+      thumbnailLabel: { display: true, position: 'overImageOnMiddle', align: 'center' }
+    });
+  });
+  </code></pre>
+</div>
+
+
+<div class="remodal" data-remodal-id="myModalDemoFlickFull" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY - Full Flickr Photostream<br><br></h2>
+  <p>To display the full Flick photostream, set the option <b>photoset</b> to <b>'none'</b>.</p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      userID: '34858669@N00',
+      kind: 'flickr',
+      
+      <b>photoset: 'none',</b>
+
+      thumbnailWidth: 120, thumbnailHeight: 120,
+      thumbnailHoverEffect: 'scaleLabelOverImage,borderDarker',
+      theme: 'light',
+      thumbnailLabel: { display:true, position:'overImageOnMiddle', align:'center' },
+      thumbnailLazyLoad: true
+    });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemoCustomIcons" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY - Custom Icons<br><br></h2>
+  <p>This example shows you how to use icons from Font Awesome.</p>
+  <p>The breadcrumd home icon is replaced by a camera icon. It's defined twice: one is used by default (breadcrumbHome) and the other one is used on devices in french (breadcrumbHome_FR).</p>
+  <p>A search icon is displayed in the thumbnail description.</p>
+  <p>This shows you also how to change the label 'List of Albums' (parameter 'breadcrumbHome').</p>
+  <p>For this example, you also need to include Font Awesome in the HEAD of your page.</p>
+  <pre><code class="prettyprint language-javascript">
+  &lt;link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet"&gt;
+
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      thumbnailWidth: 120, thumbnailHeight: 120,
+      userID: '111186676244625461692', kind: 'picasa',
+      thumbnailHoverEffect: 'labelAppear75,slideDown',
+      i18n:{ 
+        thumbnailImageDescription: '&lt;i style="color:#eee;" class="fa fa-search-plus fa-3x">&lt;/i&gt;',
+        thumbnailAlbumDescription: '&lt;i style="color:#eee;" class="fa fa-search-plus fa-3x">&lt;/i&gt;',
+        breadcrumbHome: '&lt;i class="fa fa-camera fa-1x">&lt;/i&gt; Photo albums',
+        breadcrumbHome_FR: '&lt;i class="fa fa-camera fa-1x">&lt;/i&gt; Albums photos'
+      },
+      thumbnailLabel: { display:true, position:'overImageOnMiddle', align:'center', hideIcons:true },
+      galleryToolbarHideIcons: true,
+      thumbnailLazyLoad: true
+    });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemoLightbox" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY - display images with a lightbox style<br><br></h2>
+  <p>This effect is done with the option <b>colorSchemeViewer</b></p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+
+      colorSchemeViewer: 'dark',
+
+      photoset: 'none',
+      userID: '34858669@N00',
+      kind: 'flickr',
+      thumbnailWidth: 160,
+      thumbnailHeight: 160,
+      viewerDisplayLogo: true,
+      thumbnailLazyLoad: true,
+      thumbnailLabel: { display: true, position: 'onBottom', titleMaxLength: 20 },
+      colorScheme: { thumbnail:{ labelBackground: '#000 !important' } },
+      photoSorting: 'random',
+      touchAnimation: false
+    });
+  });
+  </code></pre>
+</div>
+
+
+<div class="remodal" data-remodal-id="myModalDemoTouchTwice" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY on touch screen - touch twice to open thumbnail<br><br></h2>
+  <p>By default, after a touch on a thumbnail, the hover animation is started and the thumbnail is opened after a small delay.</p>
+  <p>This behaviour can be changed to a 2 touch scenario:<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;- first touch: starts hover animation,<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;- sceond touch: thumbnail is opened.<br>
+  <p>To activate this scenario, set <b>-1</b> to <b>touchAutoOpenDelay</b> like in the above example.</p>
+  <p>This parameter can also be used to define the delay before the thumbnail is automatically opened.</p>
+  <p>Note: this paramater has no effect on the mouse handling.</p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      kind: 'picasa',
+      userID: '111186676244625461692',
+
+      touchAutoOpenDelay: -1,
+
+      thumbnailWidth: 165,
+      thumbnailHeight: 110,
+      thumbnailHoverEffect: 'labelSlideUp,borderLighter',
+      thumbnailLabel: {display: true, align: 'center'},
+      theme: 'clean',
+      i18n: { thumbnailImageDescription: 'view photo', thumbnailAlbumDescription: 'open album' }
+    });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemoThumbSizesResolutions" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY - thumbnail resolutions dependant of the screen width<br><br></h2>
+  <p>Resize your browser to test this feature.</p>
+  <p>First navigation level:
+  &nbsp;&nbsp;width: '140 XS100 SM100' &nbsp; height: '140 XS100 SM100'</p>
+  <p>Other levels:
+  &nbsp;&nbsp;width: 'auto' (justified) &nbsp; height: '200 XS80 SM150 LA250 XL290'</p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      kind: 'picasa',
+      userID:'111186676244625461692',
+      
+      <b>
+      thumbnailL1Width:'140 XS100 SM100', thumbnailL1Height:'140 XS100 SM100',
+      thumbnailWidth:'auto', thumbnailHeight:'200 XS80 SM150 LA250 XL290',
+      </b>
+      
+      thumbnailHoverEffect:[{name: 'imageScale150', duration:700}, {name:'labelAppear75', duration:400}, {name:'descriptionAppear', duration:1000}],
+      paginationMaxLinesPerPage: 1,
+      imageTransition : 'slide',
+      thumbnailLabel:{ display:true, align:'center', position:'overImageOnMiddle' },
+      galleryFullpageButton: true
+    });
+  });
+  </code></pre>
+</div>
+
+<div class="remodal" data-remodal-id="myModalDemoCheckbox" data-remodal-options="hashTracking: false">
+  <h2>nanoGALLERY - Selection mode with checkboxes<br><br></h2>
+  <p>Gallery configuration: use the parameters <b>itemsSelectable</b> and <b>showCheckboxes</b>.
+  </p>
+  <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery").nanoGallery({
+      userID:'111186676244625461692', kind:'picasa',
+      thumbnailWidth: 120, thumbnailHeight: 120,
+
+      <b>
+      itemsSelectable: true,
+      showCheckboxes: true,
+      </b>
+
+      thumbnailLabel:{display:true,position:'overImageOnBottom',titleMaxLength:20},
+      thumbnailAlignment: 'center',
+      galleryToolbarWidthAligned: true,
+      locationHash:false,
+    });
+  });
+  </code></pre>
+  <br>
+  <p>API methods:</p>
+  <pre><code class="prettyprint language-javascript">
+  jQuery('#btnCheckboxCountSelected').on('click', function() {
+      var lst=jQuery('#nanoGallery').nanoGallery('getSelectedItems');
+      var a=0,
+      i=0;
+      for( var n=0; n&lt;lst.length; n++ ) {
+          if( lst[n].kind == 'album' ) {
+            a++;
+          }
+          else {
+            i++;
+          }
+      }
+      alert(lst.length+ ' selected items ('+a+' albums / '+i+' images)');
+  });
+  
+  jQuery('#btnCheckboxUnselect').on('click', function() {
+      var items=jQuery('#nanoGallery').nanoGallery('getSelectedItems');
+      jQuery('#nanoGallery').nanoGallery('unselectItems', items)
+  });
+  </code></pre>
+</div>
+
+
+  
+</section>
+
+
+
+
+<section id="main-content" style="background:#f6f6f6;">
+  <div id="download" class="row centered-text">
+    <div class="large-12 columns">
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+      <h2>Download & License<!-- - jQuery Plugin usage rules--></h2>
+      <br><br><br><br><br><br>
+
+      <a class="radius button" itemprop="downloadUrl" href="https://github.com/Kris-B/nanoGALLERY/archive/v5.8.0.zip"
+        onclick="ga('send','event','downloads','nanoGALLERY')" target="_blank"><i class="fa fa-download fa-2x"></i> Download v5.8.0</a>
+      <br>
+      <a class="radius button buttonv2 small" target="_blank" href="https://github.com/Kris-B/nanoGALLERY/blob/master/changelog.md" onclick="ga('send','event','gotoChangeLog','nanoGALLERY')" href="#"><i class="fa fa-history"></i> Changelog</a>
+      <a class="radius button buttonv2 small" target="_blank" href="http://cdnjs.com/libraries/nanogallery" onclick="ga('send','event','gotoCDN','nanoGALLERY')" href="#"><i class="fa fa-rocket"></i> CDN</a>
+
+
+        <!-- <p>nanoGALLERY for jQuery is licensed under <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 license</a>.</p> -->
+
+      <!-- <h4 class="subheader">Open source license</h4> -->
+      <br><br>
+      <p>For personal, non-profit organizations, or open source projects (without any kind of fee), you may use nanoGALLERY for jQuery for <b>free</b>.
+      <br>
+      <b>All other uses require the purchase of a professional license.</b>
+      </p>
+      
+      <!-- <h4 class="subheader">What is professional considered?</h4> -->
+      <!-- If you are paid to do your job, and part of your job is implementing nanoGALLERY, a commercial license or author's permission is required.<br> -->
+      <a class="radius button" data-remodal-target="myModalLicense" href="#myModalLicense" onclick="ga('send','event','licence','nanoGALLERY')"><i class="fa fa-ticket fa-2x"></i> Licensing Options &nbsp;/&nbsp; Get a License</a>
+
+      <br><br><br><br><br><br><br>
+      <p>nanoGALLERY is also available for<br>
+      <a class="radius button buttonv2 small" onclick="ga('send','event','gotoJoomlaOzio','nanoGALLERY')" href="http://extensions.joomla.org/extensions/photos-a-images/galleries/photo-gallery/4883" target="_blank" ><i class="fa fa-joomla fa-2x"></i> Joomla (Ozio Gallery)</a>
+      <a class="radius button buttonv2 small" onclick="ga('send','event','gotoGetSimple','nanoGALLERY')" href="http://get-simple.info/extend/plugin/nanogallery4gs/630/" target="_blank"><i class="fa fa-cube fa-2x"></i> GetSimple CMS</a>
+      </p>
+      <br><br><br><br>
+      <h4 class="subheader">Notifications, Help, Bugs and Contributions</h4>
+      <p>
+        For any question or bug report please post directly on 
+        <a href="https://github.com/Kris-B/nanoGALLERY/issues"><i class="fa fa-github"></i>  GitHub</a>.
+        Feature requests and possible improvements: all ideas are welcome.
+        <br>Feel free to submit your own commit.
+      </p>
+      <p>
+        To be notified about updates, you can star and watch the nanoGALLERY repository on <a class="round button buttonv2 tiny" onclick="ga('send','event','gotoGitHub','nanoGALLERY')" href="https://github.com/Kris-B/nanoGALLERY"><b><i class="fa fa-github"></i> GitHub</b></a>
+      </p>
+
+      <br><br><br><br>
+      <br><br><br><br>
+    </div>
+  </div>
+
+  
+  
+  
+  <div class="remodal" data-remodal-id="myModalLicense" data-remodal-options="hashTracking: false">
+    <h2>Licensing Options</h2>
+    <br>
+    <p>nanoGALLERY for jQuery is licensed under <a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC 3.0</a>.
+    It may be used in commercial projects and applications, or in business environments with the purchase of a professional license.</p>
+    <br><br>
+    <h3><i class="fa fa-dot-circle-o"></i> Open source license</h3>
+    For personal, non-profit organizations, or open source projects (without any kind of fee), you may use nanoGALLERY for free. <b>If fees are associated to the use of nanoGALLERY, your project is not eligible to this license.</b><br><br>
+    <!-- <h4 class="subheader">What is professional considered?</h4> -->
+    <b>All other uses are considered professional. The purchase of a license is required.</b>
+    <br><br><br><br>
+
+    <h3><i class="fa fa-dot-circle-o "></i> Professional license</h3>
+    Purchasing accepts most credit cards and takes seconds. Once purchased, you'll receive a Professional License PDF and you will be able to integrate nanoGALLERY in your projects.<br><br>
+    <span class="label radius" style="font-size:1.1rem;">By buying a pro license you support the future development of nanoGALLERY. It is much appreciated!</span><br>
+    <br><br><br>
+    <!-- The Professional License comes in two varieties:<br> -->
+    <br>
+    <div class="row centered-text">
+      <div class="medium-4 large-4 columns supporticons">
+        <h4><i class="fa fa-star "></i> Website License - 25&euro;</h4>
+        <p>This licensing is for implementing nanoGALLERY on ONE website.</p>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="TR6MVMB9FFBXL">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+      </div>
+      <div class="medium-4 large-4 columns supporticons">
+        <h4><i class="fa fa-star "></i> OEM License - 90&euro;</h4>
+        <p>
+        The nanoGALLERY Professional OEM License is for including nanoGALLERY in your own non-free applications and products.<br>
+        For example: premium themes, site templates, plugins.
+        </p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="76ATCDDEA32GG">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+        </div>
+        <div class="medium-4 large-4 columns supporticons">
+          <h4><i class="fa fa-star "></i> Donator License</h4>
+          <p>You decide freely the amount of your support.</p>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="RLEB2V7XHD2C4">
+<input type="image" src="https://www.paypalobjects.com/en_US/FR/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+</form>
+        
+        
+        </div>
+      </div>
+
+
+      <br><br>
+      If you have special needs, you can also ask for the author's permission. Contact: nano[at]brisbois.fr<br>
+      <br>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<section id="firstSteps">
+  <div id="main-content" >
+    <div class="row centered-text">
+      <div class="large-12 columns">
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <h2>First Steps</h2>
+        <br><br>
+        <p><span class="label radius" style="font-size:.8rem;">Usage example: $('#element').nanoGallery({ userID : 'YourUserID, kind : 'picasa' });</span></p>
+        <br><br><br><br>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <br><br>
+      <h2>jQuery plugin usage, step by step:</h2>
+      <br><br>
+      <h4><i class="fa fa-chevron-circle-right"></i> 1. Download the script and include the JS and CSS files in the &lt;HEAD&gt; of your HTML page</h4>
+      <div>
+        <p>First include the jQuery library (if it is not already present in your page):</p>
+  <pre class="" ><code class="prettyprint language-javascript"><b>
+  &lt;script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"&gt;&lt;/script&gt;
+  </b></code></pre>
+  
+        <p><br>Then, include the CSS and JS files:</p>
+  <pre class=""><code class="language-javascript prettyprint"><b>
+  &lt;link href="css/nanogallery.min.css" rel="stylesheet" type="text/css"&gt;
+  &lt;script type="text/javascript" src="jquery.nanogallery.min.js"&gt;&lt;/script>
+  </b></code></pre>
+      </div>
+
+      <br><br><br>
+      <h4><i class="fa fa-chevron-circle-right"></i> 2. Setup your HTML in the &lt;BODY&gt; and initialize the nanoGALLERY script</h4>
+      <br>
+      <p>Setup of the plugin differs depending on the usage method:</p>
+      <br>
+    
+    </div>
+
+    <div class="medium-6 large-6 columns supporticons centered-text">
+      <div style="text-align: center;">
+        <p>Cloud Storage / Online Photo Sharing Website</p>
+        <a class="radius small button" data-remodal-target="myModalMethodFlickr" href="#myModalMethodFlickr" onclick="ga('send','event','methodFlickr','nanoGALLERY')" >Flickr Storage</a>
+        <a class="radius small button" data-remodal-target="myModalMethodPicasa" href="#myModalMethodPicasa" onclick="ga('send','event','methodPicasa','nanoGALLERY')" >Picasa/Google+ Storage</a>
+        <!-- <a class="radius small button" data-reveal-id="myModalMethodSmugmug" onclick="ga('send','event','methodSmugmug','nanoGALLERY')" href="#">SmugMug Storage</a> -->
+      </div>
+    </div>
+    <div class="medium-6 large-6 columns supporticons centered-text">
+      <div style="text-align: center;">
+        <p>Self hosted images</p>
+        <a class="radius small button" data-remodal-target="myModalMethodJSON" href="#myModalMethodJSON" onclick="ga('send','event','methodJSON','nanoGALLERY')"  >nanoPhotosProvider</a>
+        <a class="radius small button" data-remodal-target="myModalMethodInline" href="#myModalMethodInline" onclick="ga('send','event','methodHREF','nanoGALLERY')"  >Inline elements</a>
+        <a class="radius small button" data-remodal-target="myModalMethodAPI" href="#myModalMethodAPI" onclick="ga('send','event','methodAPI','nanoGALLERY')" >API</a>
+      </div>
+    </div>
+
+    <div class="large-12 columns">
+    <br><br><br>
+    <h4><i class="fa fa-chevron-circle-right"></i> 3. Done!</h4>
+    </div>
+
+    <div class="large-12 columns">
+    <br><br><br>
+    <h4><i class="fa fa-chevron-circle-right"></i> 4. Now, you can start to customize your gallery:</h4>
+    <br>
+    <p>List of basic properties accepted by the nanoGallery() method.</p>
+    <br>
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>thumbnailHeight</td>
+            <td>integer<br>string</td>
+            <td>154</td>
+            <td>Thumbnails image height in pixels, or 'auto'.<br>'auto' means cascading grid layout.
+            </td>
+          </tr>
+          <tr>
+            <td>thumbnailWidth</td>
+            <td>integer<br>string</td>
+            <td>230</td>
+            <td>Thumbnails image width in pixels, or 'auto'.<br>'auto' means justified layout.
+            </td>
+          </tr>
+          <tr>
+            <td>thumbnailAlignment</td>
+            <td>string</td>
+            <td>'center'</td>
+            <td>Sets the thumbnail alignment.<br>
+            Possible values: 'left', 'right', 'justified', 'center'.<br>
+            Note: value 'justified' will ignore the 'thumbnailGutterWidth'.
+            </td>
+          </tr>
+          <tr>
+            <td>thumbnailHoverEffect</td>
+            <td>string<br>object<br>array</td>
+            <td>'none'</td>
+            <td>
+            Thumbnail mouse hover effect. The effect will also be triggered by 'tap' on touch-screen.<br><br>
+            Combinations: define multiple effect names in the parameter to combine them.<br>
+            <b>Example: thumbnailHoverEffect='borderDarker,labelAppear75'</b><br><br>
+            <div style="background-color:#5b5;">Please note that some effects can not be combined (for example: 'imageSlideUp' and 'imageFlipHorizontal'). And some combinations can results in weirds effects...</div><br>
+            Possible values:<br>
+            'borderLighter', 'borderDarker', <br>
+            'scale120', 'scaleLabelOverImage', 'overScale', 'overScaleOutside', 'slideUp', 'slideDown', 'slideRight', 'slideLeft', 'rotateCornerBL', 'rotateCornerBR', 'imageScale150', 'imageScaleIn80', 'imageScale150Outside', 'imageSplit4', 'imageSplitVert', 'imageSlideUp', 'imageSlideDown', 'imageSlideRight', 'imageSlideLeft', 'imageRotateCornerBL', 'imageRotateCornerBR', 'imageFlipHorizontal', 'imageFlipVertical', <br>
+            'labelAppear', 'labelAppear75', 'labelOpacity50', 'descriptionAppear', 'descriptionSlideUp', 'labelSlideUpTop', 'labelSlideUp', 'labelSlideDown', 'labelSplit4', 'labelSplitVert', 'labelAppearSplit4', 'labelAppearSplitVert'
+            </td>
+          </tr>
+          <tr>
+            <td>theme</td>
+            <td>string</td>
+            <td>'default'</td>
+            <td>Name of the theme.<br>
+            Note: the corresponding css-file must be included in the html file.<br>
+            Possible values: 'default', 'clean', 'light' or your custom one.
+            </td>
+          </tr>
+          <tr>
+            <td>colorScheme</td>
+            <td>string<br>object</td>
+            <td>'none'</td>
+            <td>Gallery color scheme (breadcrumb and thumbnails).<br>
+            Possible values: 'none', 'dark','darkRed', 'darkGreen', 'darkBlue', 'darkOrange', 'light', 'lightBackground'<br>
+            Custom color schemes are supported.
+            </td>
+          </tr>
+          <tr>
+            <td>colorSchemeViewer</td>
+            <td>string<br>object</td>
+            <td>'default'</td>
+            <td>Image viewer color scheme.<br>
+            Possible values: 'none', 'dark', 'darkRed', 'darkGreen', 'darkBlue', 'darkOrange', 'light'<br>
+            Custom color schemes are supported.</td>
+          </tr>
+          <tr>
+            <td>RTL</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>Sets the display direction from Right To Left (RTL). Default is from Left to Right (LTR).</td>
+          </tr>
+        </tbody>
+      </table>
+    <br><br><br><br><br><br><br><br><br><br><br>
+
+    <!-- <div id="myModalMethodFlickr" class="reveal-modal" data-reveal> -->
+    <div class="remodal" data-remodal-id="myModalMethodFlickr" data-remodal-options="hashTracking: false">
+      <h2>Flickr Storage</h2>
+      <h4 class="subheader">Set up your HTML:</h4>
+      <br>
+      <p>Put a &lt;DIV&gt; element in the &lt;BODY&gt; of your HTML page where you want the gallery to be displayed.</p>
+      <pre><code class="prettyprint language-javascript">
+  &lt;div id="nanoGallery1"&gt;&lt;/div&gt;
+    </code></pre>
+    <br>
+    <h4 class="subheader">Initialize the script:</h4>
+    <br>
+    <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+      $("#nanoGallery1").nanoGallery({
+          kind: 'flickr',
+          userID: '34858669@N00'
+      });
+  });
+      </code></pre>
+      <br><br>
+      <b>To retrieve your Flickr user ID, use this page -> 
+      <a href="http://www.flickr.com/services/api/explore/flickr.people.findByUsername" target="_blank">Flickr userID</a></b>
+    </div>
+
+    
+      <div class="remodal" data-remodal-id="myModalMethodPicasa" data-remodal-options="hashTracking: false">
+        <h2>Picasa/Google+ Storage</h2>
+        <h4 class="subheader">Set up your HTML:</h4>
+        <br>
+        <p>Put a &lt;DIV&gt; element in the &lt;BODY&gt; of your HTML page where you want the gallery to be displayed.</p>
+        <pre><code class="prettyprint language-javascript">
+  &lt;div id="nanoGallery2"&gt;&lt;/div&gt;
+        </code></pre>
+        <br>
+        <h4 class="subheader">Initialize the script:</h4>
+        <br>
+        <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+      $("#nanoGallery2").nanoGallery({
+          kind: 'picasa',
+          userID: '111186676244625461692'
+      });
+  });
+        </code></pre>
+
+       <br>
+       <h4 class="subheader">To retrieve your user ID:</h4><br>
+       - Google+: display a photo album in Google+, your user ID is in the URL<br>
+       <img src="googleplus_userid.png"><br><br>
+       - Picasa: display a photo album in Picasa, your user ID is in the URL:<br>
+      <img src="picasa_userid.png"><br><br>
+      <br>
+       
+      </div>
+
+  
+  
+      <div class="remodal" data-remodal-id="myModalMethodJSON" data-remodal-options="hashTracking: false">
+        <h2>Use the extension nanoPhotosProvider</h2>
+        <p><b>nanoPhotosProvider</b> is an extension to publish your self-hosted photos simply and automatically to nanoGALLERY.<br>
+        The content of the gallery is provided on demand when browsing the albums.<br>
+        Thumbnails are generated automatically.<br>
+        <b>nanoPhotosProvider</b> is a PHP application. It must be installed on your web server.
+        </p>
+        <p>
+        For a full description, see: <a href="https://github.com/Kris-B/nanoPhotosProvider" onclick="ga('send','event','githubNanoPhotosProvider','nanoGALLERY')" target="_blank">https://github.com/Kris-B/nanoPhotosProvider</a>
+        </p>
+        
+        <h4 class="subheader">Script example:</h4>
+        <br>
+        <pre><code class="prettyprint language-javascript">
+  jQuery(document).ready(function () {
+      jQuery("#nanoGallery1").nanoGallery({
+          thumbnailWidth: 150,
+          thumbnailHeight: 150,
+          kind: 'json',
+          jsonProvider: 'http://mywebsever.com/mypath/nanoPhotosProvider/nanoPhotosProvider.php',
+      });
+  });
+        </code></pre>
+
+      </div>
+      
+      
+      
+      <div class="remodal" data-remodal-id="myModalMethodInline" data-remodal-options="hashTracking: false">
+        <h2>Use inline elements</h2>
+        <p>Use a list of images using HREF attribute</p>
+        <h4 class="subheader">Set up your HTML:</h4>
+        <br>
+        <p>Put a &lt;DIV&gt; element in the &lt;BODY&gt; of your HTML page where you want the gallery to be displayed.</p>
+        <p>And add some &lt;A&gt; elements to this container. Each element points to one image.</p>
+        <pre><code class="prettyprint language-javascript">
+  &lt;div id="nanoGallery3"&gt;
+      &lt;a href="img_01.jpg" data-ngthumb="img_01t.jpg" data-ngdesc="Description1"&gt;Title Image1&lt;/a&gt;
+      &lt;a href="img_02.jpg" data-ngthumb="img_02ts.jpg" data-ngdesc="Image 2 description"&gt;Title Image2&lt;/a&gt;
+      &lt;a href="img_03.jpg" data-ngthumb="img_03t.jpg"&gt;Title Image3&lt;/a&gt;
+  &lt;/div&gt;
+        </code></pre>
+        <br>
+        <h4 class="subheader">Initialize the script:</h4>
+        <br>
+        <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+      $("#nanoGallery3").nanoGallery({
+          itemsBaseURL:'http://brisbois.fr/nanogallery/demonstration/'
+      });
+  });
+        </code></pre>
+ 
+        <br>
+        <h4 class="subheader">Samples on codepen:</h4>
+        <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/dPxENe" onclick="ga('send','event','jsfiddleHREF','nanoGALLERY')" target="_blank">basic sample on Codepen</a>
+        <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/RNXmyv" onclick="ga('send','event','openDemoMultiLevel','nanoGALLERY')" target="_blank">multi-level sample on Codepen</a>
+ 
+      </div>
+
+  
+  
+      <div class="remodal" data-remodal-id="myModalMethodAPI" data-remodal-options="hashTracking: false">
+        <h2>API</h2>
+        <p>Define the list of images using API</p>
+        <h4 class="subheader">Set up your HTML:</h4>
+        <br>
+        <p>Put a &lt;DIV&gt; element in the &lt;BODY&gt; of your HTML page where you want the gallery to be displayed.</p>
+        <pre><code class="prettyprint language-javascript">
+  &lt;div id="nanoGallery4"&gt;&lt;/div&gt;
+        </code></pre>
+        <br>
+        <h4 class="subheader">Initialize the script:</h4>
+        <br>
+        <p>Use the <b>items</b> parameter to set the list of images.</p>
+
+        <pre><code class="prettyprint language-javascript">
+  $(document).ready(function () {
+    $("#nanoGallery4").nanoGallery({
+        thumbnailWidth:100,thumbnailHeight:100,
+        items: [
+            {
+                // image url
+                src: 'demonstration/img_01.jpg',		
+                // thumbnail url
+                srct: 'demonstration/img_01t.jpg',		
+                // Title
+                title: 'image 1',
+                // Description
+                description : 'image 1 description'		
+            },
+            {
+                src: 'demonstration/img_02.jpg',
+                srct: 'demonstration/img_02t.jpg',
+                title: 'image 2' 
+            }
+        ]
+    });
+  });
+        </code></pre>
+
+        <br>
+        <h4 class="subheader">Samples on codepen:</h4>
+          <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/raXENJ" onclick="ga('send','event','jsfiddleAPI','nanoGALLERY')" target="_blank">basic sample on Codepen</a>
+          <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/ByXeeN" onclick="ga('send','event','jsfiddleAPI','nanoGALLERY')" target="_blank">multi-level sample on Codepen</a>
+
+        </div>
+
+      
+      
+    </div>
+  </div>
+
+  
+<section id="documentation" style="background:#f6f6f6;">
+  <div id="main-content" >
+    <div class="row centered-text">
+      <div class="large-12 columns">
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <h2>Full Documentation</h2>
+        <br><br><br><br><br><br>
+        <a href="#docGeneralSettings" class="radius button tiny" onclick="ga('send','event','docGeneralSettings','nanoGALLERY')" href="#">General settings</a>
+        <a href="#docThumbnailSettings" class="radius button tiny" onclick="ga('send','event','docThumbnailSettings','nanoGALLERY')" href="#">Thumbnails</a>
+        <a href="#docAdvThumbSizes" class="radius button tiny" onclick="ga('send','event','docAdvThumbSizes','nanoGALLERY')" href="#">Thumbnails adv.</a>
+        <a href="#docViewer" class="radius button tiny" onclick="ga('send','event','docViewer','nanoGALLERY')" href="#">Image display</a>
+        <a href="#docGalleryToolbar" class="radius button tiny" onclick="ga('send','event','docGalleryToolbar','nanoGALLERY')" href="#">Gallery toolbar</a>
+        <a href="#docStorageSpecific" class="radius button tiny" onclick="ga('send','event','docStorageSpecific','nanoGALLERY')" href="#">Set images and albums</a>
+        <a href="#docHelpers" class="radius button tiny" onclick="ga('send','event','docHelpers','nanoGALLERY')" href="#">Javascript helpers / callbacks</a>
+      </div>
+    </div>
+  </div>
+  <div class="row centered-text">
+    <div class="large-12 columns">
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+      <div id="docGeneralSettings">
+        <h2>Settings</h2>
+        <br><br>
+        <h4 class="subheader" data-glossary="General settings"><i class="fa fa-chevron-circle-right"></i> General settings</h4>
+        <p>List of properties accepted by the nanoGallery() method.</p>
+        <br>
+        
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>theme</td>
+              <td>string</td>
+              <td>'default'</td>
+              <td>Name of the theme.<br>
+              Note: the corresponding css-file must also be included in the html file.<br>
+              Possible values: 'default', 'clean', 'light' or your custom one.
+              </td>
+            </tr>
+            <tr>
+              <td>colorScheme<br><a class="radius button tiny" href="http://jsfiddle.net/Kris_B/cuEY7/" onclick="ga('send','event','jsfiddleColorScheme','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+              <td>string<br>object</td>
+              <td>'none'</td>
+              <td>Gallery color scheme (breadcrumb and thumbnails).<br>
+              Possible values: 'none', 'dark','darkRed', 'darkGreen', 'darkBlue', 'darkOrange', 'light', 'lightBackground'<br>
+              Custom color schemes are supported.
+              </td>
+            </tr>
+            <tr>
+              <td>RTL</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Sets the display direction from Right To Left (RTL). Default is from Left to Right (LTR).</td>
+            </tr>
+            <tr>
+              <td>maxItemsPerLine</td>
+              <td>integer</td>
+              <td>0</td>
+              <td>Maximum number of thumbnails per row.<br>
+              Ignored when thumbnailWidth is 'auto'. 0 = disabled.
+              </td>
+            </tr>
+            <tr>
+              <td>maxWidth</td>
+              <td>integer</td>
+              <td>0</td>
+              <td>Maximum width of the gallery in pixels. 0 = disabled.</td>
+            </tr>
+            <tr>
+              <td>paginationDots</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Displays dots for thumbnail pagination instead of page numbers</td>
+            </tr>
+            <tr>
+              <td>paginationMaxLinesPerPage<br><a class="radius button tiny" href="nanogallery_demo1.html" onclick="ga('send','event','demoPagination','nanoGALLERY')" target="_blank">demo</a></td>
+              <td>integer</td>
+              <td>0</td>
+              <td>Maximum number of thumbnail lines per page (will activate pagination).<br>
+              0= pagination is disabled.<br>
+              Ignored when thumbnailWidth='auto' or thumbnailHeight='auto'.
+              </td>
+            </tr>
+            <tr>
+              <td>paginationSwipe</td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>On the gallery, enable swipe to go to next/previous page.</td>
+            </tr>
+            <tr>
+              <td>locationHash<br><a class="radius button tiny" href="nanogallery_demo3.html" onclick="ga('send','event','demoDeepLinking','nanoGALLERY')" target="_blank">demo</a></td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>Enables hash tracking.<br>
+              This will activate browser Back/Forward navigation (browser history support) and Deep Linking of images and photo albums.<br>
+              Note: only one gallery per page should use this feature.<br>
+              </td>
+            </tr>
+            <tr>
+              <td>itemsSelectable</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Enables thumbnail selection (CTRL+click, or long touch).</td>
+            </tr>
+            <tr>
+              <td>showCheckboxes</td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>Displays a checkbox over selected thumbnails.</td>
+            </tr>
+            <tr>
+              <td>checkboxStyle</td>
+              <td>string</td>
+              <td>'left:15px; top:15px;'</td>
+              <td>Inline style for selection checkbox.</td>
+            </tr>
+            <tr>
+              <td>keepSelection</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Do not lose selection on navigation.</td>
+            </tr>
+            <tr>
+              <td>i18n</td>
+              <td>object</td>
+              <td></td>
+              <td>UI string translations.</td>
+            </tr>
+            <tr>
+              <td>lazyBuild</td>
+              <td>string</td>
+              <td>'none'</td>
+              <td>Displays the gallery only when visible (= in the viewport)<br>
+              Possible values: 'loadData', 'display', 'none'
+              </td>
+            </tr>
+            <tr>
+              <td>lazyBuildTreshold</td>
+              <td>integer</td>
+              <td>150</td>
+              <td>Shortens the viewport area height (in pixel) for lazyBuild.</td>
+            </tr>
+            <tr>
+              <td>openOnStart</td>
+              <td>string</td>
+              <td></td>
+              <td>Opens the specified album or image at start.<br>
+              Syntax: 'albumID' or 'albumID/imageID'</td>
+            </tr>
+            <tr>
+              <td>breakpointSizeSM</td>
+              <td>integer</td>
+              <td>480</td>
+              <td>Screen width breakpoint for size SM. Used for thumbnail sizes and image display.</td>
+            </tr>
+            <tr>
+              <td>breakpointSizeME</td>
+              <td>integer</td>
+              <td>992</td>
+              <td>Screen width breakpoint for size ME. Used for thumbnail sizes and image display.</td>
+            </tr>
+            <tr>
+              <td>breakpointSizeLA</td>
+              <td>integer</td>
+              <td>1200</td>
+              <td>Screen width breakpoint for size LA. Used for thumbnail sizes and image display.</td>
+            </tr>
+            <tr>
+              <td>breakpointSizeXL</td>
+              <td>integer</td>
+              <td>1800</td>
+              <td>Screen width breakpoint for size XL. Used for thumbnail sizes and image display.</td>
+            </tr>
+            <!--
+            <tr>
+              <td>enableElevatezoom</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Enable the jQuery Image Zoom plugin (requires jquery.elevatezoom.js)</td>
+            </tr>
+            -->
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="docThumbnailSettings">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="Thumbnails"><i class="fa fa-chevron-circle-right"></i> Settings for thumbnails</h4>
+        <br>
+
+        <div id="docThumbnailSettingsGeneral">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="General"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> General settings</a></h5>
+          <br>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>thumbnailHeight</td>
+                <td>integer<br>string</td>
+                <td>154</td>
+                <td>Thumbnails image height in pixels, or 'auto'.<br>
+                This value will be applied to the thumbnail image. The whole thumbnail will be higher.<br><br>
+                <!-- <div style="background-color:#e88;">Value 'auto' requires the imagesloaded.js plugin:<br>
+                &lt;script type="text/javascript" src = "third.party/imagesloaded/imagesloaded.pkgd.min.js"&gt; &lt;/script&gt;
+                </div> -->
+                <!--
+                Screen resolution dependant size <b>(beta)</b>:<br>
+                Syntaxe: 'defaultHeight XSn1 SMn2 MEn3 LAn4 XLn5'<br>
+                where n1 to n5 are the heights for resolutions XS to XL.<br>
+                Example: '200 XS80 SM150 LA250 XL400'<br><br>
+                
+                <b>Note to Flickr/Picasa/Google+ users: depending on this parameter's value, the image retrieved may be in square format (cropped).</b><br>
+                This is by design of their respective API. So for Picasa for example, values (not limited to) 32, 48, 64, 72, 104, 144, 150, 160 will return cropped thumbnails.<br>
+                -->
+                <a href="#docAdvThumbSizes" class="radius button tiny" onclick="ga('send','event','docAdvThumbSizes','nanoGALLERY')" href="#">Advanced settings</a>
+                </td>
+              </tr>
+              <tr>
+                <td>thumbnailWidth</td>
+                <td>integer<br>string</td>
+                <td>230</td>
+                <td>Thumbnails image width in pixels, or 'auto'.<br>
+                This value will be applied to the thumbnail image. The whole thumbnail will be widther.<br><br>
+                <!-- <div style="background-color:#e88;">Values 'auto' and 'autoUpScale' require the imagesloaded.js plugin:<br>
+                &lt;script type="text/javascript" src = "third.party/imagesloaded/imagesloaded.pkgd.min.js"&gt; &lt;/script&gt;
+                </div> -->
+                <!--
+                Screen resolution dependant size <b>(beta)</b>:<br>
+                Syntaxe: 'defaultWidth XSn1 SMn2 MEn3 LAn4 XLn5'<br>
+                where n1 to n5 are the widths for resolutions XS to XL.<br>
+                Example: '200 XS80 SM150 LA250 XM400'<br><br>
+
+                <b>Note to Flickr/Picasa/Google+ users: depending on this parameter's value, the image retrieved may be in square format (cropped).</b><br>
+                This is by design of their respective API. So for Picasa for example, values (not limited to) 32, 48, 64, 72, 104, 144, 150, 160 will return cropped thumbnails.<br>
+                -->
+                <a href="#docAdvThumbSizes" class="radius button tiny" onclick="ga('send','event','docAdvThumbSizes','nanoGALLERY')" href="#">Advanced settings</a>
+                </td>
+              </tr>
+              <!--
+              <tr>
+                <td>thumbnailL1Height</td>
+                <td>integer<br>string</td>
+                <td>154</td>
+                <td>Thumbnails image height for the first navigation level.<br>
+                See thumbnailHeight for usage.
+                </td>
+              </tr>
+              <tr>
+                <td>thumbnailL1Width</td>
+                <td>integer<br>string</td>
+                <td>154</td>
+                <td>Thumbnails image width for the first navigation level.<br>
+                See thumbnailWidth for usage.
+                </td>
+              </tr>
+              -->
+              <tr>
+                <td>thumbnailAlignment</td>
+                <td>string</td>
+                <td>'center'</td>
+                <td>Sets the thumbnail alignment.<br>
+                Possible values: 'left', 'right', 'justified', 'center'.<br>
+                Note: value 'justified' will ignore the 'thumbnailGutterWidth'.
+                </td>
+              </tr>
+              <tr>
+                <td>thumbnailGutterWidth</td>
+                <td>integer</td>
+                <td>2</td>
+                <td>Sets the horizontal gutter space between thumbnails.</td>
+              </tr>
+              <tr>
+                <td>thumbnailGutterHeight</td>
+                <td>integer</td>
+                <td>2</td>
+                <td>Sets the vertical gutter space between thumbnails.</td>
+              </tr>
+              <tr>
+                <td>thumbnailOpenImage</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Enables the viewer/lightbox to display images after a thumbnail is clicked/touched.</td>
+              </tr>
+              <tr>
+                <td>thumbnailLabel<br><a class="radius button tiny" href="http://jsfiddle.net/Kris_B/LzG2q/" onclick="ga('send','event','jsfiddleThumbnailLabel','nanoGALLERY')" target="_blank">jsfiddle</a></td></td>
+                <td>object</td>
+                <td></td>
+                <td>Display options for the image label (title and description).<br>
+                Possible parameters: position, display, displayDescription, titleMaxLength, descriptionMaxLength, hideIcons, align, title, itemsCount.<br><br>
+                Example: thumbnailLabel:{ position:'overImageOnBottom', hideIcons:true }
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.position</td>
+                <td>string</td>
+                <td>'overImageOnBottom'</td>
+                <td>Position of the label.<br>
+                Possible values: 'overImageOnBottom', 'overImageOnTop', 'overImageOnMiddle', 'onBottom'
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.display</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Displays or hides the label.
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.displayDescription</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Displays the description.
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.titleMaxLength</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Title maximum length to display.
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.descriptionMaxLength</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Description maximum length to display.
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.hideIcons</td>
+                <td>boolean</td>
+                <td>false</td>
+                <td>Hides thumbnails icons.
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.align</td>
+                <td>string</td>
+                <td></td>
+                <td>
+                 Horizontal text alignment.<br>
+                 Possible values: 'right', 'center', 'left'
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.title</td>
+                <td>string</td>
+                <td></td>
+                <td>Variable to set the image title (undescores are replaced by spaces).<br>
+                Possible values: '%filename', '%filenameNoExt'
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailLabel.itemsCount</td>
+                <td>string</td>
+                <td></td>
+                <td>Displays the number of items per photo album.<br>
+                Possible values: 'none', 'title', 'description'
+                </td>
+              </tr>
+              <tr>
+                <td>thumbnailHoverEffect</td>
+                <td>string<br>object<br>array</td>
+                <td>'none'</td>
+                <td>
+                Thumbnail mouse hover effect. The effect will also be triggered by 'tap' on touch-screen.<br><br>
+                Combinations: define multiple effect names in the parameter to combine them.<br>
+                <b>Example: thumbnailHoverEffect='borderDarker,labelAppear75'</b><br><br>
+                <div style="background-color:#5b5;">Please note that some effects can not be combined (for example: 'imageSlideUp' and 'imageFlipHorizontal'). And some combinations can results in weirds effects...</div><br>
+                Possible values:<br>
+                'borderLighter', 'borderDarker', <br>
+                'scale120', 'scaleLabelOverImage', 'overScale', 'overScaleOutside', 'slideUp', 'slideDown', 'slideRight', 'slideLeft', 'rotateCornerBL', 'rotateCornerBR', 'imageScale150', 'imageScaleIn80', 'imageScale150Outside', 'imageSplit4', 'imageSplitVert', 'imageSlideUp', 'imageSlideDown', 'imageSlideRight', 'imageSlideLeft', 'imageRotateCornerBL', 'imageRotateCornerBR', 'imageFlipHorizontal', 'imageFlipVertical', <br>
+                'labelAppear', 'labelAppear75', 'labelOpacity50', 'descriptionAppear', 'descriptionSlideUp', 'labelSlideUpTop', 'labelSlideUp', 'labelSlideDown', 'labelSplit4', 'labelSplitVert', 'labelAppearSplit4', 'labelAppearSplitVert'
+                <br><br>
+                
+                <div style="background-color:#5b5;">nanoGALLERY supports additionally 'Transit jQuery plugin' which provides better animation performances in some cases.<br>
+                To activate it, just include the plugin in the &lt;head&gt; of your page:<br>
+                &lt;script type="text/javascript" src = "jquery.transit.min.js"&gt; &lt;/script&gt; 
+                </div>
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.name</td>
+                <td>string</td>
+                <td></td>
+                <td>Name of the hover effect.</td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.duration</td>
+                <td>integer</td>
+                <td>400</td>
+                <td>A number determining how long the animation will run (in milliseconds).</td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.easing</td>
+                <td>string</td>
+                <td>'swing'</td>
+                <td>A string indicating which easing function to use for the transition.</td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.delay</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Sets a timer to delay execution of the animation (in milliseconds)<br>
+                Please note that this is not supported with transit.js
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.durationBack</td>
+                <td>integer</td>
+                <td>200</td>
+                <td>A number determining how long the back animation will run (in milliseconds).</td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.easingBack</td>
+                <td>string</td>
+                <td>'swing'</td>
+                <td>A string indicating which easing function to use for the back transition.</td>
+              </tr>
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect.delayBack</td>
+                <td>string</td>
+                <td></td>
+                <td>Sets a timer to delay execution of the back animation (in milliseconds).<br>
+                Please note that this is not supported with transit.js
+                </td>
+              </tr>
+              <tr>
+                <td>touchAnimation</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Enables thumbnail hover animation on touch event (= tap twice to show the image).</td>
+              </tr>
+              <tr>
+                <td>touchAutoOpenDelay</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Delay in ms before opening the touched thumbnail.<br>
+                Particular values:<br>
+                -1= disabled (user needs to tap twice to open the thumbnail),<br>
+                0= automatic (the plugin will determine automatically the delay).<br>
+                Note: the parameter is ignored when 'touchAnimation=false'.
+                </td>
+              </tr>
+              <tr>
+                <td>thumbnailDisplayInterval</td>
+                <td>integer</td>
+                <td>30</td>
+                <td>Interval in ms between the display of the thumbnails.</td>
+              </tr>
+              <tr>
+                <td>thumbnailDisplayTransition</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Transition animation used to display each thumbnail.</td>
+              </tr>
+              <tr>
+                <td>thumbnailLazyLoad</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Lazy load of thumbnails image (images are loaded only when displayed in the viewport).</td>
+              </tr>
+              <tr>
+                <td>thumbnailLazyLoadTreshold</td>
+                <td>integer</td>
+                <td>100</td>
+                <td>Extends the viewport area (in pixel) for thumbnails image lazy load.</td>
+              </tr>
+              <!-- <tr>
+                <td>thumbnailFeatured</td>
+                <td>boolean</td>
+                <td>false</td>
+                <td>Display the first thumbnail in double width and double height.<br>
+                (currently only supported when thumbnailWidth='auto').
+                </td>
+              </tr> -->
+              <tr>
+                <td>thumbnailAdjustLastRowHeight</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Automatically lower the last row height to avoid layout breaks (only for justified layout - thumbailWidth='auto').</td>
+              </tr>
+              <tr>
+                <td>thumbnailAlbumDisplayImage</td>
+                <td>boolean</td>
+                <td>false</td>
+                <td>On album's thumbnail click, displays the images instead of the thumbnails of the album's content.</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        
+
+        <div id="docThumbnailSettingsAdvSizes">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="Advanced sizes"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Thumbnails - Advanced sizes</a></h5>
+          <br>
+          <p><b>thumbnailHeight</b> and <b>thumbnailWidth</b> are used to define the size of the thumbnails.<br>
+          Supported value formats are integer and string:</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Value type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Integer
+                </td>
+                <td>
+                  To specify a fixed height and width.<br>
+                  Example: thumbnailHeight: 150, thumbnailWidth: 200
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  String
+                </td>
+                <td>
+                  <b>special value 'auto':</b><br>
+                  The width or the height is variable and is computed automatically by the plugin. The other value must must be fixed.<br>
+                  Example: thumbnailHeight: 'auto', thumbnailWidth: 200<br>
+                  <br>
+                  <b>multiple thumbnail sizes for fully responsive gallery</b><br>
+                  To define sizes dependant of the screen resolution.<br>
+                  Syntax: <b>'defaultValue XSn1 SMn2 MEn3 LAn4 XLn5'</b> where <b>n1</b> to <b>n5</b> are the values for resolutions <b>XS</b> to <b>XL</b>.<br><br>
+                  Example 1: '200 XS80 SM150 LA250 XL400'<br>
+                  Example 2: '200 XSauto SMauto LA250'<br>
+                </td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th>And more...</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Picasa / Google+ storage
+                </td>
+                <td>
+                  Thumbnails can be cropped (square) or not. To get the cropped thumbnail, add <b>C</b> after the size value.<br>
+                  Example 1: '200C'<br>
+                  Example 2: '200C XS80C SM150 LA250 XL400'<br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Flickr storage
+                </td>
+                <td>
+                  Please note that depending of the defined size, the image retrieved may be in square format (cropped).
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <div id="docThumbnailSettingsAdvEffects">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="Advanced effects"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Thumbnails - Advanced effects</a></h5>
+          <br>
+          - Settings for advanced thumbnail hover effects:
+          <p>
+          Possible parameters: 'name', 'duration', 'durationBack', 'easing', 'easingBack', 'delay', 'delayBack'.
+          (Only 'name' is mandatory.)
+          <br><br>
+          Example:<br>
+          <pre><code class="prettyprint language-javascript">
+          &nbsp;&nbsp;&nbsp;&nbsp;<b>thumbnailHoverEffect: [{ name: 'slideUp', duration: 400, durationBack: 200, easing: 'swing', easingBack: 'swing' }]</b>
+          </code></pre>
+          </p>
+
+          <br><br>
+          - Combine multiple thumbnail hover effects:
+          <p>Example 1:<br>
+          <pre><code class="prettyprint language-javascript">
+          &nbsp;&nbsp;&nbsp;&nbsp;<b>thumbnailHoverEffect: 'slideUp,borderLighter'</b>
+          </code></pre>
+          </p>
+          
+          <p>Example 2:<br>
+          <pre><code class="prettyprint language-javascript"><b>
+          &nbsp;&nbsp;&nbsp;&nbsp;thumbnailHoverEffect:
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{ name: 'slideUp', duration: 400, durationBack: 200, easing: 'swing' },
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ name: 'borderLighter', duration: 300, durationBack: 200, delay: 200 }]
+          </b></code></pre>
+          </p>
+    
+        </div>
+
+        <div id="docThumbnailSettingsAdvLevel1">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="First navigation level"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Thumbnails - Settings for 1st navigation level</a></h5>
+          <br>
+          <p>
+          For multi-level galleries (with albums), it's also possible to define settings specifically for the first navigation level.<br>
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  thumbnailL1Height
+                </td>
+                <td>
+                  Defines thumbnails height for the first navigation level. Supports the same settings as <b>thumbnailHeight</b>.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  thumbnailL1Width
+                </td>
+                <td>
+                  Defines thumbnails width for the first navigation level. Supports the same settings as <b>thumbnailWidth</b>.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  thumbnailL1Label
+                </td>
+                <td>
+                  Display options for the image label (title and description). Supports the same settings as <b>thumbnailLabel</b> (position, display, displayDescription, titleMaxLength, descriptionMaxLength, hideIcons, align, title, itemsCount).
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  thumbnailL1HoverEffect
+                </td>
+                <td>
+                  Effect triggered on mouse hover or on tap (touch-screen). Supports the same settings as <b>thumbnailHoverEffect</b>.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  touchAnimationL1
+                </td>
+                <td>
+                  Delay in ms before opening the touched thumbnail. Same behaviour as as <b>touchAnimation</b>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      
+      <div id="docViewer">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="Image display"><i class="fa fa-chevron-circle-right"></i> Image display</h4>
+        <br>
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>colorSchemeViewer<br><a class="radius button tiny" href="http://jsfiddle.net/Kris_B/cuEY7/" onclick="ga('send','event','jsfiddleColorScheme','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+              <td>string<br>object</td>
+              <td>'default'</td>
+              <td>Image viewer color scheme.<br>
+              Possible values: 'none', 'dark', 'darkRed', 'darkGreen', 'darkBlue', 'darkOrange', 'light'<br>
+              Custom color schemes are supported.</td>
+            </tr>
+            <tr>
+              <td>slideshowDelay</td>
+              <td>integer</td>
+              <td>3000</td>
+              <td>Photo autoplay speed in milliseconds (slideshow)</td>
+            </tr>
+            <tr>
+              <td>slideshowAutoStart</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Starts automatically the slideshow when an image is displayed</td>
+            </tr>
+            <tr>
+              <td>viewer</td>
+              <td>string</td>
+              <td>'internal'</td>
+              <td>Image display method.<br>
+              Possible values: 'internal', 'fancybox'</td>
+            </tr>
+            <tr>
+              <td>fancyBoxOptions</td>
+              <td>object</td>
+              <td>null</td>
+              <td>Options for fancyBox (if used to display the images). This will overwrite the default settings.</td>
+            </tr>
+            <tr>
+              <td>viewerToolbar</td>
+              <td>object</td>
+              <td></td>
+              <td>Display options for the image toolbar (navigation buttons and captions).
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewerToolbar.display</td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>Displays or hides the toolbar.</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewerToolbar.position</td>
+              <td>string</td>
+              <td>'bottom'</td>
+              <td>Vertical position. Posible values: 'top', 'bottom'</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewerToolbar.style</td>
+              <td>string</td>
+              <td>'innerImage'</td>
+              <td>Toolbar style. Possible values: 'innerImage', 'stuckImage', 'fullWidth'</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewerToolbar.autoMinimize</td>
+              <td>integer</td>
+              <td>800</td>
+              <td>Breakpoint for switching between minimized and standard toolbar. If the width is lower than this value, the toolbar is switched to minimized.</td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewerToolbar.standard</td>
+              <td>string</td>
+              <td></td>
+              <td>
+                List of items to display in the standard toolbar (comma separated). The order is taken into account.<br>
+                Default value: 'minimizeButton, previousButton, pageCounter, nextButton, playPauseButton, fullscreenButton, infoButton, linkOriginalButton, closeButton, label'<br>
+                Possible values: minimizeButton, previousButton, pageCounter, nextButton, playPauseButton, fullscreenButton, infoButton, linkOriginalButton, closeButton, label, customN
+              </td>
+            </tr>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;viewerToolbar.minimized</td>
+              <td>string</td>
+              <td></td>
+              <td>
+                List of items to display in the minimized toolbar (comma separated). The order is taken into account.<br>
+                Default value: 'minimizeButton,label'<br>
+                Possible values: minimizeButton, previousButton, pageCounter, nextButton, playPauseButton, fullscreenButton, infoButton, linkOriginalButton, closeButton, label, customN
+              </td>
+            </tr>
+            <tr>
+              <td>viewerDisplayLogo</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Displays one logo over images (defined in CSS file).</td>
+            </tr>
+            <tr>
+              <td>viewerFullscreen</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Displays images in fullscreen (on supported browser).</td>
+            </tr>
+            <tr>
+              <td>imageTransition</td>
+              <td>string</td>
+              <td>'swipe'</td>
+              <td>Image swipe animation. Possible values: 'slideAppear', 'swipe'.</td>
+            </tr>
+           <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div id="docGalleryToolbar">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="Gallery toolbar / breadcrumb"><i class="fa fa-chevron-circle-right"></i> Settings for gallery toolbar / breadcrumb</h4>
+        <br>
+        <table>
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>breadcrumbAutoHideTopLevel</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>The breadcrumb/toolbar is hidden when on top navigation level.</td>
+            </tr>
+            <tr>
+              <td>galleryFullpageButton</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Enables button in the toolbar to display the gallery in fullpage.</td>
+            </tr>
+            <tr>
+              <td>galleryFullpageBgColor</td>
+              <td>string</td>
+              <td>'#111'</td>
+              <td>Background color of the gallery when in fullpage.</td>
+            </tr>
+            <tr>
+              <td>galleryToolbarHideIcons</td>
+              <td>boolean</td>
+              <td>false</td>
+              <td>Hides icons in toolbar (breadcrumb)</td>
+            </tr>
+            <tr>
+              <td>galleryToolbarWidthAligned</td>
+              <td>boolean</td>
+              <td>true</td>
+              <td>Toolbar is automatically resized to the width of the thumbnails area.</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+
+      <div id="docStorageSpecific">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="Usage specifc setting"><i class="fa fa-chevron-circle-right"></i> To see how to define the images and albums, select the method:</h4>
+        <br>
+        <div class="centered-text">
+          <a href="#docPicasa" class="radius button tiny" href="#">Picasa / Google+</a>
+          <a href="#docFlickr" class="radius button tiny" href="#">Flickr</a>
+          <a href="#docInline" class="radius button tiny" href="#">Inline</a>
+          <a href="#docAPI" class="radius button tiny" href="#">API</a>
+          <a href="#docNanoPhotosProvider" class="radius button tiny" href="#">nanoPhotosProvider</a>
+        </div>
+        
+        <div id="docPicasa">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="Picasa / Google+"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Picasa / Google+ specific settings</a></h5>
+          <p>List of properties accepted by the nanoGallery() method. Following properties are specific to Picasa/Google+ storage.
+          <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/AX9z9/" onclick="ga('send','event','jsfiddlePicasa','nanoGALLERY')" target="_blank">play on jsfiddle</a>
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>kind</td>
+                <td>string</td>
+                <td></td>
+                <td>Storage type (<b>mandatory</b>). Must be set to 'picasa'</td>
+              </tr>
+              <tr>
+                <td>userID</td>
+                <td>string</td>
+                <td></td>
+                <td>User ID of the Picasa/Google+ account (<b>mandatory</b>).
+                </td>
+              </tr>
+              <tr>
+                <td>album</td>
+                <td>string</td>
+                <td></td>
+                <td>Album ID - to display only the specified album<br><br>
+                To display an album that is limited to people who have a link with an authkey,<br>
+                use this syntax: <b>'albumID&authkey=YourAuthkey'</b>
+                where <b>albumID</b> is the ID of the album, and <b>YourAuthkey</b> is the album's authkey.<br>
+                <b>Example:</b> album: '5851968929721015169&authkey=Gv1sRgCJSlhdKSgoiXtgE'
+                </td>
+              </tr>
+              <tr>
+                <td>displayBreadcrumb</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Displays the navigation breadcrumb</td>
+              </tr>
+              <tr>
+                <td>blackList</td>
+                <td>string</td>
+                <td>'scrapbook|profil'</td>
+                <td>List of keywords to ignore - album's name containing one of the keywords in the title will be ignored.<br>
+                Keyword separator is  &#124;</td>
+              </tr>
+              <tr>
+                <td>whiteList</td>
+                <td>string</td>
+                <td></td>
+                <td>List of keywords to authorize - album's name must contain one of the keywords to be displayed.<br>
+                Keyword separator is &#124;</td>
+              </tr>
+              <tr>
+                <td>albumList</td>
+                <td>string</td>
+                <td></td>
+                <td>List of albums to display (use album names or album IDs). Separator is &#124;</td>
+              </tr>
+              <tr>
+                <td>photoSorting</td>
+                <td>string</td>
+                <td>'standard'</td>
+                <td>Albums sort order: 'standard', 'reversed', 'random', 'randomNN' (where NN is the maximum number of items to display), 'titleAsc', 'titleDesc'</td>
+              </tr>
+              <tr>
+                <td>albumSorting</td>
+                <td>string</td>
+                <td>'standard'</td>
+                <td>Photos sort order: 'standard', 'reversed', 'random', 'randomNN' (where NN is the maximum number of items to display), 'titleAsc', 'titleDesc'</td>
+              </tr>
+              <tr>
+                <td>picasaUseUrlCrossDomain</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Access Picasa / Google+ using the cross domain URL instead of the standard one.</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <div id="docFlickr">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="Flickr"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Flickr specific settings<h5>
+          <p>List of properties accepted by the nanoGallery() method. Following properties are specific to Flickr storage.
+          <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/Gukd3/" onclick="ga('send','event','jsfiddleFlickr','nanoGALLERY')" target="_blank">play on jsfiddle</a>
+          <br>
+          Note: please setup your gallery in order to respect the <a href="https://www.flickr.com/services/api/tos/" target="_blank">Flickr terms of use</a></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>kind</td>
+                <td>string</td>
+                <td></td>
+                <td>Storage type (<b>mandatory</b>). Must be set to 'flickr'</td>
+              </tr>
+              <tr>
+                <td>userID</td>
+                <td>string</td>
+                <td></td>
+                <td>User ID of the Flickr account (<b>mandatory</b>)<br><br>
+                <b>To retrieve your Flickr user ID, use this page -> 
+                <a href="http://www.flickr.com/services/api/explore/flickr.people.findByUsername" target="_blank">Flickr userID</a></b>
+                </td>
+              </tr>
+              <tr>
+                <td>photoset</td>
+                <td>string</td>
+                <td></td>
+                <td>Photoset ID - to display only the specified photoset<br>
+                If set to 'none', all pictures of the photostream are displayed.
+                </td>
+              </tr>
+              <tr>
+                <td>displayBreadcrumb</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Displays the navigation breadcrumb</td>
+              </tr>
+              <tr>
+                <td>blackList</td>
+                <td>string</td>
+                <td></td>
+                <td>List of keywords to ignore - albums containing one of the keywords in the title will be ignored.<br>
+                Keyword separator is  &#124;</td>
+              </tr>
+              <tr>
+                <td>whiteList</td>
+                <td>string</td>
+                <td></td>
+                <td>List of keywords to authorize - albums must contain one of the keywords to be displayed.<br>
+                Keyword separator is &#124;</td>
+              </tr>
+              <tr>
+                <td>albumList</td>
+                <td>string</td>
+                <td></td>
+                <td>List of albums to display. Separator is &#124;</td>
+              </tr>
+              <tr>
+                <td>photoSorting</td>
+                <td>string</td>
+                <td>'standard'</td>
+                <td>Albums sort order: 'standard', 'reversed', 'random', 'randomNN' (where NN is the maximum number of items to display), 'titleAsc', 'titleDesc'</td>
+              </tr>
+              <tr>
+                <td>albumSorting</td>
+                <td>string</td>
+                <td>'standard'</td>
+                <td>Photos sort order: 'standard', 'reversed', 'random', 'randomNN' (where NN is the maximum number of items to display), 'titleAsc', 'titleDesc'</td>
+              </tr>
+              <tr>
+                <td>flickrSkipOriginal</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Doesn't display the original uploaded image (e.g. to avoid rotation issue).</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        
+        <div id="docInline">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="Inline method"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Inline method specific settings</h5>
+          <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/dPxENe" onclick="ga('send','event','jsfiddleHREF','nanoGALLERY')" target="_blank">basic sample on Codepen</a>
+          <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/RNXmyv" onclick="ga('send','event','openDemoMultiLevel','nanoGALLERY')" target="_blank">multi-level sample on Codepen</a>
+          <br>
+          <p>List of properties:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>itemsBaseURL</td>
+                <td>string</td>
+                <td></td>
+                <td>Base URL where images are stored.</td>
+              </tr>
+              <tr>
+                <td>dataSorting</td>
+                <td>string</td>
+                <td>'standard'</td>
+                <td>Items sort order.<br>
+                Possible values: 'standard', 'reversed', 'random'.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          
+          <p>This is the list of supported attributes (case-sensitive).</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Attribute</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>data-ngdesc</td>
+                <td>string</td>
+                <td></td>
+                <td>Image description.</td>
+              </tr>
+              <tr>
+                <td>data-ngid</td>
+                <td>integer</td>
+                <td></td>
+                <td>Item ID. <b>MANDATORY: please set a value to each item (image and album).</b>
+                </td>
+              </tr>
+              <tr>
+                <td>data-ngalbumid</td>
+                <td>integer</td>
+                <td></td>
+                <td>ID of the album containing the item. <b>MANDATORY for albums, not for images.</b></td>
+              </tr>
+              <tr>
+                <td>data-ngkind</td>
+                <td>string</td>
+                <td>'image'</td>
+                <td>Item's kind. Possible values: 'image', 'album'.</td>
+              </tr>
+              <tr>
+                <td>data-ngSrcXS</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size XS.</td>
+              </tr>
+              <tr>
+                <td>data-ngSrcSM</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size SM.</td>
+              </tr>
+              <tr>
+                <td>data-ngSrcME</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size ME.</td>
+              </tr>
+              <tr>
+                <td>data-ngSrcLA</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size LA.</td>
+              </tr>
+              <tr>
+                <td>data-ngSrcXL</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size XL.</td>
+              </tr>
+              <tr>
+                <td>data-ngthumb</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the thumbnail image.</td>
+              </tr>
+              <tr>
+                <td>data-ngdest</td>
+                <td>string</td>
+                <td></td>
+                <td>Destination URL on thumbnail click (instead of displaying an image, the user is redirected to the defined URL).</td>
+              </tr>
+              <tr>
+                <td>data-ngthumbImgHeight</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Height in pixel of the thumbnail image.</td>
+              </tr>
+              <tr>
+                <td>data-ngthumbImgWidth</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Width in pixel of the thumbnail image.</td>
+              </tr>
+              <tr>
+                <td>data-customdata</td>
+                <td>object</td>
+                <td></td>
+                <td>Attribute to store custom data.<br>
+                Usage example: '<a href="img.jpg" data-ngthumb="imgt.jpg" data-customdata='{"a":"1", "b":"2"}'>title</a>'
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <!--
+          <a class="radius button tiny" href="nanogallery_demo4.html" onclick="ga('send','event','openDemoMultiLevel','nanoGALLERY')">demo Multi-level navigation</a>
+          -->
+        </div>
+
+        <div id="docAPI">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="API"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> API method specific settings</h5>
+          <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/raXENJ" onclick="ga('send','event','jsfiddleAPI','nanoGALLERY')" target="_blank">basic sample on Codepen</a>
+          <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/ByXeeN" onclick="ga('send','event','jsfiddleAPI','nanoGALLERY')" target="_blank">multi-level sample on Codepen</a>
+          <br>
+          <p>List of properties:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>itemsBaseURL</td>
+                <td>string</td>
+                <td></td>
+                <td>Base URL where images are stored.</td>
+              </tr>
+              <tr>
+                <td>dataSorting</td>
+                <td>string</td>
+                <td>'standard'</td>
+                <td>Items sort order.<br>
+                Possible values: 'standard', 'reversed', 'random'.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+
+          <p>This is the list of supported attributes for the <b>items</b> object (case-sensitive). The <b>items</b> object contains the list of galleries and all the images.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>title</td>
+                <td>string</td>
+                <td></td>
+                <td>Image title.</td>
+              </tr>
+              <tr>
+                <td>description</td>
+                <td>string</td>
+                <td></td>
+                <td>Image description.</td>
+              </tr>
+              <tr>
+                <td>ID</td>
+                <td>integer</td>
+                <td></td>
+                <td>Item ID.  <b>MANDATORY</b>
+                </td>
+              </tr>
+              <tr>
+                <td>albumID</td>
+                <td>integer</td>
+                <td></td>
+                <td>ID of the album containing the item. <b>MANDATORY for albums, not for images.</b></td>
+              </tr>
+              <tr>
+                <td>kind</td>
+                <td>string</td>
+                <td>'image'</td>
+                <td>Item's kind. Possible values: 'image', 'album'.</td>
+              </tr>
+              <tr>
+                <td>src</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image.</td>
+              </tr>
+              <tr>
+                <td>srct</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the thumbnail image.</td>
+              </tr>
+              <tr>
+                <td>srcXS</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size XS.</td>
+              </tr>
+              <tr>
+                <td>srcSM</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size SM.</td>
+              </tr>
+              <tr>
+                <td>srcME</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size ME.</td>
+              </tr>
+              <tr>
+                <td>srcLA</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size LA.</td>
+              </tr>
+              <tr>
+                <td>srcXL</td>
+                <td>string</td>
+                <td></td>
+                <td>URL of the image to be displayed on screen size XL.</td>
+              </tr>
+              <tr>
+                <td>destURL</td>
+                <td>string</td>
+                <td></td>
+                <td>Destination URL on thumbnail click (instead of displaying an image, the user is redirected to the defined URL).</td>
+              </tr>
+              <tr>
+                <td>imgtHeigt</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Height in pixel of the thumbnail image.</td>
+              </tr>
+              <tr>
+                <td>imgtWidth</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Width in pixel of the thumbnail image.</td>
+              </tr>
+              <tr>
+                <td>customData</td>
+                <td>object</td>
+                <td></td>
+                <td>Property to store custom data.<br>
+                Usage example: '{src: 'img.jpg', srct: 'imgt.jpg', title: 'image01', albumID:0, customData:{v1:1, v2:2} }'
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="docNanoPhotosProvider">
+          <br><br><br>
+          <h5 class="docSub" data-glossary="nanoPhotosProvider"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> nanoPhotosProvider specific settings<h5>
+          <p>List of properties accepted by the nanoGallery() method. Following properties are specific to the usage of nanoPhotosProvider.
+          <a class="radius button tiny" href="https://github.com/Kris-B/nanoPhotosProvider" onclick="ga('send','event','githubNanoPhotosProvider','nanoGALLERY')" target="_blank">Full documentation.</a></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>kind</td>
+                <td>string</td>
+                <td></td>
+                <td>Storage type (<b>mandatory</b>). Must be set to 'json'</td>
+              </tr>
+              <tr>
+                <td>jsonProvider</td>
+                <td>string</td>
+                <td></td>
+                <td>URL to the nanoPhotosProvider.php file.
+                </td>
+              </tr>
+              <tr>
+                <td>jsonCharset</td>
+                <td>string</td>
+                <td>'Latin'</td>
+                <td>Sets the string charset for json data. Possible values: 'Latin', 'UTF-8'
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div id="docHelpers">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="Helpers / Callbacks"><i class="fa fa-chevron-circle-right"></i> Javascript Helpers / Callbacks</h4>
+        <p>Callbacks provide a simple mechanism to extend the capabilities of nanoGALLERY.</p>
+        <br>
+        <table >
+          <thead>
+            <tr>
+              <th>Callback</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>fnInitGallery</td>
+              <td>Called after each gallery construction.</td>
+            </tr>
+            <tr>
+              <td>fnThumbnailInit</td>
+              <td>Called once after one thumbnail's build. Called for each thumbnail.</td>
+            </tr>
+            <tr>
+              <td>fnThumbnailHoverInit</td>
+              <td>Called once to initialize the thumbnail hover effect. Called for each thumbnail. <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/58zPM/" onclick="ga('send','event','jsfiddleHelpersHover','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+            </tr>
+            <tr>
+              <td>fnThumbnailHoverResize</td>
+              <td>Called when the gallery is resized. Called for each thumbnail.</td>
+            </tr>
+            <tr>
+              <td>fnThumbnailHover</td>
+              <td>Called on thumbnail hover. <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/58zPM/" onclick="ga('send','event','jsfiddleHelpersHover','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+            </tr>
+            <tr>
+              <td>fnThumbnailHoverOut</td>
+              <td>Called on thumbnail hover out. <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/58zPM/" onclick="ga('send','event','jsfiddleHelpersHover','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+            </tr>
+            <tr>
+              <td>fnThumbnailDisplayEffect</td>
+              <td>Called to display one thumbnail.</td>
+            </tr>
+            <tr>
+              <td>fnThumbnailOpen</td>
+              <td>Called after a thumbnail is clicked/touched to display the image. <a class="radius button tiny" href="http://codepen.io/Kris-B/pen/BNOWEK" onclick="ga('send','event','codepenHelpersOpenThumbnail','nanoGALLERY')" target="_blank">codepen</a><br>
+              Can be used to replace the standard viewer/lightbox with an external lightbox.</td>
+            </tr>
+            <tr>
+              <td>fnChangeSelectMode</td>
+              <td>Called when entering or leaving selection mode.</td>
+            </tr>
+            <tr>
+              <td>fnImgToolbarCustInit</td>
+              <td>called once on toolbar building to define the specified custom element. <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/saw8kqve/" onclick="ga('send','event','jsfiddleHelperToolbarCustom','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+            </tr>
+            <tr>
+              <td>fnImgToolbarCustDisplay</td>
+              <td>Called on each image display. Called once for all image toolbar custom elements. <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/saw8kqve/" onclick="ga('send','event','jsfiddleHelperToolbarCustom','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+            </tr>
+            <tr>
+              <td>fnImgToolbarCustClick</td>
+              <td>Fired on click event on one image toolbar custom element. <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/saw8kqve/" onclick="ga('send','event','jsfiddleHelperToolbarCustom','nanoGALLERY')" target="_blank">jsfiddle</a></td>
+            </tr>
+            <tr>
+              <td>fnViewerInfo</td>
+              <td>If defined, it will add an info button to the image viewer toolbar.<br>
+              Called when the user clicks this info button.
+              <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/s67jv/" onclick="ga('send','event','jsfiddleHelperInfo','nanoGALLERY')" target="_blank">jsfiddle</a>
+              </td>
+            </tr>
+            <tr>
+              <td>fnProcessData</td>
+              <td>Used to extend data associated to thumbnails/images.<br>
+              Called each time a new element (image or album) is added.
+              <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/s67jv/" onclick="ga('send','event','jsfiddleHelperProcessData','nanoGALLERY')" target="_blank">jsfiddle</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Note: Standard thumbnails hover effects can be combined to hover effects managed by callbacks.</p>
+      </div>
+      
+      
+
+      <div id="docAPIMethods">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="API methods"><i class="fa fa-chevron-circle-right"></i> API methods</h4>
+        Usage: $('#yourElement').nanoGallery('<b>method</b>', <b>options</b>);
+        <br><br>
+        <br>
+        <table >
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Option(s)</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>destroy</td>
+              <td></td>
+              <td>Removes the gallery.<br>
+              Usage: $('#yourElement').nanoGallery('destroy');
+              </td>
+            </tr>
+            <tr>
+              <td>displayItem</td>
+              <td>itemID</td>
+              <td>Displays an item (album or image).<br>
+              Usage: $('#yourElement').nanoGallery('displayItem', 'itemID');<br>
+              - to display an album: $('#yourElement').nanoGallery('displayItem', 'albumID')<br>
+              - to display an image: $('#yourElement').nanoGallery('displayItem', 'albumID/imageID')
+              </td>
+            </tr>
+            <tr>
+              <td>reload</td>
+              <td></td>
+              <td>Reloads the current album.<br>
+              Usage: $('#yourElement').nanoGallery('reload');
+              <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/eqv78jck/" onclick="ga('send','event','jsfiddleAPIMethods1','nanoGALLERY')" target="_blank">jsfiddle</a>
+              </td>
+            </tr>
+            <tr>
+              <td>option</td>
+              <td>option_name</td>
+              <td>Returns the value of an option.<br>
+              Usage: $('#yourElement').nanoGallery('option', option_name);
+              </td>
+            </tr>
+            <tr>
+              <td>option</td>
+              <td>option_name, new_value</td>
+              <td>Sets the value of an option (note: only some options are supported).<br>
+              Usage: $('#yourElement').nanoGallery('option', option_name, new_value);
+              </td>
+            </tr>
+            <tr>
+              <td>getItem</td>
+              <td>item_index</td>
+              <td>Returns one item (object).<br>
+              Usage: $('#yourElement').nanoGallery('getItem', item_index);
+              </td>
+            </tr>
+            <tr>
+              <td>getItems</td>
+              <td></td>
+              <td>Returns every items (array of objects).<br>
+              Usage: $('#yourElement').nanoGallery('getItems');
+              </td>
+            </tr>
+            <tr>
+              <td>getItemsIndex</td>
+              <td>[item1, item2, ...]</td>
+              <td>Returns the indexes of some items (array).<br>
+              Usage: $('#yourElement').nanoGallery('getItemsIndex', [item1, item2, item3, ...]);
+              </td>
+            </tr>
+            <tr>
+              <td>getSelectMode</td>
+              <td></td>
+              <td>Is the gallery in selection mode.<br>
+              Usage: $('#yourElement').nanoGallery('getSelectMode');
+              </td>
+            </tr>
+            <tr>
+              <td>setSelectMode</td>
+              <td>true|false| 'album'| 'image'</td>
+              <td>Enter/leave the selection mode, and set the kind.<br>
+              Usage: $('#yourElement').nanoGallery('setSelectMode', true|false|'album'|'image');
+              </td>
+            </tr>
+            <tr>
+              <td>getSelectedItems</td>
+              <td></td>
+              <td>Returns the current selected items (array).<br>
+              Usage: $('#yourElement').nanoGallery('getSelectedItems');
+              <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/eqv78jck/" onclick="ga('send','event','jsfiddleAPIMethods1','nanoGALLERY')" target="_blank">jsfiddle</a>
+              </td>
+            </tr>
+            <tr>
+              <td>selectItems</td>
+              <td>[item1, item2, ...]</td>
+              <td>Selects some items (array).<br>
+              Usage: $('#yourElement').nanoGallery('selectItems', [item1, item2, item3, ...]);
+              </td>
+            </tr>
+            <tr>
+              <td>unselectItems</td>
+              <td>[item1, item2, ...]</td>
+              <td>Unselects some items (array).<br>
+              Usage: $('#yourElement').nanoGallery('unselectItems', [item1, item2, item3, ...]);
+              <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/eqv78jck/" onclick="ga('send','event','jsfiddleAPIMethods1','nanoGALLERY')" target="_blank">jsfiddle</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
+      
+      <div id="docI18N">
+        <br><br><br><br>
+        <h4 class="subheader" data-glossary="i18n"><i class="fa fa-chevron-circle-right"></i> i18n</h4>
+        <p>nanoGALLERY supports i18n. The language defined in the browser is used. If no corresponding definition is found, then the default language is used.</p>
+        <br>
+        - Internationalization of UI elements<br><br>
+        <p>Following elements support multi-language: 'breadcrumbHome' 'paginationPrevious' 'paginationNext' 'thumbnailImageTitle' 'thumbnailAlbumTitle' 'thumbnailImageDescription' 'thumbnailAlbumDescription'.
+        <br>
+        Sets the correponding i18n properties. Use <b>_LanguageCode</b> to specify one language.</p>
+        <p>Example:</p>
+        <pre><code class="prettyprint language-javascript">
+        i18n: {
+            paginationPrevious: 'Previous', paginationPrevious_FR: 'Pr&eacute;c&eacute;dent', paginationPrevious_DE: 'Zur&uuml;ck',
+            paginationNext: 'Next', paginationNext_FR: 'Suivant', paginationNext_DE: 'Weiter'
+        }
+        </code></pre>
+        <br><br><br>
+
+        - Multi-language image titles and descriptions<br><br>
+        <p>Supported by API-method.
+        <br>
+        Use <b>_LanguageCode</b> to specify one language. So <b>title_FR</b> is the french title, and <b>description_DE</b> is the german description.</p>
+        <p>Example:</p>
+        <pre><code class="prettyprint language-javascript">
+        $(document).ready(function () {
+            $("#nanoGallery").nanoGallery( {
+                items: [
+                    {
+                        src: 'demonstration/image_01.jpg',
+                        srct: 'demonstration/image_01t.jpg',
+                        title: 'image 1',
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        title_FR: 'image 2 (fr)',
+                        description_FR : 'description image 1 (fr)'
+                    },
+                    {
+                        src: 'demonstration/image_02.jpg',
+                        srct: 'demonstration/image_02t.jpg',
+                        title: 'image 2' ,
+                        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                        title_FR: 'image 2 (fr)',
+                        description_FR : 'description image 2 (fr)'
+                    }
+                ]
+            });
+        });
+        </code></pre>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="endDocumentation"></div>
+
+</section>
+
+
+
+
+
+
+
+
+<section id="main-content" >
+  <div id="disqus" class="row centered-text">
+    <div class="large-12 columns">
+      <br><br><br><br><br><br><br><br><br><br><br><br>
+      <h2>Your Comments</h2>
+      <br><br><br><br>
+      <h4 class="subheader"></h4>
+      
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'nanogallery'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <br><br>
+    <br><br><br><br>
+    </div>
+  </div>
+</section>
+
+
+
+
+<footer class="fullWidth" style="background-color:#555;text-align:center;">
+  <br><br><br><br><br><br>
+  <a href="https://plus.google.com/share?url=http%3A%2F%2Fnanogallery.brisbois.fr" target="_blank"><i class="fa fa-google-plus-square fa-2x"></i></a>&nbsp;&nbsp;&nbsp;
+  <a href="https://twitter.com/home?status=Welcome%20to%20nanoGALLERY%20-%20the%20simplest%20image%20gallery%20for%20jquery%20-%20http://nanogallery.brisbois.fr" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>&nbsp;&nbsp;&nbsp;
+  <a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fnanogallery.brisbois.fr" target="_blank"><i class="fa fa-facebook-square fa-2x"></i></a>&nbsp;
+  <p>You like it? Thanks to share it!</p>
+	<p class="credits" style="text-align:center;color:#fff; "><a itemprop="url" href="http://nanogallery.brisbois.fr" title="nanoGALLERY">nanoGALLERY</a> by 
+  <a href="https://plus.google.com/111186676244625461692?rel=author"><span itemprop="author" itemscope itemtype="http://schema.org/Person"> <span itemprop="name">Christophe Brisbois</span></span></a></p>
+  <br>
+</footer></span>
+
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.2.2/js/foundation.min.js"></script>
+    <!-- <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script> -->
+    <script src="./js/jquery.remodal.js"></script>
+
+    <script src="js/flickity.pkgd.min.js"></script>
+    <script src="js/rangeslider.min.js"></script>
+
+    
+    <script>
+      $(document).foundation();
+    </script>
+
+    
+    <!--
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
+    -->
+    
+    <!-- <script src="js/prism.js"></script> -->
+    
+    <!-- nanoGALLERY -->
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.9/jquery.transit.min.js"></script> -->
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/hammer.js/1.0.10/hammer.min.js"></script> -->
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/3.0.4/jquery.imagesloaded.min.js"></script> -->
+
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/nanogallery/5.8.0/css/nanogallery.min.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/nanogallery/5.8.0/css/themes/clean/nanogallery_clean.min.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/nanogallery/5.8.0/css/themes/light/nanogallery_light.min.css" rel="stylesheet">
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/nanogallery/5.8.0/jquery.nanogallery.min.js"></script>
+    
+     
+    <!--
+    <link href="css/nanogallery.css" rel="stylesheet">
+    <link href="css/themes/clean/nanogallery_clean.css" rel="stylesheet">
+    <link href="css/themes/light/nanogallery_light.css" rel="stylesheet">
+    
+    <script src="jquery.nanogallery.js"></script>
+    !-->
+
+    <script src="jquery.nanogallerydemo.js"></script>
+  
+  	<script>
+		jQuery(document).ready(function () {
+
+    
+    
+      function getViewport() {
+        var $win = jQuery(window);
+        return {
+          l: $win.scrollLeft(),
+          t: $win.scrollTop(),
+          w: $win.width(),
+          h: $win.height()
+        }
+      }
+
+      // RANGE BAR TO SIMULATE SMALLER SCREEN SIZE
+      if( getViewport().w < 500 ) {
+        $('#sliderGalleryWidthCont').css('visibility','hidden');
+      }
+      else {
+        $('#sliderGalleryWidthCont').css('visibility','visible');
+        $('#sliderGalleryWidth').rangeslider( {
+          polyfill: false
+        });
+        
+        var lastW=getViewport().w;
+        $('#sliderGalleryWidth').attr('max', lastW);
+        $('#sliderGalleryWidth').val(lastW);
+        $('#sliderGalleryWidth').rangeslider('update', true);
+        $('#sliderGalleryWidth').on("change", function() {
+          var newW=$(this).val();
+          
+          if( newW >0 && lastW != newW ) {
+            lastW=newW;
+            jQuery("#nanoGalleryHome").nanoGallery('option','demoViewportWidth',lastW);
+          }
+        });
+
+        jQuery(window).resize( function() { 
+          var newMax=getViewport().w;
+          var lastMax=$('#sliderGalleryWidth').attr('max');
+          if( lastMax >0 && lastMax > newMax ) {
+            $('#sliderGalleryWidth').attr('max', newMax);
+            $('#sliderGalleryWidth').rangeslider('update', true);
+            if( lastW < newMax ) {
+              lastW=newMax;
+              jQuery("#nanoGalleryHome").nanoGallery('option','demoViewportWidth',lastW);
+            }
+          }
+        });
+      }
+
+
+
+
+      myColorScheme = {
+				breadcrumb : {
+					background : '#000',
+					border : '1px dotted #555',
+					color : '#ccc',
+					colorHover:'#fff'
+				},
+				thumbnail : {
+					background:'#000',
+					border:'1px solid #000',
+					labelBackground:'transparent',
+					labelOpacity:'0.8',
+					titleColor:'#fff',
+					descriptionColor:'#eee'
+				}
+			};
+      myColorSchemePicasa = {
+				breadcrumb : {
+					background : '#000',
+					border : '1px dotted #555',
+					color : '#ccc',
+					colorHover:'#fff'
+				},
+				thumbnail : {
+					background:'#000',
+					border:'2px solid #000',
+					labelBackground:'#000',  /*'transparent',*/
+					labelOpacity:'1',
+					titleColor:'#eee',
+          titleShadow:'none',
+					descriptionColor:'#eee'
+				}
+			};
+
+
+      // custom thumbnail hover effect
+      function myThumbnailInit($elt, item) {
+      }
+      function myThumbnailHoverInit($elt, item) {
+        $elt.find('.labelDescription').css({'opacity':'0'});
+        $elt.find('.labelTitle').css({'opacity':'0'});
+        $elt.find('.labelImage').css({'top':2*item.thumbRealHeight, 'bottom':'none', 'height':'100%', 'transform-origin': 'top right', 'rotate': '60deg'});
+      }
+      function myThumbnailHover($elt, item) {
+        $elt.find('.labelImage').css({'top':2*item.thumbRealHeight, 'rotate': '60deg', 'opacity':'1'});
+        $elt.find('.labelImage').transition({ 'top': 0, 'rotate': '0deg' },400);
+        $elt.find('.labelTitle').delay(300).animate({'opacity':'1'},400);
+        $elt.find('.labelDescription').delay(450).animate({'opacity':'1'},400);
+      }
+      function myThumbnailHoverOut($elt, item) {
+        $elt.find('.labelImage').animate({'opacity':'0'},400);
+        $elt.find('.labelTitle').animate({'opacity':'0'},300);
+        $elt.find('.labelDescription').animate({'opacity':'0'},300);
+        //$elt.find('.labelImage').delay(300).transition({ 'top': item.thumbRealHeight},10);
+      }
+      function myThumbnailDisplayEffect($elt, item, eltNumber) {
+        $elt.css({'transform-origin': 'top right', 'rotate': '5deg', 'top':'-20px'});
+        $elt.delay(eltNumber*30).transition({ 'rotate': '0deg', 'opacity':'1', top:'0px'},300);
+      }
+      
+      if( Math.random() >= 0 ) {
+        jQuery("#nanoGalleryHome").nanoGallery({
+          userID:'34858669@N00',kind:'flickr',
+          blackList:'doors|kampuchea|vietnam|thailand|laos|yunnan',
+          
+          //kind: 'picasa',
+          //userID:'111186676244625461692',
+          //blackList:'profil|scrapbook|Forhomepage',
+          
+          //thumbnailWidth:300, thumbnailHeight:200,
+          thumbnailL1Width:'240C xs100C sm100C', thumbnailL1Height:'160C xs100C sm100C',
+          thumbnailWidth:'auto', thumbnailHeight:'200 xs80 sm150 la250 xl290',
+          thumbnailHoverEffect:[{'name':'imageScale150', 'duration':700},{'name':'labelAppear75', 'duration':400},{'name':'descriptionAppear', 'duration':1000}],
+
+          
+          //maxWidth:948,
+          //thumbnailHoverEffect:'labelSlideUpTop,borderLighter',
+          //thumbnailHoverEffect:'borderLighter',
+          paginationMaxLinesPerPage:1,
+          viewerDisplayLogo:true,
+          photoSorting:'random',
+          albumSorting:'random',
+          imageTransition : 'slide',
+          galleryToolbarWidthAligned:false,
+          thumbnailLabel:{display:false,align:'center', position:'overImageOnMiddle'},
+          thumbnailL1Label:{display:true,align:'center', position:'overImageOnMiddle'},
+          touchAnimationL1: true,
+          touchAnimation:false,
+          i18n:{
+            thumbnailImageDescription:'view photo', thumbnailImageDescription_FR:'afficher photo',
+            thumbnailAlbumDescription:'open gallery', thumbnailAlbumDescription_FR:'ouvrir galerie'
+          },
+          //thumbnailHoverEffect:[{'name':'imageScaleIn80', 'duration':700},{'name':'labelAppear75', 'duration':400},{'name':'descriptionAppear', 'duration':1000}],
+          //fnThumbnailHoverInit:myThumbnailHoverInit,
+          //fnThumbnailHover:myThumbnailHover,
+          //fnThumbnailHoverOut:myThumbnailHoverOut,
+          //fnThumbnailDisplayEffect:myThumbnailDisplayEffect,
+          viewerToolbar: { standard:'minimizeButton,pageCounter,playPauseButton,linkOriginalButton,label', autoMinimize:5000 },
+          galleryFullpageButton:true,
+          supportIE8: false,
+          paginationDots: true,
+          locationHash:true,
+          breadcrumbAutoHideTopLevel:true
+        });
+      }
+      else {
+        jQuery("#nanoGalleryHome").nanoGallery({
+          kind: 'picasa',
+          //galleryToolbarWidthAligned:true,
+          userID:'111186676244625461692',
+          thumbnailWidth:'auto', thumbnailHeight:350,
+          galleryFullpageButton:true,
+          blackList:'profil|scrapbook|Forhomepage',
+          //maxWidth:948,
+          thumbnailHoverEffect:[{'name':'imageScale150','duration':500},{'name':'labelAppear75','duration':700},{'name':'descriptionAppear', 'duration':1000}],
+          //thumbnailHoverEffect:'borderLighter',
+          //paginationMaxLinesPerPage:2,
+          viewerDisplayLogo:true,
+          photoSorting:'random',
+          albumSorting:'random',
+          locationHash:true,
+          theme:'light',
+          imageTransition : 'slide',
+          //colorScheme:myColorScheme,
+          thumbnailLabel:{display:true,align:'center', position:'overImageOnMiddle', hideIcons:true, galleryToolbarHideIcons:true},
+          i18n:{'thumbnailImageDescription':'view photo', 'thumbnailAlbumDescription':'open album'},
+          supportIE8: false
+          //fnThumbnailHoverInit:myThumbnailHoverInit,
+          //fnThumbnailHover:myThumbnailHover,
+          //fnThumbnailHoverOut:myThumbnailHoverOut,
+          //fnThumbnailDisplayEffect:myThumbnailDisplayEffect
+        });
+      }
+      
+      var lstModal= ['myModalDemoJustified', 'myModalDemoAutoBreadcrumb', 'myModalDemoCascading', 'myModalDemo1Row', 'myModalDemoFlickFull', 'myModalDemoCustomIcons', 'myModalDemoLightbox', 'myModalDemoTouchTwice', 'myModalDemoThumbSizesResolutions', 'myModalDemoCheckbox',''],
+      //lstTitle= ['Auto display breadcrumb for navigation', 'Cascading grid layout', 'Pagination 1 row', 'Justified layout', 'Caption on bottom', 'Caption centered and in the middle', 'No icons', 'Global description'],
+      lstModalOnClick= ["ga('send','event','viewSourcesJustifiedLayout','nanoGALLERY')",
+          "ga('send','event','viewSourcesAutoBreadcrumb','nanoGALLERY')",
+          "ga('send','event','viewSourcesCascadingLayout','nanoGALLERY')",
+          "ga('send','event','viewSourcesPagination1Row','nanoGALLERY')",
+          "ga('send','event','viewSourcesFlickrSquare','nanoGALLERY')",
+          "ga('send','event','viewSourcesCustomIcons','nanoGALLERY')",
+          "ga('send','event','viewSourcesLightbox','nanoGALLERY')",
+          "ga('send','event','viewSourcesTouchTwice','nanoGALLERY')",
+          "ga('send','event','viewSourcesThumbSizesResolutions','nanoGALLERY')",
+          "ga('send','event','viewSourcesCheckbox','nanoGALLERY')"  ],
+      currentDemo=0;
+      DemoSet();
+
+      $('#selectBoxDemo').on('change', function (e) {
+          var optionSelected = $(this).find("option:selected");
+          var valueSelected  = optionSelected.val();
+          DemoSet();
+      });
+
+      
+      $('#btnDemoSource').on("click",function(e){
+        lstModalOnClick[currentDemo];
+        var options = { hashTracking:false };
+        var inst = $.remodal.lookup[$('[data-remodal-id='+lstModal[currentDemo]+']').data('remodal')];
+        inst.open(options);
+        //$('#'+lstModal[currentDemo]).foundation('reveal', 'open');
+      });
+
+      function DemoSet() {
+        //alert(currentDemo + '--'+ lstModal[currentDemo]);
+        //$('#btnDemoSource').text(lstTitle[currentDemo] +' | View Sources');
+        //switch(currentDemo) {
+        var d=$('#selectBoxDemo').find("option:selected");
+        currentDemo=parseInt(d.val());
+        switch( currentDemo ) {
+          case 0:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              thumbnailWidth:'auto',thumbnailHeight:320,userID:'111186676244625461692',kind:'picasa',
+              album:'5911347863561293937',
+              colorScheme:'none',
+              viewerDisplayLogo:true,
+              thumbnailHoverEffect:[{'name':'labelAppear75','duration':300}],
+              theme:'light',
+              photoSorting:'random',
+              thumbnailGutterWidth : 0,
+              thumbnailGutterHeight : 0,
+              imageTransition : 'slide',
+              i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
+              thumbnailLabel:{display:true,position:'overImageOnMiddle', align:'center'},
+              thumbnailLazyLoad:true,
+              //lazyBuild:'loadData',
+              viewerToolbar : { style:'fullWidth' },
+              locationHash:false,
+              supportIE8: false
+            });
+            var y = $(window).scrollTop();
+            $(window).scrollTop(y+1);
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+
+          case 1:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              kind: 'picasa',
+              userID:'111186676244625461692',
+              blackList:'profil|scrapbook|Forhomepage',
+              thumbnailWidth:190, thumbnailHeight:126,
+              thumbnailGutterWidth : 6,
+              thumbnailGutterHeight : 6,
+              maxWidth:948,
+              thumbnailHoverEffect:[{'name':'slideRight','duration':500},{'name':'labelAppear75'}],
+              photoSorting:'random',
+              albumSorting:'random',
+              viewerDisplayLogo:true,
+              theme:'clean',
+              //colorSchemeViewer:'none',
+              thumbnailLazyLoad:true,
+              imageTransition : 'slide',
+              i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
+              thumbnailLabel:{display:true, position:'overImageOnMiddle', hideIcons:true, align:'center'},
+              galleryToolbarHideIcons:true,
+              breadcrumbAutoHideTopLevel:true,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+            
+          case 2:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              kind: 'picasa',
+              userID: '111186676244625461692',
+              album: '5911347863561293937',
+              thumbnailWidth: 200,
+              thumbnailHeight: 'auto',
+              thumbnailGutterWidth: 10,
+              thumbnailGutterHeight: 10,
+              maxItemsPerLine:4,
+              viewerDisplayLogo:true,
+              thumbnailLazyLoad:true,
+              imageTransition : 'slide',
+              thumbnailLabel:{display:true,position:'onBottom',titleMaxLength:20, align:'center'},
+              theme:'light',
+              //colorScheme: { thumbnail: { labelBackground:'#fff', background:'#fff', border:'5px solid #fff', titleColor:'#222', titleShadow:'', descriptionColor:'#333', descriptionShadow:''}},
+//              colorScheme: { thumbnail: { labelBackground:'#fff !important' }},
+              touchAnimation:false,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+            
+          case 3:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              kind: 'picasa',
+              userID:'111186676244625461692',
+              album: '5911347863561293937',
+              thumbnailWidth:165, thumbnailHeight:110,
+              blackList:'profil|scrapbook|Forhomepage',
+              thumbnailHoverEffect:'labelSlideUp,borderLighter',
+              paginationMaxLinesPerPage:1,
+              viewerDisplayLogo:true,
+              photoSorting:'random',
+              albumSorting:'random',
+              thumbnailLazyLoad:true,
+              thumbnailLabel:{display:true,align:'center'},
+              imageTransition : 'slide',
+              theme:'clean',
+              i18n:{'thumbnailImageDescription':'view photo', 'thumbnailAlbumDescription':'open album'},
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+            
+          case 4:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              photoset:'none',
+              userID:'34858669@N00',
+              kind:'flickr',
+              thumbnailWidth:120,thumbnailHeight:120,
+              thumbnailGutterWidth : 0,
+              thumbnailGutterHeight : 0,
+              colorScheme:'none',
+              viewerDisplayLogo:true,
+              thumbnailHoverEffect:[{name:'scaleLabelOverImage', duration:300},{name:'borderDarker'}],
+              theme:'light',
+              photoSorting:'random',
+              imageTransition : 'slide',
+              //i18n:{'thumbnailImageDescription':'View Photo', 'thumbnailAlbumDescription':'Open Album'},
+              thumbnailLabel:{display:true, position:'overImageOnMiddle', align:'center'},
+              thumbnailLazyLoad:true,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+
+          case 5:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              thumbnailWidth:120, thumbnailHeight:120,
+              userID:'111186676244625461692', kind:'picasa',
+              blackList:'profil|scrapbook|Forhomepage',
+              viewerDisplayLogo: true,
+              thumbnailHoverEffect: 'labelAppear75,slideDown',
+              thumbnailGutterWidth: 2,
+              thumbnailGutterHeight: 2,
+              i18n:{ thumbnailImageDescription:'<i style="color:#eee;" class="fa fa-search-plus fa-3x"></i>', thumbnailAlbumDescription:'<i style="color:#eee;" class="fa fa-search-plus fa-3x"></i>', breadcrumbHome:'<i class="fa fa-camera fa-1x"></i> Photo albums', breadcrumbHome_FR:'<i class="fa fa-camera fa-1x"></i> Albums photos'},
+              thumbnailLabel:{ display:true, position:'overImageOnMiddle', align:'center', hideIcons:true },
+              galleryToolbarHideIcons: true,
+              imageTransition : 'slide',
+              thumbnailLazyLoad: true,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+
+          case 6:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            //var cl={ thumbnail['labelBackground']:'#000' };
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              photoset:'none',
+              userID:'34858669@N00',
+              kind:'flickr',
+              thumbnailWidth: 160,
+              thumbnailHeight: 160,
+              viewerDisplayLogo:true,
+              thumbnailLazyLoad:true,
+              thumbnailLabel:{display:true,position:'onBottom',titleMaxLength:20},
+              colorScheme: {thumbnail:{labelBackground:'#000 !important'}},
+              colorSchemeViewer:'dark',
+              imageTransition : 'slide',
+              photoSorting:'random',
+              touchAnimation:false,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+            
+          case 7:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              kind: 'picasa',
+              userID: '111186676244625461692',
+              blackList:'profil|scrapbook|Forhomepage',
+
+              touchAutoOpenDelay: -1,
+
+              thumbnailWidth: 165,
+              thumbnailHeight: 110,
+              thumbnailHoverEffect: 'labelSlideUp,borderLighter',
+              thumbnailLabel: {display: true, align: 'center', position:'overImageOnMiddle'},
+              theme: 'clean',
+              i18n: { thumbnailImageDescription: 'view photo', thumbnailAlbumDescription: 'open album' },
+              viewerDisplayLogo: true,
+              imageTransition : 'slide',
+              thumbnailLazyLoad: true,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+            
+          case 8:
+            jQuery("#nanoGalleryDemosCont").nanoGallery('destroy');
+            jQuery("#nanoGalleryDemos").empty().html('<p>Resize your browser to test this feature.</p><div id="nanoGalleryDemosCont"></div>');
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              kind: 'picasa',
+              userID:'111186676244625461692',
+              blackList:'profil|scrapbook|Forhomepage',
+              thumbnailL1Width:'140 xs100 sm100', thumbnailL1Height:'140 xs100 sm100',
+              thumbnailWidth:'auto', thumbnailHeight:'200 xs80 sm150 la250 xl290',
+              thumbnailHoverEffect:[{'name':'imageScale150', 'duration':700},{'name':'labelAppear75', 'duration':400},{'name':'descriptionAppear', 'duration':1000}],
+              paginationMaxLinesPerPage:1,
+              imageTransition : 'slide',
+              thumbnailLabel:{ display:true, align:'center', position:'overImageOnMiddle' },
+              viewerDisplayLogo:true,
+              galleryFullpageButton:true,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+            
+          case 9:
+            jQuery("#nanoGalleryDemosCont").nanoGallery('destroy');
+            var t='<button id="btnCheckboxCountSelected" "type="button" style="color:#000;margin:4px;">&nbsp; count selected items &nbsp;</button>';
+            t+='<button id="btnCheckboxUnselect" "type="button" style="color:#000;margin:4px;">&nbsp; Unselect selected items &nbsp;</button>';
+            jQuery("#nanoGalleryDemos").empty().html(t+'<div id="nanoGalleryDemosCont"></div>');
+            //var cl={ thumbnail['labelBackground']:'#000' };
+            jQuery("#nanoGalleryDemosCont").nanoGallery({
+              userID:'111186676244625461692',kind:'picasa',
+              thumbnailWidth: 120,
+              thumbnailHeight: 120,
+              itemsSelectable: true,
+              showCheckboxes: true,
+              viewerDisplayLogo:true,
+              thumbnailLabel:{display:true,position:'overImageOnBottom',titleMaxLength:20},
+              thumbnailAlignment: 'center',
+              galleryToolbarWidthAligned: true,
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnCheckboxCountSelected').on('click', function() {
+              var lst=jQuery('#nanoGalleryDemosCont').nanoGallery('getSelectedItems');
+              var a=0, i=0;
+              for( var n=0; n<lst.length; n++ ) {
+                if( lst[n].kind == 'album' ) {
+                  a++;
+                }
+                else {
+                  i++;
+                }
+              }
+              alert(lst.length+ ' selected items ('+a+' albums / '+i+' images)');
+            });
+            jQuery('#btnCheckboxUnselect').on('click', function() {
+              var items=jQuery('#nanoGalleryDemosCont').nanoGallery('getSelectedItems');
+              jQuery('#nanoGalleryDemosCont').nanoGallery('unselectItems', items)
+            });
+            jQuery('#btnDemoSource').css('visibility','visible')
+            break;
+
+          case 10:
+            jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
+            //var cl={ thumbnail['labelBackground']:'#000' };
+            jQuery("#nanoGalleryDemosCont").nanoGalleryDemo({
+              userID:'34858669@N00',
+              photoset: '72157594262185078',
+              kind:'flickr',
+              photoSorting: 'random6',
+              thumbnailWidth: 120,
+              thumbnailHeight: 120,
+              viewerDisplayLogo:true,
+              thumbnailLabel:{display:true,position:'overImageOnBottom',titleMaxLength:20},
+              thumbnailAlignment: 'center',
+              galleryToolbarWidthAligned: true,
+              colorScheme: 'none',
+              imageTransition : 'slide',
+              colorSchemeViewer: 'none',
+              locationHash:false,
+              supportIE8: false
+            });
+            jQuery('#btnDemoSource').css('visibility','hidden')
+            break;
+
+
+          case 11:
+            var s='<p data-height="400" data-theme-id="0" data-slug-hash="dPxENe" data-default-tab="result" data-user="Kris-B" class="codepen">See the Pen <a href="http://codepen.io/Kris-B/pen/dPxENe/">dPxENe</a> by Christophe Brisbois (<a href="http://codepen.io/Kris-B">@Kris-B</a>) on <a href="http://codepen.io">CodePen</a>.</p>';
+            jQuery("#nanoGalleryDemos").empty().html('<p>How to define the images using inline elements.</p>'+s);
+            CodePenEmbed.showCodePenEmbeds();
+            jQuery('#btnDemoSource').css('visibility','hidden')
+            break;
+
+          case 12:
+            var s='<p data-height="400" data-theme-id="0" data-slug-hash="RNXmyv" data-default-tab="result" data-user="Kris-B" class="codepen">See the Pen <a href="http://codepen.io/Kris-B/pen/RNXmyv/">RNXmyv</a> by Christophe Brisbois (<a href="http://codepen.io/Kris-B">@Kris-B</a>) on <a href="http://codepen.io">CodePen</a>.</p>';
+            jQuery("#nanoGalleryDemos").empty().html('<p>How to define albums and images using inline elements.<br><b>usage of data-ngid and data-ngalbumid is mandatory. It is also mandatory to set data-ngkind="album" for each album (kind is not mandatory for images).</b></p>'+s);
+            CodePenEmbed.showCodePenEmbeds();
+            jQuery('#btnDemoSource').css('visibility','hidden')
+            break;
+
+          case 13:
+            var s='<p data-height="400" data-theme-id="0" data-slug-hash="raXENJ" data-default-tab="result" data-user="Kris-B" class="codepen">See the Pen <a href="http://codepen.io/Kris-B/pen/raXENJ/">raXENJ</a> by Christophe Brisbois (<a href="http://codepen.io/Kris-B">@Kris-B</a>) on <a href="http://codepen.io">CodePen</a>.</p>';
+            jQuery("#nanoGalleryDemos").empty().html('<p>How to define images using the API method.</b></p>'+s);
+            CodePenEmbed.showCodePenEmbeds();
+            jQuery('#btnDemoSource').css('visibility','hidden')
+            break;
+            
+          case 14:
+            var s='<p data-height="400" data-theme-id="0" data-slug-hash="ByXeeN" data-default-tab="result" data-user="Kris-B" class="codepen">See the Pen <a href="http://codepen.io/Kris-B/pen/ByXeeN/">ByXeeN</a> by Christophe Brisbois (<a href="http://codepen.io/Kris-B">@Kris-B</a>) on <a href="http://codepen.io">CodePen</a>.</p>';
+            jQuery("#nanoGalleryDemos").empty().html('<p>How to define albums and images using the API method.<br><b>usage of ID and albumID is mandatory. It is also mandatory to set kind:"album" for each album (kind is not mandatory for images).</b></p>'+s);
+            CodePenEmbed.showCodePenEmbeds();
+            jQuery('#btnDemoSource').css('visibility','hidden')
+            break;
+        }
+      }
+
+
+      // Floating menu for navigation in documentation
+      
+      var $glossary = $("#glossary");
+      if ($glossary.height() > $('body').height()) {
+        $glossary.css({ overflowY: 'scroll', height: '90%', width: '120px' })
+      }
+      var section,
+      sections = {},
+      $documentationPanes = $("#documentation").find(".subheader"),
+      $oldBest;
+
+      $documentationPanes.each(function(){
+        var $par=$('<ul><a href="#'+$(this).parent().attr('id')+'"><i class="fa fa-chevron-circle-right"></i> '+$(this).data("glossary")+'</a></ul>');  //.appendTo($glossary);
+        var $sub=$(this).parent().find(".docSub");
+        $sub.each( function() {
+          $('<li><a href="#'+$(this).parent().attr('id')+'"><i class="fa fa-chevron-right"></i> '+$(this).data("glossary")+'</a></li>').appendTo($par);
+        });
+        $par.appendTo($glossary);
+      });
+
+      setSizeGlossary();
+      
+      function setSizeGlossary() {
+        var w=($(window).width()-990)/2;
+        
+        if(  !($(window).scrollTop() < $("#documentation").offset().top || $(window).scrollTop() > $("#endDocumentation").offset().top) ) {
+          $glossary.css({ visibility:'visible', width:w});
+          return true;
+        }
+        else {
+          $glossary.css({ visibility:'hidden'});
+          return false;
+        }
+      }
+    
+      // hilite current
+      $(window).on("scroll resize", function() {
+        if( setSizeGlossary() ) {
+          var $last=$documentationPanes.eq(0);
+          $documentationPanes.each(function(){
+            var $this = $(this),
+            offset = $this.offset();
+            var scrollPos = $(document).scrollTop() + 40;
+            if( (offset.top) <= (window.scrollY+150)) {
+              $last=$this;
+            }
+          });
+          
+          if( $oldBest && $oldBest.length ) {
+            $oldBest.css({ background: "", borderBottom: "" });
+          }
+          $oldBest = $glossary.find("a[href=#" + $last.parent().attr("id") + "]").css({ background: "#ccc", borderBottom: "0px solid #888" });
+        }
+       });
+          
+        
+      
+    });
+
+	</script>
+  
+  
+  </body>
+</html>

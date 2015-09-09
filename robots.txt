@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /nanogallery_demo1.html
+Disallow: /nanogallery_demo2.html
+Disallow: /nanogallery_demo3.html
+Disallow: /nanogallery_demo4.html
+Disallow: /donation.html
+Disallow: /test.html
+Disallow: /index2.html
+Disallow: /portable.html
+Disallow: /beta
