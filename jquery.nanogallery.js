@@ -209,6 +209,10 @@ nanoGALLERY v5.8.0 release notes.
           $(this).data('nanoGallery').nG.ReloadAlbum();
           return $(this);
           break;
+        case 'refreshSize':
+          $(this).data('nanoGallery').nG.RefreshSize();
+          return $(this);
+          break;
         case 'getSelectedItems':
           return $(this).data('nanoGallery').nG.GetSelectedItems();
           break;
@@ -347,6 +351,13 @@ nanoGALLERY v5.8.0 release notes.
       CloseInternalViewer(true);
       return false;
     };
+    
+    /**
+    * Force recheck of container size and resize accordingly
+    */
+    this.RefreshSize = function(){
+      ResizeGallery();
+    }
 
     // Display one item
     // itemID syntax:
