@@ -4149,6 +4149,14 @@ nanoGALLERY v5.8.0 release notes.
       DisplayAlbum(newAlbumIdx, setLocationHash);
     };
 
+    // Display previous album
+    function DisplayPreviousAlbum() {
+      var newAlbumIdx=GetPreviousAlbumIdx(G.curAlbumIdx);
+      var setLocationHash = newAlbumIdx > 0;
+
+      DisplayAlbum(newAlbumIdx, setLocationHash);
+    };
+
     function GetNextAlbumIdx( curAlbumIdx ) {
       var l=G.I.length;
       var newAlbumIdx=-1;
@@ -4161,6 +4169,28 @@ nanoGALLERY v5.8.0 release notes.
       }
       if( newAlbumIdx == -1 ) {
         for(var i=0; i<=curAlbumIdx; i++ ){
+          if( G.I[i].albumID == G.I[curAlbumIdx].albumID && G.I[i].kind == 'album' ) {
+            newAlbumIdx=i;
+            break;
+          }
+        }
+      }
+
+      return newAlbumIdx;
+    }
+
+    function GetPreviousAlbumIdx( curAlbumIdx ) {
+      var l=G.I.length;
+      var newAlbumIdx=-1;
+
+      for(var i=curAlbumIdx-1; i>=0; i-- ){
+        if( G.I[i].albumID == G.I[curAlbumIdx].albumID && G.I[i].kind == 'album' ) {
+          newAlbumIdx=i;
+          break;
+        }
+      }
+      if( newAlbumIdx == -1 ) {
+        for(var i=G.I.length-1; i>=curAlbumIdx; i-- ){
           if( G.I[i].albumID == G.I[curAlbumIdx].albumID && G.I[i].kind == 'album' ) {
             newAlbumIdx=i;
             break;
