@@ -1433,6 +1433,7 @@ nanoGALLERY v5.8.0 release notes.
 
 
       // Keyboard management --> Image Viewer
+      // Keyboard management --> Album Viewer (Else section)
       jQuery(document).keyup(function(e) {
         getSpecialKeysPressed(e);
         if( G.containerViewerDisplayed ) {
@@ -1454,6 +1455,26 @@ nanoGALLERY v5.8.0 release notes.
             case 34:    // PAGE DOWN
               DisplayPreviousImage();
               break;
+            case 35:    // END
+            case 36:    // BEGIN
+          }
+        } else if ( !G.containerViewerDisplayed && G.curAlbumIdx > 0 ) {
+          switch( e.keyCode) {
+            case 27:    // Esc key
+              DisplayAlbum(0, 'false');
+              break;
+            case 38:    // UP
+            case 39:    // RIGHT
+            case 33:    // PAGE UP
+              DisplayNextAlbum(G.curAlbumIdx);
+              break;
+            case 40:    // DOWN
+            case 37:    // LEFT
+            case 34:    // PAGE DOWN
+              DisplayPreviousAlbum(G.curAlbumIdx);
+              break;
+            case 32:    // SPACE
+            case 13:    // ENTER
             case 35:    // END
             case 36:    // BEGIN
           }
