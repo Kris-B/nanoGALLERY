@@ -278,6 +278,12 @@ nanoGALLERY v5.8.0 release notes.
         case 'getCurrentViewedItemIdx':
           return $(this).data('nanoGallery').nG.GetCurrentViewedItemIdx();
           break;
+        case 'moveToNextAlbum':
+          return $(this).data('nanoGallery').nG.moveToNextAlbum();
+          break;
+        case 'moveToPreviousAlbum':
+          return $(this).data('nanoGallery').nG.moveToPreviousAlbum();
+          break;
       }
       return $(this);
 
@@ -345,6 +351,21 @@ nanoGALLERY v5.8.0 release notes.
       }
 
     };
+
+    /**
+    * When in Album view, moves to next album
+    */
+    this.moveToNextAlbum = function () {
+      DisplayNextAlbum();
+    }
+
+    /**
+    * When in Album view, moves to previous album
+    */
+    this.moveToPreviousAlbum = function () {
+      DisplayPreviousAlbum();
+    }
+
 
     // Closes the image viewer
     this.closeViewer = function () {
