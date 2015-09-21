@@ -260,6 +260,9 @@ nanoGALLERY v5.8.0 release notes.
         case 'minimizeToolbar':
           $(this).data('nanoGallery').nG.minimizeToolbar();
           break;
+        case 'maximizeToolbar':
+          $(this).data('nanoGallery').nG.maximizeToolbar();
+          break;
         case 'displayItem':
           $(this).data('nanoGallery').nG.displayItem(option);
           break;
@@ -379,6 +382,12 @@ nanoGALLERY v5.8.0 release notes.
     // Toggle Toolbar between standard and minimized
     this.minimizeToolbar = function () {
       ToolbarVisibilityMin();
+      return false;
+    };
+
+    // Toggle Toolbar between standard and minimized
+    this.maximizeToolbar = function () {
+      ToolbarVisibilityStd();
       return false;
     };
 
