@@ -8320,13 +8320,7 @@ nanoGALLERY v5.8.0 release notes.
       }
 
       // set page number
-      var viewerMaxImages=0;
-      var l=G.I.length;
-      for( var i=0; i <  l ; i++ ) {
-        if( G.I[i].albumID == G.I[imageIdx].albumID && G.I[i].kind == 'image' ) {
-          viewerMaxImages++;
-        }
-      }
+      var viewerMaxImages= galleryCountImages();
       if( viewerMaxImages > 0 ) {
         G.$E.conVwTb.find('.pageCounter').html((G.I[imageIdx].imageNumber+1)+'/'+viewerMaxImages);
       }
