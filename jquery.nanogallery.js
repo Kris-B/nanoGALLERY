@@ -290,6 +290,9 @@ nanoGALLERY v5.8.0 release notes.
         case 'moveToPreviousAlbum':
           return $(this).data('nanoGallery').nG.moveToPreviousAlbum();
           break;
+        case 'galleryCountImages':
+          return $(this).data('nanoGallery').nG.galleryCountImages();
+          break;
       }
       return $(this);
 
@@ -439,7 +442,10 @@ nanoGALLERY v5.8.0 release notes.
       return n2;
     };
 
-
+    // Viewer - Count number of images
+    this.galleryCountImages = function () {
+      return galleryCountImages();
+    }
 
     /**
      * Get an item by its index
@@ -5136,6 +5142,23 @@ nanoGALLERY v5.8.0 release notes.
       }
 
       renderGallery(aIdx,pn);
+    }
+
+    function galleryCountImages (imageIdx) {
+      var l=G.I.length;
+      var images = 0;
+      var currentItemIdx = imageIdx || G.GetCurrentViewedItemIdx();
+
+      if (currentItemIdx !== -1) {
+        for( var i=0; i <  l ; i++ ) {
+          if( G.I[i].albumID == G.I[currentItemIdx].albumID && G.I[i].kind == 'image' ) {
+            images++;
+          }
+        }
+        return images;
+      } else {
+        return 0;
+      }
     }
 
     function renderGallery( albumIdx, pageNumber ) {
