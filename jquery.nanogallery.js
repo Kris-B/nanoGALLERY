@@ -257,6 +257,9 @@ nanoGALLERY v5.8.0 release notes.
         case 'closeViewer':
           $(this).data('nanoGallery').nG.closeViewer();
           break;
+        case 'minimizeToolbar':
+          $(this).data('nanoGallery').nG.minimizeToolbar();
+          break;
         case 'displayItem':
           $(this).data('nanoGallery').nG.displayItem(option);
           break;
@@ -370,6 +373,12 @@ nanoGALLERY v5.8.0 release notes.
     // Closes the image viewer
     this.closeViewer = function () {
       CloseInternalViewer(true);
+      return false;
+    };
+
+    // Toggle Toolbar between standard and minimized
+    this.minimizeToolbar = function () {
+      ToolbarVisibilityMin();
       return false;
     };
 
