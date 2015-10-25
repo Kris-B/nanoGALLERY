@@ -19,7 +19,7 @@ v5.9.0
   
 ##### New API methods  
 - **refreshSize**: Force a gallery resize.  
-  When the gallery container is hidden and is set to visible a later time, this method will avoid incorrect thumbnail position.  
+  When the gallery container is hidden and is set to visible at a later time, this method will avoid incorrect thumbnail position.  
   `$('#yourElement').nanoGallery('refreshSize');`  
   (credits: Daniel Eck - https://github.com/Ecksters)  
 - **minimizeToolbar**: minimize image viewer toolbar.  
@@ -39,13 +39,13 @@ v5.9.0
   (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
   
 ##### Misc
-- fixed support of `nanoPhotosProvider`  
+- fixed support of `nanoPhotosProvider` (https://github.com/Kris-B/nanoPhotosProvider)  
 - removed option 'jsonCharset'  
 - bugfix: issue #86 - error on hoverOut n[r].toFixed is undefined (credits: Andrea Grassi - https://github.com/andrea-sdl)  
 - bugfix: issue #78 - NGTweenable undefined when loading in a page using AMD and requirejs (credits: Jeff Mills - https://github.com/jefftmills)  
 
 
-**Many thanks to Victor A. Banuelos, Daniel Eck and Andrea Grassi for their contribution.**
+**Many thanks to Victor A. Banuelos, Daniel Eck, Jeff Mills and Andrea Grassi for their contribution.**
 
 
 v5.8.0
