@@ -8,7 +8,7 @@ v5.9.0
 ------
 
 ##### New options
-- **albumMax**: Maxum number of albums to display (Flicrk, Picasa/Google+, nanoPhotosProvider) (0=disabled).  
+- **albumMax**: Maximum number of albums to display (Flickr, Picasa/Google+, nanoPhotosProvider) (0=disabled).  
   *integer; Default: 0*  
 - **galleryEnableKeyboard**: Enables keyboard navigation beween albums.  
   *boolean; Default: false*  
