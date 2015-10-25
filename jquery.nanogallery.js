@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.8.0
+ * @preserve nanoGALLERY v5.9.0
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,35 +22,47 @@
 
 /*
 
-nanoGALLERY v5.8.0 release notes.
+nanoGALLERY v5.9.0 release notes.
 
-##### New API methods
-- **closeViewer**: close the image viewer.
-  `$('#yourElement').nanoGallery('closeViewer');`
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)
-- **paginationPreviousPage**: go to previous gallery page (when in pagination mode).
-  `$('#yourElement').nanoGallery('paginationPreviousPage');`
-- **paginationNextPage**: go to next gallery page (when in pagination mode).
-  `$('#yourElement').nanoGallery('paginationNextPage');`
-- **paginationCountPages**: returns the number of gallery pages (when in pagination mode).
-  `var countPages = $('#yourElement').nanoGallery('paginationCountPages');`
-- **paginationGotoPage**: go to a specific gallery page (when in pagination mode).
-  `$('#yourElement').nanoGallery('paginationGotoPage', pageNumber);`
-- **getCurrentViewedItem**: get the currently viewed item. Returns `null` if viewer not displayed.
-  `var item=$('#yourElement').nanoGallery('getCurrentViewedItem');`
-  (credits: Daniel Eck - https://github.com/Ecksters)
-- **getCurrentViewedItemIdx**: get the index of the currently viewed image. Returns `-1` if viewer not displayed.
-  `var itemIdx=$('#yourElement').nanoGallery('getCurrentViewedItemIdx');`
-  (credits: Daniel Eck - https://github.com/Ecksters)
-
-
+##### New options
+- **albumMax**: Maxum number of albums to display (Flicrk, Picasa/Google+, nanoPhotosProvider) (0=disabled).  
+  *integer; Default: 0*  
+- **galleryEnableKeyboard**: Enables keyboard navigation beween albums.  
+  *boolean; Default: false*  
+  ESC: display first level  
+  Up, Right, PageUp: Display next album  
+  Down, Left, PageDown: Display previous album  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+  
+##### New API methods  
+- **refreshSize**: Force a gallery resize.  
+  When the gallery container is hidden and is set to visible a later time, this method will avoid incorrect thumbnail position.  
+  `$('#yourElement').nanoGallery('refreshSize');`  
+  (credits: Daniel Eck - https://github.com/Ecksters)  
+- **minimizeToolbar**: minimize image viewer toolbar.  
+  `$('#yourElement').nanoGallery('minimizeToolbar');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **maximizeToolbar**: maximize image viewer toolbar.  
+  `$('#yourElement').nanoGallery('maximizeToolbar');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **galleryCountImages**: Returns the number of images in the current displayed album.  
+  `$('#yourElement').nanoGallery('galleryCountImages');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **moveToNextAlbum**: Display next gallery album.  
+  `$('#yourElement').nanoGallery('moveToNextAlbum');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **moveToPreviousAlbum**: Display previous gallery album.  
+  `$('#yourElement').nanoGallery('moveToPreviousAlbum');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+  
 ##### Misc
-- Picasa/Google+: now supports more than 1.000 images per album (credits: Giovanni Chiodi).
-- bugfix: hover animations becoming choppy after navigating fastly in images.
-- bugfix: loading CSS animation consuming memory even if not visible.
-- bugfix: issue #78 - NGTweenable undefined when loading in a page using AMD and requirejs (credits: Jeff Mills - https://github.com/jefftmills)
+- fixed support of `nanoPhotosProvider`  
+- removed option 'jsonCharset'  
+- bugfix: issue #86 - error on hoverOut n[r].toFixed is undefined (credits: Andrea Grassi - https://github.com/andrea-sdl)  
+- bugfix: issue #78 - NGTweenable undefined when loading in a page using AMD and requirejs (credits: Jeff Mills - https://github.com/jefftmills)  
 
-**Many thanks to Giovanni Chiodi, AlexRed, Jeff Mills, Victor A. Banuelos and Daniel Eck for their contribution.**
+
+**Many thanks to Victor A. Banuelos, Daniel Eck and Andrea Grassi for their contribution.**
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -66,7 +78,7 @@ nanoGALLERY v5.8.0 release notes.
 // replace "Tweenable" with "NGTweenable"
 // replace "define.amd" with "define.amdDISABLED"
 /*! shifty - v1.5.0 - 2015-05-31 - http://jeremyckahn.github.io/shifty */
-(function(){var t=this,n=function(){"use strict";function n(){}function e(t,n){var e;for(e in t)Object.hasOwnProperty.call(t,e)&&n(e)}function i(t,n){return e(n,function(e){t[e]=n[e]}),t}function r(t,n){e(n,function(e){t[e]===void 0&&(t[e]=n[e])})}function o(t,n,e,i,r,o,u){var s,c,h,p=o>t?0:(t-o)/r;for(s in n)n.hasOwnProperty(s)&&(c=u[s],h="function"==typeof c?c:f[c],n[s]=a(e[s],i[s],h,p));return n}function a(t,n,e,i){return t+(n-t)*e(i)}function u(t,n){var i=h.prototype.filter,r=t._filterArgs;e(i,function(e){i[e][n]!==void 0&&i[e][n].apply(t,r)})}function s(t,n,e,i,r,a,s,c,h,f,p){g=n+e+i,y=Math.min(p||d(),g),v=y>=g,M=i-(g-y),t.isPlaying()&&!v?(t._scheduleId=f(t._timeoutHandler,m),u(t,"beforeTween"),n+e>y?o(1,r,a,s,1,1,c):o(y,r,a,s,i,n+e,c),u(t,"afterTween"),h(r,t._attachment,M)):t.isPlaying()&&v&&(h(s,t._attachment,M),t.stop(!0))}function c(t,n){var i={},r=typeof n;return"string"===r||"function"===r?e(t,function(t){i[t]=n}):e(t,function(t){i[t]||(i[t]=n[t]||l)}),i}function h(t,n){this._currentState=t||{},this._configured=!1,this._scheduleFunction=p,n!==void 0&&this.setConfig(n)}var f,p,l="linear",_=500,m=1e3/60,w=Date.now?Date.now:function(){return+new Date},d="undefined"!=typeof SHIFTY_DEBUG_NOW?SHIFTY_DEBUG_NOW:w;p="undefined"!=typeof window?window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||window.mozCancelRequestAnimationFrame&&window.mozRequestAnimationFrame||setTimeout:setTimeout;var g,y,v,M;return h.prototype.tween=function(t){return this._isTweening?this:(void 0===t&&this._configured||this.setConfig(t),this._timestamp=d(),this._start(this.get(),this._attachment),this.resume())},h.prototype.setConfig=function(t){t=t||{},this._configured=!0,this._attachment=t.attachment,this._pausedAtTime=null,this._scheduleId=null,this._delay=t.delay||0,this._start=t.start||n,this._step=t.step||n,this._finish=t.finish||n,this._duration=t.duration||_,this._currentState=i({},t.from)||this.get(),this._originalState=this.get(),this._targetState=i({},t.to)||this.get();var e=this;this._timeoutHandler=function(){s(e,e._timestamp,e._delay,e._duration,e._currentState,e._originalState,e._targetState,e._easing,e._step,e._scheduleFunction)};var o=this._currentState,a=this._targetState;return r(a,o),this._easing=c(o,t.easing||l),this._filterArgs=[o,this._originalState,a,this._easing],u(this,"tweenCreated"),this},h.prototype.get=function(){return i({},this._currentState)},h.prototype.set=function(t){this._currentState=t},h.prototype.pause=function(){return this._pausedAtTime=d(),this._isPaused=!0,this},h.prototype.resume=function(){return this._isPaused&&(this._timestamp+=d()-this._pausedAtTime),this._isPaused=!1,this._isTweening=!0,this._timeoutHandler(),this},h.prototype.seek=function(t){t=Math.max(t,0);var n=d();return 0===this._timestamp+t?this:(this._timestamp=n-t,this.isPlaying()||(this._isTweening=!0,this._isPaused=!1,s(this,this._timestamp,this._delay,this._duration,this._currentState,this._originalState,this._targetState,this._easing,this._step,this._scheduleFunction,n),this.pause()),this)},h.prototype.stop=function(e){return this._isTweening=!1,this._isPaused=!1,this._timeoutHandler=n,(t.cancelAnimationFrame||t.webkitCancelAnimationFrame||t.oCancelAnimationFrame||t.msCancelAnimationFrame||t.mozCancelRequestAnimationFrame||t.clearTimeout)(this._scheduleId),e&&(u(this,"beforeTween"),o(1,this._currentState,this._originalState,this._targetState,1,0,this._easing),u(this,"afterTween"),u(this,"afterTweenEnd"),this._finish.call(this,this._currentState,this._attachment)),this},h.prototype.isPlaying=function(){return this._isTweening&&!this._isPaused},h.prototype.setScheduleFunction=function(t){this._scheduleFunction=t},h.prototype.dispose=function(){var t;for(t in this)this.hasOwnProperty(t)&&delete this[t]},h.prototype.filter={},h.prototype.formula={linear:function(t){return t}},f=h.prototype.formula,i(h,{now:d,each:e,tweenProps:o,tweenProp:a,applyFilter:u,shallowCopy:i,defaults:r,composeEasingObject:c}),"function"==typeof SHIFTY_DEBUG_NOW&&(t.timeoutHandler=s),"object"==typeof exports?module.exports=h:"function"==typeof define&&define.amdDISABLED?define(function(){return h}):t.NGTweenable===void 0&&(t.NGTweenable=h),h}();(function(){n.shallowCopy(n.prototype.formula,{easeInQuad:function(t){return Math.pow(t,2)},easeOutQuad:function(t){return-(Math.pow(t-1,2)-1)},easeInOutQuad:function(t){return 1>(t/=.5)?.5*Math.pow(t,2):-.5*((t-=2)*t-2)},easeInCubic:function(t){return Math.pow(t,3)},easeOutCubic:function(t){return Math.pow(t-1,3)+1},easeInOutCubic:function(t){return 1>(t/=.5)?.5*Math.pow(t,3):.5*(Math.pow(t-2,3)+2)},easeInQuart:function(t){return Math.pow(t,4)},easeOutQuart:function(t){return-(Math.pow(t-1,4)-1)},easeInOutQuart:function(t){return 1>(t/=.5)?.5*Math.pow(t,4):-.5*((t-=2)*Math.pow(t,3)-2)},easeInQuint:function(t){return Math.pow(t,5)},easeOutQuint:function(t){return Math.pow(t-1,5)+1},easeInOutQuint:function(t){return 1>(t/=.5)?.5*Math.pow(t,5):.5*(Math.pow(t-2,5)+2)},easeInSine:function(t){return-Math.cos(t*(Math.PI/2))+1},easeOutSine:function(t){return Math.sin(t*(Math.PI/2))},easeInOutSine:function(t){return-.5*(Math.cos(Math.PI*t)-1)},easeInExpo:function(t){return 0===t?0:Math.pow(2,10*(t-1))},easeOutExpo:function(t){return 1===t?1:-Math.pow(2,-10*t)+1},easeInOutExpo:function(t){return 0===t?0:1===t?1:1>(t/=.5)?.5*Math.pow(2,10*(t-1)):.5*(-Math.pow(2,-10*--t)+2)},easeInCirc:function(t){return-(Math.sqrt(1-t*t)-1)},easeOutCirc:function(t){return Math.sqrt(1-Math.pow(t-1,2))},easeInOutCirc:function(t){return 1>(t/=.5)?-.5*(Math.sqrt(1-t*t)-1):.5*(Math.sqrt(1-(t-=2)*t)+1)},easeOutBounce:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?7.5625*(t-=1.5/2.75)*t+.75:2.5/2.75>t?7.5625*(t-=2.25/2.75)*t+.9375:7.5625*(t-=2.625/2.75)*t+.984375},easeInBack:function(t){var n=1.70158;return t*t*((n+1)*t-n)},easeOutBack:function(t){var n=1.70158;return(t-=1)*t*((n+1)*t+n)+1},easeInOutBack:function(t){var n=1.70158;return 1>(t/=.5)?.5*t*t*(((n*=1.525)+1)*t-n):.5*((t-=2)*t*(((n*=1.525)+1)*t+n)+2)},elastic:function(t){return-1*Math.pow(4,-8*t)*Math.sin((6*t-1)*2*Math.PI/2)+1},swingFromTo:function(t){var n=1.70158;return 1>(t/=.5)?.5*t*t*(((n*=1.525)+1)*t-n):.5*((t-=2)*t*(((n*=1.525)+1)*t+n)+2)},swingFrom:function(t){var n=1.70158;return t*t*((n+1)*t-n)},swingTo:function(t){var n=1.70158;return(t-=1)*t*((n+1)*t+n)+1},bounce:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?7.5625*(t-=1.5/2.75)*t+.75:2.5/2.75>t?7.5625*(t-=2.25/2.75)*t+.9375:7.5625*(t-=2.625/2.75)*t+.984375},bouncePast:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?2-(7.5625*(t-=1.5/2.75)*t+.75):2.5/2.75>t?2-(7.5625*(t-=2.25/2.75)*t+.9375):2-(7.5625*(t-=2.625/2.75)*t+.984375)},easeFromTo:function(t){return 1>(t/=.5)?.5*Math.pow(t,4):-.5*((t-=2)*Math.pow(t,3)-2)},easeFrom:function(t){return Math.pow(t,4)},easeTo:function(t){return Math.pow(t,.25)}})})(),function(){function t(t,n,e,i,r,o){function a(t){return((l*t+_)*t+m)*t}function u(t){return((w*t+d)*t+g)*t}function s(t){return(3*l*t+2*_)*t+m}function c(t){return 1/(200*t)}function h(t,n){return u(p(t,n))}function f(t){return t>=0?t:0-t}function p(t,n){var e,i,r,o,u,c;for(r=t,c=0;8>c;c++){if(o=a(r)-t,n>f(o))return r;if(u=s(r),1e-6>f(u))break;r-=o/u}if(e=0,i=1,r=t,e>r)return e;if(r>i)return i;for(;i>e;){if(o=a(r),n>f(o-t))return r;t>o?e=r:i=r,r=.5*(i-e)+e}return r}var l=0,_=0,m=0,w=0,d=0,g=0;return m=3*n,_=3*(i-n)-m,l=1-m-_,g=3*e,d=3*(r-e)-g,w=1-g-d,h(t,c(o))}function e(n,e,i,r){return function(o){return t(o,n,e,i,r,1)}}n.setBezierFunction=function(t,i,r,o,a){var u=e(i,r,o,a);return u.displayName=t,u.x1=i,u.y1=r,u.x2=o,u.y2=a,n.prototype.formula[t]=u},n.unsetBezierFunction=function(t){delete n.prototype.formula[t]}}(),function(){function t(t,e,i,r,o,a){return n.tweenProps(r,e,t,i,1,a,o)}var e=new n;e._filterArgs=[],n.interpolate=function(i,r,o,a,u){var s=n.shallowCopy({},i),c=u||0,h=n.composeEasingObject(i,a||"linear");e.set({});var f=e._filterArgs;f.length=0,f[0]=s,f[1]=i,f[2]=r,f[3]=h,n.applyFilter(e,"tweenCreated"),n.applyFilter(e,"beforeTween");var p=t(i,s,r,o,h,c);return n.applyFilter(e,"afterTween"),p}}(),function(t){function n(t,n){var e,i=[],r=t.length;for(e=0;r>e;e++)i.push("_"+n+"_"+e);return i}function e(t){var n=t.match(M);return n?(1===n.length||t[0].match(v))&&n.unshift(""):n=["",""],n.join(O)}function i(n){t.each(n,function(t){var e=n[t];"string"==typeof e&&e.match(S)&&(n[t]=r(e))})}function r(t){return s(S,t,o)}function o(t){var n=a(t);return"rgb("+n[0]+","+n[1]+","+n[2]+")"}function a(t){return t=t.replace(/#/,""),3===t.length&&(t=t.split(""),t=t[0]+t[0]+t[1]+t[1]+t[2]+t[2]),b[0]=u(t.substr(0,2)),b[1]=u(t.substr(2,2)),b[2]=u(t.substr(4,2)),b}function u(t){return parseInt(t,16)}function s(t,n,e){var i=n.match(t),r=n.replace(t,O);if(i)for(var o,a=i.length,u=0;a>u;u++)o=i.shift(),r=r.replace(O,e(o));return r}function c(t){return s(T,t,h)}function h(t){for(var n=t.match(F),e=n.length,i=t.match(I)[0],r=0;e>r;r++)i+=parseInt(n[r],10)+",";return i=i.slice(0,-1)+")"}function f(i){var r={};return t.each(i,function(t){var o=i[t];if("string"==typeof o){var a=d(o);r[t]={formatString:e(o),chunkNames:n(a,t)}}}),r}function p(n,e){t.each(e,function(t){for(var i=n[t],r=d(i),o=r.length,a=0;o>a;a++)n[e[t].chunkNames[a]]=+r[a];delete n[t]})}function l(n,e){t.each(e,function(t){var i=n[t],r=_(n,e[t].chunkNames),o=m(r,e[t].chunkNames);i=w(e[t].formatString,o),n[t]=c(i)})}function _(t,n){for(var e,i={},r=n.length,o=0;r>o;o++)e=n[o],i[e]=t[e],delete t[e];return i}function m(t,n){k.length=0;for(var e=n.length,i=0;e>i;i++)k.push(t[n[i]]);return k}function w(t,n){for(var e=t,i=n.length,r=0;i>r;r++)e=e.replace(O,+n[r].toFixed(4));return e}function d(t){return t.match(F)}function g(n,e){t.each(e,function(t){var i,r=e[t],o=r.chunkNames,a=o.length,u=n[t];if("string"==typeof u){var s=u.split(" "),c=s[s.length-1];for(i=0;a>i;i++)n[o[i]]=s[i]||c}else for(i=0;a>i;i++)n[o[i]]=u;delete n[t]})}function y(n,e){t.each(e,function(t){var i=e[t],r=i.chunkNames,o=r.length,a=n[r[0]],u=typeof a;if("string"===u){for(var s="",c=0;o>c;c++)s+=" "+n[r[c]],delete n[r[c]];n[t]=s.substr(1)}else n[t]=a})}var v=/(\d|\-|\.)/,M=/([^\-0-9\.]+)/g,F=/[0-9.\-]+/g,T=RegExp("rgb\\("+F.source+/,\s*/.source+F.source+/,\s*/.source+F.source+"\\)","g"),I=/^.*\(/,S=/#([0-9]|[a-f]){3,6}/gi,O="VAL",b=[],k=[];t.prototype.filter.token={tweenCreated:function(t,n,e){i(t),i(n),i(e),this._tokenData=f(t)},beforeTween:function(t,n,e,i){g(i,this._tokenData),p(t,this._tokenData),p(n,this._tokenData),p(e,this._tokenData)},afterTween:function(t,n,e,i){l(t,this._tokenData),l(n,this._tokenData),l(e,this._tokenData),y(i,this._tokenData)}}}(n)}).call(null);
+(function(){var t=this,n=function(){"use strict";function n(){}function e(t,n){var e;for(e in t)Object.hasOwnProperty.call(t,e)&&n(e)}function i(t,n){return e(n,function(e){t[e]=n[e]}),t}function r(t,n){e(n,function(e){t[e]===void 0&&(t[e]=n[e])})}function o(t,n,e,i,r,o,u){var s,c,h,p=o>t?0:(t-o)/r;for(s in n)n.hasOwnProperty(s)&&(c=u[s],h="function"==typeof c?c:f[c],n[s]=a(e[s],i[s],h,p));return n}function a(t,n,e,i){return t+(n-t)*e(i)}function u(t,n){var i=h.prototype.filter,r=t._filterArgs;e(i,function(e){i[e][n]!==void 0&&i[e][n].apply(t,r)})}function s(t,n,e,i,r,a,s,c,h,f,p){g=n+e+i,y=Math.min(p||d(),g),v=y>=g,M=i-(g-y),t.isPlaying()&&!v?(t._scheduleId=f(t._timeoutHandler,m),u(t,"beforeTween"),n+e>y?o(1,r,a,s,1,1,c):o(y,r,a,s,i,n+e,c),u(t,"afterTween"),h(r,t._attachment,M)):t.isPlaying()&&v&&(h(s,t._attachment,M),t.stop(!0))}function c(t,n){var i={},r=typeof n;return"string"===r||"function"===r?e(t,function(t){i[t]=n}):e(t,function(t){i[t]||(i[t]=n[t]||l)}),i}function h(t,n){this._currentState=t||{},this._configured=!1,this._scheduleFunction=p,n!==void 0&&this.setConfig(n)}var f,p,l="linear",_=500,m=1e3/60,w=Date.now?Date.now:function(){return+new Date},d="undefined"!=typeof SHIFTY_DEBUG_NOW?SHIFTY_DEBUG_NOW:w;p="undefined"!=typeof window?window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||window.mozCancelRequestAnimationFrame&&window.mozRequestAnimationFrame||setTimeout:setTimeout;var g,y,v,M;return h.prototype.tween=function(t){return this._isTweening?this:(void 0===t&&this._configured||this.setConfig(t),this._timestamp=d(),this._start(this.get(),this._attachment),this.resume())},h.prototype.setConfig=function(t){t=t||{},this._configured=!0,this._attachment=t.attachment,this._pausedAtTime=null,this._scheduleId=null,this._delay=t.delay||0,this._start=t.start||n,this._step=t.step||n,this._finish=t.finish||n,this._duration=t.duration||_,this._currentState=i({},t.from)||this.get(),this._originalState=this.get(),this._targetState=i({},t.to)||this.get();var e=this;this._timeoutHandler=function(){s(e,e._timestamp,e._delay,e._duration,e._currentState,e._originalState,e._targetState,e._easing,e._step,e._scheduleFunction)};var o=this._currentState,a=this._targetState;return r(a,o),this._easing=c(o,t.easing||l),this._filterArgs=[o,this._originalState,a,this._easing],u(this,"tweenCreated"),this},h.prototype.get=function(){return i({},this._currentState)},h.prototype.set=function(t){this._currentState=t},h.prototype.pause=function(){return this._pausedAtTime=d(),this._isPaused=!0,this},h.prototype.resume=function(){return this._isPaused&&(this._timestamp+=d()-this._pausedAtTime),this._isPaused=!1,this._isTweening=!0,this._timeoutHandler(),this},h.prototype.seek=function(t){t=Math.max(t,0);var n=d();return 0===this._timestamp+t?this:(this._timestamp=n-t,this.isPlaying()||(this._isTweening=!0,this._isPaused=!1,s(this,this._timestamp,this._delay,this._duration,this._currentState,this._originalState,this._targetState,this._easing,this._step,this._scheduleFunction,n),this.pause()),this)},h.prototype.stop=function(e){return this._isTweening=!1,this._isPaused=!1,this._timeoutHandler=n,(t.cancelAnimationFrame||t.webkitCancelAnimationFrame||t.oCancelAnimationFrame||t.msCancelAnimationFrame||t.mozCancelRequestAnimationFrame||t.clearTimeout)(this._scheduleId),e&&(u(this,"beforeTween"),o(1,this._currentState,this._originalState,this._targetState,1,0,this._easing),u(this,"afterTween"),u(this,"afterTweenEnd"),this._finish.call(this,this._currentState,this._attachment)),this},h.prototype.isPlaying=function(){return this._isTweening&&!this._isPaused},h.prototype.setScheduleFunction=function(t){this._scheduleFunction=t},h.prototype.dispose=function(){var t;for(t in this)this.hasOwnProperty(t)&&delete this[t]},h.prototype.filter={},h.prototype.formula={linear:function(t){return t}},f=h.prototype.formula,i(h,{now:d,each:e,tweenProps:o,tweenProp:a,applyFilter:u,shallowCopy:i,defaults:r,composeEasingObject:c}),"function"==typeof SHIFTY_DEBUG_NOW&&(t.timeoutHandler=s),"object"==typeof exports?module.exports=h:"function"==typeof define&&define.amd?define('ngTweenable', function(){return h}):t.NGTweenable===void 0&&(t.NGTweenable=h),h}();(function(){n.shallowCopy(n.prototype.formula,{easeInQuad:function(t){return Math.pow(t,2)},easeOutQuad:function(t){return-(Math.pow(t-1,2)-1)},easeInOutQuad:function(t){return 1>(t/=.5)?.5*Math.pow(t,2):-.5*((t-=2)*t-2)},easeInCubic:function(t){return Math.pow(t,3)},easeOutCubic:function(t){return Math.pow(t-1,3)+1},easeInOutCubic:function(t){return 1>(t/=.5)?.5*Math.pow(t,3):.5*(Math.pow(t-2,3)+2)},easeInQuart:function(t){return Math.pow(t,4)},easeOutQuart:function(t){return-(Math.pow(t-1,4)-1)},easeInOutQuart:function(t){return 1>(t/=.5)?.5*Math.pow(t,4):-.5*((t-=2)*Math.pow(t,3)-2)},easeInQuint:function(t){return Math.pow(t,5)},easeOutQuint:function(t){return Math.pow(t-1,5)+1},easeInOutQuint:function(t){return 1>(t/=.5)?.5*Math.pow(t,5):.5*(Math.pow(t-2,5)+2)},easeInSine:function(t){return-Math.cos(t*(Math.PI/2))+1},easeOutSine:function(t){return Math.sin(t*(Math.PI/2))},easeInOutSine:function(t){return-.5*(Math.cos(Math.PI*t)-1)},easeInExpo:function(t){return 0===t?0:Math.pow(2,10*(t-1))},easeOutExpo:function(t){return 1===t?1:-Math.pow(2,-10*t)+1},easeInOutExpo:function(t){return 0===t?0:1===t?1:1>(t/=.5)?.5*Math.pow(2,10*(t-1)):.5*(-Math.pow(2,-10*--t)+2)},easeInCirc:function(t){return-(Math.sqrt(1-t*t)-1)},easeOutCirc:function(t){return Math.sqrt(1-Math.pow(t-1,2))},easeInOutCirc:function(t){return 1>(t/=.5)?-.5*(Math.sqrt(1-t*t)-1):.5*(Math.sqrt(1-(t-=2)*t)+1)},easeOutBounce:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?7.5625*(t-=1.5/2.75)*t+.75:2.5/2.75>t?7.5625*(t-=2.25/2.75)*t+.9375:7.5625*(t-=2.625/2.75)*t+.984375},easeInBack:function(t){var n=1.70158;return t*t*((n+1)*t-n)},easeOutBack:function(t){var n=1.70158;return(t-=1)*t*((n+1)*t+n)+1},easeInOutBack:function(t){var n=1.70158;return 1>(t/=.5)?.5*t*t*(((n*=1.525)+1)*t-n):.5*((t-=2)*t*(((n*=1.525)+1)*t+n)+2)},elastic:function(t){return-1*Math.pow(4,-8*t)*Math.sin((6*t-1)*2*Math.PI/2)+1},swingFromTo:function(t){var n=1.70158;return 1>(t/=.5)?.5*t*t*(((n*=1.525)+1)*t-n):.5*((t-=2)*t*(((n*=1.525)+1)*t+n)+2)},swingFrom:function(t){var n=1.70158;return t*t*((n+1)*t-n)},swingTo:function(t){var n=1.70158;return(t-=1)*t*((n+1)*t+n)+1},bounce:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?7.5625*(t-=1.5/2.75)*t+.75:2.5/2.75>t?7.5625*(t-=2.25/2.75)*t+.9375:7.5625*(t-=2.625/2.75)*t+.984375},bouncePast:function(t){return 1/2.75>t?7.5625*t*t:2/2.75>t?2-(7.5625*(t-=1.5/2.75)*t+.75):2.5/2.75>t?2-(7.5625*(t-=2.25/2.75)*t+.9375):2-(7.5625*(t-=2.625/2.75)*t+.984375)},easeFromTo:function(t){return 1>(t/=.5)?.5*Math.pow(t,4):-.5*((t-=2)*Math.pow(t,3)-2)},easeFrom:function(t){return Math.pow(t,4)},easeTo:function(t){return Math.pow(t,.25)}})})(),function(){function t(t,n,e,i,r,o){function a(t){return((l*t+_)*t+m)*t}function u(t){return((w*t+d)*t+g)*t}function s(t){return(3*l*t+2*_)*t+m}function c(t){return 1/(200*t)}function h(t,n){return u(p(t,n))}function f(t){return t>=0?t:0-t}function p(t,n){var e,i,r,o,u,c;for(r=t,c=0;8>c;c++){if(o=a(r)-t,n>f(o))return r;if(u=s(r),1e-6>f(u))break;r-=o/u}if(e=0,i=1,r=t,e>r)return e;if(r>i)return i;for(;i>e;){if(o=a(r),n>f(o-t))return r;t>o?e=r:i=r,r=.5*(i-e)+e}return r}var l=0,_=0,m=0,w=0,d=0,g=0;return m=3*n,_=3*(i-n)-m,l=1-m-_,g=3*e,d=3*(r-e)-g,w=1-g-d,h(t,c(o))}function e(n,e,i,r){return function(o){return t(o,n,e,i,r,1)}}n.setBezierFunction=function(t,i,r,o,a){var u=e(i,r,o,a);return u.displayName=t,u.x1=i,u.y1=r,u.x2=o,u.y2=a,n.prototype.formula[t]=u},n.unsetBezierFunction=function(t){delete n.prototype.formula[t]}}(),function(){function t(t,e,i,r,o,a){return n.tweenProps(r,e,t,i,1,a,o)}var e=new n;e._filterArgs=[],n.interpolate=function(i,r,o,a,u){var s=n.shallowCopy({},i),c=u||0,h=n.composeEasingObject(i,a||"linear");e.set({});var f=e._filterArgs;f.length=0,f[0]=s,f[1]=i,f[2]=r,f[3]=h,n.applyFilter(e,"tweenCreated"),n.applyFilter(e,"beforeTween");var p=t(i,s,r,o,h,c);return n.applyFilter(e,"afterTween"),p}}(),function(t){function n(t,n){var e,i=[],r=t.length;for(e=0;r>e;e++)i.push("_"+n+"_"+e);return i}function e(t){var n=t.match(M);return n?(1===n.length||t[0].match(v))&&n.unshift(""):n=["",""],n.join(O)}function i(n){t.each(n,function(t){var e=n[t];"string"==typeof e&&e.match(S)&&(n[t]=r(e))})}function r(t){return s(S,t,o)}function o(t){var n=a(t);return"rgb("+n[0]+","+n[1]+","+n[2]+")"}function a(t){return t=t.replace(/#/,""),3===t.length&&(t=t.split(""),t=t[0]+t[0]+t[1]+t[1]+t[2]+t[2]),b[0]=u(t.substr(0,2)),b[1]=u(t.substr(2,2)),b[2]=u(t.substr(4,2)),b}function u(t){return parseInt(t,16)}function s(t,n,e){var i=n.match(t),r=n.replace(t,O);if(i)for(var o,a=i.length,u=0;a>u;u++)o=i.shift(),r=r.replace(O,e(o));return r}function c(t){return s(T,t,h)}function h(t){for(var n=t.match(F),e=n.length,i=t.match(I)[0],r=0;e>r;r++)i+=parseInt(n[r],10)+",";return i=i.slice(0,-1)+")"}function f(i){var r={};return t.each(i,function(t){var o=i[t];if("string"==typeof o){var a=d(o);r[t]={formatString:e(o),chunkNames:n(a,t)}}}),r}function p(n,e){t.each(e,function(t){for(var i=n[t],r=d(i),o=r.length,a=0;o>a;a++)n[e[t].chunkNames[a]]=+r[a];delete n[t]})}function l(n,e){t.each(e,function(t){var i=n[t],r=_(n,e[t].chunkNames),o=m(r,e[t].chunkNames);i=w(e[t].formatString,o),n[t]=c(i)})}function _(t,n){for(var e,i={},r=n.length,o=0;r>o;o++)e=n[o],i[e]=t[e],delete t[e];return i}function m(t,n){k.length=0;for(var e=n.length,i=0;e>i;i++)k.push(t[n[i]]);return k}function w(t,n){for(var e=t,i=n.length,r=0;i>r;r++)e=e.replace(O,+n[r].toFixed(4));return e}function d(t){return t.match(F)}function g(n,e){t.each(e,function(t){var i,r=e[t],o=r.chunkNames,a=o.length,u=n[t];if("string"==typeof u){var s=u.split(" "),c=s[s.length-1];for(i=0;a>i;i++)n[o[i]]=s[i]||c}else for(i=0;a>i;i++)n[o[i]]=u;delete n[t]})}function y(n,e){t.each(e,function(t){var i=e[t],r=i.chunkNames,o=r.length,a=n[r[0]],u=typeof a;if("string"===u){for(var s="",c=0;o>c;c++)s+=" "+n[r[c]],delete n[r[c]];n[t]=s.substr(1)}else n[t]=a})}var v=/(\d|\-|\.)/,M=/([^\-0-9\.]+)/g,F=/[0-9.\-]+/g,T=RegExp("rgb\\("+F.source+/,\s*/.source+F.source+/,\s*/.source+F.source+"\\)","g"),I=/^.*\(/,S=/#([0-9]|[a-f]){3,6}/gi,O="VAL",b=[],k=[];t.prototype.filter.token={tweenCreated:function(t,n,e){i(t),i(n),i(e),this._tokenData=f(t)},beforeTween:function(t,n,e,i){g(i,this._tokenData),p(t,this._tokenData),p(n,this._tokenData),p(e,this._tokenData)},afterTween:function(t,n,e,i){l(t,this._tokenData),l(n,this._tokenData),l(e,this._tokenData),y(i,this._tokenData)}}}(n)}).call(null);
 
 
 // ##########################################
@@ -127,6 +139,7 @@ nanoGALLERY v5.8.0 release notes.
     flickrSkipOriginal : true,
     galleryToolbarWidthAligned : true, galleryToolbarHideIcons : false,
     galleryFullpageButton : false, galleryFullpageBgColor : '#111',
+    galleryEnableKeyboard : false,
     galleryRenderStep : 10,
     breadcrumbAutoHideTopLevel : false,
     displayBreadcrumb : false,
@@ -178,6 +191,7 @@ nanoGALLERY v5.8.0 release notes.
     demoViewportWidth : 0,
     slideshowDelay : 3000, slideshowAutoStart : false,
     photoSorting : '', albumSorting : '', dataSorting : '',
+    albumMax: 0,
     lazyBuild : 'none', lazyBuildTreshold : 150,
     debugMode: false,
     i18n : {
@@ -1482,7 +1496,7 @@ nanoGALLERY v5.8.0 release notes.
             case 35:    // END
             case 36:    // BEGIN
           }
-        } else if ( !G.containerViewerDisplayed && G.curAlbumIdx > 0 ) {
+        } else if ( !G.containerViewerDisplayed && G.curAlbumIdx > 0 && G.O.galleryEnableKeyboard ) {
           switch( e.keyCode) {
             case 27:    // Esc key
               DisplayAlbum(0, 'false');
@@ -1490,12 +1504,12 @@ nanoGALLERY v5.8.0 release notes.
             case 38:    // UP
             case 39:    // RIGHT
             case 33:    // PAGE UP
-              DisplayNextAlbum(G.curAlbumIdx);
+              DisplayNextAlbum();
               break;
             case 40:    // DOWN
             case 37:    // LEFT
             case 34:    // PAGE DOWN
-              DisplayPreviousAlbum(G.curAlbumIdx);
+              DisplayPreviousAlbum();
               break;
             case 32:    // SPACE
             case 13:    // ENTER
@@ -2135,6 +2149,11 @@ nanoGALLERY v5.8.0 release notes.
         }
         G.O.photoSorting='random';
       }
+      
+      var mA=parseInt(G.O.albumMax);
+      if( mA > 0 ) {
+        G.maxAlbums=n;
+      }
 
 
       // thumbnails hover effects - Level1
@@ -2726,9 +2745,16 @@ nanoGALLERY v5.8.0 release notes.
       if( G.custGlobals.oldBorderColor == '' || G.custGlobals.oldBorderColor == null || G.custGlobals.oldBorderColor == undefined ) { G.custGlobals.oldBorderColor='#000'; }
       G.custGlobals.oldLabelOpacity=$newDiv.find('.labelImage').css('opacity');
       var c=jQuery.Color($newDiv.find('.labelImage'),'backgroundColor');
-      G.custGlobals.oldLabelRed=c.red();
-      G.custGlobals.oldLabelGreen=c.green();
-      G.custGlobals.oldLabelBlue=c.blue();
+      if( c == 'transparent' ) {
+        G.custGlobals.oldLabelRed=0;
+        G.custGlobals.oldLabelGreen=0;
+        G.custGlobals.oldLabelBlue=0;
+      }
+      else {
+        G.custGlobals.oldLabelRed=c.red();
+        G.custGlobals.oldLabelGreen=c.green();
+        G.custGlobals.oldLabelBlue=c.blue();
+      }
 
       G.I=[];
 
@@ -3215,6 +3241,10 @@ nanoGALLERY v5.8.0 release notes.
     }
 
     function JsonConvertCharset( str ) {
+      
+      return decodeURIComponent(str);
+
+
       // Pb %C3%A9 --> %E9
       // in UTF-8: \u00e9=\xe9 (e9 = hex value)
       switch( G.O.jsonCharset.toUpperCase() ) {
@@ -4212,7 +4242,8 @@ nanoGALLERY v5.8.0 release notes.
       var newAlbumIdx=GetNextAlbumIdx(G.curAlbumIdx);
       var setLocationHash = newAlbumIdx > 0;
 
-      DisplayAlbum(newAlbumIdx, setLocationHash);
+      // DisplayAlbum(newAlbumIdx, setLocationHash);
+      OpenAlbum(newAlbumIdx, false, -1, setLocationHash);
     };
 
     // Display previous album
@@ -4220,7 +4251,8 @@ nanoGALLERY v5.8.0 release notes.
       var newAlbumIdx=GetPreviousAlbumIdx(G.curAlbumIdx);
       var setLocationHash = newAlbumIdx > 0;
 
-      DisplayAlbum(newAlbumIdx, setLocationHash);
+      // DisplayAlbum(newAlbumIdx, setLocationHash);
+      OpenAlbum(newAlbumIdx, false, -1, setLocationHash);
     };
 
     function GetNextAlbumIdx( curAlbumIdx ) {
@@ -4612,7 +4644,7 @@ nanoGALLERY v5.8.0 release notes.
       $thumbnails.each(function() {
         var n=jQuery(this).data("index");
         if( n !== undefined && G.I[n] != undefined ) {
-          if( G.I[n].thumbImg().width > 0 ) {
+          if( G.I[n].thumbImg().width > 0 && G.I[n].thumbImg().height > 0 ) {
             var item=G.I[n],
             w=Math.floor(item.thumbImg().width/item.thumbImg().height*G.tn.settings.getH())+ G.tn.borderWidth+G.tn.imgcBorderWidth; // +gutterWidth;
             if( G.O.thumbnailFeatured && cnt == 0 ) {
@@ -4694,7 +4726,7 @@ nanoGALLERY v5.8.0 release notes.
         var $this=jQuery(this),
         n=$this.data("index");
         if( n !== undefined && G.I[n] != undefined ) {
-          if( G.I[n].thumbImg().width > 0 ) {
+          if( G.I[n].thumbImg().width > 0 && G.I[n].thumbImg().height > 0 ) {
             var item=G.I[n],
             // w=Math.ceil(item.thumbImgWidth/item.thumbImg().height*rowHeight[rowNum]);//+G.tn.borderWidth+G.tn.imgContBorderWidth;
             w=Math.floor(item.thumbImg().width/item.thumbImg().height*rowHeight[rowNum]);//+G.tn.borderWidth+G.tn.imgContBorderWidth;
@@ -7458,9 +7490,12 @@ nanoGALLERY v5.8.0 release notes.
       var sImg='',
       l=G.I.length;
 
-      sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      // sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      // sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      // sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
 
       G.$E.vwContent=jQuery('<div class="content nGEvent">'+sImg+'<div class="contentAreaPrevious nGEvent"></div><div class="contentAreaNext nGEvent"></div></div>').appendTo(G.$E.conVw);
       G.$E.vwImgP=G.$E.conVw.find('.image').eq(0);
@@ -8017,7 +8052,8 @@ nanoGALLERY v5.8.0 release notes.
 
       if( displayType == '' ) {
         // first image --> just appear / no slide animation
-        G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible'}).attr('src',G.emptyGif).attr('src',G.I[imageIdx].responsiveURL());
+        // G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible'}).attr('src',G.emptyGif).attr('src',G.I[imageIdx].responsiveURL());
+        G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible', 'background-image':'url('+G.I[imageIdx].responsiveURL()+')'}).attr('src',G.emptyGif);
         var tweenable = new NGTweenable();
         tweenable.tween({
           from: { o: 0  },
@@ -8212,8 +8248,10 @@ nanoGALLERY v5.8.0 release notes.
       }
       G.$E.vwImgC.addClass('imgCurrent');
 
-      G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden' }).attr('src',G.emptyGif).attr('src',G.I[GetNextImageIdx(imageIdx)].responsiveURL());
-      G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden'}).attr('src',G.emptyGif).attr('src',G.I[GetPreviousImageIdx(imageIdx)].responsiveURL());
+      // G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden' }).attr('src',G.emptyGif).attr('src',G.I[GetNextImageIdx(imageIdx)].responsiveURL());
+      G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden', 'background-image':'url('+G.I[GetNextImageIdx(imageIdx)].responsiveURL()+')' }).attr('src',G.emptyGif);
+      // G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden'}).attr('src',G.emptyGif).attr('src',G.I[GetPreviousImageIdx(imageIdx)].responsiveURL());
+      G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden', 'background-image':'url('+G.I[GetPreviousImageIdx(imageIdx)].responsiveURL()+')'}).attr('src',G.emptyGif);
 
       G.$E.vwImgC.on("click",function(e){
         e.stopPropagation();
@@ -8464,7 +8502,12 @@ nanoGALLERY v5.8.0 release notes.
         }
 
         G.$E.conVwTb.css({ height: tb_OHt });   // resize toolbar container to toolbar size
-        G.$E.vwContent.children('img').css({'max-width':(w-tH), 'max-height':(h-tV) });
+        
+        
+        // G.$E.vwContent.children('img').css({'max-width':(w-tH), 'max-height':(h-tV) });
+        G.$E.vwContent.children('img').css({'width':'100%', 'height':'100%' });
+        G.$E.vwContent.children('img').css({'background-size':'contain', 'background-position':'center', 'background-repeat':'no-repeat' });
+        // G.$E.vwContent.children('img').css({'object-fit':'contain' });
 
         G.viewerResizeTimerID=window.setTimeout( ResizeInternalViewer, 100);
         G.viewerResizeTimerLastRun=new Date().getTime();

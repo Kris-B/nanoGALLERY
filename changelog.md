@@ -4,6 +4,50 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.9.0
+------
+
+##### New options
+- **albumMax**: Maxum number of albums to display (Flicrk, Picasa/Google+, nanoPhotosProvider) (0=disabled).  
+  *integer; Default: 0*  
+- **galleryEnableKeyboard**: Enables keyboard navigation beween albums.  
+  *boolean; Default: false*  
+  ESC: display first level  
+  Up, Right, PageUp: Display next album  
+  Down, Left, PageDown: Display previous album  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+  
+##### New API methods  
+- **refreshSize**: Force a gallery resize.  
+  When the gallery container is hidden and is set to visible a later time, this method will avoid incorrect thumbnail position.  
+  `$('#yourElement').nanoGallery('refreshSize');`  
+  (credits: Daniel Eck - https://github.com/Ecksters)  
+- **minimizeToolbar**: minimize image viewer toolbar.  
+  `$('#yourElement').nanoGallery('minimizeToolbar');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **maximizeToolbar**: maximize image viewer toolbar.  
+  `$('#yourElement').nanoGallery('maximizeToolbar');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **galleryCountImages**: Returns the number of images in the current displayed album.  
+  `$('#yourElement').nanoGallery('galleryCountImages');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **moveToNextAlbum**: Display next gallery album.  
+  `$('#yourElement').nanoGallery('moveToNextAlbum');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+- **moveToPreviousAlbum**: Display previous gallery album.  
+  `$('#yourElement').nanoGallery('moveToPreviousAlbum');`  
+  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
+  
+##### Misc
+- fixed support of `nanoPhotosProvider`  
+- removed option 'jsonCharset'  
+- bugfix: issue #86 - error on hoverOut n[r].toFixed is undefined (credits: Andrea Grassi - https://github.com/andrea-sdl)  
+- bugfix: issue #78 - NGTweenable undefined when loading in a page using AMD and requirejs (credits: Jeff Mills - https://github.com/jefftmills)  
+
+
+**Many thanks to Victor A. Banuelos, Daniel Eck and Andrea Grassi for their contribution.**
+
+
 v5.8.0
 ------
 
