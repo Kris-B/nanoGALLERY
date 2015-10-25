@@ -1822,6 +1822,16 @@
                 <td>On album's thumbnail click, displays the images instead of the thumbnails of the album's content.</td>
               </tr>
               <tr>
+                <td>galleryEnableKeyboard</td>
+                <td>boolean</td>
+                <td>false</td>
+                <td>Enables keyboard navigation beween albums.<br>
+		ESC: display first level<br>
+  		Up, Right, PageUp: Display next album  <br>
+  		Down, Left, PageDown: Display previous album<br>
+  		</td>
+              </tr>
+              <tr>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -2278,6 +2288,12 @@
                 <td>Access Picasa / Google+ using the cross domain URL instead of the standard one.</td>
               </tr>
               <tr>
+                <td>albumMax</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Maximum number of albums to display (0=disabled).</td>
+              </tr>
+              <tr>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -2371,6 +2387,12 @@
                 <td>boolean</td>
                 <td>true</td>
                 <td>Doesn't display the original uploaded image (e.g. to avoid rotation issue).</td>
+              </tr>
+              <tr>
+                <td>albumMax</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Maximum number of albums to display (0=disabled).</td>
               </tr>
               <tr>
                 <td></td>
@@ -2713,12 +2735,20 @@
                 </td>
               </tr>
               <tr>
+                <td>albumMax</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>Maximum number of albums to display (0=disabled).</td>
+              </tr>
+<!--
+		<tr>
                 <td>jsonCharset</td>
                 <td>string</td>
                 <td>'Latin'</td>
                 <td>Sets the string charset for json data. Possible values: 'Latin', 'UTF-8'
                 </td>
               </tr>
+-->
               <tr>
                 <td></td>
                 <td></td>
