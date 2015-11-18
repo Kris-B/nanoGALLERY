@@ -4,6 +4,13 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.9.1
+------
+
+- bugfix: issue #97 - ThumbnailL1 issue  
+- bugfix: images incorrectly displayed in some cases
+
+
 v5.9.0
 ------
 

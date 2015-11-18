@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.9.0
+ * @preserve nanoGALLERY v5.9.1
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,47 +22,11 @@
 
 /*
 
-nanoGALLERY v5.9.0 release notes.
+nanoGALLERY v5.9.1 release notes.
 
-##### New options
-- **albumMax**: Maximum number of albums to display (Flickr, Picasa/Google+, nanoPhotosProvider) (0=disabled).  
-  *integer; Default: 0*  
-- **galleryEnableKeyboard**: Enables keyboard navigation beween albums.  
-  *boolean; Default: false*  
-  ESC: display first level  
-  Up, Right, PageUp: Display next album  
-  Down, Left, PageDown: Display previous album  
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
-  
-##### New API methods  
-- **refreshSize**: Force a gallery resize.  
-  When the gallery container is hidden and is set to visible at a later time, this method will avoid incorrect thumbnail position.  
-  `$('#yourElement').nanoGallery('refreshSize');`  
-  (credits: Daniel Eck - https://github.com/Ecksters)  
-- **minimizeToolbar**: minimize image viewer toolbar.  
-  `$('#yourElement').nanoGallery('minimizeToolbar');`  
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
-- **maximizeToolbar**: maximize image viewer toolbar.  
-  `$('#yourElement').nanoGallery('maximizeToolbar');`  
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
-- **galleryCountImages**: Returns the number of images in the current displayed album.  
-  `$('#yourElement').nanoGallery('galleryCountImages');`  
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
-- **moveToNextAlbum**: Display next gallery album.  
-  `$('#yourElement').nanoGallery('moveToNextAlbum');`  
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
-- **moveToPreviousAlbum**: Display previous gallery album.  
-  `$('#yourElement').nanoGallery('moveToPreviousAlbum');`  
-  (credits: Victor A. Banuelos - https://github.com/vbanuelos)  
-  
-##### Misc
-- fixed `nanoPhotosProvider` compatibility issue (https://github.com/Kris-B/nanoPhotosProvider)  
-- removed option 'jsonCharset'  
-- bugfix: issue #86 - error on hoverOut n[r].toFixed is undefined (credits: Andrea Grassi - https://github.com/andrea-sdl)  
-- bugfix: issue #78 - NGTweenable undefined when loading in a page using AMD and requirejs (credits: Jeff Mills - https://github.com/jefftmills)  
+- bugfix: issue #97 - ThumbnailL1 issue  
+- bugfix: images incorrectly displayed in some cases
 
-
-**Many thanks to Victor A. Banuelos, Daniel Eck, Jeff Mills and Andrea Grassi for their contribution.**
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -862,6 +826,7 @@ nanoGALLERY v5.9.0 release notes.
 
 
 
+
     /* ##### THUMBNAIL ELEMENT STRUCTURE #####
 
     +--------------------------+  -> G.tn.borderHeight/2        -+
@@ -1323,6 +1288,7 @@ nanoGALLERY v5.9.0 release notes.
         }
       }, 100);
     }
+
 
     function getSpecialKeysPressed(e){
       G.isShiftPressed = e.shiftKey;
@@ -2650,7 +2616,7 @@ nanoGALLERY v5.9.0 release notes.
         //  G.tn.outerWidth['l1'][lst[i]]=0;
         //}
         w=G.tn.settings.width['lN'][lst[i]];
-        w=G.tn.settings.width['l1'][lst[i]];
+        //w=G.tn.settings.width['l1'][lst[i]];
         if( w != 'auto' ) {
           G.tn.outerWidth['lN'][lst[i]]=w+G.tn.borderWidth+G.tn.imgcBorderWidth;
           G.tn.outerWidth['l1'][lst[i]]=w+G.tn.borderWidth+G.tn.imgcBorderWidth;
@@ -2669,7 +2635,7 @@ nanoGALLERY v5.9.0 release notes.
         //  G.tn.outerHeight['l1'][lst[i]]=0;
         //}
         h=G.tn.settings.height['lN'][lst[i]];
-        h=G.tn.settings.height['l1'][lst[i]];
+        //h=G.tn.settings.height['l1'][lst[i]];
         if( h != 'auto' ) {
           G.tn.outerHeight['lN'][lst[i]]=h+G.tn.borderHeight+G.tn.imgcBorderHeight+G.tn.labelHeight.get();
           G.tn.outerHeight['l1'][lst[i]]=h+G.tn.borderHeight+G.tn.imgcBorderHeight+G.tn.labelHeight.get();
@@ -3669,6 +3635,7 @@ nanoGALLERY v5.9.0 release notes.
 
 
 
+
     // ##########################
     // ##### PICASA STORAGE #####
     // ##########################
@@ -4087,6 +4054,7 @@ nanoGALLERY v5.9.0 release notes.
       }
       return tn;
     }
+
 
 
 
@@ -4941,12 +4909,13 @@ nanoGALLERY v5.9.0 release notes.
         }
       });
 
-
       // window.requestAnimationFrame( function(d,w) {
         var n=batch.length;
+        var h=0
         for( var i=0; i<n; i++ ) {
           batch[i].$e.css({ top: batch[i].t , left: batch[i].l });
           ThumbnailAppear(batch[i].$e, batch[i].item, i);
+          h=batch[i].t;
         }
         batch=[];
         G.$E.conTn.width(w+G.tn.outerWidth.get()).height(h+G.tn.outerHeight.get());
@@ -5480,6 +5449,7 @@ nanoGALLERY v5.9.0 release notes.
 
       var $p=$newDiv.detach();
       $p.appendTo( G.$E.conTn );
+
 
 
       if( checkImageSize ) {
@@ -7490,12 +7460,12 @@ nanoGALLERY v5.9.0 release notes.
       var sImg='',
       l=G.I.length;
 
-      // sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      // sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      // sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
-      sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+      sImg+='<img class="image nGEvent" src="'+G.I[imageIdx].responsiveURL()+'" alt=" " style="visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+// sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+// sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
+// sImg+='<img class="image nGEvent" src="" alt=" " style="background-image:url('+G.I[imageIdx].responsiveURL()+');visibility:visible;opacity:0;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;zoom:1;" itemprop="contentURL">';
 
       G.$E.vwContent=jQuery('<div class="content nGEvent">'+sImg+'<div class="contentAreaPrevious nGEvent"></div><div class="contentAreaNext nGEvent"></div></div>').appendTo(G.$E.conVw);
       G.$E.vwImgP=G.$E.conVw.find('.image').eq(0);
@@ -8052,8 +8022,8 @@ nanoGALLERY v5.9.0 release notes.
 
       if( displayType == '' ) {
         // first image --> just appear / no slide animation
-        // G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible'}).attr('src',G.emptyGif).attr('src',G.I[imageIdx].responsiveURL());
-        G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible', 'background-image':'url('+G.I[imageIdx].responsiveURL()+')'}).attr('src',G.emptyGif);
+        G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible'}).attr('src',G.emptyGif).attr('src',G.I[imageIdx].responsiveURL());
+        // G.$E.vwImgC.css({ opacity:0, left:0, visibility: 'visible', 'background-image':'url('+G.I[imageIdx].responsiveURL()+')'}).attr('src',G.emptyGif);
         var tweenable = new NGTweenable();
         tweenable.tween({
           from: { o: 0  },
@@ -8248,10 +8218,10 @@ nanoGALLERY v5.9.0 release notes.
       }
       G.$E.vwImgC.addClass('imgCurrent');
 
-      // G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden' }).attr('src',G.emptyGif).attr('src',G.I[GetNextImageIdx(imageIdx)].responsiveURL());
-      G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden', 'background-image':'url('+G.I[GetNextImageIdx(imageIdx)].responsiveURL()+')' }).attr('src',G.emptyGif);
-      // G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden'}).attr('src',G.emptyGif).attr('src',G.I[GetPreviousImageIdx(imageIdx)].responsiveURL());
-      G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden', 'background-image':'url('+G.I[GetPreviousImageIdx(imageIdx)].responsiveURL()+')'}).attr('src',G.emptyGif);
+      G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden' }).attr('src',G.emptyGif).attr('src',G.I[GetNextImageIdx(imageIdx)].responsiveURL());
+      // G.$E.vwImgN.css({ opacity:0, left:0, visibility:'hidden', 'background-image':'url('+G.I[GetNextImageIdx(imageIdx)].responsiveURL()+')' }).attr('src',G.emptyGif);
+      G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden'}).attr('src',G.emptyGif).attr('src',G.I[GetPreviousImageIdx(imageIdx)].responsiveURL());
+      // G.$E.vwImgP.css({ opacity:0, left:0, visibility:'hidden', 'background-image':'url('+G.I[GetPreviousImageIdx(imageIdx)].responsiveURL()+')'}).attr('src',G.emptyGif);
 
       G.$E.vwImgC.on("click",function(e){
         e.stopPropagation();
@@ -8504,16 +8474,17 @@ nanoGALLERY v5.9.0 release notes.
         G.$E.conVwTb.css({ height: tb_OHt });   // resize toolbar container to toolbar size
         
         
-        // G.$E.vwContent.children('img').css({'max-width':(w-tH), 'max-height':(h-tV) });
-        G.$E.vwContent.children('img').css({'width':'100%', 'height':'100%' });
-        G.$E.vwContent.children('img').css({'background-size':'contain', 'background-position':'center', 'background-repeat':'no-repeat' });
-        // G.$E.vwContent.children('img').css({'object-fit':'contain' });
+        G.$E.vwContent.children('img').css({'max-width':(w-tH), 'max-height':(h-tV) });
+        // G.$E.vwContent.children('img').css({'width':'100%', 'height':'100%' });
+        // G.$E.vwContent.children('img').css({'background-size':'contain', 'background-position':'center', 'background-repeat':'no-repeat' });
+        G.$E.vwContent.children('img').css({'object-fit':'contain' });
 
         G.viewerResizeTimerID=window.setTimeout( ResizeInternalViewer, 100);
         G.viewerResizeTimerLastRun=new Date().getTime();
 
       });
     }
+
 
 
     function OpenImageCustomViewer( imageIdx ) {
@@ -8538,6 +8509,7 @@ nanoGALLERY v5.9.0 release notes.
       }
       G.O.fnThumbnailOpen(items);
     }
+
 
     function OpenFancyBox( imageIdx ) {
       var n=imageIdx,
