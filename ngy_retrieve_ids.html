@@ -31,12 +31,13 @@
 </head>
 <body>
   <div id="gConnect">
-    Please sign-in with Google+ to retrieve your user ID and your albums<br>
+    Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
     <div id="signin-button"></div>
   </div>
   
   <div id="authOps" style="display:none">
-    <button id="disconnect" >Disconnect your Google account from this app</button>
+    <div id='lstGoogleAlbums'></div>
+    <button id="disconnect" >Disconnect your Google account from this page.</button>
     <!--
     <h2>User is now signed in to the app using Google+</h2>
     <button id="signOut" onclick="auth2.signOut()">Sign Out</button>
@@ -134,6 +135,33 @@ var helper = (function() {
       }).then(function(res) {
         var profile = res.result;
         console.log(profile.id);
+
+        var gID=profile.id;
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&rnd=' + (new Date().getTime());
+
+        $.ajaxSetup({ cache: false });
+        $.support.cors = true;
+        $.getJSON(url, function(data, status, xhr) {
+          var source = data.feed.entry;
+          var lst='Albums for "'+data.feed.author[0].name.$t+'":<br><br>';
+          lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
+          $.each(source, function(i,data){
+            //Get the title
+            var itemTitle = data.media$group.media$title.$t;
+            //Get the ID
+            var itemID = data.gphoto$id.$t;
+            lst+='<tr><td>'+itemTitle + '</td><td>' + itemID + '</td></tr>';
+          });
+          lst+='</tbody></table>';
+          $('#lstGoogleAlbums').html(lst);
+        })
+        .fail( function(jqxhr, textStatus, error) {
+          var err = textStatus + ', ' + error;
+          alert("Could not retrieve the albums: " + err);
+        });        
+
+
+
         $('#profile').empty();
       }, function(err) {
         var error = err.result;
