@@ -270,11 +270,6 @@
         
 
 <div class="remodal" data-remodal-id="show1">...</div>
-<script>
-$(document).one('open', '[data-remodal-id="show1"]', function (e) {
- $(e.target).html('<iframe width="600" height="400" allowtransparency="true" frameborder="0" scrolling="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26432.433958227946!2d-118.32647809999999!3d34.0937508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2bf07045279bf%3A0xf67a9a6797bdfae4!2sHollywood%2C+Los+Angeles%2C+CA!5e0!3m2!1sen!2sus!4v1429631619418"></iframe>')
-});
-</script>
 
 <a data-remodal-target="show1">View Map</a>
 <!-- <a data-remodal-target="modal" href="show1">View Map</a> -->
@@ -3808,6 +3803,12 @@ $(document).one('open', '[data-remodal-id="show1"]', function (e) {
         
       
     });
+
+
+$(document).one('open', '[data-remodal-id="show1"]', function (e) {
+ $(e.target).html('<iframe width="600" height="400" allowtransparency="true" frameborder="0" scrolling="0" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26432.433958227946!2d-118.32647809999999!3d34.0937508!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2bf07045279bf%3A0xf67a9a6797bdfae4!2sHollywood%2C+Los+Angeles%2C+CA!5e0!3m2!1sen!2sus!4v1429631619418"></iframe>')
+});
+
 
 	</script>
   
