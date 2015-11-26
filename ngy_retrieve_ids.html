@@ -25,10 +25,27 @@
   <!-- <script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> -->
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-  <script type="text/javascript" src="https://developers.google.com/apis-explorer/com.google.api.explorer.Explorer.nocache.js"></script>
 
-  
-  
+<script src="https://apis.google.com/js/client.js"></script>
+<script src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+  function onSignInCallback(authResult){
+    // Set the access token on the JavaScript API Client
+    gapi.auth.setToken(authResult);
+
+    var args = {
+      'path': '/plus/v1moments/people/me',
+      'method': 'GET',
+      'callback': function(response) {
+        var profile = response;
+        console.log(profile);
+        alert('id is ' + profile.id);
+      }
+    };
+    gapi.client.request(args);
+  }
+</script>
+
 
   
 	<script>
@@ -38,8 +55,8 @@
         var gID=$('#iptGoogleID').val();
         //alert(gID);
         
-        url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&rnd=' + (new Date().getTime());
-
+        //url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&rnd=' + (new Date().getTime());
+        var url='http://picasaweb.google.com/data/feed/api/user/default'
 
           
         jQuery.ajaxSetup({ cache: false });
@@ -48,6 +65,7 @@
         jQuery.getJSON(url, function(data, status, xhr) {
 
           console.dir(data);
+          return;
           var source = data.feed.entry;
           var lst='Albums for "'+data.feed.author[0].name.$t+'":<br><br>';
           
@@ -104,8 +122,14 @@
   <div id='lstGoogleAlbums'></div>
 
 
-  
+  <g:plus action="connect"
+          clientid="268858962829.apps.googleusercontent.com"
+          scope="https://www.googleapis.com/auth/plus.me"
+          callback="onSignInCallback"></g:plus>
 
+          
+          
+          
 	
 	<br><br><h5>by <a href="https://plus.google.com/111186676244625461692?rel=author">Christophe Brisbois</a></h5>
 </body>
