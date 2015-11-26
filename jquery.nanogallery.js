@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.9.1
+ * @preserve nanoGALLERY v5.9.2beta
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,11 +22,9 @@
 
 /*
 
-nanoGALLERY v5.9.1 release notes.
+nanoGALLERY v5.9.2beta release notes.
 
-- bugfix: issue #97 - ThumbnailL1 issue  
-- bugfix: images incorrectly displayed in some cases
-
+- spanish translation (thanks to eae710 - https://github.com/eae710)
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -159,14 +157,15 @@ nanoGALLERY v5.9.1 release notes.
     lazyBuild : 'none', lazyBuildTreshold : 150,
     debugMode: false,
     i18n : {
-      'breadcrumbHome' : 'Galleries', 'breadcrumbHome_FR' : 'Galeries',
-      'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',
-      'paginationNext' : 'Next', 'paginationNext_FR' : 'Suivant', 'paginationNext_DE' : 'Weiter', 'paginationNext_IT' : 'Avanti',
+      'breadcrumbHome' : 'Galleries', 'breadcrumbHome_FR' : 'Galeries', 'breadcrumbHome_ES' : 'Galer&iacute;as',
+      'paginationPrevious' : 'Previous', 'paginationPrevious_FR' : 'Pr&eacute;c&eacute;dent', 'paginationPrevious_DE' : 'Zur&uuml;ck', 'paginationPrevious_IT' : 'Indietro',' paginationPrevious_ES' : 'Anterior',
+      'paginationNext' : 'Next', 'paginationNext_FR' : 'Suivant', 'paginationNext_DE' : 'Weiter', 'paginationNext_IT' : 'Avanti', 'paginationNext_ES' : 'Siguiente',
       'thumbnailLabelItemsCountPart1' : '', //'| ',
       'thumbnailLabelItemsCountPart2' : '', //' photos', 'thumbnailLabelItemsCountPart2_DE' : ' Fotos',
       'thumbnailImageTitle' : '', 'thumbnailAlbumTitle' : '',
       'thumbnailImageDescription' : '', 'thumbnailAlbumDescription' : '',
-      'infoBoxPhoto' : 'Photo', 'infoBoxDate' : 'Date', 'infoBoxAlbum' : 'Album', 'infoBoxDimensions' : 'Dimensions', 'infoBoxFilename' : 'Filename', 'infoBoxFileSize' : 'File size', 'infoBoxCamera' : 'Camera', 'infoBoxFocalLength' : 'Focal length', 'infoBoxExposure' : 'Exposure', 'infoBoxFNumber' : 'F Number', 'infoBoxISO' : 'ISO', 'infoBoxMake' : 'Make', 'infoBoxFlash' : 'Flash', 'infoBoxViews' : 'Views', 'infoBoxComments' : 'Comments'
+      'infoBoxPhoto' : 'Photo', 'infoBoxDate' : 'Date', 'infoBoxAlbum' : 'Album', 'infoBoxDimensions' : 'Dimensions', 'infoBoxFilename' : 'Filename', 'infoBoxFileSize' : 'File size', 'infoBoxCamera' : 'Camera', 'infoBoxFocalLength' : 'Focal length', 'infoBoxExposure' : 'Exposure', 'infoBoxFNumber' : 'F Number', 'infoBoxISO' : 'ISO', 'infoBoxMake' : 'Make', 'infoBoxFlash' : 'Flash', 'infoBoxViews' : 'Views', 'infoBoxComments' : 'Comments',
+      'infoBoxPhoto_ES' : 'Foto',	'infoBoxDate_ES' : 'Fecha',	'infoBoxAlbum_ES' : 'Album',	'infoBoxDimensions_ES' : 'Dimensiones',	'infoBoxFilename_ES' : 'Nombre', 'infoBoxFileSize_ES' : 'Tama&ntilde;o', 'infoBoxCamera_ES' : 'C&aacute;mara', 'infoBoxFocalLength_ES' : 'Longitud focal', 'infoBoxExposure_ES' : 'Exposici&oacute;n', 'infoBoxFNumber_ES' : 'N&uacute;mero F', 'infoBoxISO_ES' : 'ISO', 'infoBoxMake_ES' : 'Hacer', 'infoBoxFlash_ES' : 'Flash', 'infoBoxViews_ES' : 'Vistas', 'infoBoxComments_ES' : 'Comentarios'
     }
   };
 
