@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html>
+
+<head>
+  <title>nanoGALLERY</title>
+	<style>
+		* {font-family: sans-serif; color:#fff;} 
+		a, h1, h2, h3, h4, h5 {text-align:center; color:#eee;}
+		body {background:#333;}
+	</style>
+
+  
+  
+  <!-- nanoGALLERY                                                                                                          -->
+  <!-- Plugin for jQuery by Christophe Brisbois                                                                             -->
+  <!-- Demo & doc: http://nanogallery.brisbois.fr                                                                           -->
+  <!-- Sources: https://github.com/Kris-B/nanoGALLERY                                                                       -->
+  <!-- License: For personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.          -->
+  <!-- -------- ALL OTHER USES REQUIRE THE PURCHASE OF A PROFESSIONAL LICENSE.                                              -->
+
+  
+  <!-- #################################################################################################################### -->
+  <!-- jQuery                                                                                                               -->
+  <!--                                                                                                                      -->
+  <!-- <script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> -->
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="https://developers.google.com/apis-explorer/com.google.api.explorer.Explorer.nocache.js"></script>
+
+  
+  
+
+  
+	<script>
+		$(document).ready(function () {
+      
+      jQuery('#btnPicasaOpen').on('click', function() {
+        var gID=$('#iptGoogleID').val();
+        //alert(gID);
+        
+        url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&rnd=' + (new Date().getTime());
+
+
+          
+        jQuery.ajaxSetup({ cache: false });
+        jQuery.support.cors = true;
+
+        jQuery.getJSON(url, function(data, status, xhr) {
+
+          console.dir(data);
+          var source = data.feed.entry;
+          var lst='Albums for "'+data.feed.author[0].name.$t+'":<br><br>';
+          
+          lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
+          
+
+          
+          jQuery.each(source, function(i,data){
+
+            //Get the title
+            var itemTitle = data.media$group.media$title.$t;
+            //Get the URL of the thumbnail
+            var itemThumbURL = data.media$group.media$thumbnail[0].url;
+            //Get the ID
+            var itemID = data.gphoto$id.$t;
+            
+            lst+='<tr><td>'+itemTitle + '</td><td>' + itemID + '</td></tr>';
+          });
+          lst+='</tbody></table>';
+          $('#lstGoogleAlbums').html(lst);
+          
+        })
+        .fail( function(jqxhr, textStatus, error) {
+          var err = textStatus + ', ' + error;
+          alert("Could not retrieve the albums: " + err);
+        });        
+        
+      });
+
+	
+		});
+	</script>
+
+</head>
+
+<!-- <body style="background-color:#fff;"> -->
+<body>
+
+	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
+	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
+	<div style="color:#eee;text-align:center;font-size:.9em;"><br>Full nanoGALLERY documentation: <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
+	<br><br><br><br>
+	<div style="color:#eee;text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
+	
+	<br><br><br><br><br><br><br><br><br>
+	<h2 style="background:#555;">----- Possible image sources -----</h2>
+
+  
+  
+  <p> Enter your Google+/Picasa user ID: <input type="text" id="iptGoogleID" value="111186676244625461692" style="width:200px;color:#000">
+  <button id="btnPicasaOpen" "type="button" style="color:#000;padding:4px;">&nbsp; Retrieve your Picasa/Google+ albums &nbsp;</button>
+  <br>To retrieve you user id, use <a href="https://developers.google.com/+/web/api/rest/latest/people/get" target="_blank">this form.</a>
+  </p>
+  <div id='lstGoogleAlbums'></div>
+
+
+  
+
+	
+	<br><br><h5>by <a href="https://plus.google.com/111186676244625461692?rel=author">Christophe Brisbois</a></h5>
+</body>
+</html>
