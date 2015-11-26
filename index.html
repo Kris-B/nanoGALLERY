@@ -2217,7 +2217,8 @@
           <div class="remodal" data-remodal-id="myModalGooglePlusInfo" data-remodal-options="hashTracking: false">
 	          <h2>Google+ profile informations</h2>
 	          <br><br><br><br>
-            <iframe  width="600" height="500" allowtransparency="true" frameborder="0" scrolling="0" src="http://nanogallery.brisbois.fr/ngy_retrieve_ids.html"></iframe>
+	          <div id='myModalGooglePlusInfoR'></div>
+          
           </div>
           <table>
             <thead>
@@ -3805,6 +3806,12 @@
         
       
     });
+
+	//REMODAL IFRAM FOR GOOGLE+ INFORMATIONS
+	$(document).one('open', '[data-remodal-id="myModalGooglePlusInfo"]', function(e) {
+    		$('#myModalGooglePlusInfoR').html('<iframe  width="600" height="500" allowtransparency="true" frameborder="0" scrolling="0" src="http://nanogallery.brisbois.fr/ngy_retrieve_ids.html"></iframe>')
+  	});
+
 	</script>
   
   
