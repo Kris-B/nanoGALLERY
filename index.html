@@ -269,10 +269,6 @@
         <h2>&nbsp;</h2>
         
 
-<div class="remodal" data-remodal-id="show1"></div>
-
-<a data-remodal-target="show1">Retrieve Google+ informations</a>
-<!-- <a data-remodal-target="modal" href="show1">View Map</a> -->
 
 
 
@@ -2216,6 +2212,8 @@
           <h5 class="docSub" data-glossary="Picasa / Google+"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Picasa / Google+ specific settings</a></h5>
           <p>List of properties accepted by the nanoGallery() method. Following properties are specific to Picasa/Google+ storage.
           <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/AX9z9/" onclick="ga('send','event','jsfiddlePicasa','nanoGALLERY')" target="_blank">play on jsfiddle</a>
+<div class="remodal" data-remodal-id="myModalGooglePlusInfo"></div>
+<a class="round button buttonv3"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Retrieve your Google+ informations</a>
           </p>
           <table>
             <thead>
@@ -3804,10 +3802,10 @@
       
     });
 
-
-$(document).one('open', '[data-remodal-id="show1"]', function (e) {
- $(e.target).html('<iframe width="600" height="400" allowtransparency="true" frameborder="0" scrolling="0" src="http://nanogallery.brisbois.fr/ngy_retrieve_ids.html"></iframe>')
-});
+    // remodal to display in IFRAM
+    $(document).one('open', '[data-remodal-id="myModalGooglePlusInfo"]', function (e) {
+	$(e.target).html('<iframe width="600" height="400" allowtransparency="true" frameborder="0" scrolling="0" src="http://nanogallery.brisbois.fr/ngy_retrieve_ids.html"></iframe>')
+    });
 
 
 	</script>
