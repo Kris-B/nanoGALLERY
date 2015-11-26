@@ -125,7 +125,7 @@ var helper = (function() {
         'userId': 'me'
       }).then(function(res) {
         var profile = res.result;
-        console.log(profile);
+        console.log(profile.id);
         $('#profile').empty();
         $('#profile').append(
             $('<p><img src=\"' + profile.image.url + '\"></p>'));
