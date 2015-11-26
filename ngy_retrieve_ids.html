@@ -1,136 +1,208 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<!--
+
+/*
+ *
+ * Copyright 2015 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+-->
+
+<!DOCTYPE html>
 <html>
-
 <head>
-  <title>nanoGALLERY</title>
-	<style>
-		* {font-family: sans-serif; color:#fff;} 
-		a, h1, h2, h3, h4, h5 {text-align:center; color:#eee;}
-		body {background:#333;}
-	</style>
-
-  
-  
-  <!-- nanoGALLERY                                                                                                          -->
-  <!-- Plugin for jQuery by Christophe Brisbois                                                                             -->
-  <!-- Demo & doc: http://nanogallery.brisbois.fr                                                                           -->
-  <!-- Sources: https://github.com/Kris-B/nanoGALLERY                                                                       -->
-  <!-- License: For personal, non-profit organizations, or open source projects, you may use nanoGALLERY for free.          -->
-  <!-- -------- ALL OTHER USES REQUIRE THE PURCHASE OF A PROFESSIONAL LICENSE.                                              -->
-
-  
-  <!-- #################################################################################################################### -->
-  <!-- jQuery                                                                                                               -->
-  <!--                                                                                                                      -->
-  <!-- <script type="text/javascript" src="third.party/jquery-1.7.1.min.js"></script> -->
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-
-<script src="https://apis.google.com/js/client.js"></script>
-<script src="https://apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-  function onSignInCallback(authResult){
-    // Set the access token on the JavaScript API Client
-    gapi.auth.setToken(authResult);
-
-    var args = {
-      'path': '/plus/v1moments/people/me',
-      'method': 'GET',
-      'callback': function(response) {
-        var profile = response;
-        console.log(profile);
-        alert('id is ' + profile.id);
-      }
-    };
-    gapi.client.request(args);
-  }
-</script>
-
-
-  
-	<script>
-		$(document).ready(function () {
-      
-      jQuery('#btnPicasaOpen').on('click', function() {
-        var gID=$('#iptGoogleID').val();
-        //alert(gID);
-        
-        //url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&rnd=' + (new Date().getTime());
-        var url='http://picasaweb.google.com/data/feed/api/user/default'
-
-          
-        jQuery.ajaxSetup({ cache: false });
-        jQuery.support.cors = true;
-
-        jQuery.getJSON(url, function(data, status, xhr) {
-
-          console.dir(data);
-          return;
-          var source = data.feed.entry;
-          var lst='Albums for "'+data.feed.author[0].name.$t+'":<br><br>';
-          
-          lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
-          
-
-          
-          jQuery.each(source, function(i,data){
-
-            //Get the title
-            var itemTitle = data.media$group.media$title.$t;
-            //Get the URL of the thumbnail
-            var itemThumbURL = data.media$group.media$thumbnail[0].url;
-            //Get the ID
-            var itemID = data.gphoto$id.$t;
-            
-            lst+='<tr><td>'+itemTitle + '</td><td>' + itemID + '</td></tr>';
-          });
-          lst+='</tbody></table>';
-          $('#lstGoogleAlbums').html(lst);
-          
-        })
-        .fail( function(jqxhr, textStatus, error) {
-          var err = textStatus + ', ' + error;
-          alert("Could not retrieve the albums: " + err);
-        });        
-        
-      });
-
-	
-		});
-	</script>
-
+  <title>Google+ JavaScript Quickstart</title>
+  <script src="https://apis.google.com/js/client:platform.js?onload=startApp" async defer></script>
+  <!-- JavaScript specific to this application that is not related to API
+     calls -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script>
+  <meta name="google-signin-client_id" content="api-project-992551522822"></meta>
 </head>
-
-<!-- <body style="background-color:#fff;"> -->
 <body>
+  <div id="gConnect">
+    <div id="signin-button"></div>
+  </div>
+  <div id="authOps" style="display:none">
+    <h2>User is now signed in to the app using Google+</h2>
+    <button id="signOut" onclick="auth2.signOut()">Sign Out</button>
+    <p>If the user chooses to disconnect, the app must delete all stored
+    information retrieved from Google for the given user.</p>
+    <button id="disconnect" >Disconnect your Google account from this app</button>
 
-	<div style="color:#fff;text-align:center;font-size:4.0em;"><span style="color:#fff;">nano</span><span style="color:#6e6;">GALLERY</span></div>
-	<div style="text-align:center;font-size:2em;color:#6e6">jQuery plugin - demonstration page</div>
-	<div style="color:#eee;text-align:center;font-size:.9em;"><br>Full nanoGALLERY documentation: <a href="http://www.nanogallery.brisbois.fr">www.nanogallery.brisbois.fr</a></div>
-	<br><br><br><br>
-	<div style="color:#eee;text-align:center;font-size:1.2em;">Look at the page source code to find useful information.</div>
-	
-	<br><br><br><br><br><br><br><br><br>
-	<h2 style="background:#555;">----- Possible image sources -----</h2>
+    <h2>User's profile information</h2>
+    <div id="profile"></div>
 
-  
-  
-  <p> Enter your Google+/Picasa user ID: <input type="text" id="iptGoogleID" value="111186676244625461692" style="width:200px;color:#000">
-  <button id="btnPicasaOpen" "type="button" style="color:#000;padding:4px;">&nbsp; Retrieve your Picasa/Google+ albums &nbsp;</button>
-  <br>To retrieve you user id, use <a href="https://developers.google.com/+/web/api/rest/latest/people/get" target="_blank">this form.</a>
-  </p>
-  <div id='lstGoogleAlbums'></div>
+    <h2>User's friends that are visible to this app</h2>
+    <div id="visiblePeople"></div>
 
+    <h2>Authentication Logs</h2>
+    <pre id="authResult"></pre>
+  </div>
+  <div id="loaderror">
+    This section will be hidden by JQuery. If you can see this message, you
+    may be viewing the file rather than running a web server.<br />
+    The sample must be run from http or https. See instructions at
+    <a href="https://developers.google.com/+/quickstart/javascript">
+    https://developers.google.com/+/quickstart/javascript</a>.
+  </div>
+<script type="text/javascript">
+var auth2 = {};
+var helper = (function() {
+  return {
+    /**
+     * Hides the sign in button and starts the post-authorization operations.
+     *
+     * @param {Object} authResult An Object which contains the access token and
+     *   other authentication information.
+     */
+    onSignInCallback: function(authResult) {
+      $('#authResult').html('Auth Result:<br/>');
+      for (var field in authResult) {
+        $('#authResult').append(' ' + field + ': ' +
+            authResult[field] + '<br/>');
+      }
+      if (authResult.isSignedIn.get()) {
+        $('#authOps').show('slow');
+        $('#gConnect').hide();
+        helper.profile();
+        helper.people();
+      } else if (authResult['error'] ||
+          authResult.currentUser.get().getAuthResponse() == null) {
+        // There was an error, which means the user is not signed in.
+        // As an example, you can handle by writing to the console:
+        console.log('There was an error: ' + authResult['error']);
+        $('#authResult').append('Logged out');
+        $('#authOps').hide('slow');
+        $('#gConnect').show();
+      }
 
-  <g:plus action="connect"
-          clientid="268858962829.apps.googleusercontent.com"
-          scope="https://www.googleapis.com/auth/plus.me"
-          callback="onSignInCallback"></g:plus>
+      console.log('authResult', authResult);
+    },
 
-          
-          
-          
-	
-	<br><br><h5>by <a href="https://plus.google.com/111186676244625461692?rel=author">Christophe Brisbois</a></h5>
+    /**
+     * Calls the OAuth2 endpoint to disconnect the app for the user.
+     */
+    disconnect: function() {
+      // Revoke the access token.
+      auth2.disconnect();
+    },
+
+    /**
+     * Gets and renders the list of people visible to this app.
+     */
+    people: function() {
+      gapi.client.plus.people.list({
+        'userId': 'me',
+        'collection': 'visible'
+      }).then(function(res) {
+        var people = res.result;
+        $('#visiblePeople').empty();
+        $('#visiblePeople').append('Number of people visible to this app: ' +
+            people.totalItems + '<br/>');
+        for (var personIndex in people.items) {
+          person = people.items[personIndex];
+          $('#visiblePeople').append('<img src="' + person.image.url + '">');
+        }
+      });
+    },
+
+    /**
+     * Gets and renders the currently signed in user's profile data.
+     */
+    profile: function(){
+      gapi.client.plus.people.get({
+        'userId': 'me'
+      }).then(function(res) {
+        var profile = res.result;
+        console.log(profile);
+        $('#profile').empty();
+        $('#profile').append(
+            $('<p><img src=\"' + profile.image.url + '\"></p>'));
+        $('#profile').append(
+            $('<p>Hello ' + profile.displayName + '!<br />Tagline: ' +
+            profile.tagline + '<br />About: ' + profile.aboutMe + '</p>'));
+        if (profile.emails) {
+          $('#profile').append('<br/>Emails: ');
+          for (var i=0; i < profile.emails.length; i++){
+            $('#profile').append(profile.emails[i].value).append(' ');
+          }
+          $('#profile').append('<br/>');
+        }
+        if (profile.cover && profile.coverPhoto) {
+          $('#profile').append(
+              $('<p><img src=\"' + profile.cover.coverPhoto.url + '\"></p>'));
+        }
+      }, function(err) {
+        var error = err.result;
+        $('#profile').empty();
+        $('#profile').append(error.message);
+      });
+    }
+  };
+})();
+
+/**
+ * jQuery initialization
+ */
+$(document).ready(function() {
+  $('#disconnect').click(helper.disconnect);
+  $('#loaderror').hide();
+  if ($('meta')[0].content == 'YOUR_CLIENT_ID') {
+    alert('This sample requires your OAuth credentials (client ID) ' +
+        'from the Google APIs console:\n' +
+        '    https://code.google.com/apis/console/#:access\n\n' +
+        'Find and replace YOUR_CLIENT_ID with your client ID.'
+    );
+  }
+});
+
+/**
+ * Handler for when the sign-in state changes.
+ *
+ * @param {boolean} isSignedIn The new signed in state.
+ */
+var updateSignIn = function() {
+  console.log('update sign in state');
+  if (auth2.isSignedIn.get()) {
+    console.log('signed in');
+    helper.onSignInCallback(gapi.auth2.getAuthInstance());
+  }else{
+    console.log('signed out');
+    helper.onSignInCallback(gapi.auth2.getAuthInstance());
+  }
+}
+
+/**
+ * This method sets up the sign-in listener after the client library loads.
+ */
+function startApp() {
+  gapi.load('auth2', function() {
+    gapi.client.load('plus','v1').then(function() {
+      gapi.signin2.render('signin-button', {
+          scope: 'https://www.googleapis.com/auth/plus.login',
+          fetch_basic_profile: false });
+      gapi.auth2.init({fetch_basic_profile: false,
+          scope:'https://www.googleapis.com/auth/plus.login'}).then(
+            function (){
+              console.log('init');
+              auth2 = gapi.auth2.getAuthInstance();
+              auth2.isSignedIn.listen(updateSignIn);
+              auth2.then(updateSignIn());
+            });
+    });
+  });
+}
+</script>
 </body>
 </html>
