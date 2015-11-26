@@ -33,8 +33,10 @@
   <div id="gConnect">
     <div id="signin-button"></div>
   </div>
-  <!--
+  
   <div id="authOps" style="display:none">
+    <button id="disconnect" >Disconnect your Google account from this app</button>
+    <!--
     <h2>User is now signed in to the app using Google+</h2>
     <button id="signOut" onclick="auth2.signOut()">Sign Out</button>
     <p>If the user chooses to disconnect, the app must delete all stored
@@ -49,8 +51,9 @@
 
     <h2>Authentication Logs</h2>
     <pre id="authResult"></pre>
+    -->
   </div>
-  -->
+  
   <div id="loaderror">
     This section will be hidden by JQuery. If you can see this message, you
     may be viewing the file rather than running a web server.<br />
@@ -75,7 +78,7 @@ var helper = (function() {
             authResult[field] + '<br/>');
       }
       if (authResult.isSignedIn.get()) {
-        //$('#authOps').show('slow');
+        $('#authOps').show('slow');
         $('#gConnect').hide();
         helper.profile();
         helper.people();
@@ -85,7 +88,7 @@ var helper = (function() {
         // As an example, you can handle by writing to the console:
         console.log('There was an error: ' + authResult['error']);
         $('#authResult').append('Logged out');
-        //$('#authOps').hide('slow');
+        $('#authOps').hide('slow');
         $('#gConnect').show();
       }
 
