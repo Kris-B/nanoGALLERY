@@ -101,6 +101,8 @@ var helper = (function() {
     disconnect: function() {
       // Revoke the access token.
       auth2.disconnect();
+      $('#authOps').hide('slow');
+      $('#gConnect').show();
     },
 
     /**
