@@ -31,6 +31,7 @@
 </head>
 <body>
   <div id="gConnect">
+    <!-- GOOGLE OAUTH GOOGLE+ SAMPLE: https://developers.google.com/+/quickstart/javascript -->
     Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
     <div id="signin-button"></div>
   </div>
@@ -38,30 +39,9 @@
   <div id="authOps" style="display:none">
     <div id='lstGoogleAlbums'></div>
     <button id="disconnect" >Disconnect your Google account from this page.</button>
-    <!--
-    <h2>User is now signed in to the app using Google+</h2>
-    <button id="signOut" onclick="auth2.signOut()">Sign Out</button>
-    <p>If the user chooses to disconnect, the app must delete all stored
-    information retrieved from Google for the given user.</p>
-    <button id="disconnect" >Disconnect your Google account from this app</button>
-
-    <h2>User's profile information</h2>
-    <div id="profile"></div>
-
-    <h2>User's friends that are visible to this app</h2>
-    <div id="visiblePeople"></div>
-
-    <h2>Authentication Logs</h2>
-    <pre id="authResult"></pre>
-    -->
   </div>
   
   <div id="loaderror">
-    This section will be hidden by JQuery. If you can see this message, you
-    may be viewing the file rather than running a web server.<br />
-    The sample must be run from http or https. See instructions at
-    <a href="https://developers.google.com/+/quickstart/javascript">
-    https://developers.google.com/+/quickstart/javascript</a>.
   </div>
 <script type="text/javascript">
 var auth2 = {};
@@ -143,7 +123,7 @@ var helper = (function() {
         $.support.cors = true;
         $.getJSON(url, function(data, status, xhr) {
           var source = data.feed.entry;
-          var lst='Albums for "'+data.feed.author[0].name.$t+'":<br><br>';
+          var lst='Albums for '+data.feed.author[0].name.$t+' (userID:'+gID+'):<br><br>';
           lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
           $.each(source, function(i,data){
             //Get the title
