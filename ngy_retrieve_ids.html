@@ -118,14 +118,15 @@ var helper = (function() {
       }).then(function(res) {
         var profile = res.result;
 
-        console.log('test2');
+        console.log('test3');
 
 
         var gID=profile.id;
         // gai.currentUser.get().getAuthResponse().id_toke
         // gapi.auth.getToken().access_token
         var at=gai.currentUser.get().getAuthResponse().id_token;
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+at+'&rnd=' + (new Date().getTime());
+        //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
+        var url = 'https://photos.googleapis.com/data/feed/api/user/default?alt=json&kind=album&access=all&access_token='+at;
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
