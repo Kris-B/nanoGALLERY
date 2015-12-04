@@ -178,7 +178,7 @@ var updateSignIn = function() {
   if (auth2.isSignedIn.get()) {
     console.log('signed in');
     console.dir(auth2);
-    console.dir(gapi.auth2);
+    console.dir(gapi.auth2.getToken());
     helper.onSignInCallback(gapi.auth2.getAuthInstance());
   }else{
     console.log('signed out');
