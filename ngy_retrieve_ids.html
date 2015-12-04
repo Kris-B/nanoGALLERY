@@ -117,13 +117,15 @@ var helper = (function() {
         'userId': 'me'
       }).then(function(res) {
         var profile = res.result;
-        console.log(profile.id);
+
+        console.log('test2');
 
 
         var gID=profile.id;
         // gai.currentUser.get().getAuthResponse().id_toke
         // gapi.auth.getToken().access_token
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+gapi.auth.getToken().access_token+'&rnd=' + (new Date().getTime());
+        var at=gai.currentUser.get().getAuthResponse().id_token;
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+at+'&rnd=' + (new Date().getTime());
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
