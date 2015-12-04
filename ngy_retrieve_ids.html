@@ -59,6 +59,7 @@ var helper = (function() {
         $('#authResult').append(' ' + field + ': ' +
             authResult[field] + '<br/>');
       }
+      console.dir(authResult),
       if (authResult.isSignedIn.get()) {
         $('#authOps').show('slow');
         $('#gConnect').hide();
