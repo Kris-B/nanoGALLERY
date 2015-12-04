@@ -92,7 +92,7 @@ var helper = (function() {
      * Gets and renders the list of people visible to this app.
      */
     people: function() {
-      console.log('ok1');
+      console.log('ok2');
       console.dir(gapi);
       gapi.client.plus.people.list({
         'userId': 'me',
@@ -119,8 +119,11 @@ var helper = (function() {
         var profile = res.result;
         console.log(profile.id);
 
+
         var gID=profile.id;
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+gai.currentUser.get().getAuthResponse().id_token+'&rnd=' + (new Date().getTime());
+        // gai.currentUser.get().getAuthResponse().id_toke
+        // gapi.auth.getToken()
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+gapi.auth.getToken()+'&rnd=' + (new Date().getTime());
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
