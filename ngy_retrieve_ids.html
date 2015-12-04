@@ -201,9 +201,9 @@ function startApp() {
           scope: 'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email',
           fetch_basic_profile: false });
       gapi.auth2.init({fetch_basic_profile: false,
-          scope:'https://www.googleapis.com/auth/plus.login'}).then(
+          scope:'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email'}).then(
             function (){
-              console.log('init');
+              console.log('init2');
               auth2 = gapi.auth2.getAuthInstance();
               auth2.isSignedIn.listen(updateSignIn);
               auth2.then(updateSignIn());
