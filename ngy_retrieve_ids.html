@@ -92,8 +92,8 @@ var helper = (function() {
      * Gets and renders the list of people visible to this app.
      */
     people: function() {
-      console.log('ok3');
-      console.dir(gapi.auth.getToken().access_token);
+      //console.log('ok3');
+      //console.dir(gapi.auth.getToken().access_token);
       gapi.client.plus.people.list({
         'userId': 'me',
         'collection': 'visible'
@@ -126,7 +126,7 @@ var helper = (function() {
         // gapi.auth.getToken().access_token
         var at=gai.currentUser.get().getAuthResponse().id_token;
         //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
-        var url = 'https://photos.googleapis.com/data/feed/api/user/default?alt=json&kind=album';
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album';
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
