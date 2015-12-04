@@ -193,7 +193,7 @@ function startApp() {
   gapi.load('auth2', function() {
     gapi.client.load('plus','v1').then(function() {
       gapi.signin2.render('signin-button', {
-          scope: 'https://www.googleapis.com/auth/plus.login',
+          scope: 'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email',
           fetch_basic_profile: false });
       gapi.auth2.init({fetch_basic_profile: false,
           scope:'https://www.googleapis.com/auth/plus.login'}).then(
