@@ -63,7 +63,7 @@ var helper = (function() {
       if (authResult.isSignedIn.get()) {
         $('#authOps').show('slow');
         $('#gConnect').hide();
-        helper.profile();
+        helper.profile(authResult);
         helper.people();
       } else if (authResult['error'] ||
           authResult.currentUser.get().getAuthResponse() == null) {
@@ -110,7 +110,7 @@ var helper = (function() {
     /**
      * Gets and renders the currently signed in user's profile data.
      */
-    profile: function(){
+    profile: function(gai){
       gapi.client.plus.people.get({
         'userId': 'me'
       }).then(function(res) {
@@ -118,7 +118,7 @@ var helper = (function() {
         console.log(profile.id);
 
         var gID=profile.id;
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token+'&rnd=' + (new Date().getTime());
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&access_token='+gai.currentUser.get().getAuthResponse().id_token+'&rnd=' + (new Date().getTime());
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
