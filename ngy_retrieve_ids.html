@@ -118,7 +118,7 @@ var helper = (function() {
         console.log(profile.id);
 
         var gID=profile.id;
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&rnd=' + (new Date().getTime());
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=private&rnd=' + (new Date().getTime());
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
