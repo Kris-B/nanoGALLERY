@@ -4075,6 +4075,7 @@ nanoGALLERY v5.9.2beta release notes.
       item.destinationURL=destinationURL;
       item.kind=kind;
       item.albumID=albumID;
+      item.ID = ID;
       if( tags.length == 0 ) {
         item.tags=null;
       }
@@ -5360,7 +5361,7 @@ nanoGALLERY v5.9.2beta release notes.
         pos='top:0px;left:0px;';
 //        ch='';
       }
-      newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer'+ch+' nGEvent" style="display:block;opacity:0;'+pos+'" ><div class="subcontainer nGEvent" style="display:block;">';
+      newElt[newEltIdx++]='<div class="nanoGalleryThumbnailContainer'+ch+' nGEvent" style="display:block;opacity:0;'+pos+'" data-originalid="' + item.ID + '" ><div class="subcontainer nGEvent" style="display:block;">';
 
       var checkImageSize=false,
       src=G.emptyGif;
