@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.9.2beta
+ * @preserve nanoGALLERY v5.10.0
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,15 +22,15 @@
 
 /*
 
-nanoGALLERY v5.9.2beta release notes.
+nanoGALLERY v5.10.0 release notes.
 
 ##### New options
-- **paginationVisiblePages**: maximum visible pages.
+- **paginationVisiblePages**: thumbnail pagination - maximum visible pages.
   *integer; Default: 10*  
-- nanoPhotosProvider now supports options `albumList`, `whiteList`, `blackList`, `album`
+- content source nanoPhotosProvider now supports options `albumList`, `whiteList`, `blackList`, `album`
   
 ##### Misc
-- spanish translation (thanks to eae710 - https://github.com/eae710)
+- spanish translation (thanks to eae710 - https://github.com/eae710)  
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
 
@@ -5059,20 +5059,28 @@ console.log(url);
         n2=Math.ceil(G.I[albumIdx].contentLength/(G.pgMaxLinesPerPage*G.pgMaxNbThumbnailsPerRow));
       }
 
-      
-      var vp=G.O.paginationVisiblePages;
-      
+      var lastPage=n2;
       // no previous/next
       if( !G.O.paginationDots ) {
-        if( pageNumber >= (vp/2) ) {
-          firstPage=pageNumber-(vp/2)+1;
-          if( n2 > pageNumber+(G.O.paginationVisiblePages/2)+1 ) {
-            n2=pageNumber+(G.O.paginationVisiblePages/2)+1;
-          }
+        var vp=G.O.paginationVisiblePages;
+        if( vp >= n2 ) {
+          firstPage=0;
         }
         else {
-          if( n2 > G.O.paginationVisiblePages ) {
-            n2=G.O.paginationVisiblePages;
+          // we have more pages than we want to display
+          if( isOdd(vp) ) {
+            firstPage=pageNumber-(vp-1)/2;
+            lastPage=pageNumber+(vp-1)/2;
+          }
+          else {
+            firstPage=pageNumber - vp/2;
+            lastPage=pageNumber + Math.max((vp/2-1),1);
+          }
+          if( lastPage >= n2 ) {
+            firstPage=n2-vp;
+          }
+          if( firstPage < 0 ) {
+            firstPage=0;
           }
         }
       }
@@ -5099,6 +5107,10 @@ console.log(url);
           }
           renderGallery(aIdx,pn);
         });
+        
+        if( (i-firstPage) >=  (vp-1) ) {
+          break;
+        }
 
       }
 
@@ -5113,6 +5125,8 @@ console.log(url);
       G.$E.conPagin.width(w);
 
     }
+
+    function isOdd(num) { return (num % 2) == 1;}
 
     function paginationNextPage() {
       var aIdx=G.$E.conPagin.data('galleryIdx'),

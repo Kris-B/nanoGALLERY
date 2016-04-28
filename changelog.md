@@ -4,6 +4,18 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.10.0
+------
+
+##### New options
+- **paginationVisiblePages**: thumbnail pagination - maximum visible pages.
+  *integer; Default: 10*  
+- content source nanoPhotosProvider now supports options `albumList`, `whiteList`, `blackList`, `album`
+  
+##### Misc
+- spanish translation (thanks to eae710 - https://github.com/eae710)  
+
+
 v5.9.1
 ------
 

@@ -1,6 +1,6 @@
 {
   "name": "nanogallery",
-  "version": "5.9.1",
+  "version": "5.10.0",
   "homepage": "http://nanogallery.brisbois.fr",
   "author": "Christophe Brisbois <chr@brisbois.fr>",
   "description": "image gallery simplified - jQuery plugin",
