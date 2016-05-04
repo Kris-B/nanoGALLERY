@@ -316,7 +316,7 @@
             <li><a href="#download" onclick="ga('send','event','goDownload','nanoGALLERY')" >Get it now</a></li>
             <li><a href="#firstSteps" onclick="ga('send','event','goFirstSteps','nanoGALLERY')" >First steps</a></li>
             <li><a href="#documentation" onclick="ga('send','event','goDoc','nanoGALLERY')" >Documentation</a></li>
-            <li><a href="#disqus" onclick="ga('send','event','goComments','nanoGALLERY')" >Comments</a><div class="disqus-comment-count"></div></li>
+            <li><a href="#disqus" onclick="ga('send','event','goComments','nanoGALLERY')" >Comments</a><div class="disqus-comment-count" data-disqus-identifier="nanogallery"></div></li>
           </ul>
 
         </section>
@@ -3181,7 +3181,9 @@
       <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
         var disqus_shortname = 'nanogallery'; // required: replace example with your forum shortname
-
+	var disqus_config = function () {
+	        this.page.identifier = 'nanogallery';
+	};
         /* * * DON'T EDIT BELOW THIS LINE * * */
         (function() {
           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
