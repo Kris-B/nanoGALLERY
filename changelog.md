@@ -4,13 +4,24 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.10.1
+------
+
+##### New   
+- embeded script imagesLoaded: new version v4.1.0 included  
+
+##### Misc  
+- bugfix issue #117 Images sometimes fail to load after upon folder navigation in Safari  
+- bugfix in the handling of multi resolution thumbnail images  
+
+
 v5.10.0
 ------
 
 ##### New options
-- **paginationVisiblePages**: thumbnail pagination - maximum visible pages.
+- **paginationVisiblePages**: thumbnail pagination - maximum visible pages.  
   *integer; Default: 10*  
-- content source nanoPhotosProvider now supports options `albumList`, `whiteList`, `blackList`, `album`
+- content source nanoPhotosProvider now supports options `albumList`, `whiteList`, `blackList`, `album`  
   
 ##### Misc
 - spanish translation (thanks to eae710 - https://github.com/eae710)  

@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.10.1beta
+ * @preserve nanoGALLERY v5.10.1
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,13 +22,14 @@
 
 /*
 
-nanoGALLERY v5.10.1beta release notes.
+nanoGALLERY v5.10.1 release notes.
 
-##### News
-- imagesLoaded new version v4.1.0 included
+##### New   
+- embeded script imagesLoaded: new version v4.1.0 included  
 
-##### Misc
-- bugfix in the handling of multi resolution thumbnail images
+##### Misc  
+- bugfix issue #117 Images sometimes fail to load after upon folder navigation in Safari  
+- bugfix in the handling of multi resolution thumbnail images  
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
