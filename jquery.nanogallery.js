@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.10.1
+ * @preserve nanoGALLERY v5.10.2
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,14 +22,10 @@
 
 /*
 
-nanoGALLERY v5.10.1 release notes.
+nanoGALLERY v5.10.2 release notes.
 
-##### New   
-- embeded script imagesLoaded: new version v4.1.0 included  
-
-##### Misc  
-- bugfix issue #117 Images sometimes fail to load after upon folder navigation in Safari  
-- bugfix in the handling of multi resolution thumbnail images  
+- bugfix issue #119 iPhone issue - version detection error  
+  (thanks to Sean Kenny - https://github.com/seankenny)  
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
@@ -738,12 +734,12 @@ nanoGALLERY v5.10.1 release notes.
       }
       return undefined;
     })();
-    G.IOSversion = (function() {
-      if (/iP(hone|od|ad)/.test(navigator.platform)) {
-          var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
-          return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
-      }
-    })();
+    // G.IOSversion = (function() {
+    //  if (/iP(hone|od|ad)/.test(navigator.platform)) {
+    //      var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+    //      return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+    //  }
+    // })();
 
     G.isIOS = /(iPad|iPhone|iPod)/g.test( navigator.userAgent );
     G.isGingerbread= /Android 2\.3\.[3-7]/i.test(navigator.userAgent),

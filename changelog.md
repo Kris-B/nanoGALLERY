@@ -4,6 +4,12 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.10.2
+------
+- bugfix issue #119 iPhone issue - version detection error  
+  (thanks to Sean Kenny - https://github.com/seankenny)  
+
+  
 v5.10.1
 ------
 
