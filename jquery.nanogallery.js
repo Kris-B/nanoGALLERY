@@ -1,5 +1,5 @@
 /**!
- * @preserve nanoGALLERY v5.10.2
+ * @preserve nanoGALLERY v5.10.3
  * Plugin for jQuery by Christophe Brisbois
  * Demo: http://nanogallery.brisbois.fr
  * Sources: https://github.com/Kris-B/nanoGALLERY
@@ -22,10 +22,10 @@
 
 /*
 
-nanoGALLERY v5.10.2 release notes.
+nanoGALLERY v5.10.3 release notes.
 
-- bugfix issue #119 iPhone issue - version detection error  
-  (thanks to Sean Kenny - https://github.com/seankenny)  
+- nanoPhotosProvider : underscores are replaced with spaces in title an description
+- nanoPhotosProvider : removes leading @@NNNN in title
 
 
 **Visit nanoGALLERY homepage for usage details: [http://nanogallery.brisbois.fr](http://www.nanogallery.brisbois.fr/)**
@@ -3246,9 +3246,17 @@ nanoGALLERY v5.10.2 release notes.
           title=GetImageTitle((item.src));
         }
 
+        // replace underscores qith spaces
+        title=title.replaceAll('_',' ');
+        // remove leading @@NNNN (used to sort manually the albums)
+        if( title.search(/@@\d\d\d\d/) == 0 ) {
+          title=title.substring(6);
+        }
+        
         var description='';     //'&nbsp;';
         description=GetI18nItem(item,'description');
         if( description === undefined ) { description=''; }
+        description=description.replaceAll('_',' ');
 
         var destinationURL='';
         
