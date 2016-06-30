@@ -4,6 +4,11 @@ nanoGALLERY - jQuery plugin
 ChangeLog 
 ------
 
+v5.10.3
+------
+- nanoPhotosProvider : underscores are replaced with spaces in title an description  
+- nanoPhotosProvider : remove leading @@NNNN in title  
+
 v5.10.2
 ------
 - bugfix issue #119 iPhone issue - version detection error  
