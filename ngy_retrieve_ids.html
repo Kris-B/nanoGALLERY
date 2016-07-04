@@ -126,7 +126,7 @@ var helper = (function() {
         // gapi.auth.getToken().access_token
         var at=gai.currentUser.get().getAuthResponse().id_token;
         //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at;
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=public&access_token='+at;
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
