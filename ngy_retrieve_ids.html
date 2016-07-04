@@ -134,6 +134,7 @@ var helper = (function() {
           var source = data.feed.entry;
           var lst='Albums for '+data.feed.author[0].name.$t+' (userID:'+gID+'):<br><br>';
           lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
+console.dir(source);
           $.each(source, function(i,data){
             //Get the title
             var itemTitle = data.media$group.media$title.$t;
