@@ -30,7 +30,7 @@
   <meta name="google-signin-client_id" content="992551522822-kfpg3ai0u498m30ekkfn2oeadaqd87c3.apps.googleusercontent.com"></meta>
 </head>
 <body>
-  <h1>TEST1</h1>
+  <h1>TEST2</h1>
   <div id="gConnect">
     <!-- GOOGLE OAUTH GOOGLE+ SAMPLE: https://developers.google.com/+/web/samples/javascript -->
     Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
@@ -126,8 +126,8 @@ var helper = (function() {
         // gai.currentUser.get().getAuthResponse().id_toke
         // gapi.auth.getToken().access_token
         var at=gai.currentUser.get().getAuthResponse().id_token;
-        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
-        //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=public&access_token='+at;
+        //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
+        var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=public&access_token='+at;
 
         $.ajaxSetup({ cache: false });
         $.support.cors = true;
@@ -204,11 +204,11 @@ function startApp() {
     gapi.client.load('plus','v1').then(function() {
       gapi.signin2.render('signin-button', {
           //scope: 'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email',
-          scope: 'profile https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/',
+          scope: 'profile https://picasaweb.google.com/data/',
           fetch_basic_profile: false });
       gapi.auth2.init({fetch_basic_profile: false,
           //scope:'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email'}).then(
-          scope:'profile https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/'}).then(
+          scope:'profile https://picasaweb.google.com/data/'}).then(
             function (){
               console.log('init2');
               auth2 = gapi.auth2.getAuthInstance();
