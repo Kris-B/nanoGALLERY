@@ -30,7 +30,7 @@
   <meta name="google-signin-client_id" content="992551522822-kfpg3ai0u498m30ekkfn2oeadaqd87c3.apps.googleusercontent.com"></meta>
 </head>
 <body>
-  <h1>TEST3</h1>
+  <h1>TEST4</h1>
   <div id="gConnect">
     <!-- GOOGLE OAUTH GOOGLE+ SAMPLE: https://developers.google.com/+/web/samples/javascript -->
     Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
@@ -129,7 +129,7 @@ var helper = (function() {
         //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
         var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=public&access_token='+at;
 
-        $.ajaxSetup({ cache: false, headers: { 'GData-Version': '2' } });
+        $.ajaxSetup({ cache: false, headers: { 'GData-Version': '2' }, dataType: 'jsonp' });
         $.support.cors = true;
         $.getJSON(url, function(data, status, xhr) {
           var source = data.feed.entry;
