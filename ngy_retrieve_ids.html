@@ -30,7 +30,7 @@
   <meta name="google-signin-client_id" content="992551522822-kfpg3ai0u498m30ekkfn2oeadaqd87c3.apps.googleusercontent.com"></meta>
 </head>
 <body>
-  <h1>TEST9</h1>
+  <h1>TEST10</h1>
   <div id="gConnect">
     <!-- GOOGLE OAUTH GOOGLE+ SAMPLE: https://developers.google.com/+/web/samples/javascript -->
     Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
@@ -175,17 +175,19 @@ console.dir(source);
             });
             lst+='</tbody></table>';
             $('#lstGoogleAlbums').html(lst);
-            
           },
-          // failure: function () { },
+          failure: function (jqxhr, textStatus, error) {
+            var err = textStatus + ', ' + error;
+            alert("Could not retrieve the albums: " + err);
+          },
           complete: function (data) {
               if (data.readyState == '4' && data.status == '200') {
                 // errorLog.push({ IP: Host, Status: 'SUCCESS' })
-                alert('SUCCESS');
+                // alert('SUCCESS');
               }
               else {
                 // errorLog.push({ IP: Host, Status: 'FAIL' })
-                alert('FAIL');
+                // alert('FAIL');
               }
           }
         });
