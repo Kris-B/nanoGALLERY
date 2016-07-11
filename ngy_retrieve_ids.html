@@ -30,7 +30,7 @@
   <meta name="google-signin-client_id" content="992551522822-kfpg3ai0u498m30ekkfn2oeadaqd87c3.apps.googleusercontent.com"></meta>
 </head>
 <body>
-  <h1>TEST13</h1>
+  <h1>TEST14</h1>
   <div id="gConnect">
     <!-- GOOGLE OAUTH GOOGLE+ SAMPLE: https://developers.google.com/+/web/samples/javascript -->
     Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
@@ -178,7 +178,7 @@ console.dir(source);
             lst+='</tbody></table>';
             $('#lstGoogleAlbums').html(lst);
           },
-          error: function (jqxhr, textStatus, error) {
+          fail: function (jqxhr, textStatus, error) {
             var err = textStatus + ', ' + error;
             alert("Could not retrieve the albums: " + err);
           },
