@@ -27,11 +27,9 @@
   <!-- JavaScript specific to this application that is not related to API
      calls -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script>
-  <script src="http://nanogallery.brisbois.fr/jquery.jsonp.js" ></script>
   <meta name="google-signin-client_id" content="992551522822-kfpg3ai0u498m30ekkfn2oeadaqd87c3.apps.googleusercontent.com"></meta>
 </head>
 <body>
-  <h1>18</h1>
   <div id="gConnect">
     <!-- GOOGLE OAUTH GOOGLE+ SAMPLE: https://developers.google.com/+/web/samples/javascript -->
     Please sign-in with Google+ to retrieve your user ID and the list of albums<br>
@@ -127,74 +125,30 @@ var helper = (function() {
         // gai.currentUser.get().getAuthResponse().id_toke
         // gapi.auth.getToken().access_token
         var at=gai.currentUser.get().getAuthResponse().id_token;
-        // var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
+        //var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access=all&access_token='+at+'&rnd=' + (new Date().getTime());
         var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?alt=json&kind=album&access_token='+at;
-        // var url = 'https://photos.googleapis.com/data/feed/api/user/'+gID+'?kind=album&access=all&access_token='+at;
 
-//        $.ajaxSetup({ cache: false, headers: { 'GData-Version': '2' }, dataType: 'jsonp' });
-        //$.ajaxSetup({ cache: false, dataType: 'jsonp' });
-//        $.support.cors = true;
-//        $.getJSON(url, function(data, status, xhr) {
-//          var source = data.feed.entry;
-//          var lst='Albums for '+data.feed.author[0].name.$t+' (userID:'+gID+'):<br><br>';
-//          lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
-//console.dir(source);
-//          $.each(source, function(i,data){
-//            //Get the title
-//            var itemTitle = data.media$group.media$title.$t;
-//            //Get the ID
-//            var itemID = data.gphoto$id.$t;
-//            lst+='<tr><td>'+itemTitle + '</td><td>' + itemID + '</td></tr>';
-//          });
-//          lst+='</tbody></table>';
-//          $('#lstGoogleAlbums').html(lst);
-//        })
-//        .fail( function(jqxhr, textStatus, error) {
-//          var err = textStatus + ', ' + error;
-//          alert("Could not retrieve the albums: " + err);
-//        });
-        
-        // url+='&callback=?';
-        //$.ajax({
-        $.jsonp({
-          // url: 'http:ww.abc.com?callback=?',
-          url: url,
-          dataType: 'JSONP',
-          headers: { 'GData-Version': '2' },
-          // jsonpCallback: 'callbackFnc',
-          type: 'GET',
-          // async: false,
-          crossDomain: true,
-          success: function (data, status) {
+        $.ajaxSetup({ cache: false });
+        $.support.cors = true;
+        $.getJSON(url, function(data, status, xhr) {
           var source = data.feed.entry;
           var lst='Albums for '+data.feed.author[0].name.$t+' (userID:'+gID+'):<br><br>';
           lst+='<table><thead><tr><th>Album</th><th>Album ID</th></tr></thead><tbody>';
-console.dir(source);
-            $.each(source, function(i,data){
-              //Get the title
-              var itemTitle = data.media$group.media$title.$t;
-              //Get the ID
-              var itemID = data.gphoto$id.$t;
-              lst+='<tr><td>'+itemTitle + '</td><td>' + itemID + '</td></tr>';
-            });
-            lst+='</tbody></table>';
-            $('#lstGoogleAlbums').html(lst);
-          },
-          error: function (jqxhr, textStatus, error) {
-            var err = textStatus + ', ' + error;
-            alert("Could not retrieve the albums: " + err);
-          },
-          complete: function (data) {
-              if (data.readyState == '4' && data.status == '200') {
-                // errorLog.push({ IP: Host, Status: 'SUCCESS' })
-                // alert('SUCCESS');
-              }
-              else {
-                // errorLog.push({ IP: Host, Status: 'FAIL' })
-                // alert('FAIL');
-              }
-          }
-        });
+          $.each(source, function(i,data){
+            //Get the title
+            var itemTitle = data.media$group.media$title.$t;
+            //Get the ID
+            var itemID = data.gphoto$id.$t;
+            lst+='<tr><td>'+itemTitle + '</td><td>' + itemID + '</td></tr>';
+          });
+          lst+='</tbody></table>';
+          $('#lstGoogleAlbums').html(lst);
+        })
+        .fail( function(jqxhr, textStatus, error) {
+          var err = textStatus + ', ' + error;
+          alert("Could not retrieve the albums: " + err);
+        });        
+
 
 
         $('#profile').empty();
@@ -248,11 +202,9 @@ function startApp() {
     gapi.client.load('plus','v1').then(function() {
       gapi.signin2.render('signin-button', {
           scope: 'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email',
-          //scope: 'profile https://picasaweb.google.com/data/',
           fetch_basic_profile: false });
       gapi.auth2.init({fetch_basic_profile: false,
           scope:'https://www.googleapis.com/auth/plus.login https://picasaweb.google.com/data/ https://www.googleapis.com/auth/userinfo.email'}).then(
-          //scope:'profile https://picasaweb.google.com/data/'}).then(
             function (){
               console.log('init2');
               auth2 = gapi.auth2.getAuthInstance();
