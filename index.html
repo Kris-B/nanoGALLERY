@@ -1038,7 +1038,7 @@
       <div style="text-align: center;">
         <p>Cloud Storage / Online Photo Sharing Website</p>
         <a class="radius small button" data-remodal-target="myModalMethodFlickr" href="#myModalMethodFlickr" onclick="ga('send','event','methodFlickr','nanoGALLERY')" >Flickr Storage</a>
-        <a class="radius small button" data-remodal-target="myModalMethodPicasa" href="#myModalMethodPicasa" onclick="ga('send','event','methodPicasa','nanoGALLERY')" >Picasa/Google+ Storage</a>
+        <a class="radius small button" data-remodal-target="myModalMethodPicasa" href="#myModalMethodPicasa" onclick="ga('send','event','methodPicasa','nanoGALLERY')" >Google Photos / Google+ Storage</a>
         <!-- <a class="radius small button" data-reveal-id="myModalMethodSmugmug" onclick="ga('send','event','methodSmugmug','nanoGALLERY')" href="#">SmugMug Storage</a> -->
       </div>
     </div>
@@ -1927,7 +1927,7 @@
             <tbody>
               <tr>
                 <td>
-                  Picasa / Google+ storage
+                  Google Photos storage
                 </td>
                 <td>
                   Thumbnails can be cropped (square) or not. To get the cropped thumbnail, add <b>C</b> after the size value.<br>
@@ -2230,7 +2230,7 @@
         <h4 class="subheader" data-glossary="Usage specifc setting"><i class="fa fa-chevron-circle-right"></i> To see how to define the images and albums, select the method:</h4>
         <br>
         <div class="centered-text">
-          <a href="#docPicasa" class="radius button tiny" href="#">Picasa / Google+</a>
+          <a href="#docPicasa" class="radius button tiny" href="#">Google Photos</a>
           <a href="#docFlickr" class="radius button tiny" href="#">Flickr</a>
           <a href="#docInline" class="radius button tiny" href="#">Inline</a>
           <a href="#docAPI" class="radius button tiny" href="#">API</a>
@@ -2239,8 +2239,8 @@
         
         <div id="docPicasa">
           <br><br><br>
-          <h5 class="docSub" data-glossary="Picasa / Google+"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Picasa / Google+ specific settings</a></h5>
-          <p>List of properties accepted by the nanoGallery() method. Following properties are specific to Picasa/Google+ storage.
+          <h5 class="docSub" data-glossary="Picasa / Google+"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Google Photos / Google+ specific settings</a></h5>
+          <p>List of properties accepted by the nanoGallery() method. Following properties are specific to Google photos / Google+ storage.
           <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/AX9z9/" onclick="ga('send','event','jsfiddlePicasa','nanoGALLERY')" target="_blank">play on jsfiddle</a>
 	  <a class="radius button tiny"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Retrieve your Google+ informations</a>
           </p>
@@ -2264,13 +2264,13 @@
                 <td>kind</td>
                 <td>string</td>
                 <td></td>
-                <td>Storage type (<b>mandatory</b>). Must be set to 'picasa'</td>
+                <td>Storage type (<b>mandatory</b>). Must be set to 'picasa' (the previous name of Google Photos)</td>
               </tr>
               <tr>
                 <td>userID</td>
                 <td>string</td>
                 <td></td>
-                <td>User ID of the Picasa/Google+ account (<b>mandatory</b>).<br>
+                <td>User ID of the Google Photos / Google+ account (<b>mandatory</b>).<br>
                 <b>Use <a href="https://developers.google.com/+/web/api/rest/latest/people/get" target="_blank">this form</a> to retrieve your ID.</b>
                 </td>
               </tr>
@@ -2327,7 +2327,7 @@
                 <td>picasaUseUrlCrossDomain</td>
                 <td>boolean</td>
                 <td>true</td>
-                <td>Access Picasa / Google+ using the cross domain URL instead of the standard one.</td>
+                <td>Access Google Plus / Google+ using the cross domain URL instead of the standard one.</td>
               </tr>
               <tr>
                 <td>albumMax</td>
