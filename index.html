@@ -1174,6 +1174,10 @@
     
       <div class="remodal" data-remodal-id="myModalMethodPicasa" data-remodal-options="hashTracking: false">
         <h2>Google Photos / Google+ Storage</h2>
+
+        <!-- <h5>- Use <a href="https://developers.google.com/+/web/api/rest/latest/people/get" target="_blank">this form.</a></h5> -->
+        <a class="radius button alert"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Manage your Google Photos albums</a>
+
         <h4 class="subheader">Set up your HTML:</h4>
         <br>
         <p>Put a &lt;DIV&gt; element in the &lt;BODY&gt; of your HTML page where you want the gallery to be displayed.</p>
@@ -1193,9 +1197,6 @@
         </code></pre>
 
        <br>
-       <h4 class="subheader">To retrieve your user ID:</h4><br>
-       <!-- <h5>- Use <a href="https://developers.google.com/+/web/api/rest/latest/people/get" target="_blank">this form.</a></h5> -->
-       <a class="radius button tiny"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Retrieve your Google Photos informations</a>
        <!-- 
        <br>
        - Google+: display a photo album in Google+, your user ID is in the URL<br>
@@ -2239,16 +2240,16 @@
         
         <div id="docPicasa">
           <br><br><br>
-          <h5 class="docSub" data-glossary="Picasa / Google+"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Google Photos / Google+ specific settings</a></h5>
+          <h5 class="docSub" data-glossary="Google Photos / Google+"><i style="color:#6f6f6f;" class="fa fa-chevron-right"></i> Google Photos / Google+ specific settings</a></h5>
           <p>List of properties accepted by the nanoGallery() method. Following properties are specific to Google photos / Google+ storage.
           <a class="radius button tiny" href="http://jsfiddle.net/Kris_B/AX9z9/" onclick="ga('send','event','jsfiddlePicasa','nanoGALLERY')" target="_blank">play on jsfiddle</a>
 	  
 	  <!-- <a class="radius button tiny"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Retrieve your Google+ informations</a> -->
-	  <a href="http://nanogpvisibility.herokuapp.com/index.html" target="_blank" class="radius button tiny"  onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Manage your albums in Google Photos</a>
+	  <a href="http://nanogpvisibility.herokuapp.com/index.html" target="_blank" class="radius button alert"  onclick="ga('send','event','googlePlusInfo','nanoGALLERY')">Manage your Google Photos albums</a>
           
           </p>
           <div class="remodal" data-remodal-id="myModalGooglePlusInfo" data-remodal-options="hashTracking: false">
-	          <h2>Google Photos profile informations</h2>
+	          <h2>nanoGALLERY - Google Photos informations</h2>
 	          <br>
 	          <div id='myModalGooglePlusInfoR'></div>
           
