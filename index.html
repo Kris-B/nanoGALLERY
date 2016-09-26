@@ -1176,16 +1176,18 @@
         <h2>Google Photos / Google+ Storage</h2>
 	<br>
         <!-- <h5>- Use <a href="https://developers.google.com/+/web/api/rest/latest/people/get" target="_blank">this form.</a></h5> -->
-        <a class="radius button alert"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','nanogpvisibility','nanoGALLERY')">Manage your Google Photos albums</a>
+	      <h4 class="subheader">1. Albums must be public.</h4>
+	      <p>You can manage the visibility of your albums with tool:</p>
+	<a class="radius button alert"  data-remodal-target="myModalGooglePlusInfo" onclick="ga('send','event','nanogpvisibility','nanoGALLERY')">nanoGPVisibility</a>
 
-        <h4 class="subheader">Set up your HTML:</h4>
+        <h4 class="subheader">2. Set up your HTML:</h4>
         <br>
         <p>Put a &lt;DIV&gt; element in the &lt;BODY&gt; of your HTML page where you want the gallery to be displayed.</p>
         <pre><code class="prettyprint language-javascript">
   &lt;div id="nanoGallery2"&gt;&lt;/div&gt;
         </code></pre>
         <br>
-        <h4 class="subheader">Initialize the script:</h4>
+        <h4 class="subheader">3. Initialize the script:</h4>
         <br>
         <pre><code class="prettyprint language-javascript">
   $(document).ready(function () {
