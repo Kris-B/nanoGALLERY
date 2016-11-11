@@ -85,4 +85,4 @@ Only for personal, non-profit organizations, or open source projects (without an
 
 esting services provided by [BrowserStack](https://www.browserstack.com/)   
  
-<img src="http://nanogallery.brisbois.fr/img/browserstack2.png" alt="Screenshot1" style="max-width:400px;"/>
+<img src="http://nanogallery.brisbois.fr/img/browserstack2.png"/>
