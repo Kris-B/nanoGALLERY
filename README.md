@@ -80,3 +80,9 @@ Only for personal, non-profit organizations, or open source projects (without an
 * Javascript must be enabled
 * jQuery 1.7.1
 
+
+#### Thanks
+
+esting services provided by [BrowserStack](https://www.browserstack.com/)   
+ 
+<img src="http://nanogallery.brisbois.fr/img/browserstack2.png" alt="Screenshot1" style="max-width:400px;"/>
