@@ -83,6 +83,6 @@ Only for personal, non-profit organizations, or open source projects (without an
 
 #### Thanks
 
-esting services provided by [BrowserStack](https://www.browserstack.com/)   
+Testing services provided by [BrowserStack](https://www.browserstack.com/)   
  
 <img src="http://nanogallery.brisbois.fr/img/browserstack2.png"/>
