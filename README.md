@@ -1,6 +1,15 @@
 ### nanoGALLERY - image gallery for jQuery
+  
+  
+------
+<b>nanoGALLERY</b>'s successor, is available: <b>[nanogallery2](https://github.com/nanostudio-org/nanogallery2)</b>
+  
+Please note that <b>nanoGALLERY</b> will continue to be maintained for fixing show-stopper bugs, but no new features should be expected.  
 
-
+------
+  
+  
+  
 #### Image gallery simplified.
 
 Touch enabled, fully responsive, justified/cascading/grid layout and supporting cloud storage.
