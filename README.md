@@ -1,6 +1,10 @@
 ### nanoGALLERY - image gallery for jQuery
   
-  
+<br />
+<br />
+<br />
+<br />
+
 ------
 <b>nanoGALLERY</b>'s successor, is available: <b>[nanogallery2](https://github.com/nanostudio-org/nanogallery2)</b>
   
@@ -9,7 +13,11 @@
 Please note that <b>nanoGALLERY</b> will continue to be maintained for fixing show-stopper bugs, but no new features should be expected.  
 
 ------
-  
+<br />
+<br />
+<br />
+<br />
+
   
   
 #### Image gallery simplified.
