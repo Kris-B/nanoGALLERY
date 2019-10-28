@@ -258,10 +258,10 @@
         </p>
         <h2>&nbsp;</h2>
 				<div style="text-align: left;">
-					<h5 style="margin:0 200px;text-align: center;color:#fff;border: 15px solid #499295;border-radius: 10px;padding:20px 80px;transform: rotateZ(-5deg);background-color:#0f1934;display:inline-block;">
+					<h5 style="margin:0 200px;text-align: center;color:#fff;border: 5px dashed #ffe000;border-radius: 10px;padding:10px 60px;transform: rotateZ(-2deg);background-color:#000;display:inline-block;">
 						<a href="http://nanogallery2.nanostudio.org/" onclick="ga('send','event','go_nanogallery2','nanoGALLERY')" target="_blank" style="color:#fff;">nanogallery2 is available<br>
 							<i class="fa fa-refresh fa-spin" aria-hidden="true"></i> upgrade now !</a>
-						<br><br>
+						<!-- <br><br> -->
 						<a href="http://nanogallery2.nanostudio.org/" onclick="ga('send','event','go_nanogallery2','nanoGALLERY')" target="_blank"><img src="http://nanogallery2.nanostudio.org/img/nanogallery2s.png" alt="nanogallery2" style="max-width:120px;"></a>
 					</h5>
       	</div>
@@ -894,15 +894,19 @@
         <!-- <p>nanoGALLERY for jQuery is licensed under <a href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 license</a>.</p> -->
 
       <!-- <h4 class="subheader">Open source license</h4> -->
+      <!-- 2019
       <br><br>
       <p>For personal, non-profit organizations, or open source projects (without any kind of fee), you may use nanoGALLERY for jQuery for <b>free</b>.
       <br>
       <b>All other uses require the purchase of a professional license.</b>
       </p>
+      -->
       
       <!-- <h4 class="subheader">What is professional considered?</h4> -->
       <!-- If you are paid to do your job, and part of your job is implementing nanoGALLERY, a commercial license or author's permission is required.<br> -->
+      <!-- 2019
       <a class="radius button" data-remodal-target="myModalLicense" href="#myModalLicense" onclick="ga('send','event','licence','nanoGALLERY')"><i class="fa fa-ticket fa-2x"></i> Licensing Options &nbsp;/&nbsp; Get a License</a>
+      -->
 
       <br><br><br><br><br><br><br>
       <p>nanoGALLERY is also available for<br>
@@ -3523,8 +3527,10 @@
           case 0:
             jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              thumbnailWidth:'auto',thumbnailHeight:320,userID:'111186676244625461692',kind:'picasa',
-              album:'5911347863561293937',
+              thumbnailWidth:'auto',thumbnailHeight:320,
+              // userID:'111186676244625461692',kind:'picasa',
+              // album:'5911347863561293937',
+              userID:'34858669@N00', kind:'flickr',
               colorScheme:'none',
               viewerDisplayLogo:true,
               thumbnailHoverEffect:[{'name':'labelAppear75','duration':300}],
@@ -3549,9 +3555,10 @@
           case 1:
             jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              kind: 'picasa',
-              userID:'111186676244625461692',
+              // kind: 'picasa',
+              // userID:'111186676244625461692',
               blackList:'profil|scrapbook|Forhomepage',
+              userID:'34858669@N00', kind:'flickr',
               thumbnailWidth:190, thumbnailHeight:126,
               thumbnailGutterWidth : 6,
               thumbnailGutterHeight : 6,
@@ -3577,9 +3584,10 @@
           case 2:
             jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              kind: 'picasa',
-              userID: '111186676244625461692',
-              album: '5911347863561293937',
+              // kind: 'picasa',
+              // userID: '111186676244625461692',
+              // album: '5911347863561293937',
+              userID:'34858669@N00', kind:'flickr',
               thumbnailWidth: 200,
               thumbnailHeight: 'auto',
               thumbnailGutterWidth: 10,
@@ -3602,9 +3610,10 @@
           case 3:
             jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              kind: 'picasa',
-              userID:'111186676244625461692',
-              album: '5911347863561293937',
+              // kind: 'picasa',
+              // userID:'111186676244625461692',
+              // album: '5911347863561293937',
+              userID:'34858669@N00', kind:'flickr',
               thumbnailWidth:165, thumbnailHeight:110,
               blackList:'profil|scrapbook|Forhomepage',
               thumbnailHoverEffect:'labelSlideUp,borderLighter',
@@ -3651,8 +3660,10 @@
             jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
               thumbnailWidth:120, thumbnailHeight:120,
-              userID:'111186676244625461692', kind:'picasa',
+              // userID:'111186676244625461692', kind:'picasa',
               blackList:'profil|scrapbook|Forhomepage',
+              userID:'34858669@N00', kind:'flickr',
+
               viewerDisplayLogo: true,
               thumbnailHoverEffect: 'labelAppear75,slideDown',
               thumbnailGutterWidth: 2,
@@ -3694,9 +3705,10 @@
           case 7:
             jQuery("#nanoGalleryDemos").empty().html('<div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              kind: 'picasa',
-              userID: '111186676244625461692',
-              blackList:'profil|scrapbook|Forhomepage',
+              // kind: 'picasa',
+              // userID: '111186676244625461692',
+              // blackList:'profil|scrapbook|Forhomepage',
+              userID:'34858669@N00', kind:'flickr',
 
               touchAutoOpenDelay: -1,
 
@@ -3719,9 +3731,10 @@
             jQuery("#nanoGalleryDemosCont").nanoGallery('destroy');
             jQuery("#nanoGalleryDemos").empty().html('<p>Resize your browser to test this feature.</p><div id="nanoGalleryDemosCont"></div>');
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              kind: 'picasa',
-              userID:'111186676244625461692',
-              blackList:'profil|scrapbook|Forhomepage',
+              // kind: 'picasa',
+              // userID:'111186676244625461692',
+              // blackList:'profil|scrapbook|Forhomepage',
+              userID:'34858669@N00', kind:'flickr',
               thumbnailL1Width:'140 xs100 sm100', thumbnailL1Height:'140 xs100 sm100',
               thumbnailWidth:'auto', thumbnailHeight:'200 xs80 sm150 la250 xl290',
               thumbnailHoverEffect:[{'name':'imageScale150', 'duration':700},{'name':'labelAppear75', 'duration':400},{'name':'descriptionAppear', 'duration':1000}],
@@ -3743,7 +3756,8 @@
             jQuery("#nanoGalleryDemos").empty().html(t+'<div id="nanoGalleryDemosCont"></div>');
             //var cl={ thumbnail['labelBackground']:'#000' };
             jQuery("#nanoGalleryDemosCont").nanoGallery({
-              userID:'111186676244625461692',kind:'picasa',
+              // userID:'111186676244625461692',kind:'picasa',
+              userID:'34858669@N00', kind:'flickr',
               thumbnailWidth: 120,
               thumbnailHeight: 120,
               itemsSelectable: true,
