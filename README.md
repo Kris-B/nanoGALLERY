@@ -1,4 +1,4 @@
-### nanoGALLERY - image gallery for jQuery
+# nanoGALLERY - image gallery for jQuery
   
 <br />
 <br />
@@ -9,8 +9,8 @@
 <b>nanoGALLERY</b>'s successor, is available: <b>[nanogallery2](https://github.com/nanostudio-org/nanogallery2)</b>
   
 <img src="http://nanogallery2.nanostudio.org/img/nanogallery2_logo.png" alt="nanogallery2"/>  
-
-Please note that <b>nanoGALLERY</b> will continue to be maintained for fixing show-stopper bugs, but no new features should be expected.  
+  
+## Please note that <b>nanoGALLERY</b> is no more maintained. Please switch to **nanogallery2**.
 
 ------
 <br />
